@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DKS Transportverktøy – Asker kommune</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blaa: #005B8E;
+      --blaa-mork: #004068;
+      --blaa-lys: #d6e8f3;
+      --gronn: #4A7C59;
+      --sand: #C8B89A;
+      --sand-lys: #f5efe8;
+      --terrakotta: #C0583A;
+      --gul: #E8B84B;
+      --svart: #1a1a1a;
+      --graa: #6b6b6b;
+      --graa-lys: #f0ede9;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--sand-lys);
+      color: var(--svart);
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--blaa);
+      color: white;
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 48px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .kommune-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: white;
+    }
+
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+      background: var(--gul);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Source Serif 4', serif;
+      font-weight: 600;
+      font-size: 18px;
+      color: var(--blaa-mork);
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      font-size: 13px;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      opacity: 0.9;
+      line-height: 1.3;
+    }
+
+    .logo-text strong {
+      display: block;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .header-divider {
+      width: 1px;
+      height: 32px;
+      background: rgba(255,255,255,0.25);
+      margin: 0 4px;
+    }
+
+    .header-section {
+      font-size: 13px;
+      opacity: 0.7;
+      font-weight: 300;
+    }
+
+    .header-hero {
+      padding: 52px 48px 56px;
+      position: relative;
+    }
+
+    .header-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(135deg, transparent 0%, rgba(0,64,104,0.4) 100%);
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      background: var(--gul);
+      color: var(--blaa-mork);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 2px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: 'Source Serif 4', serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 300;
+      line-height: 1.2;
+      margin-bottom: 14px;
+      letter-spacing: -0.01em;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--gul);
+    }
+
+    .hero-desc {
+      font-size: 15px;
+      font-weight: 300;
+      opacity: 0.8;
+      max-width: 520px;
+      line-height: 1.6;
+    }
+
+    /* MAIN */
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blaa);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--sand);
+    }
+
+    /* CARDS */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 56px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.07);
+      overflow: hidden;
+      text-decoration: none;
+      color: var(--svart);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+
+    .card-top {
+      height: 6px;
+    }
+
+    .card-top.blaa { background: var(--blaa); }
+    .card-top.gronn { background: var(--gronn); }
+    .card-top.terrakotta { background: var(--terrakotta); }
+    .card-top.gul { background: var(--gul); }
+
+    .card-body {
+      padding: 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      margin-bottom: 16px;
+      flex-shrink: 0;
+    }
+
+    .card-icon.blaa { background: var(--blaa-lys); }
+    .card-icon.gronn { background: #e6f0e9; }
+    .card-icon.terrakotta { background: #f5e6e1; }
+    .card-icon.gul { background: #fdf5e0; }
+
+    .card h2 {
+      font-family: 'Source Serif 4', serif;
+      font-size: 18px;
+      font-weight: 400;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .card p {
+      font-size: 13.5px;
+      color: var(--graa);
+      line-height: 1.6;
+      font-weight: 300;
+      flex: 1;
+    }
+
+    .card-footer {
+      padding: 14px 24px;
+      border-top: 1px solid var(--graa-lys);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-tag {
+      font-size: 11px;
+      color: var(--graa);
+      font-weight: 400;
+      letter-spacing: 0.03em;
+    }
+
+    .card-arrow {
+      font-size: 16px;
+      color: var(--blaa);
+      transition: transform 0.2s;
+    }
+
+    .card:hover .card-arrow {
+      transform: translateX(4px);
+    }
+
+    /* COMING SOON */
+    .card.coming-soon {
+      opacity: 0.55;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    .card.coming-soon:hover {
+      transform: none;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+
+    .coming-badge {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--graa-lys);
+      color: var(--graa);
+      padding: 2px 7px;
+      border-radius: 2px;
+    }
+
+    /* INFO BOX */
+    .info-box {
+      background: var(--blaa-lys);
+      border-left: 3px solid var(--blaa);
+      border-radius: 0 4px 4px 0;
+      padding: 18px 22px;
+      margin-top: 8px;
+    }
+
+    .info-box p {
+      font-size: 13.5px;
+      color: var(--blaa-mork);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .info-box strong {
+      font-weight: 500;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--blaa-mork);
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 28px;
+      font-size: 12.5px;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+    }
+
+    footer span {
+      color: rgba(255,255,255,0.9);
+    }
+
+    /* ANIMATION */
+    .card {
+      animation: fadeUp 0.4s ease both;
+    }
+    .card:nth-child(1) { animation-delay: 0.05s; }
+    .card:nth-child(2) { animation-delay: 0.1s; }
+    .card:nth-child(3) { animation-delay: 0.15s; }
+    .card:nth-child(4) { animation-delay: 0.2s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .header-top { padding: 16px 20px; }
+      .header-hero { padding: 36px 20px 40px; }
+      main { padding: 32px 16px 60px; }
+      .cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <a class="kommune-logo" href="https://www.asker.kommune.no" target="_blank">
+      <div class="logo-mark">A</div>
+      <div class="logo-text">
+        <strong>Asker kommune</strong>
+        Oppvekst og utdanning
+      </div>
+    </a>
+    <div class="header-divider"></div>
+    <span class="header-section">DKS Transportverktøy</span>
+  </div>
+
+  <div class="header-hero">
+    <div class="hero-tag">Den kulturelle skolesekken</div>
+    <h1>Transport&shy;planlegging<br>for <em>Asker-skulane</em></h1>
+    <p class="hero-desc">
+      Digitale verktøy for å planlegge og koordinere skuletransport til arrangement og aktivitetar i Asker kommune.
+    </p>
+  </div>
+</header>
+
+<main>
+  <div class="section-label">Tilgjengelege verktøy</div>
+
+  <div class="cards">
+
+    <!-- VERKTØY 1 -->
+    <a class="card" href="transport_enkeltsok-8.html">
+      <div class="card-top blaa"></div>
+      <div class="card-body">
+        <div class="card-icon blaa">🚌</div>
+        <h2>Enkelt transportsøk</h2>
+        <p>Søk etter kollektiv- og bestillerbuss-ruter frå skular til ein destinasjon. Samanlikn alternativ og finn beste avgang.</p>
+      </div>
+      <div class="card-footer">
+        <span class="card-tag">Kollektiv + bestillerbuss</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- VERKTØY 2 – KJEM -->
+    <div class="card coming-soon">
+      <div class="card-top gronn"></div>
+      <div class="card-body">
+        <div class="card-icon gronn">🗺️</div>
+        <h2>Optimalt møtepunkt</h2>
+        <p>Finn det geografisk optimale oppmøtestaden for fleire skular basert på reisetid og avstand.</p>
+      </div>
+      <div class="card-footer">
+        <span class="coming-badge">Kjem snart</span>
+      </div>
+    </div>
+
+    <!-- VERKTØY 3 – KJEM -->
+    <div class="card coming-soon">
+      <div class="card-top terrakotta"></div>
+      <div class="card-body">
+        <div class="card-icon terrakotta">📄</div>
+        <h2>PDF-samanlikning</h2>
+        <p>Samanlikn bestillingsdokument og busselskapet si stadfesting automatisk, og finn eventuelle avvik.</p>
+      </div>
+      <div class="card-footer">
+        <span class="coming-badge">Kjem snart</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="info-box">
+    <p>
+      <strong>Interne verktøy for Asker kommune.</strong> Verktøya er laga for å forenkle transportplanlegging i samband med Den kulturelle skolesekken og andre skulearrangement. Spørsmål? Ta kontakt med DKS-koordinator.
+    </p>
+  </div>
+</main>
+
+<footer>
+  <span>Asker kommune</span> · Oppvekst og utdanning · DKS Transportverktøy
+</footer>
+
+</body>
+</html>
