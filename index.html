@@ -20,17 +20,106 @@
       --graa-lys: #f0ede9;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--sand-lys);
       color: var(--svart);
       min-height: 100vh;
+    }
+
+    /* PIN OVERLAY */
+    #pin-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--blaa-mork);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      gap: 32px;
+    }
+
+    #pin-overlay img {
+      height: 60px;
+      filter: brightness(0) invert(1);
+      opacity: 0.9;
+    }
+
+    .pin-box {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 36px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      min-width: 280px;
+    }
+
+    .pin-box p {
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+      font-weight: 300;
+      letter-spacing: 0.03em;
+    }
+
+    .pin-dots {
+      display: flex;
+      gap: 12px;
+    }
+
+    .pin-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.4);
+      transition: all 0.15s ease;
+    }
+
+    .pin-dot.filled {
+      background: var(--gul);
+      border-color: var(--gul);
+    }
+
+    .pin-dot.error {
+      background: var(--terrakotta);
+      border-color: var(--terrakotta);
+    }
+
+    .pin-keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .pin-btn {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.08);
+      color: white;
+      font-size: 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .pin-btn:hover { background: rgba(255,255,255,0.18); }
+    .pin-btn:active { background: rgba(255,255,255,0.25); }
+    .pin-btn.zero { grid-column: 2; }
+    .pin-btn.del { grid-column: 3; font-size: 16px; }
+
+    .pin-error {
+      color: var(--terrakotta);
+      font-size: 13px;
+      font-weight: 400;
+      min-height: 20px;
     }
 
     /* HEADER */
@@ -46,45 +135,13 @@
       display: flex;
       align-items: center;
       gap: 16px;
-      padding: 18px 48px;
+      padding: 14px 48px;
       border-bottom: 1px solid rgba(255,255,255,0.15);
     }
 
-    .kommune-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: white;
-    }
-
-    .logo-mark {
-      width: 36px;
-      height: 36px;
-      background: var(--gul);
-      border-radius: 2px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Source Serif 4', serif;
-      font-weight: 600;
-      font-size: 18px;
-      color: var(--blaa-mork);
-      flex-shrink: 0;
-    }
-
-    .logo-text {
-      font-size: 13px;
-      font-weight: 300;
-      letter-spacing: 0.05em;
-      opacity: 0.9;
-      line-height: 1.3;
-    }
-
-    .logo-text strong {
+    .dks-logo {
+      height: 44px;
       display: block;
-      font-weight: 500;
-      font-size: 14px;
     }
 
     .header-divider {
@@ -137,10 +194,7 @@
       letter-spacing: -0.01em;
     }
 
-    h1 em {
-      font-style: italic;
-      color: var(--gul);
-    }
+    h1 em { font-style: italic; color: var(--gul); }
 
     .hero-desc {
       font-size: 15px;
@@ -176,7 +230,6 @@
       background: var(--sand);
     }
 
-    /* CARDS */
     .cards {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -195,158 +248,93 @@
       flex-direction: column;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      animation: fadeUp 0.4s ease both;
     }
 
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-    }
+    .card:nth-child(1) { animation-delay: 0.05s; }
+    .card:nth-child(2) { animation-delay: 0.1s; }
+    .card:nth-child(3) { animation-delay: 0.15s; }
 
-    .card-top {
-      height: 6px;
-    }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
 
+    .card-top { height: 6px; }
     .card-top.blaa { background: var(--blaa); }
     .card-top.gronn { background: var(--gronn); }
     .card-top.terrakotta { background: var(--terrakotta); }
-    .card-top.gul { background: var(--gul); }
 
-    .card-body {
-      padding: 24px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
+    .card-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
 
     .card-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      margin-bottom: 16px;
-      flex-shrink: 0;
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; margin-bottom: 16px; flex-shrink: 0;
     }
 
     .card-icon.blaa { background: var(--blaa-lys); }
     .card-icon.gronn { background: #e6f0e9; }
     .card-icon.terrakotta { background: #f5e6e1; }
-    .card-icon.gul { background: #fdf5e0; }
 
     .card h2 {
       font-family: 'Source Serif 4', serif;
-      font-size: 18px;
-      font-weight: 400;
-      margin-bottom: 8px;
-      line-height: 1.3;
+      font-size: 18px; font-weight: 400;
+      margin-bottom: 8px; line-height: 1.3;
     }
 
     .card p {
-      font-size: 13.5px;
-      color: var(--graa);
-      line-height: 1.6;
-      font-weight: 300;
-      flex: 1;
+      font-size: 13.5px; color: var(--graa);
+      line-height: 1.6; font-weight: 300; flex: 1;
     }
 
     .card-footer {
       padding: 14px 24px;
       border-top: 1px solid var(--graa-lys);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: flex; align-items: center; justify-content: space-between;
     }
 
-    .card-tag {
-      font-size: 11px;
-      color: var(--graa);
-      font-weight: 400;
-      letter-spacing: 0.03em;
-    }
+    .card-tag { font-size: 11px; color: var(--graa); font-weight: 400; letter-spacing: 0.03em; }
+    .card-arrow { font-size: 16px; color: var(--blaa); transition: transform 0.2s; }
+    .card:hover .card-arrow { transform: translateX(4px); }
 
-    .card-arrow {
-      font-size: 16px;
-      color: var(--blaa);
-      transition: transform 0.2s;
-    }
-
-    .card:hover .card-arrow {
-      transform: translateX(4px);
-    }
-
-    /* COMING SOON */
-    .card.coming-soon {
-      opacity: 0.55;
-      pointer-events: none;
-      cursor: default;
-    }
-
-    .card.coming-soon:hover {
-      transform: none;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-    }
+    .card.coming-soon { opacity: 0.55; pointer-events: none; cursor: default; }
+    .card.coming-soon:hover { transform: none; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
 
     .coming-badge {
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      background: var(--graa-lys);
-      color: var(--graa);
-      padding: 2px 7px;
-      border-radius: 2px;
+      font-size: 10px; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; background: var(--graa-lys);
+      color: var(--graa); padding: 2px 7px; border-radius: 2px;
     }
 
-    /* INFO BOX */
     .info-box {
       background: var(--blaa-lys);
       border-left: 3px solid var(--blaa);
       border-radius: 0 4px 4px 0;
-      padding: 18px 22px;
-      margin-top: 8px;
+      padding: 18px 22px; margin-top: 8px;
     }
 
-    .info-box p {
-      font-size: 13.5px;
-      color: var(--blaa-mork);
-      line-height: 1.6;
-      font-weight: 300;
-    }
+    .info-box p { font-size: 13.5px; color: var(--blaa-mork); line-height: 1.6; font-weight: 300; }
+    .info-box strong { font-weight: 500; }
 
-    .info-box strong {
-      font-weight: 500;
-    }
-
-    /* FOOTER */
     footer {
       background: var(--blaa-mork);
       color: rgba(255,255,255,0.6);
-      text-align: center;
-      padding: 28px;
-      font-size: 12.5px;
-      font-weight: 300;
-      letter-spacing: 0.02em;
+      text-align: center; padding: 28px;
+      font-size: 12.5px; font-weight: 300; letter-spacing: 0.02em;
     }
 
-    footer span {
-      color: rgba(255,255,255,0.9);
-    }
-
-    /* ANIMATION */
-    .card {
-      animation: fadeUp 0.4s ease both;
-    }
-    .card:nth-child(1) { animation-delay: 0.05s; }
-    .card:nth-child(2) { animation-delay: 0.1s; }
-    .card:nth-child(3) { animation-delay: 0.15s; }
-    .card:nth-child(4) { animation-delay: 0.2s; }
+    footer span { color: rgba(255,255,255,0.9); }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+
+    .shake { animation: shake 0.4s ease; }
 
     @media (max-width: 600px) {
       .header-top { padding: 16px 20px; }
@@ -358,21 +346,46 @@
 </head>
 <body>
 
+<!-- PIN OVERLAY -->
+<div id="pin-overlay">
+  <img src="https://cdn.denkulturelleskolesekken.no/asker/cd010066-dks_positiv_farge_liggende_logo_cmyk_20-2-3.png" alt="DKS Asker">
+  <div class="pin-box">
+    <p>Skriv inn PIN-kode</p>
+    <div class="pin-dots" id="pin-dots">
+      <div class="pin-dot" id="d0"></div>
+      <div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div>
+      <div class="pin-dot" id="d3"></div>
+    </div>
+    <div class="pin-keypad">
+      <button class="pin-btn" onclick="pinPress('1')">1</button>
+      <button class="pin-btn" onclick="pinPress('2')">2</button>
+      <button class="pin-btn" onclick="pinPress('3')">3</button>
+      <button class="pin-btn" onclick="pinPress('4')">4</button>
+      <button class="pin-btn" onclick="pinPress('5')">5</button>
+      <button class="pin-btn" onclick="pinPress('6')">6</button>
+      <button class="pin-btn" onclick="pinPress('7')">7</button>
+      <button class="pin-btn" onclick="pinPress('8')">8</button>
+      <button class="pin-btn" onclick="pinPress('9')">9</button>
+      <button class="pin-btn zero" onclick="pinPress('0')">0</button>
+      <button class="pin-btn del" onclick="pinDel()">⌫</button>
+    </div>
+    <div class="pin-error" id="pin-error"></div>
+  </div>
+</div>
+
+<!-- HOVUDINNHALD -->
 <header>
   <div class="header-top">
-    <a class="kommune-logo" href="https://www.asker.kommune.no" target="_blank">
-      <div class="logo-mark">A</div>
-      <div class="logo-text">
-        <strong>Asker kommune</strong>
-        Oppvekst og utdanning
-      </div>
+    <a href="https://www.denkulturelleskolesekken.no/asker/" target="_blank">
+      <img class="dks-logo" src="https://cdn.denkulturelleskolesekken.no/asker/cd010066-dks_positiv_farge_liggende_logo_cmyk_20-2-3.png" alt="Den kulturelle skulesekken i Asker">
     </a>
     <div class="header-divider"></div>
-    <span class="header-section">DKS Transportverktøy</span>
+    <span class="header-section">Transportverktøy</span>
   </div>
 
   <div class="header-hero">
-    <div class="hero-tag">Den kulturelle skolesekken</div>
+    <div class="hero-tag">Den kulturelle skulesekken i Asker</div>
     <h1>Transport&shy;planlegging<br>for <em>Asker-skulane</em></h1>
     <p class="hero-desc">
       Digitale verktøy for å planlegge og koordinere skuletransport til arrangement og aktivitetar i Asker kommune.
@@ -385,8 +398,7 @@
 
   <div class="cards">
 
-    <!-- VERKTØY 1 -->
-    <a class="card" href="transport_enkeltsok-8.html">
+    <a class="card" href="transport_enkeltsok-8-2.html">
       <div class="card-top blaa"></div>
       <div class="card-body">
         <div class="card-icon blaa">🚌</div>
@@ -399,7 +411,6 @@
       </div>
     </a>
 
-    <!-- VERKTØY 2 – KJEM -->
     <div class="card coming-soon">
       <div class="card-top gronn"></div>
       <div class="card-body">
@@ -412,7 +423,6 @@
       </div>
     </div>
 
-    <!-- VERKTØY 3 – KJEM -->
     <div class="card coming-soon">
       <div class="card-top terrakotta"></div>
       <div class="card-body">
@@ -435,8 +445,57 @@
 </main>
 
 <footer>
-  <span>Asker kommune</span> · Oppvekst og utdanning · DKS Transportverktøy
+  <span>Den kulturelle skulesekken i Asker</span> · Transportverktøy
 </footer>
+
+<script>
+  const CORRECT = '8899';
+  let entered = '';
+
+  function pinPress(digit) {
+    if (entered.length >= 4) return;
+    entered += digit;
+    updateDots();
+    if (entered.length === 4) checkPin();
+  }
+
+  function pinDel() {
+    entered = entered.slice(0, -1);
+    updateDots();
+    document.getElementById('pin-error').textContent = '';
+    document.querySelectorAll('.pin-dot').forEach(d => d.classList.remove('error'));
+  }
+
+  function updateDots() {
+    for (let i = 0; i < 4; i++) {
+      const dot = document.getElementById('d' + i);
+      dot.classList.toggle('filled', i < entered.length);
+    }
+  }
+
+  function checkPin() {
+    if (entered === CORRECT) {
+      document.getElementById('pin-overlay').style.display = 'none';
+    } else {
+      const dots = document.querySelectorAll('.pin-dot');
+      dots.forEach(d => { d.classList.remove('filled'); d.classList.add('error'); });
+      document.getElementById('pin-dots').classList.add('shake');
+      document.getElementById('pin-error').textContent = 'Feil kode – prøv igjen';
+      setTimeout(() => {
+        dots.forEach(d => d.classList.remove('error'));
+        document.getElementById('pin-dots').classList.remove('shake');
+        entered = '';
+        updateDots();
+      }, 800);
+    }
+  }
+
+  // Støtte for tastatur
+  document.addEventListener('keydown', e => {
+    if (e.key >= '0' && e.key <= '9') pinPress(e.key);
+    if (e.key === 'Backspace') pinDel();
+  });
+</script>
 
 </body>
 </html>
