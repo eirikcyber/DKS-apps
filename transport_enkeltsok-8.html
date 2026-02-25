@@ -1,0 +1,3673 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DKS Transport - Enkeltsøk</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSrmxrzsA7FoY5IvJksLBnWFhZn8Of0Nc&libraries=places"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+        
+        h1 {
+            color: #1a1a2e;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        /* Steg-seksjonar */
+        .steg {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 15px;
+        }
+        
+        .steg-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .steg-nummer {
+            background: #667eea;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .steg-tittel {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .steg.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        
+        .steg.completed .steg-nummer {
+            background: #10b981;
+        }
+        
+        /* Input-felt */
+        .input-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .input-group label {
+            font-size: 13px;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .input-group input,
+        .input-group select {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        /* Klassar */
+        .klassar-liste {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .klasse-boks {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: #f0f4ff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .klasse-boks:hover {
+            background: #e0e7ff;
+        }
+        
+        .klasse-boks.fjerna {
+            background: #f3f4f6;
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+        
+        .klasse-boks input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .elevar-sum {
+            margin-top: 10px;
+            font-weight: 500;
+            color: #667eea;
+        }
+        
+        /* Søk-knapp */
+        .sok-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .sok-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .sok-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Resultat-kort */
+        .resultat-kort {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .resultat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .resultat-header:hover {
+            background: #f9fafb;
+        }
+        
+        .resultat-skule {
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        .resultat-oppsummering {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .resultat-beste {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #10b981;
+            font-weight: 500;
+        }
+        
+        .utvid-pil {
+            font-size: 12px;
+            transition: transform 0.3s;
+            color: #999;
+        }
+        
+        .resultat-kort.utvida .utvid-pil {
+            transform: rotate(180deg);
+        }
+        
+        .resultat-detaljar {
+            display: none;
+            padding: 0 20px 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .resultat-kort.utvida .resultat-detaljar {
+            display: block;
+        }
+        
+        /* Transport-alternativ */
+        .transport-alternativ {
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 10px;
+            background: #f9fafb;
+        }
+        
+        .transport-alternativ.beste {
+            background: #ecfdf5;
+            border: 2px solid #10b981;
+        }
+        
+        .transport-alternativ.uaktuelt {
+            opacity: 0.5;
+        }
+        
+        .transport-type {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .transport-ikon {
+            font-size: 20px;
+        }
+        
+        .transport-badge {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .badge-beste {
+            background: #10b981;
+            color: white;
+        }
+        
+        .badge-uaktuelt {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .transport-tider {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .transport-tider span {
+            color: #666;
+        }
+        
+        .transport-tider strong {
+            color: #333;
+        }
+        
+        .reiseveg {
+            font-size: 13px;
+            color: #666;
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 8px;
+        }
+        
+        .reiseveg-steg {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 0;
+        }
+        
+        .reiseveg-pil {
+            color: #ccc;
+        }
+        
+        /* Ekstra avgangar (alternative bussavgangar) */
+        .ekstra-avgangar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+            padding: 8px 10px;
+            background: #f0f4ff;
+            border-radius: 6px;
+        }
+        
+        .ekstra-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .ekstra-avgang {
+            font-size: 12px;
+            padding: 4px 8px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: help;
+        }
+        
+        .ekstra-avgang:hover {
+            background: #e0e7ff;
+            border-color: #667eea;
+        }
+        
+        /* Klassar-info i resultat */
+        .klassar-info {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        /* Overstyring-knappar */
+        .overstyring-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: #f0f4ff;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .overstyring-label {
+            font-size: 13px;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .overstyring-knappar {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        
+        .overstyr-btn {
+            padding: 6px 12px;
+            border: 2px solid #d1d5db;
+            border-radius: 6px;
+            background: white;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .overstyr-btn:hover {
+            border-color: #667eea;
+            background: #f5f7ff;
+        }
+        
+        .overstyr-btn.auto {
+            border-color: #9ca3af;
+            background: #f3f4f6;
+        }
+        
+        .overstyr-btn.låst {
+            border-color: #10b981;
+            background: #10b981;
+            color: white;
+        }
+        
+        .overstyr-reset {
+            padding: 4px 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            background: white;
+            font-size: 12px;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .overstyr-reset:hover {
+            background: #fee2e2;
+            border-color: #ef4444;
+            color: #991b1b;
+        }
+        
+        .låst-info {
+            font-size: 12px;
+            color: #10b981;
+            font-weight: 500;
+        }
+        
+        .ulåst-info {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        
+        /* Status-melding */
+        .status {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .status.show {
+            display: block;
+        }
+        
+        .status.info {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+        
+        .status.success {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        /* Navigasjon-knappar */
+        .nav-knappar {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .nav-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .nav-btn.primary {
+            background: #667eea;
+            color: white;
+            border: none;
+        }
+        
+        .nav-btn.primary:hover {
+            background: #5a67d8;
+        }
+        
+        .nav-btn.secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .nav-btn.secondary:hover {
+            background: #f0f4ff;
+        }
+        
+        /* Resultat-seksjon */
+        #resultatSeksjon {
+            margin-top: 20px;
+        }
+        
+        .resultat-tittel {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* ========== FORDELING-SEKSJON ========== */
+        .fordeling-boks {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .fordeling-boks h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin: 0 0 12px 0;
+            color: #333;
+        }
+        
+        .oppsummering-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+        }
+        
+        .oppsummering-kort {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .oppsummering-kort .tal {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .oppsummering-kort .label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .kategori-liste {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .kategori-rad {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .kategori-rad .ikon {
+            margin-right: 8px;
+        }
+        
+        .kategori-rad .tal {
+            font-weight: 600;
+            color: #667eea;
+        }
+        
+        /* Arrangement-liste */
+        .arrangement-kort {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .arrangement-kort .info {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .arrangement-kort .dato {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .arrangement-kort .detaljar {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .arrangement-kort .fjern-btn {
+            background: #fee2e2;
+            color: #991b1b;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        
+        .arrangement-kort .fjern-btn:hover {
+            background: #fecaca;
+        }
+        
+        /* Konflikt-varsling */
+        .konflikt-boks {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+        }
+        
+        .konflikt-boks h4 {
+            color: #92400e;
+            margin: 0 0 8px 0;
+            font-size: 14px;
+        }
+        
+        .konflikt-boks ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #92400e;
+            font-size: 13px;
+        }
+        
+        /* Fordelingsvisning */
+        .visning-kort {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .visning-header {
+            background: #667eea;
+            color: white;
+            padding: 12px 15px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .visning-header .kapasitet {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        
+        .visning-innhald {
+            padding: 15px;
+        }
+        
+        .plassering-rad {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 10px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+        
+        .plassering-rad:last-child {
+            border-bottom: none;
+        }
+        
+        .plassering-rad .skule-info {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .plassering-rad .transport-info {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .plassering-rad .tid-info {
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+        
+        .plassering-rad .varigheit-info {
+            background: #f3f4f6;
+            color: #666;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+        
+        .plassering-rad .låst-badge {
+            font-size: 10px;
+        }
+        
+        .plassering-rad.låst {
+            background: #ecfdf5;
+            border-left: 3px solid #10b981;
+        }
+        
+        /* Skule-velgar */
+        .skule-velgar-liste {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 6px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+        
+        .skule-velgar-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            background: #f9fafb;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        
+        .skule-velgar-item:hover {
+            background: #f0f4ff;
+        }
+        
+        .skule-velgar-item.valt {
+            background: #667eea;
+            color: white;
+        }
+        
+        .skule-velgar-item input[type="checkbox"] {
+            accent-color: #667eea;
+        }
+        
+        /* Resultat-wrapper med sidebar */
+        .resultat-wrapper {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        
+        .resultat-hovud {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        /* Låste skular sidebar */
+        .låste-sidebar {
+            width: 500px;
+            flex-shrink: 0;
+            background: #f0fdf4;
+            border: 2px solid #10b981;
+            border-radius: 10px;
+            padding: 12px;
+            position: sticky;
+            top: 20px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #10b981;
+        }
+        
+        .sidebar-header h3 {
+            margin: 0;
+            font-size: 15px;
+            color: #166534;
+        }
+        
+        .sidebar-header span {
+            font-size: 12px;
+            color: #16a34a;
+            background: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        
+        .låste-liste {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .låst-kort {
+            background: white;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 13px;
+            border-left: 3px solid #10b981;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        
+        .låst-kort .kort-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .låst-kort .skule-namn {
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .låst-kort .transport-type {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .låst-kort .lås-opp-btn {
+            font-size: 12px;
+            color: #dc2626;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px 6px;
+            flex-shrink: 0;
+        }
+        
+        .låst-kort .lås-opp-btn:hover {
+            background: #fee2e2;
+            border-radius: 4px;
+        }
+        
+        .låst-kort .lås-opp-btn:hover {
+            text-decoration: underline;
+        }
+        
+        .sidebar-actions {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid #10b981;
+        }
+        
+        /* Retur-info i resultat */
+        .retur-seksjon {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 2px dashed #e5e7eb;
+        }
+        
+        .retur-header {
+            font-size: 13px;
+            font-weight: 600;
+            color: #7c3aed;
+            margin-bottom: 8px;
+        }
+        
+        .transport-alternativ.retur {
+            background: #faf5ff;
+            border-left: 3px solid #7c3aed;
+        }
+        
+        .transport-alternativ.retur.beste {
+            background: #f3e8ff;
+        }
+        
+        .plassering-rad .elevar {
+            font-weight: 600;
+            color: #667eea;
+            min-width: 60px;
+            text-align: right;
+        }
+        
+        .plassering-rad.rutebuss {
+            background: #fef3c7;
+        }
+        
+        .visning-sum {
+            background: #f0f4ff;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            border-top: 2px solid #667eea;
+        }
+        
+        .visning-sum.full {
+            background: #dcfce7;
+        }
+        
+        .visning-sum.overfylt {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚌 DKS Transport - Enkeltsøk</h1>
+    <p class="subtitle">Søk transportalternativ for éin skule om gongen</p>
+    
+    <div id="statusMelding" class="status"></div>
+    
+    <!-- STEG 1: Oppsett -->
+    <div class="steg" id="steg1">
+        <div class="steg-header">
+            <div class="steg-nummer">1</div>
+            <div class="steg-tittel">Oppsett</div>
+        </div>
+        <div class="input-row">
+            <div class="input-group" style="flex: 2;">
+                <label>Destinasjon</label>
+                <input type="text" id="destinasjon" placeholder="T.d. Nationaltheatret, Asker kulturhus...">
+            </div>
+            <div class="input-group">
+                <label>Maks gangavstand (meter)</label>
+                <input type="number" id="maksGange" value="2000" min="0" step="100">
+            </div>
+        </div>
+    </div>
+    
+    <!-- STEG 2: Tid -->
+    <div class="steg" id="steg2">
+        <div class="steg-header">
+            <div class="steg-nummer">2</div>
+            <div class="steg-tittel">Dato og tid</div>
+        </div>
+        <div class="input-row">
+            <div class="input-group">
+                <label>Dato</label>
+                <input type="date" id="dato">
+            </div>
+            <div class="input-group">
+                <label>Ankomsttid (tur)</label>
+                <input type="time" id="ankomsttid" value="10:00">
+            </div>
+            <div class="input-group">
+                <label>Trinn</label>
+                <select id="trinn">
+                    <option value="">Vel trinn...</option>
+                    <option value="1">1. trinn</option>
+                    <option value="2">2. trinn</option>
+                    <option value="3">3. trinn</option>
+                    <option value="4">4. trinn</option>
+                    <option value="5">5. trinn</option>
+                    <option value="6">6. trinn</option>
+                    <option value="7">7. trinn</option>
+                    <option value="8">8. trinn</option>
+                    <option value="9">9. trinn</option>
+                    <option value="10">10. trinn</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Retursøk -->
+        <div class="retur-container" style="margin-top: 15px; padding: 12px; background: #fef3c7; border-radius: 8px;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="inkluderRetur" onchange="toggleReturFelt()">
+                <span style="font-size: 14px; font-weight: 500;">Inkluder retursøk</span>
+            </label>
+            <div id="returFeltContainer" style="display: none; margin-top: 10px;">
+                <div class="input-group" style="max-width: 150px;">
+                    <label>Returtid (avgang frå destinasjon)</label>
+                    <input type="time" id="returtid" value="14:00">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- STEG 3: Skule -->
+    <div class="steg" id="steg3">
+        <div class="steg-header">
+            <div class="steg-nummer">3</div>
+            <div class="steg-tittel">Vel skule(r)</div>
+        </div>
+        
+        <!-- Hurtigsøk alle -->
+        <div style="margin-bottom: 15px; padding: 15px; background: #f0f4ff; border-radius: 8px;">
+            <label style="font-size: 13px; color: #555; font-weight: 500; display: block; margin-bottom: 8px;">Søk alle skular på trinnet:</label>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="nav-btn secondary" id="sokAlleBarneskular" onclick="sokAlleBarneskular()" style="margin: 0;">
+                    🏫 Alle barneskular
+                </button>
+                <button class="nav-btn secondary" id="sokAlleUngdomsskular" onclick="sokAlleUngdomsskular()" style="margin: 0;">
+                    🏫 Alle ungdomsskular
+                </button>
+            </div>
+            <div id="hurtigsokStatus" style="margin-top: 10px; font-size: 13px; color: #666; display: none;"></div>
+        </div>
+        
+        <!-- Vel fleire skular -->
+        <div style="border-top: 1px solid #e5e7eb; padding-top: 15px; margin-bottom: 15px;">
+            <label style="font-size: 13px; color: #555; font-weight: 500; display: block; margin-bottom: 8px;">Eller vel fleire skular:</label>
+            <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                <button class="nav-btn secondary" onclick="visSkuleVelgar('barneskule')" style="margin: 0; padding: 6px 12px; font-size: 13px;">
+                    📋 Vel barneskular
+                </button>
+                <button class="nav-btn secondary" onclick="visSkuleVelgar('ungdomsskule')" style="margin: 0; padding: 6px 12px; font-size: 13px;">
+                    📋 Vel ungdomsskular
+                </button>
+            </div>
+            <div id="skuleVelgarContainer" style="display: none;">
+                <div style="display: flex; gap: 10px; margin-bottom: 8px; align-items: center;">
+                    <button onclick="velgAlleSkular()" style="padding: 4px 8px; font-size: 12px; border: 1px solid #d1d5db; border-radius: 4px; background: white; cursor: pointer;">✓ Vel alle</button>
+                    <button onclick="fjernAlleSkular()" style="padding: 4px 8px; font-size: 12px; border: 1px solid #d1d5db; border-radius: 4px; background: white; cursor: pointer;">✗ Fjern alle</button>
+                    <span id="skuleVelgarTeller" style="font-size: 12px; color: #666;"></span>
+                </div>
+                <div id="skuleVelgarListe" class="skule-velgar-liste"></div>
+                <button class="sok-btn" id="sokValgteSkularBtn" onclick="sokValgteSkular()" style="margin-top: 10px;" disabled>
+                    🔍 Søk valde skular
+                </button>
+            </div>
+        </div>
+        
+        <!-- Eller vel enkeltskule -->
+        <div style="border-top: 1px solid #e5e7eb; padding-top: 15px;">
+            <label style="font-size: 13px; color: #555; font-weight: 500; display: block; margin-bottom: 8px;">Eller vel enkeltskule:</label>
+            <div class="input-row">
+                <div class="input-group" style="flex: 1;">
+                    <select id="skule">
+                        <option value="">Vel skule...</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="klassarContainer" style="display: none;">
+            <label style="font-size: 13px; color: #555; font-weight: 500; margin-top: 15px; display: block;">Klassar (fjern dei som ikkje skal med)</label>
+            <div class="klassar-liste" id="klassarListe"></div>
+            <div class="elevar-sum" id="elevarSum"></div>
+        </div>
+        <button class="sok-btn" id="sokBtn" disabled>Søk transport</button>
+    </div>
+    
+    <!-- RESULTAT MED SIDEBAR -->
+    <div id="resultatSeksjon" class="resultat-wrapper">
+        <!-- Sidebar for låste skular -->
+        <div id="låsteSidebar" class="låste-sidebar" style="display: none;">
+            <div class="sidebar-header">
+                <h3>🔒 Låste skular</h3>
+                <span id="låsteTeller">0 skular</span>
+            </div>
+            <div id="låsteListe" class="låste-liste"></div>
+            <div class="sidebar-actions">
+                <button class="nav-btn secondary" onclick="låsOppAlle()" style="margin: 0; font-size: 12px;">🔓 Lås opp alle</button>
+            </div>
+        </div>
+        
+        <!-- Hovudinnhald -->
+        <div class="resultat-hovud">
+            <div class="resultat-tittel" id="resultatTittel" style="display: none;">Resultat</div>
+            <div id="resultatListe"></div>
+            <div class="nav-knappar" id="navKnappar" style="display: none;">
+                <button class="nav-btn primary" onclick="nesteSkule()">Neste skule</button>
+                <button class="nav-btn secondary" onclick="sokPaNyttForUlaste()">🔄 Søk på nytt (ulåste)</button>
+                <button class="nav-btn secondary" onclick="nyTid()">Ny tid/arrangement</button>
+            </div>
+            <!-- Knapp til fordeling -->
+            <div id="tilFordelingKnapp" style="display: none; margin-top: 20px;">
+                <button class="sok-btn" onclick="visFordelingSeksjon()">📋 Gå til fordeling på arrangement</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- FORDELING PÅ ARRANGEMENT -->
+    <div id="fordelingSeksjon" style="display: none;">
+        <div class="steg">
+            <div class="steg-header">
+                <div class="steg-nummer">4</div>
+                <div class="steg-tittel">Fordeling på arrangement</div>
+            </div>
+            
+            <!-- Oppsummering -->
+            <div id="fordelingOppsummering" class="fordeling-boks">
+                <h3>📊 Oppsummering av søk</h3>
+                <div id="oppsummeringInnhald"></div>
+            </div>
+            
+            <!-- Anslag -->
+            <div id="fordelingAnslag" class="fordeling-boks">
+                <h3>📐 Anslag arrangementsbehov</h3>
+                <div id="anslagInnhald"></div>
+            </div>
+            
+            <!-- Arrangement-input -->
+            <div class="fordeling-boks">
+                <h3>🎭 Legg inn arrangement</h3>
+                <div class="arrangement-input">
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Sal/lokale namn</label>
+                            <input type="text" id="salNamn" placeholder="T.d. Sal A">
+                        </div>
+                        <div class="input-group">
+                            <label>Kapasitet</label>
+                            <input type="number" id="salKapasitet" value="150">
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Dato</label>
+                            <input type="date" id="arrDato">
+                        </div>
+                        <div class="input-group">
+                            <label>Tidspunkt</label>
+                            <input type="time" id="arrTid" value="10:00">
+                        </div>
+                        <div class="input-group">
+                            <label>&nbsp;</label>
+                            <button class="nav-btn primary" onclick="leggTilArrangement()" style="margin: 0;">+ Legg til</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Liste over arrangement -->
+                <div id="arrangementListe" style="margin-top: 15px;"></div>
+            </div>
+            
+            <!-- Køyr fordeling -->
+            <button class="sok-btn" id="fordelBtn" onclick="kjorFordeling()" disabled>🎯 Fordel elevar på arrangement</button>
+            
+            <!-- Fordelingsresultat -->
+            <div id="fordelingResultat" style="display: none;">
+                <h3>📋 Fordelingsforslag</h3>
+                <div id="konfliktListe"></div>
+                <div id="fordelingVisning"></div>
+                
+                <div class="nav-knappar" style="margin-top: 20px;">
+                    <button class="nav-btn primary" onclick="eksporterFordeling()">📥 Eksporter til fil</button>
+                    <button class="nav-btn secondary" onclick="nullstillFordeling()">🔄 Start på nytt</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+// ========== ELEVTAL DATA (INLINE) ==========
+const elevtalData = {
+    "skuleaar": "2025-2026",
+    "oppdatert": "2026-01-23",
+    "skular": {
+        "Arnestad skole": {"total": 421, "trinn": {"1": {"total": 62, "klassar": {"1A": 20, "1B": 22, "1C": 20}}, "2": {"total": 58, "klassar": {"2A": 19, "2B": 19, "2C": 20}}, "3": {"total": 53, "klassar": {"3A": 26, "3B": 27}}, "4": {"total": 60, "klassar": {"4A": 21, "4B": 20, "4C": 19}}, "5": {"total": 60, "klassar": {"5A": 20, "5B": 20, "5C": 20}}, "6": {"total": 67, "klassar": {"6A": 22, "6B": 22, "6C": 23}}, "7": {"total": 61, "klassar": {"7A": 19, "7B": 22, "7C": 20}}}},
+        "Billingstad skole": {"total": 280, "trinn": {"1": {"total": 45, "klassar": {"1A": 22, "1B": 23}}, "2": {"total": 35, "klassar": {"2A": 18, "2B": 17}}, "3": {"total": 37, "klassar": {"3A": 20, "3B": 17}}, "4": {"total": 34, "klassar": {"4A": 17, "4B": 17}}, "5": {"total": 52, "klassar": {"5A": 27, "5B": 25}}, "6": {"total": 36, "klassar": {"6A": 19, "6B": 17}}, "7": {"total": 41, "klassar": {"7A": 21, "7B": 20}}}},
+        "Blakstad skole": {"total": 292, "trinn": {"1": {"total": 28, "klassar": {"1A": 28}}, "2": {"total": 47, "klassar": {"2A": 21, "2B": 26}}, "3": {"total": 28, "klassar": {"3A": 28}}, "4": {"total": 51, "klassar": {"4A": 25, "4B": 26}}, "5": {"total": 44, "klassar": {"5A": 23, "5B": 21}}, "6": {"total": 47, "klassar": {"6A": 23, "6B": 24}}, "7": {"total": 47, "klassar": {"7A": 24, "7B": 23}}}},
+        "Bondi skole": {"total": 420, "trinn": {"1": {"total": 60, "klassar": {"1A": 20, "1B": 20, "1C": 20}}, "2": {"total": 65, "klassar": {"2A": 19, "2B": 18, "2C": 18, "2VKK": 10}}, "3": {"total": 67, "klassar": {"3A": 18, "3B": 20, "3C": 19, "3VKK": 10}}, "4": {"total": 67, "klassar": {"4A": 20, "4B": 19, "4C": 18, "4VKK": 10}}, "5": {"total": 44, "klassar": {"5A": 15, "5B": 14, "5C": 15}}, "6": {"total": 58, "klassar": {"6A": 19, "6B": 19, "6C": 20}}, "7": {"total": 59, "klassar": {"7A": 19, "7B": 21, "7C": 19}}}},
+        "Borgen ungdomsskole": {"total": 341, "trinn": {"8": {"total": 128, "klassar": {"8A": 27, "8B": 27, "8C": 29, "8D": 28, "VKK 8-10": 17}}, "9": {"total": 113, "klassar": {"9A": 26, "9B": 27, "9C": 28, "9D": 26, "9VKK": 6}}, "10": {"total": 100, "klassar": {"10A": 21, "10B": 23, "10C": 24, "10D": 25, "10VKK": 7}}}},
+        "Drengsrud skole": {"total": 340, "trinn": {"1": {"total": 50, "klassar": {"1A": 17, "1B": 17, "1C": 16}}, "2": {"total": 45, "klassar": {"2A": 22, "2B": 23}}, "3": {"total": 41, "klassar": {"3A": 20, "3B": 21}}, "4": {"total": 54, "klassar": {"4A": 18, "4B": 17, "4C": 19}}, "5": {"total": 50, "klassar": {"5A": 25, "5B": 25}}, "6": {"total": 46, "klassar": {"6A": 23, "6B": 23}}, "7": {"total": 54, "klassar": {"7A": 27, "7B": 27}}}},
+        "Folkestad skole": {"total": 89, "trinn": {"1": {"total": 12, "klassar": {"1": 12}}, "2": {"total": 14, "klassar": {"2": 14}}, "3": {"total": 13, "klassar": {"3": 13}}, "4": {"total": 11, "klassar": {"4": 11}}, "5": {"total": 11, "klassar": {"5": 11}}, "6": {"total": 15, "klassar": {"6": 15}}, "7": {"total": 13, "klassar": {"7": 13}}}},
+        "Hagaløkka skole": {"total": 324, "trinn": {"1": {"total": 46, "klassar": {"1A": 23, "1B": 23}}, "2": {"total": 46, "klassar": {"2A": 23, "2B": 23}}, "3": {"total": 46, "klassar": {"3A": 23, "3B": 23}}, "4": {"total": 46, "klassar": {"4A": 23, "4B": 23}}, "5": {"total": 54, "klassar": {"5A": 27, "5B": 27}}, "6": {"total": 46, "klassar": {"6A": 23, "6B": 23}}, "7": {"total": 40, "klassar": {"7A": 20, "7B": 20}}}},
+        "Heggedal skole": {"total": 507, "trinn": {"1": {"total": 75, "klassar": {"1A": 25, "1B": 25, "1C": 25}}, "2": {"total": 75, "klassar": {"2A": 25, "2B": 25, "2C": 25}}, "3": {"total": 75, "klassar": {"3A": 25, "3B": 25, "3C": 25}}, "4": {"total": 66, "klassar": {"4A": 23, "4B": 23, "4C": 20}}, "5": {"total": 70, "klassar": {"5A": 23, "5B": 23, "5C": 24}}, "6": {"total": 74, "klassar": {"6A": 25, "6B": 25, "6C": 24}}, "7": {"total": 72, "klassar": {"7A": 23, "7B": 24, "7C": 25}}}},
+        "Hofstad skole": {"total": 356, "trinn": {"1": {"total": 73, "klassar": {"1A": 25, "1B": 24, "1C": 24}}, "2": {"total": 48, "klassar": {"2A": 24, "2B": 24}}, "3": {"total": 43, "klassar": {"3A": 20, "3B": 23}}, "4": {"total": 51, "klassar": {"4A": 25, "4B": 26}}, "5": {"total": 31, "klassar": {"5A": 15, "5B": 16}}, "6": {"total": 54, "klassar": {"6A": 27, "6B": 27}}, "7": {"total": 56, "klassar": {"7A": 28, "7B": 28}}}},
+        "Hovedgården ungdomsskole": {"total": 254, "trinn": {"8": {"total": 81, "klassar": {"8A": 27, "8B": 27, "8C": 27}}, "9": {"total": 81, "klassar": {"9A": 27, "9B": 27, "9C": 27}}, "10": {"total": 92, "klassar": {"10A": 23, "10B": 22, "10C": 24, "10D": 23}}}},
+        "Hvalstad skole": {"total": 438, "trinn": {"1": {"total": 78, "klassar": {"1A": 23, "1B": 21, "1C": 18, "1D": 16}}, "2": {"total": 78, "klassar": {"2A": 21, "2B": 19, "2C": 19, "2D": 19}}, "3": {"total": 56, "klassar": {"3A": 19, "3B": 20, "3C": 17}}, "4": {"total": 55, "klassar": {"4A": 18, "4B": 18, "4C": 19}}, "5": {"total": 58, "klassar": {"5A": 23, "5B": 16, "5C": 19}}, "6": {"total": 51, "klassar": {"6A": 26, "6B": 25}}, "7": {"total": 62, "klassar": {"7A": 22, "7B": 21, "7C": 19}}}},
+        "Hyggen skole": {"total": 104, "trinn": {"1": {"total": 9, "klassar": {"1": 9}}, "2": {"total": 13, "klassar": {"2": 13}}, "3": {"total": 14, "klassar": {"3": 14}}, "4": {"total": 16, "klassar": {"4": 16}}, "5": {"total": 19, "klassar": {"5": 19}}, "6": {"total": 15, "klassar": {"6": 15}}, "7": {"total": 18, "klassar": {"7": 18}}}},
+        "Jansløkka skole": {"total": 406, "trinn": {"1": {"total": 68, "klassar": {"1 Blå": 17, "1 Grønn": 17, "1 Gul": 17, "1 Rød": 17}}, "2": {"total": 55, "klassar": {"2A": 19, "2B": 16, "2C": 20}}, "3": {"total": 65, "klassar": {"3A": 22, "3B": 22, "3C": 21}}, "4": {"total": 56, "klassar": {"4A": 18, "4B": 18, "4C": 20}}, "5": {"total": 59, "klassar": {"5A": 19, "5B": 19, "5C": 21}}, "6": {"total": 55, "klassar": {"6A": 27, "6B": 28}}, "7": {"total": 48, "klassar": {"7A": 22, "7B": 26}}}},
+        "Landøya ungdomsskole": {"total": 331, "trinn": {"8": {"total": 119, "klassar": {"8A": 30, "8B": 29, "8C": 30, "8D": 30}}, "9": {"total": 107, "klassar": {"9A": 26, "9B": 28, "9C": 25, "9D": 28}}, "10": {"total": 105, "klassar": {"10A": 26, "10B": 28, "10C": 23, "10D": 28}}}},
+        "Mellom-Nes skole": {"total": 419, "trinn": {"1": {"total": 56, "klassar": {"1": 56}}, "2": {"total": 65, "klassar": {"2": 65}}, "3": {"total": 52, "klassar": {"3": 52}}, "4": {"total": 65, "klassar": {"4": 65}}, "5": {"total": 48, "klassar": {"5": 48}}, "6": {"total": 71, "klassar": {"6": 71}}, "7": {"total": 62, "klassar": {"7": 62}}}},
+        "Midtbygda barneskole": {"total": 455, "trinn": {"1": {"total": 66, "klassar": {"1A": 21, "1B": 23, "1C": 22}}, "2": {"total": 66, "klassar": {"2A": 21, "2B": 23, "2C": 22}}, "3": {"total": 66, "klassar": {"3A": 21, "3B": 23, "3C": 22}}, "4": {"total": 60, "klassar": {"4A": 21, "4B": 19, "4C": 20}}, "5": {"total": 63, "klassar": {"5A": 20, "5B": 19, "5C": 24}}, "6": {"total": 63, "klassar": {"6A": 22, "6B": 21, "6C": 20}}, "7": {"total": 71, "klassar": {"7A": 24, "7B": 24, "7C": 23}}}},
+        "Nesøya skole": {"total": 358, "trinn": {"1": {"total": 50, "klassar": {"1A": 17, "1B": 16, "1C": 17}}, "2": {"total": 48, "klassar": {"2A": 16, "2B": 17, "2C": 15}}, "3": {"total": 57, "klassar": {"3A": 19, "3B": 19, "3C": 19}}, "4": {"total": 46, "klassar": {"4A": 23, "4B": 23}}, "5": {"total": 58, "klassar": {"5A": 19, "5B": 20, "5C": 19}}, "6": {"total": 56, "klassar": {"6A": 20, "6B": 14, "6C": 22}}, "7": {"total": 43, "klassar": {"7A": 22, "7B": 21}}}},
+        "Nærsnes barneskole": {"total": 189, "trinn": {"1": {"total": 20, "klassar": {"1": 20}}, "2": {"total": 27, "klassar": {"2": 27}}, "3": {"total": 23, "klassar": {"3": 23}}, "4": {"total": 28, "klassar": {"4": 28}}, "5": {"total": 27, "klassar": {"5": 27}}, "6": {"total": 29, "klassar": {"6": 29}}, "7": {"total": 35, "klassar": {"7": 35}}}},
+        "Risenga ungdomsskole": {"total": 458, "trinn": {"8": {"total": 138, "klassar": {"8A": 28, "8B": 27, "8C": 27, "8D": 28, "8E": 28}}, "9": {"total": 160, "klassar": {"9A": 27, "9B": 26, "9C": 26, "9D": 28, "9E": 26, "9F": 27}}, "10": {"total": 160, "klassar": {"10A": 28, "10B": 28, "10C": 25, "10D": 25, "10E": 26, "10F": 28}}}},
+        "Rønningen skole": {"total": 165, "trinn": {"1": {"total": 29, "klassar": {"1": 29}}, "2": {"total": 17, "klassar": {"2": 17}}, "3": {"total": 23, "klassar": {"3": 23}}, "4": {"total": 28, "klassar": {"4": 28}}, "5": {"total": 16, "klassar": {"5": 16}}, "6": {"total": 24, "klassar": {"6": 24}}, "7": {"total": 28, "klassar": {"7": 28}}}},
+        "Slemmestad barneskole": {"total": 255, "trinn": {"1": {"total": 26, "klassar": {"1": 26}}, "2": {"total": 51, "klassar": {"2": 51}}, "3": {"total": 30, "klassar": {"3": 30}}, "4": {"total": 36, "klassar": {"4": 36}}, "5": {"total": 44, "klassar": {"5": 44}}, "6": {"total": 32, "klassar": {"6": 32}}, "7": {"total": 36, "klassar": {"7": 36}}}},
+        "Slemmestad ungdomsskole": {"total": 346, "trinn": {"8": {"total": 126, "klassar": {"8A": 28, "8B": 29, "8C": 29, "8D": 28, "VKK 8-10": 12}}, "9": {"total": 111, "klassar": {"9A": 28, "9B": 28, "9C": 28, "9D": 27}}, "10": {"total": 109, "klassar": {"10A": 28, "10B": 28, "10C": 26, "10D": 27}}}},
+        "Solberg skole": {"total": 111, "trinn": {"1": {"total": 17, "klassar": {"1": 17}}, "2": {"total": 14, "klassar": {"2": 14}}, "3": {"total": 14, "klassar": {"3": 14}}, "4": {"total": 16, "klassar": {"4": 16}}, "5": {"total": 14, "klassar": {"5": 14}}, "6": {"total": 20, "klassar": {"6": 20}}, "7": {"total": 16, "klassar": {"7": 16}}}},
+        "Solvang ungdomsskole": {"total": 299, "trinn": {"8": {"total": 95, "klassar": {"8A": 23, "8B": 25, "8C": 24, "8D": 23}}, "9": {"total": 94, "klassar": {"9A": 23, "9B": 24, "9C": 24, "9D": 23}}, "10": {"total": 110, "klassar": {"10A": 30, "10B": 25, "10C": 26, "10D": 29}}}},
+        "Spikkestad barneskole": {"total": 397, "trinn": {"1": {"total": 68, "klassar": {"1A": 23, "1B": 23, "1C": 22}}, "2": {"total": 46, "klassar": {"2A": 16, "2B": 16, "2C": 14}}, "3": {"total": 43, "klassar": {"3A": 21, "3B": 22}}, "4": {"total": 71, "klassar": {"4A": 25, "4B": 24, "4C": 22}}, "5": {"total": 64, "klassar": {"5A": 21, "5B": 21, "5C": 22}}, "6": {"total": 53, "klassar": {"6A": 17, "6B": 17, "6C": 19}}, "7": {"total": 52, "klassar": {"7A": 17, "7B": 17, "7C": 18}}}},
+        "Spikkestad ungdomsskole": {"total": 443, "trinn": {"8": {"total": 150, "klassar": {"8A": 28, "8B": 25, "8C": 25, "8D": 26, "8E": 22, "8F": 24}}, "9": {"total": 145, "klassar": {"9A": 25, "9B": 24, "9C": 25, "9D": 25, "9E": 23, "9F": 23}}, "10": {"total": 148, "klassar": {"10A": 24, "10B": 23, "10C": 25, "10D": 24, "10E": 24, "10F": 28}}}},
+        "Steinerskolen i Asker": {"total": 185, "trinn": {"1": {"total": 22, "klassar": {"1": 22}}, "2": {"total": 24, "klassar": {"2": 24}}, "3": {"total": 21, "klassar": {"3": 21}}, "4": {"total": 10, "klassar": {"4": 10}}, "5": {"total": 26, "klassar": {"5": 26}}, "6": {"total": 15, "klassar": {"6": 15}}, "7": {"total": 23, "klassar": {"7": 23}}, "8": {"total": 15, "klassar": {"8": 15}}, "9": {"total": 13, "klassar": {"9": 13}}, "10": {"total": 16, "klassar": {"10": 16}}}},
+        "Steinerskolen i Hurum": {"total": 124, "trinn": {"1": {"total": 9, "klassar": {"1": 9}}, "2": {"total": 14, "klassar": {"2": 14}}, "3": {"total": 9, "klassar": {"3": 9}}, "4": {"total": 11, "klassar": {"4": 11}}, "5": {"total": 12, "klassar": {"5": 12}}, "6": {"total": 18, "klassar": {"6": 18}}, "7": {"total": 7, "klassar": {"7": 7}}, "8": {"total": 20, "klassar": {"8": 20}}, "9": {"total": 11, "klassar": {"9": 11}}, "10": {"total": 13, "klassar": {"10": 13}}}},
+        "Asker International School": {"total": 628, "trinn": {"1": {"total": 64, "klassar": {"1A": 21, "1B": 21, "1C": 22}}, "2": {"total": 64, "klassar": {"2A": 21, "2B": 21, "2C": 22}}, "3": {"total": 63, "klassar": {"3A": 21, "3B": 21, "3C": 21}}, "4": {"total": 63, "klassar": {"4A": 21, "4B": 21, "4C": 21}}, "5": {"total": 63, "klassar": {"5A": 21, "5B": 21, "5C": 21}}, "6": {"total": 63, "klassar": {"6A": 21, "6B": 21, "6C": 21}}, "7": {"total": 63, "klassar": {"7A": 21, "7B": 21, "7C": 21}}, "8": {"total": 60, "klassar": {"8A": 19, "8B": 21, "8C": 20}}, "9": {"total": 63, "klassar": {"9A": 21, "9B": 21, "9C": 21}}, "10": {"total": 62, "klassar": {"10A": 21, "10B": 21, "10C": 20}}}},
+        "Vollen Montessoriskole": {"total": 98, "trinn": {"1": {"total": 14, "klassar": {"1": 14}}, "2": {"total": 14, "klassar": {"2": 14}}, "3": {"total": 14, "klassar": {"3": 14}}, "4": {"total": 17, "klassar": {"4": 17}}, "5": {"total": 7, "klassar": {"5": 7}}, "6": {"total": 12, "klassar": {"6": 12}}, "7": {"total": 20, "klassar": {"7": 20}}}},
+        "Sydskogen barneskole": {"total": 147, "trinn": {"1": {"total": 23, "klassar": {"1": 23}}, "2": {"total": 26, "klassar": {"2": 26}}, "3": {"total": 23, "klassar": {"3": 23}}, "4": {"total": 15, "klassar": {"4": 15}}, "5": {"total": 27, "klassar": {"5": 27}}, "6": {"total": 10, "klassar": {"6": 10}}, "7": {"total": 23, "klassar": {"7": 23}}}},
+        "Sætre skole": {"total": 278, "trinn": {"1": {"total": 44, "klassar": {"1A": 22, "1B": 22}}, "2": {"total": 43, "klassar": {"2A": 22, "2B": 21}}, "3": {"total": 34, "klassar": {"3A": 17, "3B": 17}}, "4": {"total": 42, "klassar": {"4A": 21, "4B": 21}}, "5": {"total": 31, "klassar": {"5A": 16, "5B": 15}}, "6": {"total": 36, "klassar": {"6A": 18, "6B": 18}}, "7": {"total": 48, "klassar": {"7A": 24, "7B": 24}}}},
+        "Sætre ungdomsskole": {"total": 233, "trinn": {"8": {"total": 76, "klassar": {"8A": 25, "8B": 25, "8C": 26}}, "9": {"total": 81, "klassar": {"9A": 26, "9B": 27, "9C": 28}}, "10": {"total": 76, "klassar": {"10A": 25, "10B": 26, "10C": 25}}}},
+        "Tofte skole": {"total": 205, "trinn": {"1": {"total": 27, "klassar": {"1A": 27}}, "2": {"total": 29, "klassar": {"2A": 29}}, "3": {"total": 26, "klassar": {"3A": 26}}, "4": {"total": 26, "klassar": {"4A": 26}}, "5": {"total": 30, "klassar": {"5A": 30}}, "6": {"total": 33, "klassar": {"6A": 14, "6B": 19}}, "7": {"total": 34, "klassar": {"7A": 15, "7B": 19}}}},
+        "Tofte ungdomsskole": {"total": 166, "trinn": {"8": {"total": 49, "klassar": {"8A": 24, "8B": 25}}, "9": {"total": 57, "klassar": {"9A": 29, "9B": 28}}, "10": {"total": 60, "klassar": {"10A": 22, "10B": 19, "10C": 19}}}},
+        "Torstad ungdomsskole": {"total": 433, "trinn": {"8": {"total": 150, "klassar": {"8A": 25, "8B": 25, "8C": 25, "8D": 25, "8E": 25, "8F": 25}}, "9": {"total": 130, "klassar": {"9A": 27, "9B": 25, "9C": 26, "9D": 25, "9E": 27}}, "10": {"total": 153, "klassar": {"10A": 26, "10B": 24, "10C": 26, "10D": 25, "10E": 25, "10F": 27}}}},
+        "Torvbråten barneskole": {"total": 249, "trinn": {"1": {"total": 32, "klassar": {"1A": 16, "1B": 16}}, "2": {"total": 39, "klassar": {"2A": 20, "2B": 19}}, "3": {"total": 39, "klassar": {"3A": 20, "3B": 19}}, "4": {"total": 26, "klassar": {"4A": 26}}, "5": {"total": 32, "klassar": {"5A": 16, "5B": 16}}, "6": {"total": 50, "klassar": {"6A": 25, "6B": 25}}, "7": {"total": 31, "klassar": {"7A": 16, "7B": 15}}}},
+        "Vardåsen skole": {"total": 292, "trinn": {"1": {"total": 41, "klassar": {"1A": 20, "1B": 21}}, "2": {"total": 34, "klassar": {"2A": 18, "2B": 16}}, "3": {"total": 41, "klassar": {"3A": 21, "3B": 20}}, "4": {"total": 46, "klassar": {"4A": 22, "4B": 24}}, "5": {"total": 33, "klassar": {"5A": 17, "5B": 16}}, "6": {"total": 46, "klassar": {"6A": 24, "6B": 22}}, "7": {"total": 51, "klassar": {"7A": 26, "7B": 25}}}},
+        "Vettre skole": {"total": 319, "trinn": {"1": {"total": 51, "klassar": {"1": 51}}, "2": {"total": 39, "klassar": {"2": 39}}, "3": {"total": 43, "klassar": {"3": 43}}, "4": {"total": 46, "klassar": {"4": 46}}, "5": {"total": 53, "klassar": {"5": 53}}, "6": {"total": 37, "klassar": {"6": 37}}, "7": {"total": 50, "klassar": {"7": 50}}}},
+        "Vollen ungdomsskole": {"total": 238, "trinn": {"8": {"total": 64, "klassar": {"8 nord": 21, "8 øst": 22, "8 sør": 21}}, "9": {"total": 83, "klassar": {"9 nord": 28, "9 øst": 27, "9 sør": 28}}, "10": {"total": 91, "klassar": {"10 nord": 23, "10 øst": 23, "10 sør": 22, "10 vest": 23}}}},
+        "Frydenlund barneskole": {"total": 219, "trinn": {"1": {"total": 20, "klassar": {"1": 20}}, "2": {"total": 34, "klassar": {"2": 34}}, "3": {"total": 33, "klassar": {"3": 33}}, "4": {"total": 32, "klassar": {"4": 32}}, "5": {"total": 31, "klassar": {"5": 31}}, "6": {"total": 33, "klassar": {"6": 33}}, "7": {"total": 36, "klassar": {"7": 36}}}}
+    }
+};
+
+// ========== SKULE-KOORDINATAR ==========
+const skuleKoordinatar = {
+    "Arnestad skole": {lat: 59.802359, lon: 10.489763},
+    "Billingstad skole": {lat: 59.874775, lon: 10.473602},
+    "Blakstad skole": {lat: 59.812853, lon: 10.455711},
+    "Bondi skole": {lat: 59.824182, lon: 10.438759},
+    "Borgen ungdomsskole": {lat: 59.826511, lon: 10.419711},
+    "Drengsrud skole": {lat: 59.829521, lon: 10.402867},
+    "Folkestad skole": {lat: 59.551733, lon: 10.464845},
+    "Frydenlund barneskole": {lat: 59.714439, lon: 10.510600},
+    "Hagaløkka skole": {lat: 59.830190, lon: 10.421680},
+    "Heggedal skole": {lat: 59.792046, lon: 10.446009},
+    "Hofstad skole": {lat: 59.847705, lon: 10.472101},
+    "Hovedgården ungdomsskole": {lat: 59.784877, lon: 10.436124},
+    "Hvalstad skole": {lat: 59.860225, lon: 10.464530},
+    "Hyggen skole": {lat: 59.716636, lon: 10.373096},
+    "Jansløkka skole": {lat: 59.848701, lon: 10.442136},
+    "Landøya ungdomsskole": {lat: 59.860075, lon: 10.497705},
+    "Mellom-Nes skole": {lat: 59.866242, lon: 10.496780},
+    "Midtbygda barneskole": {lat: 59.745331, lon: 10.414124},
+    "Nesøya skole": {lat: 59.869018, lon: 10.517625},
+    "Nærsnes barneskole": {lat: 59.755114, lon: 10.505103},
+    "Risenga ungdomsskole": {lat: 59.825835, lon: 10.441419},
+    "Rønningen skole": {lat: 59.817907, lon: 10.428843},
+    "Slemmestad barneskole": {lat: 59.779891, lon: 10.492663},
+    "Slemmestad ungdomsskole": {lat: 59.777703, lon: 10.478921},
+    "Solberg skole": {lat: 59.804596, lon: 10.393851},
+    "Solvang ungdomsskole": {lat: 59.839680, lon: 10.424440},
+    "Spikkestad barneskole": {lat: 59.749222, lon: 10.336518},
+    "Spikkestad ungdomsskole": {lat: 59.739543, lon: 10.349502},
+    "Steinerskolen i Asker": {lat: 59.861350, lon: 10.495025},
+    "Steinerskolen i Hurum": {lat: 59.633059, lon: 10.495805},
+    "Asker International School": {lat: 59.829712, lon: 10.417321},
+    "Vollen Montessoriskole": {lat: 59.805508, lon: 10.477063},
+    "Sydskogen barneskole": {lat: 59.759999, lon: 10.452457},
+    "Sætre skole": {lat: 59.676227, lon: 10.538927},
+    "Sætre ungdomsskole": {lat: 59.670310, lon: 10.536507},
+    "Tofte skole": {lat: 59.541911, lon: 10.554040},
+    "Tofte ungdomsskole": {lat: 59.549030, lon: 10.564134},
+    "Torstad ungdomsskole": {lat: 59.862176, lon: 10.480741},
+    "Torvbråten barneskole": {lat: 59.761652, lon: 10.479902},
+    "Vardåsen skole": {lat: 59.819986, lon: 10.381315},
+    "Vettre skole": {lat: 59.825693, lon: 10.469614},
+    "Vollen ungdomsskole": {lat: 59.800708, lon: 10.489653}
+};
+
+// ========== KJENDE DESTINASJONAR ==========
+const kjendeDestinasjonar = {
+    'nationaltheatret': { lat: 59.9139, lon: 10.7312 },
+    'nationaltheatret oslo': { lat: 59.9139, lon: 10.7312 },
+    'det norske teatret': { lat: 59.9151, lon: 10.7433 },
+    'asker kulturhus': { lat: 59.8335, lon: 10.4358 },
+    'strøket 15': { lat: 59.8335, lon: 10.4358 },
+    'strøket 15a': { lat: 59.8335, lon: 10.4358 },
+    'strøket 15a asker': { lat: 59.8335, lon: 10.4358 },
+    'oslofjordmuseet': { lat: 59.8147, lon: 10.5111 },
+    'dikemark': { lat: 59.7975, lon: 10.4311 }
+};
+
+// ========== GLOBALE VARIABLAR ==========
+let destCoords = null;
+let valtTrinn = null;
+let valtSkule = null;
+let valgteKlassar = {};
+let resultat = [];
+let inkluderRetur = false;
+
+const CORS_PROXY = 'https://corsproxy.io/?';
+
+// ========== INIT ==========
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('dato').valueAsDate = new Date();
+    
+    // Event listeners
+    document.getElementById('trinn').addEventListener('change', oppdaterSkular);
+    document.getElementById('skule').addEventListener('change', oppdaterKlassar);
+    document.getElementById('sokBtn').addEventListener('click', startSok);
+});
+
+// Toggle retur-felt
+function toggleReturFelt() {
+    inkluderRetur = document.getElementById('inkluderRetur').checked;
+    document.getElementById('returFeltContainer').style.display = inkluderRetur ? 'block' : 'none';
+}
+
+// Formater dato til DD/MM/YYYY
+function formaterDato(datoStr) {
+    const dato = new Date(datoStr);
+    const dag = String(dato.getDate()).padStart(2, '0');
+    const mnd = String(dato.getMonth() + 1).padStart(2, '0');
+    const år = dato.getFullYear();
+    return `${dag}/${mnd}/${år}`;
+}
+
+// Formater tid til 24H
+function formaterTid(tidStr) {
+    if (!tidStr) return '';
+    const dato = new Date(tidStr);
+    return dato.toLocaleTimeString('no-NO', { hour: '2-digit', minute: '2-digit', hour12: false });
+}
+
+// ========== OPPDATER SKULAR BASERT PÅ TRINN ==========
+function oppdaterSkular() {
+    valtTrinn = document.getElementById('trinn').value;
+    const skuleSelect = document.getElementById('skule');
+    skuleSelect.innerHTML = '<option value="">Vel skule...</option>';
+    
+    if (!valtTrinn) return;
+    
+    // Finn skular som har dette trinnet
+    const skularMedTrinn = [];
+    for (const [skuleNamn, data] of Object.entries(elevtalData.skular)) {
+        if (data.trinn && data.trinn[valtTrinn] && data.trinn[valtTrinn].total > 0) {
+            skularMedTrinn.push({
+                namn: skuleNamn,
+                elevar: data.trinn[valtTrinn].total
+            });
+        }
+    }
+    
+    // Sorter alfabetisk
+    skularMedTrinn.sort((a, b) => a.namn.localeCompare(b.namn, 'no'));
+    
+    // Legg til i dropdown
+    for (const skule of skularMedTrinn) {
+        const opt = document.createElement('option');
+        opt.value = skule.namn;
+        opt.textContent = `${skule.namn} (${skule.elevar} elevar)`;
+        skuleSelect.appendChild(opt);
+    }
+}
+
+// ========== OPPDATER KLASSAR FOR VALT SKULE ==========
+function oppdaterKlassar() {
+    valtSkule = document.getElementById('skule').value;
+    const container = document.getElementById('klassarContainer');
+    const liste = document.getElementById('klassarListe');
+    
+    if (!valtSkule || !valtTrinn) {
+        container.style.display = 'none';
+        document.getElementById('sokBtn').disabled = true;
+        return;
+    }
+    
+    const trinnData = elevtalData.skular[valtSkule]?.trinn?.[valtTrinn];
+    if (!trinnData) {
+        container.style.display = 'none';
+        return;
+    }
+    
+    // Bygg klasseliste
+    liste.innerHTML = '';
+    valgteKlassar = {};
+    
+    for (const [klasseNamn, elevar] of Object.entries(trinnData.klassar)) {
+        valgteKlassar[klasseNamn] = true;
+        
+        const boks = document.createElement('label');
+        boks.className = 'klasse-boks';
+        boks.innerHTML = `
+            <input type="checkbox" checked data-klasse="${klasseNamn}" data-elevar="${elevar}">
+            <span>${klasseNamn} (${elevar})</span>
+        `;
+        boks.querySelector('input').addEventListener('change', function() {
+            valgteKlassar[klasseNamn] = this.checked;
+            boks.classList.toggle('fjerna', !this.checked);
+            oppdaterElevarSum();
+        });
+        liste.appendChild(boks);
+    }
+    
+    container.style.display = 'block';
+    oppdaterElevarSum();
+    document.getElementById('sokBtn').disabled = false;
+}
+
+// ========== OPPDATER ELEVTAL-SUM ==========
+function oppdaterElevarSum() {
+    const trinnData = elevtalData.skular[valtSkule]?.trinn?.[valtTrinn];
+    if (!trinnData) return;
+    
+    let sum = 0;
+    for (const [klasseNamn, elevar] of Object.entries(trinnData.klassar)) {
+        if (valgteKlassar[klasseNamn]) {
+            sum += elevar;
+        }
+    }
+    
+    document.getElementById('elevarSum').textContent = `Totalt: ${sum} elevar`;
+}
+
+// ========== GEOCODING ==========
+async function geocodeAddress(address) {
+    // Sjekk kjende destinasjonar først
+    const lower = address.toLowerCase().trim();
+    for (const [key, coords] of Object.entries(kjendeDestinasjonar)) {
+        if (lower.includes(key)) {
+            return coords;
+        }
+    }
+    
+    // Prøv Entur geocoder
+    try {
+        const url = `https://api.entur.io/geocoder/v1/autocomplete?text=${encodeURIComponent(address)}&size=1`;
+        const response = await fetch(CORS_PROXY + encodeURIComponent(url));
+        const data = await response.json();
+        
+        if (data.features?.length > 0) {
+            const coords = data.features[0].geometry.coordinates;
+            return { lat: coords[1], lon: coords[0] };
+        }
+    } catch (e) {
+        console.error('Geocoding feil:', e);
+    }
+    
+    return null;
+}
+
+// ========== ENTUR REISESØK ==========
+async function finnReise(from, to, arriveBy, mode) {
+    const url = 'https://api.entur.io/journey-planner/v3/graphql';
+    
+    let modesConfig = '';
+    if (mode === 'foot') {
+        modesConfig = `modes: { directMode: foot, accessMode: foot, egressMode: foot, transportModes: [] }`;
+    } else if (mode === 'bus') {
+        modesConfig = `modes: { accessMode: foot, egressMode: foot, transportModes: [{transportMode: bus}, {transportMode: coach}] }`;
+    } else if (mode === 'rail') {
+        modesConfig = `modes: { accessMode: foot, egressMode: foot, transportModes: [{transportMode: rail}] }`;
+    }
+    
+    const query = `{
+        trip(
+            from: {coordinates: {latitude: ${from.lat}, longitude: ${from.lon}}}
+            to: {coordinates: {latitude: ${to.lat}, longitude: ${to.lon}}}
+            dateTime: "${arriveBy}"
+            arriveBy: true
+            numTripPatterns: 6
+            ${modesConfig}
+        ) {
+            tripPatterns {
+                startTime
+                endTime
+                duration
+                walkDistance
+                legs {
+                    mode
+                    duration
+                    distance
+                    fromPlace { name }
+                    toPlace { name }
+                    line { publicCode name }
+                }
+            }
+        }
+    }`;
+    
+    console.log(`Entur søk (${mode}):`, { from, to, arriveBy });
+    
+    // Prøv direkte først, så med proxy
+    const attempts = [
+        { 
+            url: url, 
+            options: {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'ET-Client-Name': 'asker-dks-transport'
+                },
+                body: JSON.stringify({ query })
+            }
+        },
+        {
+            url: CORS_PROXY + encodeURIComponent(url),
+            options: {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query })
+            }
+        }
+    ];
+    
+    for (const attempt of attempts) {
+        try {
+            const response = await fetch(attempt.url, attempt.options);
+            
+            if (!response.ok) {
+                console.warn(`Entur response ikkje OK (${mode}):`, response.status);
+                continue;
+            }
+            
+            const data = await response.json();
+            console.log(`Entur resultat (${mode}):`, data);
+            
+            if (data.errors) {
+                console.error(`Entur feil (${mode}):`, data.errors);
+                continue;
+            }
+            
+            const tripPatterns = data.data?.trip?.tripPatterns;
+            if (tripPatterns && tripPatterns.length > 0) {
+                console.log(`Fann ${tripPatterns.length} reiser (${mode}):`, tripPatterns);
+                return tripPatterns; // Returner ALLE, ikkje berre første
+            } else {
+                console.log(`Ingen reise funne (${mode})`);
+            }
+            
+            // Viss vi kom hit utan feil, men ingen resultat, returner null
+            return null;
+            
+        } catch (e) {
+            console.warn(`Entur feil (${mode}, ${attempt.url.includes('corsproxy') ? 'proxy' : 'direkte'}):`, e.message);
+        }
+    }
+    
+    console.error(`Alle Entur-forsøk feila (${mode})`);
+    return null;
+}
+
+// ========== ENTUR RETURSØK (med departureTime) ==========
+async function finnReiseRetur(from, to, departBy, mode) {
+    const url = 'https://api.entur.io/journey-planner/v3/graphql';
+    
+    let modesConfig = '';
+    if (mode === 'bus') {
+        modesConfig = `modes: { accessMode: foot, egressMode: foot, transportModes: [{transportMode: bus}, {transportMode: coach}] }`;
+    } else if (mode === 'rail') {
+        modesConfig = `modes: { accessMode: foot, egressMode: foot, transportModes: [{transportMode: rail}] }`;
+    }
+    
+    const query = `{
+        trip(
+            from: {coordinates: {latitude: ${from.lat}, longitude: ${from.lon}}}
+            to: {coordinates: {latitude: ${to.lat}, longitude: ${to.lon}}}
+            dateTime: "${departBy}"
+            arriveBy: false
+            numTripPatterns: 6
+            ${modesConfig}
+        ) {
+            tripPatterns {
+                startTime
+                endTime
+                duration
+                walkDistance
+                legs {
+                    mode
+                    duration
+                    distance
+                    fromPlace { name }
+                    toPlace { name }
+                    line { publicCode name }
+                }
+            }
+        }
+    }`;
+    
+    const attempts = [
+        { 
+            url: url, 
+            options: {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'ET-Client-Name': 'asker-dks-transport'
+                },
+                body: JSON.stringify({ query })
+            }
+        },
+        {
+            url: CORS_PROXY + encodeURIComponent(url),
+            options: {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query })
+            }
+        }
+    ];
+    
+    for (const attempt of attempts) {
+        try {
+            const response = await fetch(attempt.url, attempt.options);
+            if (!response.ok) continue;
+            
+            const data = await response.json();
+            if (data.errors) continue;
+            
+            const tripPatterns = data.data?.trip?.tripPatterns;
+            if (tripPatterns && tripPatterns.length > 0) {
+                return tripPatterns;
+            }
+            return null;
+        } catch (e) {
+            console.warn(`Retur-søk feil (${mode}):`, e.message);
+        }
+    }
+    return null;
+}
+
+// ========== BEREKN GANGAVSTAND (fallback) ==========
+function beregnAvstandLuftlinje(from, to) {
+    const R = 6371000; // meter
+    const dLat = (to.lat - from.lat) * Math.PI / 180;
+    const dLon = (to.lon - from.lon) * Math.PI / 180;
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(from.lat * Math.PI / 180) * Math.cos(to.lat * Math.PI / 180) *
+        Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return Math.round(R * c);
+}
+
+// ========== GOOGLE MAPS DISTANCE MATRIX (med caching) ==========
+function hentGoogleAvstand(from, to, mode) {
+    return new Promise((resolve) => {
+        // Lag cache-nøkkel
+        const cacheKey = `gmap_${mode}_${from.lat.toFixed(3)}_${from.lon.toFixed(3)}_${to.lat.toFixed(3)}_${to.lon.toFixed(3)}`;
+        
+        // Sjekk cache
+        try {
+            const cached = localStorage.getItem(cacheKey);
+            if (cached) {
+                console.log('Google Maps frå cache:', cacheKey);
+                resolve(JSON.parse(cached));
+                return;
+            }
+        } catch (e) {}
+        
+        // Timeout etter 5 sekund
+        const timeout = setTimeout(() => {
+            console.warn('Google Maps timeout, brukar fallback');
+            const luftlinje = beregnAvstandLuftlinje(from, to);
+            if (mode === 'DRIVING') {
+                resolve({ avstand: luftlinje * 1.3, tid: Math.round((luftlinje * 1.3) / 500) + 5 });
+            } else {
+                resolve({ avstand: luftlinje * 1.2, tid: Math.round((luftlinje * 1.2) / 80) });
+            }
+        }, 5000);
+        
+        if (typeof google === 'undefined' || !google.maps) {
+            clearTimeout(timeout);
+            const luftlinje = beregnAvstandLuftlinje(from, to);
+            if (mode === 'DRIVING') {
+                resolve({ avstand: luftlinje * 1.3, tid: Math.round((luftlinje * 1.3) / 500) + 5 });
+            } else {
+                resolve({ avstand: luftlinje * 1.2, tid: Math.round((luftlinje * 1.2) / 80) });
+            }
+            return;
+        }
+        
+        try {
+            const service = new google.maps.DistanceMatrixService();
+            
+            service.getDistanceMatrix({
+                origins: [new google.maps.LatLng(from.lat, from.lon)],
+                destinations: [new google.maps.LatLng(to.lat, to.lon)],
+                travelMode: google.maps.TravelMode[mode],
+                unitSystem: google.maps.UnitSystem.METRIC
+            }, (response, status) => {
+                clearTimeout(timeout);
+                
+                if (status === 'OK' && response.rows[0]?.elements[0]?.status === 'OK') {
+                    const element = response.rows[0].elements[0];
+                    const resultat = {
+                        avstand: element.distance.value, // meter
+                        tid: Math.round(element.duration.value / 60), // minutt
+                        avstandTekst: element.distance.text,
+                        tidTekst: element.duration.text
+                    };
+                    
+                    // Lagre i cache
+                    try {
+                        localStorage.setItem(cacheKey, JSON.stringify(resultat));
+                    } catch (e) {}
+                    
+                    resolve(resultat);
+                } else {
+                    console.warn('Google Maps feil:', status);
+                    const luftlinje = beregnAvstandLuftlinje(from, to);
+                    if (mode === 'DRIVING') {
+                        resolve({ avstand: luftlinje * 1.3, tid: Math.round((luftlinje * 1.3) / 500) + 5 });
+                    } else {
+                        resolve({ avstand: luftlinje * 1.2, tid: Math.round((luftlinje * 1.2) / 80) });
+                    }
+                }
+            });
+        } catch (e) {
+            clearTimeout(timeout);
+            console.error('Google Maps exception:', e);
+            const luftlinje = beregnAvstandLuftlinje(from, to);
+            if (mode === 'DRIVING') {
+                resolve({ avstand: luftlinje * 1.3, tid: Math.round((luftlinje * 1.3) / 500) + 5 });
+            } else {
+                resolve({ avstand: luftlinje * 1.2, tid: Math.round((luftlinje * 1.2) / 80) });
+            }
+        }
+    });
+}
+
+// ========== START SØK ==========
+async function startSok() {
+    const destinasjon = document.getElementById('destinasjon').value.trim();
+    const maksGange = parseInt(document.getElementById('maksGange').value) || 2000;
+    const dato = document.getElementById('dato').value;
+    const tid = document.getElementById('ankomsttid').value;
+    
+    if (!destinasjon) {
+        visStatus('Skriv inn destinasjon', 'error');
+        return;
+    }
+    
+    if (!valtSkule) {
+        visStatus('Vel ein skule', 'error');
+        return;
+    }
+    
+    const sokBtn = document.getElementById('sokBtn');
+    sokBtn.disabled = true;
+    sokBtn.innerHTML = '<span class="spinner"></span>Søker...';
+    
+    // Geocode destinasjon om ikkje allereie gjort
+    if (!destCoords) {
+        visStatus('Finn destinasjon...', 'info');
+        destCoords = await geocodeAddress(destinasjon);
+        if (!destCoords) {
+            visStatus('Kunne ikkje finne destinasjon', 'error');
+            sokBtn.disabled = false;
+            sokBtn.textContent = 'Søk transport';
+            return;
+        }
+    }
+    
+    // Hent skulekoordinatar
+    const skuleCoords = skuleKoordinatar[valtSkule];
+    if (!skuleCoords) {
+        visStatus('Manglar koordinatar for skulen', 'error');
+        sokBtn.disabled = false;
+        sokBtn.textContent = 'Søk transport';
+        return;
+    }
+    
+    // Bygg arriveBy tidspunkt
+    const arriveBy = `${dato}T${tid}:00`;
+    
+    visStatus('Søker transportalternativ...', 'info');
+    
+    // Hent valgte klassar og elevtal
+    const trinnData = elevtalData.skular[valtSkule].trinn[valtTrinn];
+    let elevarMed = 0;
+    const klassarMed = [];
+    for (const [klasseNamn, elevar] of Object.entries(trinnData.klassar)) {
+        if (valgteKlassar[klasseNamn]) {
+            elevarMed += elevar;
+            klassarMed.push({ namn: klasseNamn, elevar: elevar });
+        }
+    }
+    
+    // Søk parallelt - inkludert Google Maps for gange og køyring
+    const [gangeReiser, bussReiser, togReiser, googleGange, googleKøyring] = await Promise.all([
+        finnReise(skuleCoords, destCoords, arriveBy, 'foot'),
+        finnReise(skuleCoords, destCoords, arriveBy, 'bus'),
+        finnReise(skuleCoords, destCoords, arriveBy, 'rail'),
+        hentGoogleAvstand(skuleCoords, destCoords, 'WALKING'),
+        hentGoogleAvstand(skuleCoords, destCoords, 'DRIVING')
+    ]);
+    
+    // Hjelpefunksjon: finn direkterute (berre 1 kollektiv-leg)
+    function finnDirektereise(reiser, mode) {
+        if (!reiser || reiser.length === 0) return null;
+        // Sorter etter antal kollektiv-legs, så etter tid
+        const sortert = [...reiser].sort((a, b) => {
+            const legsA = telKollektivLegs(a.legs);
+            const legsB = telKollektivLegs(b.legs);
+            if (legsA !== legsB) return legsA - legsB; // Færrast legs først
+            return a.duration - b.duration; // Så raskast
+        });
+        return sortert[0];
+    }
+    
+    // Bygg resultat
+    const skuleResultat = {
+        skule: valtSkule,
+        trinn: valtTrinn,
+        klassar: klassarMed,
+        elevar: elevarMed,
+        dato: dato,
+        tid: tid,
+        alternativ: []
+    };
+    
+    // Gange - bruk Google Maps data
+    const gangeReise = gangeReiser?.[0];
+    const gangeAlt = {
+        type: 'gange',
+        ikon: '🚶',
+        namn: 'Gange',
+        avstand: googleGange.avstand,
+        varigheit: googleGange.tid,
+        aktuelt: googleGange.avstand <= maksGange,
+        reiseveg: [`Gå ${googleGange.avstandTekst || ((googleGange.avstand/1000).toFixed(1) + ' km')} frå ${valtSkule} til destinasjon (${googleGange.tidTekst || googleGange.tid + ' min'})`]
+    };
+    if (gangeReise) {
+        gangeAlt.avgang = gangeReise.startTime;
+        gangeAlt.ankomst = gangeReise.endTime;
+    }
+    skuleResultat.alternativ.push(gangeAlt);
+    
+    // Buss - vis fleire avgangar (prioriter direkteruter)
+    if (bussReiser && bussReiser.length > 0) {
+        // Sorter: direkteruter først, så etter tid
+        const sorterteBussar = [...bussReiser].sort((a, b) => {
+            const legsA = telKollektivLegs(a.legs);
+            const legsB = telKollektivLegs(b.legs);
+            if (legsA !== legsB) return legsA - legsB;
+            return a.duration - b.duration;
+        });
+        
+        // Hovudalternativ
+        const bussReise = sorterteBussar[0];
+        const kollektivLegs = telKollektivLegs(bussReise.legs);
+        const erDirekte = kollektivLegs === 1;
+        
+        const bussAlt = {
+            type: 'buss',
+            ikon: '🚌',
+            namn: erDirekte ? 'Direktebuss' : 'Rutebuss',
+            avgang: bussReise.startTime,
+            ankomst: bussReise.endTime,
+            varigheit: Math.round(bussReise.duration / 60),
+            aktuelt: true,
+            bytter: kollektivLegs - 1,
+            reiseveg: byggReiseveg(bussReise.legs),
+            ekstraAvgangar: []
+        };
+        // Finn linje(r)
+        const bussLegs = bussReise.legs.filter(l => l.mode === 'bus' || l.mode === 'coach');
+        if (bussLegs.length > 0) {
+            bussAlt.linje = bussLegs.map(l => l.line?.publicCode).filter(Boolean).join(' → ');
+            bussAlt.linjeNamn = bussLegs[0].line?.name || '';
+        }
+        
+        // Legg til ekstra avgangar (alternativ 2 og 3)
+        for (let i = 1; i < Math.min(3, sorterteBussar.length); i++) {
+            const ekstraBuss = sorterteBussar[i];
+            const ekstraLegs = ekstraBuss.legs.filter(l => l.mode === 'bus' || l.mode === 'coach');
+            bussAlt.ekstraAvgangar.push({
+                avgang: ekstraBuss.startTime,
+                ankomst: ekstraBuss.endTime,
+                varigheit: Math.round(ekstraBuss.duration / 60),
+                linje: ekstraLegs.map(l => l.line?.publicCode).filter(Boolean).join(' → '),
+                bytter: telKollektivLegs(ekstraBuss.legs) - 1,
+                reiseveg: byggReiseveg(ekstraBuss.legs)
+            });
+        }
+        
+        skuleResultat.alternativ.push(bussAlt);
+    }
+    
+    // Tog - finn beste (prioriter direkterute)
+    if (togReiser && togReiser.length > 0) {
+        const togReise = finnDirektereise(togReiser, 'rail');
+        const kollektivLegs = telKollektivLegs(togReise.legs);
+        const erDirekte = kollektivLegs === 1;
+        
+        const togAlt = {
+            type: 'tog',
+            ikon: '🚂',
+            namn: erDirekte ? 'Direktetog' : 'Tog',
+            avgang: togReise.startTime,
+            ankomst: togReise.endTime,
+            varigheit: Math.round(togReise.duration / 60),
+            aktuelt: true,
+            bytter: kollektivLegs - 1,
+            reiseveg: byggReiseveg(togReise.legs)
+        };
+        // Finn linje(r)
+        const togLegs = togReise.legs.filter(l => l.mode === 'rail');
+        if (togLegs.length > 0) {
+            togAlt.linje = togLegs.map(l => l.line?.publicCode).filter(Boolean).join(' → ');
+            togAlt.linjeNamn = togLegs[0].line?.name || '';
+        }
+        skuleResultat.alternativ.push(togAlt);
+    }
+    
+    // Bestillerbuss - bruk Google Maps køyretid
+    const bestillerbussAlt = {
+        type: 'bestillerbuss',
+        ikon: '🚐',
+        namn: 'Bestillerbuss',
+        avstand: googleKøyring.avstand,
+        varigheit: googleKøyring.tid,
+        aktuelt: true,
+        reiseveg: [`Bestillerbuss frå ${valtSkule} til destinasjon - ${googleKøyring.avstandTekst || ((googleKøyring.avstand/1000).toFixed(1) + ' km')} (${googleKøyring.tidTekst || googleKøyring.tid + ' min'})`]
+    };
+    skuleResultat.alternativ.push(bestillerbussAlt);
+    
+    // Finn beste alternativ
+    // Prioritet: 1. Gange (viss under maks), 2. Tog (direktetog), 3. Direktebuss, 4. Bestillerbuss
+    // ALDRI vel rutebuss med bytte automatisk
+    const aktuelle = skuleResultat.alternativ.filter(a => a.aktuelt);
+    const bestillerbussTid = bestillerbussAlt.varigheit;
+    
+    // Finn gange, direktetog og direktebuss
+    const gangeAltFunne = aktuelle.find(a => a.type === 'gange' && a.aktuelt);
+    const togAltFunne = aktuelle.find(a => a.type === 'tog' && (a.bytter === 0 || a.bytter === undefined));
+    const direktebussAltFunne = aktuelle.find(a => a.type === 'buss' && (a.bytter === 0 || a.bytter === undefined));
+    
+    // Prioritert rekkefølge (ALDRI rutebuss med bytte)
+    let valtAlternativ = null;
+    
+    // 1. Gange viss under maks avstand
+    if (gangeAltFunne && gangeAltFunne.aktuelt) {
+        valtAlternativ = gangeAltFunne;
+    }
+    // 2. Direktetog (prioritert over rutebuss)
+    else if (togAltFunne) {
+        valtAlternativ = togAltFunne;
+    }
+    // 3. Direktebuss (utan bytte)
+    else if (direktebussAltFunne) {
+        valtAlternativ = direktebussAltFunne;
+    }
+    // 4. Ingen kollektiv utan bytte - bruk bestillerbuss
+    // (rutebuss med bytte blir ALDRI valt automatisk)
+    
+    // Sjekk om bestillerbuss er 30+ min raskare enn valt alternativ
+    if (valtAlternativ) {
+        if (bestillerbussTid + 30 < valtAlternativ.varigheit) {
+            bestillerbussAlt.beste = true;
+        } else {
+            valtAlternativ.beste = true;
+        }
+    } else {
+        // Ingen direkterute - bruk bestillerbuss
+        bestillerbussAlt.beste = true;
+    }
+    
+    // Legg til resultat
+    resultat.push(skuleResultat);
+    
+    // Vis resultat
+    visResultat();
+    
+    visStatus('Ferdig!', 'success');
+    sokBtn.disabled = false;
+    sokBtn.textContent = 'Søk transport';
+    
+    // Vis navigasjonsknappar
+    document.getElementById('navKnappar').style.display = 'flex';
+    document.getElementById('resultatTittel').style.display = 'block';
+}
+
+// ========== BYGG REISEVEG-TEKST ==========
+function byggReiseveg(legs) {
+    if (!legs) return [];
+    
+    const steg = [];
+    for (const leg of legs) {
+        let tekst = '';
+        if (leg.mode === 'foot') {
+            const min = Math.round(leg.duration / 60);
+            tekst = `Gå ${min} min`;
+            if (leg.toPlace?.name) tekst += ` til ${leg.toPlace.name}`;
+        } else if (leg.mode === 'bus' || leg.mode === 'coach') {
+            const linje = leg.line?.publicCode || 'buss';
+            tekst = `Buss ${linje}`;
+            if (leg.fromPlace?.name) tekst += ` frå ${leg.fromPlace.name}`;
+        } else if (leg.mode === 'rail') {
+            const linje = leg.line?.publicCode || 'tog';
+            tekst = `Tog ${linje}`;
+            if (leg.fromPlace?.name) tekst += ` frå ${leg.fromPlace.name}`;
+        }
+        if (tekst) steg.push(tekst);
+    }
+    return steg;
+}
+
+// ========== HJELPEFUNKSJONAR ==========
+function telKollektivLegs(legs) {
+    return legs.filter(l => l.mode !== 'foot').length;
+}
+
+// Global variabel for manuelle overstryringar
+let manuellOverstyring = {}; // { "Skulenavn": "gange"|"tog"|"buss"|"bestillerbuss" }
+
+// ========== VIS RESULTAT ==========
+function visResultat() {
+    const liste = document.getElementById('resultatListe');
+    liste.innerHTML = '';
+    
+    // Oppdater sidebar med låste skular
+    oppdaterLåsteSidebar();
+    
+    for (let i = resultat.length - 1; i >= 0; i--) {
+        const r = resultat[i];
+        const beste = finnValgtAlternativ(r);
+        const erLåst = manuellOverstyring[r.skule];
+        
+        // Hopp over låste skular i hovudlista (dei visast i sidebar)
+        if (erLåst) continue;
+        
+        const kort = document.createElement('div');
+        kort.className = 'resultat-kort';
+        if (i === resultat.length - 1) kort.classList.add('utvida'); // Siste er utvida
+        
+        // Bygg overstyring-knappar
+        const overstyrHTML = byggOverstyringHTML(r);
+        
+        // Bygg retur-seksjon viss det finst
+        let returHTML = '';
+        if (r.retur) {
+            const returBeste = r.retur.alternativ.find(a => a.beste);
+            returHTML = `
+                <div class="retur-seksjon">
+                    <div class="retur-header">↩️ RETUR (avgang kl ${r.retur.tid})</div>
+                    ${r.retur.alternativ.map(a => byggAlternativHTML(a, r.skule, true)).join('')}
+                </div>
+            `;
+        }
+        
+        // Samandrag med tur + retur
+        let samandragTekst = beste ? `${beste.ikon} ${beste.linje || beste.namn} • ${beste.varigheit} min` : '';
+        if (r.retur) {
+            const returBeste = r.retur.alternativ.find(a => a.beste);
+            if (returBeste) {
+                samandragTekst += ` | ↩️ ${returBeste.ikon} ${returBeste.varigheit} min`;
+            }
+        }
+        
+        kort.innerHTML = `
+            <div class="resultat-header" onclick="toggleResultat(this)">
+                <div>
+                    <span class="resultat-skule">${r.skule}</span>
+                    <span style="color: #888; font-size: 13px;"> - ${r.trinn}. trinn (${r.elevar} elevar)</span>
+                </div>
+                <div class="resultat-oppsummering">
+                    <span class="resultat-beste">${samandragTekst}</span>
+                    <span class="utvid-pil">▼</span>
+                </div>
+            </div>
+            <div class="resultat-detaljar">
+                <div class="klassar-info">
+                    Klassar: ${r.klassar.map(k => `${k.namn} (${k.elevar})`).join(', ')}
+                </div>
+                ${overstyrHTML}
+                <div class="tur-header" style="font-size: 13px; font-weight: 600; color: #667eea; margin: 10px 0 8px;">➡️ TUR (ankomst kl ${document.getElementById('ankomsttid').value})</div>
+                ${r.alternativ.map(a => byggAlternativHTML(a, r.skule, false)).join('')}
+                ${returHTML}
+            </div>
+        `;
+        
+        liste.appendChild(kort);
+    }
+}
+
+// Oppdater sidebar med låste skular
+function oppdaterLåsteSidebar() {
+    const sidebar = document.getElementById('låsteSidebar');
+    const liste = document.getElementById('låsteListe');
+    const teller = document.getElementById('låsteTeller');
+    
+    const låsteSkular = resultat.filter(r => manuellOverstyring[r.skule]);
+    
+    if (låsteSkular.length === 0) {
+        sidebar.style.display = 'none';
+        return;
+    }
+    
+    sidebar.style.display = 'block';
+    teller.textContent = `${låsteSkular.length} skule${låsteSkular.length !== 1 ? 'r' : ''}`;
+    
+    liste.innerHTML = låsteSkular.map(r => {
+        const låstTil = manuellOverstyring[r.skule];
+        const ikon = låstTil === 'gange' ? '🚶' : '🚐';
+        const namn = låstTil === 'gange' ? 'Gange' : 'Bestillerbuss';
+        
+        // Finn varigheit frå alternativ
+        const alt = r.alternativ.find(a => a.type === låstTil);
+        const varigheit = alt?.varigheit ? `${alt.varigheit} min` : '';
+        
+        return `
+            <div class="låst-kort">
+                <div class="kort-info">
+                    <span>${ikon}</span>
+                    <span class="skule-namn">${r.skule}</span>
+                    <span class="transport-type">${namn} • ${r.elevar} elevar • ${varigheit}</span>
+                </div>
+                <button class="lås-opp-btn" data-skule="${r.skule}" onclick="fjernLåsingFraKnapp(this)">🔓</button>
+            </div>
+        `;
+    }).join('');
+}
+
+// Lås opp alle
+function låsOppAlle() {
+    manuellOverstyring = {};
+    visResultat();
+}
+
+// Søk på nytt for ulåste skular
+async function sokPaNyttForUlaste() {
+    const ulåste = resultat.filter(r => !manuellOverstyring[r.skule]);
+    
+    if (ulåste.length === 0) {
+        visStatus('Ingen ulåste skular å søke for', 'error');
+        return;
+    }
+    
+    const destinasjon = document.getElementById('destinasjon').value.trim();
+    const maksGange = parseInt(document.getElementById('maksGange').value) || 2000;
+    const dato = document.getElementById('dato').value;
+    const tid = document.getElementById('ankomsttid').value;
+    
+    const destCoords = await geocodeAddress(destinasjon);
+    if (!destCoords) {
+        visStatus('Fann ikkje destinasjonen', 'error');
+        return;
+    }
+    
+    const arriveBy = `${dato}T${tid}:00`;
+    
+    const statusEl = document.getElementById('hurtigsokStatus');
+    statusEl.style.display = 'block';
+    
+    // Fjern ulåste frå resultat
+    resultat = resultat.filter(r => manuellOverstyring[r.skule]);
+    
+    for (let i = 0; i < ulåste.length; i++) {
+        const r = ulåste[i];
+        statusEl.innerHTML = `⏳ Søker på nytt ${i + 1}/${ulåste.length}: ${r.skule}...`;
+        
+        const skuleCoords = skuleKoordinatar[r.skule];
+        if (!skuleCoords) continue;
+        
+        const trinnData = elevtalData.skular[r.skule]?.trinn?.[valtTrinn];
+        if (!trinnData) continue;
+        
+        // Vel same klassar som før
+        valgteKlassar = {};
+        for (const klasse of r.klassar) {
+            valgteKlassar[klasse.namn] = true;
+        }
+        
+        try {
+            await sokTransportForSkule(r.skule, skuleCoords, destCoords, arriveBy, maksGange, trinnData);
+        } catch (e) {
+            console.error('Feil ved nytt søk for', r.skule, e);
+        }
+        
+        visResultat();
+        await new Promise(resolve => setTimeout(resolve, 500));
+    }
+    
+    statusEl.innerHTML = `✓ Ferdig! Søkte ${ulåste.length} skular på nytt.`;
+}
+
+// Finn valgt alternativ (overstyring eller automatisk)
+function finnValgtAlternativ(skuleResultat) {
+    const overstyrt = manuellOverstyring[skuleResultat.skule];
+    if (overstyrt) {
+        return skuleResultat.alternativ.find(a => a.type === overstyrt);
+    }
+    return skuleResultat.alternativ.find(a => a.beste);
+}
+
+// Bygg overstyring-knappar (berre låsing av gange eller bestillerbuss)
+function byggOverstyringHTML(skuleResultat) {
+    const gangeAlt = skuleResultat.alternativ.find(a => a.type === 'gange' && a.aktuelt);
+    const bestillerbussAlt = skuleResultat.alternativ.find(a => a.type === 'bestillerbuss');
+    const låst = manuellOverstyring[skuleResultat.skule];
+    const autoValt = skuleResultat.alternativ.find(a => a.beste);
+    
+    // Escape skulenamn for bruk i onclick
+    const skuleId = skuleResultat.skule.replace(/[^a-zA-Z0-9]/g, '_');
+    
+    let knappar = '';
+    
+    // Gange-knapp (viss aktuelt)
+    if (gangeAlt) {
+        const erLåst = låst === 'gange';
+        const erAuto = !låst && autoValt?.type === 'gange';
+        knappar += `<button class="overstyr-btn ${erLåst ? 'låst' : ''} ${erAuto ? 'auto' : ''}" 
+            data-skule="${skuleResultat.skule}" data-type="gange" onclick="settLåsingFraKnapp(this)" title="Lås til gange">
+            🚶 Gange ${erLåst ? '🔒' : erAuto ? '(auto)' : ''}
+        </button>`;
+    }
+    
+    // Bestillerbuss-knapp (alltid tilgjengeleg)
+    if (bestillerbussAlt) {
+        const erLåst = låst === 'bestillerbuss';
+        const erAuto = !låst && autoValt?.type === 'bestillerbuss';
+        knappar += `<button class="overstyr-btn ${erLåst ? 'låst' : ''} ${erAuto ? 'auto' : ''}" 
+            data-skule="${skuleResultat.skule}" data-type="bestillerbuss" onclick="settLåsingFraKnapp(this)" title="Lås til bestillerbuss">
+            🚐 Bestillerbuss ${erLåst ? '🔒' : erAuto ? '(auto)' : ''}
+        </button>`;
+    }
+    
+    // Info om kva som skjer med ikkje-låste skular
+    const infoTekst = låst 
+        ? `<span class="låst-info">🔒 Låst til ${låst}</span>` 
+        : `<span class="ulåst-info">🔄 Får nytt søk per arrangement</span>`;
+    
+    return `
+        <div class="overstyring-container">
+            <span class="overstyring-label">Lås transport:</span>
+            <div class="overstyring-knappar">${knappar}</div>
+            ${låst ? `<button class="overstyr-reset" data-skule="${skuleResultat.skule}" onclick="fjernLåsingFraKnapp(this)">🔓 Lås opp</button>` : ''}
+            ${infoTekst}
+        </div>
+    `;
+}
+
+// Sett låsing frå knapp
+function settLåsingFraKnapp(btn) {
+    const skuleNamn = btn.dataset.skule;
+    const transportType = btn.dataset.type;
+    
+    // Toggle - viss allereie låst til same, fjern låsing
+    if (manuellOverstyring[skuleNamn] === transportType) {
+        delete manuellOverstyring[skuleNamn];
+    } else {
+        manuellOverstyring[skuleNamn] = transportType;
+    }
+    visResultat();
+}
+
+// Fjern låsing frå knapp
+function fjernLåsingFraKnapp(btn) {
+    const skuleNamn = btn.dataset.skule;
+    delete manuellOverstyring[skuleNamn];
+    visResultat();
+}
+
+// ========== BYGG ALTERNATIV HTML ==========
+function byggAlternativHTML(alt, skuleNamn, erRetur = false) {
+    // Sjekk om dette er valgt (manuelt eller auto)
+    const erValgt = manuellOverstyring[skuleNamn] 
+        ? (manuellOverstyring[skuleNamn] === alt.type)
+        : alt.beste;
+    
+    let badges = '';
+    if (erValgt) badges += '<span class="transport-badge badge-beste">VALGT</span>';
+    else if (alt.beste) badges += '<span class="transport-badge" style="background: #9ca3af; color: white;">AUTO</span>';
+    if (!alt.aktuelt && alt.aktuelt !== undefined) badges += '<span class="transport-badge badge-uaktuelt">FOR LANGT</span>';
+    if (alt.bytter > 0) badges += `<span class="transport-badge" style="background: #f59e0b; color: white;">${alt.bytter} bytte${alt.bytter > 1 ? 'r' : ''}</span>`;
+    
+    let tider = '';
+    if (alt.avgang) {
+        const avgangTid = new Date(alt.avgang).toLocaleTimeString('no-NO', {hour: '2-digit', minute: '2-digit', hour12: false});
+        const ankomstTid = new Date(alt.ankomst).toLocaleTimeString('no-NO', {hour: '2-digit', minute: '2-digit', hour12: false});
+        tider = `
+            <div class="transport-tider">
+                <span>Avgang: <strong>${avgangTid}</strong></span>
+                <span>Ankomst: <strong>${ankomstTid}</strong></span>
+                <span>Reisetid: <strong>${alt.varigheit} min</strong></span>
+            </div>
+        `;
+    } else {
+        tider = `<div class="transport-tider"><span>Estimert reisetid: <strong>${alt.varigheit} min</strong></span></div>`;
+    }
+    
+    let linjeTekst = alt.namn;
+    if (alt.linje) linjeTekst = `${alt.namn} ${alt.linje}`;
+    
+    // Bygg ekstra avgangar (for buss)
+    let ekstraHTML = '';
+    if (alt.ekstraAvgangar && alt.ekstraAvgangar.length > 0) {
+        ekstraHTML = `
+            <div class="ekstra-avgangar">
+                <span class="ekstra-label">Andre avgangar:</span>
+                ${alt.ekstraAvgangar.map(e => {
+                    const avgTid = new Date(e.avgang).toLocaleTimeString('no-NO', {hour: '2-digit', minute: '2-digit', hour12: false});
+                    const ankTid = new Date(e.ankomst).toLocaleTimeString('no-NO', {hour: '2-digit', minute: '2-digit', hour12: false});
+                    const bytteInfo = e.bytter > 0 ? ` (${e.bytter} bytte)` : '';
+                    return `<span class="ekstra-avgang" title="${e.linje || 'Buss'}${bytteInfo}">${avgTid}→${ankTid}</span>`;
+                }).join('')}
+            </div>
+        `;
+    }
+    
+    // Retur-klasse
+    const returKlasse = erRetur ? 'retur' : '';
+    
+    return `
+        <div class="transport-alternativ ${erValgt ? 'beste' : ''} ${!alt.aktuelt && alt.aktuelt !== undefined ? 'uaktuelt' : ''} ${returKlasse}">
+            <div class="transport-type">
+                <span class="transport-ikon">${alt.ikon}</span>
+                <span>${linjeTekst}</span>
+                ${badges}
+            </div>
+            ${tider}
+            ${ekstraHTML}
+            <div class="reiseveg">
+                ${alt.reiseveg ? alt.reiseveg.map(s => `<div class="reiseveg-steg">→ ${s}</div>`).join('') : ''}
+            </div>
+        </div>
+    `;
+}
+
+// ========== TOGGLE RESULTAT ==========
+function toggleResultat(header) {
+    const kort = header.closest('.resultat-kort');
+    kort.classList.toggle('utvida');
+}
+
+// ========== NAVIGASJON ==========
+function nesteSkule() {
+    // Nullstill skule-val, behold resten
+    document.getElementById('skule').value = '';
+    document.getElementById('klassarContainer').style.display = 'none';
+    document.getElementById('sokBtn').disabled = true;
+    valtSkule = null;
+    valgteKlassar = {};
+    
+    // Scroll opp til skule-val
+    document.getElementById('steg3').scrollIntoView({ behavior: 'smooth' });
+}
+
+function nyTid() {
+    // Behold destinasjon og gangavstand, nullstill tid og skule
+    document.getElementById('skule').value = '';
+    document.getElementById('klassarContainer').style.display = 'none';
+    document.getElementById('sokBtn').disabled = true;
+    valtSkule = null;
+    valgteKlassar = {};
+    
+    // Tøm resultat og overstyring
+    resultat = [];
+    manuellOverstyring = {};
+    document.getElementById('resultatListe').innerHTML = '';
+    document.getElementById('navKnappar').style.display = 'none';
+    document.getElementById('resultatTittel').style.display = 'none';
+    
+    // Skjul fordeling
+    document.getElementById('tilFordelingKnapp').style.display = 'none';
+    document.getElementById('fordelingSeksjon').style.display = 'none';
+    arrangement = [];
+    
+    // Scroll opp til tid
+    document.getElementById('steg2').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ========== SKULETYPAR ==========
+// Barneskular: 1-7. trinn
+// Ungdomsskular: 8-10. trinn
+// Barne- og ungdomsskular har begge
+
+const BARNESKULAR = [
+    "Arnestad skole", "Billingstad skole", "Blakstad skole", "Bondi skole",
+    "Drengsrud skole", "Folkestad skole", "Frydenlund barneskole", "Hagaløkka skole",
+    "Heggedal skole", "Hofstad skole", "Hvalstad skole", "Hyggen skole",
+    "Jansløkka skole", "Mellom-Nes skole", "Midtbygda barneskole", "Nesøya skole",
+    "Nærsnes barneskole", "Rønningen skole", "Slemmestad barneskole", "Solberg skole",
+    "Spikkestad barneskole", "Sydskogen barneskole", "Sætre skole", "Tofte skole",
+    "Torvbråten barneskole", "Vardåsen skole", "Vettre skole", "Vollen Montessoriskole"
+];
+
+const UNGDOMSSKULAR = [
+    "Borgen ungdomsskole", "Hovedgården ungdomsskole", "Landøya ungdomsskole",
+    "Risenga ungdomsskole", "Slemmestad ungdomsskole", "Solvang ungdomsskole",
+    "Spikkestad ungdomsskole", "Sætre ungdomsskole", "Tofte ungdomsskole",
+    "Torstad ungdomsskole", "Vollen ungdomsskole"
+];
+
+const KOMBINERTE_SKULAR = [
+    "Steinerskolen i Asker", "Steinerskolen i Hurum", "Asker International School"
+];
+
+// Globale variablar for skule-velgar
+let skuleVelgarType = null;
+let valgteSkularForSok = new Set();
+
+// Vis skule-velgar
+function visSkuleVelgar(type) {
+    if (!valtTrinn) {
+        visStatus('Vel trinn først', 'error');
+        return;
+    }
+    
+    skuleVelgarType = type;
+    valgteSkularForSok.clear();
+    
+    const container = document.getElementById('skuleVelgarContainer');
+    const liste = document.getElementById('skuleVelgarListe');
+    
+    // Finn skular basert på type og trinn
+    let skular = [];
+    if (type === 'barneskule') {
+        skular = [...BARNESKULAR];
+        // Legg til kombinerte som har trinnet
+        for (const skule of KOMBINERTE_SKULAR) {
+            if (elevtalData.skular[skule]?.trinn?.[valtTrinn]) {
+                skular.push(skule);
+            }
+        }
+    } else {
+        skular = [...UNGDOMSSKULAR];
+        for (const skule of KOMBINERTE_SKULAR) {
+            if (elevtalData.skular[skule]?.trinn?.[valtTrinn]) {
+                skular.push(skule);
+            }
+        }
+    }
+    
+    // Filtrer til skular som har elevar på trinnet
+    skular = skular.filter(skule => {
+        const trinnData = elevtalData.skular[skule]?.trinn?.[valtTrinn];
+        return trinnData && trinnData.total > 0;
+    });
+    
+    // Bygg avkryssingsliste
+    liste.innerHTML = skular.map(skule => {
+        const trinnData = elevtalData.skular[skule]?.trinn?.[valtTrinn];
+        const elevar = trinnData?.total || 0;
+        return `
+            <label class="skule-velgar-item" onclick="toggleSkuleVal('${skule}', this)">
+                <input type="checkbox" id="skuleVal_${skule.replace(/\s/g, '_')}">
+                <span>${skule} (${elevar})</span>
+            </label>
+        `;
+    }).join('');
+    
+    container.style.display = 'block';
+    oppdaterSkuleVelgarTeller();
+}
+
+// Toggle skule-val
+function toggleSkuleVal(skule, label) {
+    const checkbox = label.querySelector('input[type="checkbox"]');
+    
+    if (valgteSkularForSok.has(skule)) {
+        valgteSkularForSok.delete(skule);
+        label.classList.remove('valt');
+        checkbox.checked = false;
+    } else {
+        valgteSkularForSok.add(skule);
+        label.classList.add('valt');
+        checkbox.checked = true;
+    }
+    
+    oppdaterSkuleVelgarTeller();
+}
+
+// Vel alle skular
+function velgAlleSkular() {
+    const labels = document.querySelectorAll('#skuleVelgarListe .skule-velgar-item');
+    labels.forEach(label => {
+        const skuleNamn = label.querySelector('span').textContent.split(' (')[0];
+        const checkbox = label.querySelector('input[type="checkbox"]');
+        valgteSkularForSok.add(skuleNamn);
+        label.classList.add('valt');
+        checkbox.checked = true;
+    });
+    oppdaterSkuleVelgarTeller();
+}
+
+// Fjern alle skular
+function fjernAlleSkular() {
+    valgteSkularForSok.clear();
+    const labels = document.querySelectorAll('#skuleVelgarListe .skule-velgar-item');
+    labels.forEach(label => {
+        label.classList.remove('valt');
+        label.querySelector('input[type="checkbox"]').checked = false;
+    });
+    oppdaterSkuleVelgarTeller();
+}
+
+// Oppdater teller
+function oppdaterSkuleVelgarTeller() {
+    const teller = document.getElementById('skuleVelgarTeller');
+    teller.textContent = `${valgteSkularForSok.size} skule${valgteSkularForSok.size !== 1 ? 'r' : ''} valt`;
+    
+    document.getElementById('sokValgteSkularBtn').disabled = valgteSkularForSok.size === 0;
+}
+
+// Søk valde skular
+async function sokValgteSkular() {
+    if (valgteSkularForSok.size === 0) {
+        visStatus('Vel minst éin skule', 'error');
+        return;
+    }
+    
+    const destinasjon = document.getElementById('destinasjon').value.trim();
+    const maksGange = parseInt(document.getElementById('maksGange').value) || 2000;
+    const dato = document.getElementById('dato').value;
+    const tid = document.getElementById('ankomsttid').value;
+    
+    if (!destinasjon) {
+        visStatus('Skriv inn destinasjon', 'error');
+        return;
+    }
+    
+    if (!dato) {
+        visStatus('Vel dato', 'error');
+        return;
+    }
+    
+    if (!valtTrinn) {
+        visStatus('Vel trinn først', 'error');
+        return;
+    }
+    
+    const destCoords = await geocodeAddress(destinasjon);
+    if (!destCoords) {
+        visStatus('Fann ikkje destinasjonen', 'error');
+        return;
+    }
+    
+    const arriveBy = `${dato}T${tid}:00`;
+    
+    // Nullstill resultat
+    resultat = [];
+    manuellOverstyring = {};
+    document.getElementById('resultatListe').innerHTML = '';
+    document.getElementById('navKnappar').style.display = 'none';
+    document.getElementById('tilFordelingKnapp').style.display = 'none';
+    document.getElementById('resultatTittel').style.display = 'block';
+    document.getElementById('resultatTittel').textContent = `Resultat - ${valgteSkularForSok.size} skular`;
+    
+    const statusEl = document.getElementById('hurtigsokStatus');
+    statusEl.style.display = 'block';
+    
+    const skularArray = Array.from(valgteSkularForSok);
+    
+    for (let i = 0; i < skularArray.length; i++) {
+        const skuleNamn = skularArray[i];
+        statusEl.innerHTML = `⏳ Søker ${i + 1}/${skularArray.length}: ${skuleNamn}...`;
+        
+        const skuleCoords = skuleKoordinatar[skuleNamn];
+        if (!skuleCoords) {
+            console.warn('Manglar koordinatar for:', skuleNamn);
+            continue;
+        }
+        
+        const trinnData = elevtalData.skular[skuleNamn]?.trinn?.[valtTrinn];
+        if (!trinnData) continue;
+        
+        // Vel alle klassar for denne skulen
+        valgteKlassar = {};
+        for (const klasseNamn of Object.keys(trinnData.klassar)) {
+            valgteKlassar[klasseNamn] = true;
+        }
+        
+        try {
+            await sokTransportForSkule(skuleNamn, skuleCoords, destCoords, arriveBy, maksGange, trinnData);
+        } catch (e) {
+            console.error('Feil ved søk for', skuleNamn, e);
+        }
+        
+        visResultat();
+        await new Promise(r => setTimeout(r, 500));
+    }
+    
+    statusEl.innerHTML = `✓ Ferdig! Søkte ${skularArray.length} skular.`;
+    document.getElementById('navKnappar').style.display = 'flex';
+    visFordelingKnapp();
+}
+
+async function sokAlleBarneskular() {
+    await sokAlleSkular('barneskule');
+}
+
+async function sokAlleUngdomsskular() {
+    await sokAlleSkular('ungdomsskule');
+}
+
+async function sokAlleSkular(type) {
+    const destinasjon = document.getElementById('destinasjon').value.trim();
+    const maksGange = parseInt(document.getElementById('maksGange').value) || 2000;
+    const dato = document.getElementById('dato').value;
+    const tid = document.getElementById('ankomsttid').value;
+    
+    if (!destinasjon) {
+        visStatus('Skriv inn destinasjon', 'error');
+        return;
+    }
+    
+    if (!valtTrinn) {
+        visStatus('Vel trinn først', 'error');
+        return;
+    }
+    
+    // Sjekk at trinnet passar skuletypen
+    const trinnNr = parseInt(valtTrinn);
+    if (type === 'barneskule' && trinnNr > 7) {
+        visStatus('Trinn 8-10 er ikkje på barneskular. Vel ungdomsskular.', 'error');
+        return;
+    }
+    if (type === 'ungdomsskule' && trinnNr < 8) {
+        visStatus('Trinn 1-7 er ikkje på ungdomsskular. Vel barneskular.', 'error');
+        return;
+    }
+    
+    // Geocode destinasjon om ikkje allereie gjort
+    if (!destCoords) {
+        visStatus('Finn destinasjon...', 'info');
+        destCoords = await geocodeAddress(destinasjon);
+        if (!destCoords) {
+            visStatus('Kunne ikkje finne destinasjon', 'error');
+            return;
+        }
+    }
+    
+    // Finn skular å søke
+    let skularÅSøke = [];
+    if (type === 'barneskule') {
+        skularÅSøke = [...BARNESKULAR];
+        // Legg til kombinerte skular som har dette trinnet
+        for (const skule of KOMBINERTE_SKULAR) {
+            if (elevtalData.skular[skule]?.trinn?.[valtTrinn]) {
+                skularÅSøke.push(skule);
+            }
+        }
+    } else {
+        skularÅSøke = [...UNGDOMSSKULAR];
+        // Legg til kombinerte skular som har dette trinnet
+        for (const skule of KOMBINERTE_SKULAR) {
+            if (elevtalData.skular[skule]?.trinn?.[valtTrinn]) {
+                skularÅSøke.push(skule);
+            }
+        }
+    }
+    
+    // Filtrer til skular som faktisk har elevar på dette trinnet
+    skularÅSøke = skularÅSøke.filter(skuleNamn => {
+        const skuleData = elevtalData.skular[skuleNamn];
+        return skuleData?.trinn?.[valtTrinn]?.total > 0;
+    });
+    
+    if (skularÅSøke.length === 0) {
+        visStatus('Ingen skular funne for dette trinnet', 'error');
+        return;
+    }
+    
+    // Disable knappar
+    document.getElementById('sokAlleBarneskular').disabled = true;
+    document.getElementById('sokAlleUngdomsskular').disabled = true;
+    const statusEl = document.getElementById('hurtigsokStatus');
+    statusEl.style.display = 'block';
+    
+    // Tøm tidlegare resultat
+    resultat = [];
+    document.getElementById('resultatListe').innerHTML = '';
+    document.getElementById('resultatTittel').style.display = 'block';
+    document.getElementById('navKnappar').style.display = 'none';
+    
+    const arriveBy = `${dato}T${tid}:00`;
+    
+    for (let i = 0; i < skularÅSøke.length; i++) {
+        const skuleNamn = skularÅSøke[i];
+        statusEl.innerHTML = `Søker ${i + 1}/${skularÅSøke.length}: <strong>${skuleNamn}</strong>...`;
+        
+        // Sett skule for søket
+        valtSkule = skuleNamn;
+        
+        // Sett alle klassar som valde
+        const trinnData = elevtalData.skular[skuleNamn].trinn[valtTrinn];
+        valgteKlassar = {};
+        for (const klasseNamn of Object.keys(trinnData.klassar)) {
+            valgteKlassar[klasseNamn] = true;
+        }
+        
+        // Hent skulekoordinatar
+        const skuleCoords = skuleKoordinatar[skuleNamn];
+        if (!skuleCoords) {
+            console.warn('Manglar koordinatar for:', skuleNamn);
+            continue;
+        }
+        
+        // Søk transport for denne skulen
+        try {
+            await sokTransportForSkule(skuleNamn, skuleCoords, destCoords, arriveBy, maksGange, trinnData);
+        } catch (e) {
+            console.error('Feil ved søk for', skuleNamn, e);
+        }
+        
+        // Vis resultat fortløpande
+        visResultat();
+        
+        // Litt pause mellom søk for å ikkje overbelaste API
+        await new Promise(r => setTimeout(r, 500));
+    }
+    
+    statusEl.innerHTML = `✓ Ferdig! Søkte ${skularÅSøke.length} skular.`;
+    document.getElementById('sokAlleBarneskular').disabled = false;
+    document.getElementById('sokAlleUngdomsskular').disabled = false;
+    document.getElementById('navKnappar').style.display = 'flex';
+    
+    // Vis fordeling-knapp
+    visFordelingKnapp();
+}
+
+async function sokTransportForSkule(skuleNamn, skuleCoords, destCoords, arriveBy, maksGange, trinnData) {
+    // Søk parallelt
+    const [gangeReiser, bussReiser, togReiser, googleGange, googleKøyring] = await Promise.all([
+        finnReise(skuleCoords, destCoords, arriveBy, 'foot'),
+        finnReise(skuleCoords, destCoords, arriveBy, 'bus'),
+        finnReise(skuleCoords, destCoords, arriveBy, 'rail'),
+        hentGoogleAvstand(skuleCoords, destCoords, 'WALKING'),
+        hentGoogleAvstand(skuleCoords, destCoords, 'DRIVING')
+    ]);
+    
+    // Hent elevtal
+    let elevarMed = 0;
+    const klassarMed = [];
+    for (const [klasseNamn, elevar] of Object.entries(trinnData.klassar)) {
+        if (valgteKlassar[klasseNamn]) {
+            elevarMed += elevar;
+            klassarMed.push({ namn: klasseNamn, elevar: elevar });
+        }
+    }
+    
+    // Bygg resultat
+    const skuleResultat = {
+        skule: skuleNamn,
+        trinn: valtTrinn,
+        klassar: klassarMed,
+        elevar: elevarMed,
+        alternativ: []
+    };
+    
+    // Gange
+    const gangeReise = gangeReiser?.[0];
+    const gangeAlt = {
+        type: 'gange',
+        ikon: '🚶',
+        namn: 'Gange',
+        avstand: googleGange.avstand,
+        varigheit: googleGange.tid,
+        aktuelt: googleGange.avstand <= maksGange,
+        reiseveg: [`Gå ${googleGange.avstandTekst || ((googleGange.avstand/1000).toFixed(1) + ' km')} (${googleGange.tidTekst || googleGange.tid + ' min'})`]
+    };
+    if (gangeReise) {
+        gangeAlt.avgang = gangeReise.startTime;
+        gangeAlt.ankomst = gangeReise.endTime;
+    }
+    skuleResultat.alternativ.push(gangeAlt);
+    
+    // Buss - vis opptil 3 alternativ (prioriter direkteruter)
+    if (bussReiser && bussReiser.length > 0) {
+        const sorterteBussar = [...bussReiser].sort((a, b) => {
+            const legsA = telKollektivLegs(a.legs);
+            const legsB = telKollektivLegs(b.legs);
+            if (legsA !== legsB) return legsA - legsB;
+            return a.duration - b.duration;
+        });
+        
+        const bussReise = sorterteBussar[0];
+        const kollektivLegs = telKollektivLegs(bussReise.legs);
+        const erDirekte = kollektivLegs === 1;
+        
+        const bussAlt = {
+            type: 'buss',
+            ikon: '🚌',
+            namn: erDirekte ? 'Direktebuss' : 'Rutebuss',
+            avgang: bussReise.startTime,
+            ankomst: bussReise.endTime,
+            varigheit: Math.round(bussReise.duration / 60),
+            aktuelt: true,
+            bytter: kollektivLegs - 1,
+            reiseveg: byggReiseveg(bussReise.legs),
+            ekstraAvgangar: []
+        };
+        const bussLegs = bussReise.legs.filter(l => l.mode === 'bus' || l.mode === 'coach');
+        if (bussLegs.length > 0) {
+            bussAlt.linje = bussLegs.map(l => l.line?.publicCode).filter(Boolean).join(' → ');
+        }
+        
+        // Legg til ekstra avgangar (alternativ 2 og 3)
+        for (let i = 1; i < Math.min(3, sorterteBussar.length); i++) {
+            const ekstraBuss = sorterteBussar[i];
+            const ekstraLegs = ekstraBuss.legs.filter(l => l.mode === 'bus' || l.mode === 'coach');
+            bussAlt.ekstraAvgangar.push({
+                avgang: ekstraBuss.startTime,
+                ankomst: ekstraBuss.endTime,
+                varigheit: Math.round(ekstraBuss.duration / 60),
+                linje: ekstraLegs.map(l => l.line?.publicCode).filter(Boolean).join(' → '),
+                bytter: telKollektivLegs(ekstraBuss.legs) - 1
+            });
+        }
+        
+        skuleResultat.alternativ.push(bussAlt);
+    }
+    
+    // Tog
+    if (togReiser && togReiser.length > 0) {
+        const togReise = togReiser[0];
+        const kollektivLegs = telKollektivLegs(togReise.legs);
+        const erDirekte = kollektivLegs === 1;
+        
+        const togAlt = {
+            type: 'tog',
+            ikon: '🚂',
+            namn: erDirekte ? 'Direktetog' : 'Tog',
+            avgang: togReise.startTime,
+            ankomst: togReise.endTime,
+            varigheit: Math.round(togReise.duration / 60),
+            aktuelt: true,
+            bytter: kollektivLegs - 1,
+            reiseveg: byggReiseveg(togReise.legs)
+        };
+        const togLegs = togReise.legs.filter(l => l.mode === 'rail');
+        if (togLegs.length > 0) {
+            togAlt.linje = togLegs.map(l => l.line?.publicCode).filter(Boolean).join(' → ');
+        }
+        skuleResultat.alternativ.push(togAlt);
+    }
+    
+    // Bestillerbuss
+    const bestillerbussAlt = {
+        type: 'bestillerbuss',
+        ikon: '🚐',
+        namn: 'Bestillerbuss',
+        avstand: googleKøyring.avstand,
+        varigheit: googleKøyring.tid,
+        aktuelt: true,
+        reiseveg: [`${googleKøyring.avstandTekst || ((googleKøyring.avstand/1000).toFixed(1) + ' km')} (${googleKøyring.tidTekst || googleKøyring.tid + ' min'})`]
+    };
+    skuleResultat.alternativ.push(bestillerbussAlt);
+    
+    // Finn beste alternativ
+    // Prioritet: 1. Gange (viss under maks), 2. Tog (direktetog), 3. Direktebuss, 4. Bestillerbuss
+    // ALDRI vel rutebuss med bytte automatisk
+    const aktuelle = skuleResultat.alternativ.filter(a => a.aktuelt);
+    const bestillerbussTid = bestillerbussAlt.varigheit;
+    
+    // Finn gange, direktetog og direktebuss
+    const gangeAltFunne = aktuelle.find(a => a.type === 'gange' && a.aktuelt);
+    const togAltFunne = aktuelle.find(a => a.type === 'tog' && (a.bytter === 0 || a.bytter === undefined));
+    const direktebussAltFunne = aktuelle.find(a => a.type === 'buss' && (a.bytter === 0 || a.bytter === undefined));
+    
+    // Prioritert rekkefølge (ALDRI rutebuss med bytte)
+    let valtAlternativ = null;
+    
+    // 1. Gange viss under maks avstand
+    if (gangeAltFunne && gangeAltFunne.aktuelt) {
+        valtAlternativ = gangeAltFunne;
+    }
+    // 2. Direktetog (prioritert over rutebuss)
+    else if (togAltFunne) {
+        valtAlternativ = togAltFunne;
+    }
+    // 3. Direktebuss (utan bytte)
+    else if (direktebussAltFunne) {
+        valtAlternativ = direktebussAltFunne;
+    }
+    // 4. Ingen kollektiv utan bytte - bruk bestillerbuss
+    // (rutebuss med bytte blir ALDRI valt automatisk)
+    
+    // Sjekk om bestillerbuss er 30+ min raskare enn valt alternativ
+    if (valtAlternativ) {
+        if (bestillerbussTid + 30 < valtAlternativ.varigheit) {
+            bestillerbussAlt.beste = true;
+        } else {
+            valtAlternativ.beste = true;
+        }
+    } else {
+        // Ingen direkterute - bruk bestillerbuss
+        bestillerbussAlt.beste = true;
+    }
+    
+    // RETURSØK - viss aktivert
+    if (inkluderRetur) {
+        const returtid = document.getElementById('returtid').value;
+        const dato = document.getElementById('dato').value;
+        const departBy = `${dato}T${returtid}:00`;
+        
+        // Søk retur (destinasjon -> skule, departureTime)
+        const [returBuss, returTog] = await Promise.all([
+            finnReiseRetur(destCoords, skuleCoords, departBy, 'bus'),
+            finnReiseRetur(destCoords, skuleCoords, departBy, 'rail')
+        ]);
+        
+        skuleResultat.retur = {
+            tid: returtid,
+            alternativ: []
+        };
+        
+        // Retur gange (same som tur)
+        const returGange = {
+            type: 'gange',
+            ikon: '🚶',
+            namn: 'Gange',
+            avstand: googleGange.avstand,
+            varigheit: googleGange.tid,
+            aktuelt: googleGange.avstand <= maksGange,
+            reiseveg: [`Gå ${googleGange.avstandTekst || ((googleGange.avstand/1000).toFixed(1) + ' km')}`]
+        };
+        skuleResultat.retur.alternativ.push(returGange);
+        
+        // Retur buss
+        if (returBuss && returBuss.length > 0) {
+            const sortert = [...returBuss].sort((a, b) => {
+                const legsA = telKollektivLegs(a.legs);
+                const legsB = telKollektivLegs(b.legs);
+                if (legsA !== legsB) return legsA - legsB;
+                return a.duration - b.duration;
+            });
+            
+            const beste = sortert[0];
+            const kollektivLegs = telKollektivLegs(beste.legs);
+            const bussLegs = beste.legs.filter(l => l.mode === 'bus' || l.mode === 'coach');
+            
+            skuleResultat.retur.alternativ.push({
+                type: 'buss',
+                ikon: '🚌',
+                namn: kollektivLegs === 1 ? 'Direktebuss' : 'Rutebuss',
+                avgang: beste.startTime,
+                ankomst: beste.endTime,
+                varigheit: Math.round(beste.duration / 60),
+                bytter: kollektivLegs - 1,
+                linje: bussLegs.map(l => l.line?.publicCode).filter(Boolean).join(' → '),
+                reiseveg: byggReiseveg(beste.legs)
+            });
+        }
+        
+        // Retur tog
+        if (returTog && returTog.length > 0) {
+            const beste = returTog[0];
+            const kollektivLegs = telKollektivLegs(beste.legs);
+            const togLegs = beste.legs.filter(l => l.mode === 'rail');
+            
+            skuleResultat.retur.alternativ.push({
+                type: 'tog',
+                ikon: '🚂',
+                namn: kollektivLegs === 1 ? 'Direktetog' : 'Tog',
+                avgang: beste.startTime,
+                ankomst: beste.endTime,
+                varigheit: Math.round(beste.duration / 60),
+                bytter: kollektivLegs - 1,
+                linje: togLegs.map(l => l.line?.publicCode).filter(Boolean).join(' → '),
+                reiseveg: byggReiseveg(beste.legs)
+            });
+        }
+        
+        // Retur bestillerbuss
+        skuleResultat.retur.alternativ.push({
+            type: 'bestillerbuss',
+            ikon: '🚐',
+            namn: 'Bestillerbuss',
+            varigheit: googleKøyring.tid,
+            reiseveg: [`${googleKøyring.avstandTekst || ((googleKøyring.avstand/1000).toFixed(1) + ' km')}`]
+        });
+        
+        // Marker beste retur (same logikk som tur)
+        const returAktuelle = skuleResultat.retur.alternativ;
+        const returGangeAlt = returAktuelle.find(a => a.type === 'gange' && a.aktuelt);
+        const returTogAlt = returAktuelle.find(a => a.type === 'tog' && (a.bytter === 0 || a.bytter === undefined));
+        const returBussAlt = returAktuelle.find(a => a.type === 'buss' && (a.bytter === 0 || a.bytter === undefined));
+        const returBestillerbuss = returAktuelle.find(a => a.type === 'bestillerbuss');
+        
+        if (returGangeAlt?.aktuelt) {
+            returGangeAlt.beste = true;
+        } else if (returTogAlt) {
+            returTogAlt.beste = true;
+        } else if (returBussAlt) {
+            returBussAlt.beste = true;
+        } else if (returBestillerbuss) {
+            returBestillerbuss.beste = true;
+        }
+    }
+    
+    resultat.push(skuleResultat);
+}
+
+// ========== VIS STATUS ==========
+function visStatus(melding, type) {
+    const el = document.getElementById('statusMelding');
+    el.textContent = melding;
+    el.className = `status show ${type}`;
+    
+    if (type === 'success') {
+        setTimeout(() => el.classList.remove('show'), 3000);
+    }
+}
+
+// ========== FORDELING PÅ ARRANGEMENT ==========
+
+// Global variabel for arrangement
+let arrangement = [];
+let fordeling = [];
+
+// Vis "Gå til fordeling"-knapp etter søk
+function visFordelingKnapp() {
+    if (resultat.length > 1) { // Minst 2 skular for fordeling
+        document.getElementById('tilFordelingKnapp').style.display = 'block';
+    }
+}
+
+// Vis fordeling-seksjonen
+function visFordelingSeksjon() {
+    document.getElementById('fordelingSeksjon').style.display = 'block';
+    document.getElementById('fordelingSeksjon').scrollIntoView({ behavior: 'smooth' });
+    
+    // Sett dato-felt til same som søket
+    const sokDato = document.getElementById('dato').value;
+    if (sokDato) {
+        document.getElementById('arrDato').value = sokDato;
+    }
+    
+    // Bygg oppsummering
+    byggOppsummering();
+    
+    // Bygg anslag
+    byggAnslag();
+}
+
+// Kategoriser reisemåte for kvar skule (brukar manuell overstyring viss sett)
+function kategoriserSkule(skuleResultat) {
+    // Sjekk manuell overstyring først
+    const overstyrt = manuellOverstyring[skuleResultat.skule];
+    let valgt;
+    
+    if (overstyrt) {
+        valgt = skuleResultat.alternativ.find(a => a.type === overstyrt);
+    } else {
+        valgt = skuleResultat.alternativ.find(a => a.beste);
+    }
+    
+    if (!valgt) return { type: 'ukjent', kapasitet: 25 };
+    
+    switch (valgt.type) {
+        case 'gange':
+            return { type: 'gange', kapasitet: 999, ikon: '🚶', namn: 'Gange' };
+        case 'tog':
+            return { type: 'tog', kapasitet: 999, ikon: '🚂', namn: 'Tog' };
+        case 'bestillerbuss':
+            return { type: 'bestillerbuss', kapasitet: 55, ikon: '🚐', namn: 'Bestillerbuss' };
+        case 'buss':
+            return { 
+                type: 'rutebuss', 
+                kapasitet: 25, 
+                ikon: '🚌', 
+                namn: 'Rutebuss',
+                linje: valgt.linje,
+                avgang: valgt.avgang
+            };
+        default:
+            return { type: 'ukjent', kapasitet: 25 };
+    }
+}
+
+// Bygg oppsummering
+function byggOppsummering() {
+    let totalElevar = 0;
+    let totalKlassar = 0;
+    const kategoriar = { gange: 0, tog: 0, bestillerbuss: 0, rutebuss: 0 };
+    const elevarPerKategori = { gange: 0, tog: 0, bestillerbuss: 0, rutebuss: 0 };
+    
+    for (const r of resultat) {
+        totalElevar += r.elevar;
+        totalKlassar += r.klassar.length;
+        
+        const kat = kategoriserSkule(r);
+        if (kategoriar[kat.type] !== undefined) {
+            kategoriar[kat.type]++;
+            elevarPerKategori[kat.type] += r.elevar;
+        }
+    }
+    
+    document.getElementById('oppsummeringInnhald').innerHTML = `
+        <div class="oppsummering-grid">
+            <div class="oppsummering-kort">
+                <div class="tal">${resultat.length}</div>
+                <div class="label">Skular</div>
+            </div>
+            <div class="oppsummering-kort">
+                <div class="tal">${totalKlassar}</div>
+                <div class="label">Klassar</div>
+            </div>
+            <div class="oppsummering-kort">
+                <div class="tal">${totalElevar}</div>
+                <div class="label">Elevar totalt</div>
+            </div>
+        </div>
+        
+        <div class="kategori-liste">
+            <div class="kategori-rad">
+                <span><span class="ikon">🚶</span>Gange (heile trinnet)</span>
+                <span class="tal">${kategoriar.gange} skular, ${elevarPerKategori.gange} elevar</span>
+            </div>
+            <div class="kategori-rad">
+                <span><span class="ikon">🚂</span>Tog (heile trinnet)</span>
+                <span class="tal">${kategoriar.tog} skular, ${elevarPerKategori.tog} elevar</span>
+            </div>
+            <div class="kategori-rad">
+                <span><span class="ikon">🚐</span>Bestillerbuss (~55 per buss)</span>
+                <span class="tal">${kategoriar.bestillerbuss} skular, ${elevarPerKategori.bestillerbuss} elevar</span>
+            </div>
+            <div class="kategori-rad">
+                <span><span class="ikon">🚌</span>Rutebuss (1 klasse per avgang)</span>
+                <span class="tal">${kategoriar.rutebuss} skular, ${elevarPerKategori.rutebuss} elevar</span>
+            </div>
+        </div>
+    `;
+}
+
+// Bygg anslag
+function byggAnslag() {
+    let totalElevar = 0;
+    let rutebussKlassar = 0;
+    
+    for (const r of resultat) {
+        totalElevar += r.elevar;
+        const kat = kategoriserSkule(r);
+        if (kat.type === 'rutebuss') {
+            rutebussKlassar += r.klassar.length;
+        }
+    }
+    
+    // Anslag: snitt 20-25 per klasse for rutebuss, resten kan grupperast
+    const snittstorleik = 150; // Typisk salkapasitet
+    const minArrangement = Math.ceil(totalElevar / snittstorleik);
+    
+    // Rutebuss-klassar må spreies - maks ~5-6 per arrangement pga bussavgangar
+    const rutebussAnslag = Math.ceil(rutebussKlassar / 5);
+    
+    const anbefaltArrangement = Math.max(minArrangement, rutebussAnslag);
+    
+    document.getElementById('anslagInnhald').innerHTML = `
+        <div class="kategori-liste">
+            <div class="kategori-rad">
+                <span>Totalt elevar</span>
+                <span class="tal">${totalElevar}</span>
+            </div>
+            <div class="kategori-rad">
+                <span>Med salkapasitet ~150</span>
+                <span class="tal">Minst ${minArrangement} visningar</span>
+            </div>
+            <div class="kategori-rad">
+                <span>Rutebuss-klassar (må spreies)</span>
+                <span class="tal">${rutebussKlassar} klassar</span>
+            </div>
+            <div class="kategori-rad" style="background: #ecfdf5; border: 1px solid #10b981;">
+                <span><strong>Anbefalt antal visningar</strong></span>
+                <span class="tal" style="color: #10b981;">${anbefaltArrangement}–${anbefaltArrangement + 2}</span>
+            </div>
+        </div>
+        <p style="font-size: 13px; color: #666; margin-top: 10px;">
+            💡 Tips: Legg inn visningar under, så fordeler systemet elevane automatisk.
+        </p>
+    `;
+}
+
+// Legg til arrangement
+function leggTilArrangement() {
+    const sal = document.getElementById('salNamn').value.trim();
+    const kapasitet = parseInt(document.getElementById('salKapasitet').value) || 150;
+    const dato = document.getElementById('arrDato').value;
+    const tid = document.getElementById('arrTid').value;
+    
+    if (!sal) {
+        visStatus('Skriv inn sal/lokale namn', 'error');
+        return;
+    }
+    if (!dato) {
+        visStatus('Vel dato', 'error');
+        return;
+    }
+    
+    arrangement.push({
+        id: Date.now(),
+        sal: sal,
+        kapasitet: kapasitet,
+        dato: dato,
+        tid: tid,
+        plasseringar: []
+    });
+    
+    visArrangementListe();
+    oppdaterFordelKnapp();
+}
+
+// Vis arrangement-liste
+function visArrangementListe() {
+    const liste = document.getElementById('arrangementListe');
+    
+    if (arrangement.length === 0) {
+        liste.innerHTML = '<p style="color: #666; font-size: 14px;">Ingen arrangement lagt inn enno.</p>';
+        return;
+    }
+    
+    // Sorter etter dato og tid
+    const sortert = [...arrangement].sort((a, b) => {
+        if (a.dato !== b.dato) return a.dato.localeCompare(b.dato);
+        return a.tid.localeCompare(b.tid);
+    });
+    
+    liste.innerHTML = sortert.map(arr => {
+        const datoStr = new Date(arr.dato).toLocaleDateString('no-NO', { weekday: 'short', day: 'numeric', month: 'short' });
+        return `
+            <div class="arrangement-kort">
+                <div class="info">
+                    <span class="dato">${datoStr} kl ${arr.tid}</span>
+                    <span class="detaljar">${arr.sal} (${arr.kapasitet} plassar)</span>
+                </div>
+                <button class="fjern-btn" onclick="fjernArrangement(${arr.id})">Fjern</button>
+            </div>
+        `;
+    }).join('');
+}
+
+// Fjern arrangement
+function fjernArrangement(id) {
+    arrangement = arrangement.filter(a => a.id !== id);
+    visArrangementListe();
+    oppdaterFordelKnapp();
+}
+
+// Oppdater fordel-knapp
+function oppdaterFordelKnapp() {
+    document.getElementById('fordelBtn').disabled = arrangement.length === 0;
+}
+
+// ========== FORDELINGSALGORITME ==========
+
+async function kjorFordeling() {
+    // Vis status
+    document.getElementById('fordelBtn').disabled = true;
+    document.getElementById('fordelBtn').textContent = '⏳ Søker reiseruter...';
+    
+    // Nullstill plasseringar
+    for (const arr of arrangement) {
+        arr.plasseringar = [];
+    }
+    
+    // Sorter arrangement etter dato/tid
+    const sortert = [...arrangement].sort((a, b) => {
+        if (a.dato !== b.dato) return a.dato.localeCompare(b.dato);
+        return a.tid.localeCompare(b.tid);
+    });
+    
+    // Del skular i låste og ikkje-låste
+    const låsteSkular = [];
+    const ulåsteSkular = [];
+    
+    for (const r of resultat) {
+        const låst = manuellOverstyring[r.skule];
+        if (låst === 'gange' || låst === 'bestillerbuss') {
+            låsteSkular.push({ ...r, låstTil: låst });
+        } else {
+            ulåsteSkular.push(r);
+        }
+    }
+    
+    // Hent destinasjonskoordinatar
+    const destCoords = await geocodeAddress(document.getElementById('destinasjon').value);
+    const maksGange = parseInt(document.getElementById('maksGange').value) || 2000;
+    
+    // For kvar arrangement: søk rutebussar for ikkje-låste skular
+    const konfliktar = [];
+    const rutebussEinheiter = []; // Alle rutebuss-klassar på tvers av arrangement
+    
+    for (let arrIdx = 0; arrIdx < sortert.length; arrIdx++) {
+        const arr = sortert[arrIdx];
+        const arriveBy = `${arr.dato}T${arr.tid}:00`;
+        
+        // Søk nye rutetider for ikkje-låste skular
+        for (const r of ulåsteSkular) {
+            const skuleCoords = skuleKoordinatar[r.skule];
+            if (!skuleCoords) continue;
+            
+            // Søk buss og tog for dette tidspunktet
+            try {
+                const [bussReiser, togReiser] = await Promise.all([
+                    finnReise(skuleCoords, destCoords, arriveBy, 'bus'),
+                    finnReise(skuleCoords, destCoords, arriveBy, 'rail')
+                ]);
+                
+                // Finn direktebuss (utan bytte)
+                let direktebuss = null;
+                if (bussReiser && bussReiser.length > 0) {
+                    const sortert = [...bussReiser].sort((a, b) => {
+                        const legsA = telKollektivLegs(a.legs);
+                        const legsB = telKollektivLegs(b.legs);
+                        if (legsA !== legsB) return legsA - legsB;
+                        return a.duration - b.duration;
+                    });
+                    const beste = sortert[0];
+                    if (telKollektivLegs(beste.legs) === 1) {
+                        direktebuss = beste;
+                    }
+                }
+                
+                // Finn direktetog
+                let direktetog = null;
+                if (togReiser && togReiser.length > 0) {
+                    const beste = togReiser[0];
+                    if (telKollektivLegs(beste.legs) === 1) {
+                        direktetog = beste;
+                    }
+                }
+                
+                // Prioritet: Tog > Direktebuss
+                let valgtReise = null;
+                let transportType = null;
+                
+                if (direktetog) {
+                    valgtReise = direktetog;
+                    transportType = 'tog';
+                } else if (direktebuss) {
+                    valgtReise = direktebuss;
+                    transportType = 'buss';
+                }
+                
+                if (valgtReise && transportType === 'buss') {
+                    // Legg til som rutebuss-einheit
+                    const bussLegs = valgtReise.legs.filter(l => l.mode === 'bus' || l.mode === 'coach');
+                    const linje = bussLegs.map(l => l.line?.publicCode).filter(Boolean).join(' → ');
+                    
+                    for (const klasse of r.klassar) {
+                        rutebussEinheiter.push({
+                            skule: r.skule,
+                            klasse: klasse.namn,
+                            elevar: klasse.elevar,
+                            arrangementIdx: arrIdx,
+                            kategori: { type: 'rutebuss', ikon: '🚌', namn: 'Rutebuss' },
+                            erRutebuss: true,
+                            bussLinje: linje,
+                            bussAvgang: valgtReise.startTime,
+                            bussAnkomst: valgtReise.endTime,
+                            varigheit: Math.round(valgtReise.duration / 60)
+                        });
+                    }
+                } else if (valgtReise && transportType === 'tog') {
+                    // Tog - plasser direkte på arrangement
+                    const togLegs = valgtReise.legs.filter(l => l.mode === 'rail');
+                    const linje = togLegs.map(l => l.line?.publicCode).filter(Boolean).join(' → ');
+                    
+                    arr.plasseringar.push({
+                        skule: r.skule,
+                        klasse: r.klassar.map(k => k.namn).join(', '),
+                        elevar: r.elevar,
+                        kategori: { type: 'tog', ikon: '🚂', namn: 'Tog' },
+                        erRutebuss: false,
+                        togLinje: linje,
+                        avgang: valgtReise.startTime,
+                        ankomst: valgtReise.endTime,
+                        varigheit: Math.round(valgtReise.duration / 60)
+                    });
+                } else {
+                    // Ingen direkterute - må bruke bestillerbuss
+                    // Markerer som "treng bestillerbuss"
+                    arr.plasseringar.push({
+                        skule: r.skule,
+                        klasse: r.klassar.map(k => k.namn).join(', '),
+                        elevar: r.elevar,
+                        kategori: { type: 'bestillerbuss', ikon: '🚐', namn: 'Bestillerbuss' },
+                        erRutebuss: false,
+                        merknad: 'Ingen direkterute funne'
+                    });
+                }
+            } catch (e) {
+                console.error('Feil ved søk for', r.skule, e);
+            }
+            
+            // Litt pause mellom søk
+            await new Promise(resolve => setTimeout(resolve, 300));
+        }
+        
+        document.getElementById('fordelBtn').textContent = `⏳ Søker... (${arrIdx + 1}/${sortert.length})`;
+    }
+    
+    // Fordel rutebuss-klassar JAMT utover (round-robin)
+    // Sorter etter linje først slik at same linje blir spreidd
+    rutebussEinheiter.sort((a, b) => {
+        if (a.bussLinje !== b.bussLinje) return a.bussLinje?.localeCompare(b.bussLinje) || 0;
+        return a.skule.localeCompare(b.skule);
+    });
+    
+    let arrIdx = 0;
+    for (const eining of rutebussEinheiter) {
+        let plassert = false;
+        let forsøk = 0;
+        
+        // Prøv å plassere, start frå arrIdx og roter rundt
+        while (forsøk < sortert.length) {
+            const arr = sortert[(arrIdx + forsøk) % sortert.length];
+            const brukt = arr.plasseringar.reduce((sum, p) => sum + p.elevar, 0);
+            const ledig = arr.kapasitet - brukt;
+            
+            if (eining.elevar <= ledig) {
+                // Sjekk rutebuss-konflikt
+                const konflikt = sjekkRutebussKonflikt(arr, eining);
+                if (konflikt) {
+                    konfliktar.push(konflikt);
+                    forsøk++;
+                    continue;
+                }
+                
+                arr.plasseringar.push(eining);
+                plassert = true;
+                arrIdx = (arrIdx + 1) % sortert.length; // Neste arrangement for neste eining
+                break;
+            }
+            forsøk++;
+        }
+        
+        if (!plassert) {
+            konfliktar.push({
+                type: 'ikkje-plass',
+                melding: `${eining.skule} ${eining.klasse} (${eining.elevar} elevar) fekk ikkje plass`
+            });
+        }
+    }
+    
+    // Plasser låste skular (gange og bestillerbuss)
+    for (const r of låsteSkular) {
+        const eining = {
+            skule: r.skule,
+            klasse: r.klassar.map(k => k.namn).join(', '),
+            elevar: r.elevar,
+            kategori: r.låstTil === 'gange' 
+                ? { type: 'gange', ikon: '🚶', namn: 'Gange' }
+                : { type: 'bestillerbuss', ikon: '🚐', namn: 'Bestillerbuss' },
+            erRutebuss: false,
+            låst: true
+        };
+        
+        // For bestillerbuss: splitt i grupper på ~55
+        if (r.låstTil === 'bestillerbuss' && r.elevar > 55) {
+            let resterande = r.elevar;
+            let gruppeNr = 1;
+            
+            while (resterande > 0) {
+                const gruppeStorleik = Math.min(55, resterande);
+                const gruppeEining = {
+                    ...eining,
+                    klasse: `Gruppe ${gruppeNr}`,
+                    elevar: gruppeStorleik
+                };
+                
+                // Finn arrangement med plass
+                let plassert = false;
+                for (const arr of sortert) {
+                    const brukt = arr.plasseringar.reduce((sum, p) => sum + p.elevar, 0);
+                    if (gruppeStorleik <= arr.kapasitet - brukt) {
+                        arr.plasseringar.push(gruppeEining);
+                        plassert = true;
+                        break;
+                    }
+                }
+                
+                if (!plassert) {
+                    konfliktar.push({
+                        type: 'ikkje-plass',
+                        melding: `${r.skule} Gruppe ${gruppeNr} (${gruppeStorleik} elevar) fekk ikkje plass`
+                    });
+                }
+                
+                resterande -= gruppeStorleik;
+                gruppeNr++;
+            }
+        } else {
+            // Finn arrangement med plass
+            let plassert = false;
+            for (const arr of sortert) {
+                const brukt = arr.plasseringar.reduce((sum, p) => sum + p.elevar, 0);
+                if (eining.elevar <= arr.kapasitet - brukt) {
+                    arr.plasseringar.push(eining);
+                    plassert = true;
+                    break;
+                }
+            }
+            
+            if (!plassert) {
+                konfliktar.push({
+                    type: 'ikkje-plass',
+                    melding: `${r.skule} (${r.elevar} elevar) fekk ikkje plass`
+                });
+            }
+        }
+    }
+    
+    // Vis resultat
+    document.getElementById('fordelBtn').disabled = false;
+    document.getElementById('fordelBtn').textContent = '🎯 Fordel elevar på arrangement';
+    visFordelingResultat(sortert, konfliktar);
+}
+
+// Sjekk rutebuss-konflikt
+function sjekkRutebussKonflikt(arr, nyEining) {
+    if (!nyEining.bussAvgang) return null;
+    
+    const nyAvgangTid = new Date(nyEining.bussAvgang).getTime();
+    
+    for (const eksisterande of arr.plasseringar) {
+        if (!eksisterande.erRutebuss || !eksisterande.bussAvgang) continue;
+        if (eksisterande.bussLinje !== nyEining.bussLinje) continue;
+        
+        const eksAvgangTid = new Date(eksisterande.bussAvgang).getTime();
+        const diffMinutt = Math.abs(nyAvgangTid - eksAvgangTid) / (1000 * 60);
+        
+        if (diffMinutt <= 30) {
+            return {
+                type: 'rutebuss-konflikt',
+                melding: `${nyEining.skule} ${nyEining.klasse} og ${eksisterande.skule} ${eksisterande.klasse} brukar begge buss ${nyEining.bussLinje} (±30 min) - MOGLEG KONFLIKT`
+            };
+        }
+    }
+    
+    return null;
+}
+
+// Vis fordelingsresultat
+function visFordelingResultat(sortert, konfliktar) {
+    document.getElementById('fordelingResultat').style.display = 'block';
+    
+    // Vis konfliktar
+    const konfliktEl = document.getElementById('konfliktListe');
+    if (konfliktar.length > 0) {
+        konfliktEl.innerHTML = `
+            <div class="konflikt-boks">
+                <h4>⚠️ Merknader (${konfliktar.length})</h4>
+                <ul>
+                    ${konfliktar.map(k => `<li>${k.melding}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    } else {
+        konfliktEl.innerHTML = `
+            <div style="background: #dcfce7; border: 1px solid #10b981; border-radius: 8px; padding: 12px 15px; margin-bottom: 15px;">
+                ✅ Alle elevar plassert utan konfliktar!
+            </div>
+        `;
+    }
+    
+    // Vis arrangement
+    const visningEl = document.getElementById('fordelingVisning');
+    visningEl.innerHTML = sortert.map(arr => {
+        const datoStr = new Date(arr.dato).toLocaleDateString('no-NO', { weekday: 'long', day: 'numeric', month: 'long' });
+        const totalElevar = arr.plasseringar.reduce((sum, p) => sum + p.elevar, 0);
+        const prosent = Math.round((totalElevar / arr.kapasitet) * 100);
+        
+        let sumKlasse = 'visning-sum';
+        if (prosent >= 95) sumKlasse += ' full';
+        if (prosent > 100) sumKlasse += ' overfylt';
+        
+        return `
+            <div class="visning-kort">
+                <div class="visning-header">
+                    <span>${datoStr} kl ${arr.tid} - ${arr.sal}</span>
+                    <span class="kapasitet">Kapasitet: ${arr.kapasitet}</span>
+                </div>
+                <div class="visning-innhald">
+                    ${arr.plasseringar.length === 0 
+                        ? '<p style="color: #999; text-align: center;">Ingen plasseringar</p>'
+                        : arr.plasseringar.map(p => {
+                            // Bygg tidspunkt-info
+                            let tidInfo = '';
+                            if (p.bussAvgang || p.avgang) {
+                                const avgang = p.bussAvgang || p.avgang;
+                                const ankomst = p.bussAnkomst || p.ankomst;
+                                const avgTid = new Date(avgang).toLocaleTimeString('no-NO', {hour: '2-digit', minute: '2-digit'});
+                                const ankTid = ankomst ? new Date(ankomst).toLocaleTimeString('no-NO', {hour: '2-digit', minute: '2-digit'}) : '';
+                                tidInfo = `<span class="tid-info">${avgTid}${ankTid ? ' → ' + ankTid : ''}</span>`;
+                                if (p.varigheit) {
+                                    tidInfo += `<span class="varigheit-info">${p.varigheit} min</span>`;
+                                }
+                            }
+                            
+                            // Transport-info
+                            let transportTekst = '';
+                            if (p.erRutebuss) {
+                                transportTekst = `Buss ${p.bussLinje || ''}`;
+                            } else if (p.togLinje) {
+                                transportTekst = `Tog ${p.togLinje}`;
+                            } else {
+                                transportTekst = p.kategori.namn;
+                            }
+                            
+                            // Låst-badge
+                            const låstBadge = p.låst ? '<span class="låst-badge">🔒</span>' : '';
+                            
+                            return `
+                                <div class="plassering-rad ${p.erRutebuss ? 'rutebuss' : ''} ${p.låst ? 'låst' : ''}">
+                                    <div class="skule-info">
+                                        <span>${p.kategori.ikon}</span>
+                                        <span><strong>${p.skule}</strong> - ${p.klasse} ${låstBadge}</span>
+                                    </div>
+                                    <div class="transport-info">
+                                        <span>${transportTekst}</span>
+                                        ${tidInfo}
+                                    </div>
+                                    <div class="elevar">${p.elevar} elevar</div>
+                                </div>
+                            `;
+                        }).join('')
+                    }
+                </div>
+                <div class="${sumKlasse}">
+                    <span>Totalt</span>
+                    <span>${totalElevar} / ${arr.kapasitet} (${prosent}%)</span>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    document.getElementById('fordelingResultat').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Eksporter fordeling
+function eksporterFordeling() {
+    let tekst = `DKS TRANSPORT - FORDELING\n`;
+    tekst += `Generert: ${new Date().toLocaleString('no-NO')}\n`;
+    tekst += `Destinasjon: ${document.getElementById('destinasjon').value}\n`;
+    tekst += `Trinn: ${valtTrinn}\n`;
+    tekst += `=`.repeat(60) + `\n\n`;
+    
+    const sortert = [...arrangement].sort((a, b) => {
+        if (a.dato !== b.dato) return a.dato.localeCompare(b.dato);
+        return a.tid.localeCompare(b.tid);
+    });
+    
+    for (const arr of sortert) {
+        const datoStr = new Date(arr.dato).toLocaleDateString('no-NO', { weekday: 'long', day: 'numeric', month: 'long' });
+        const totalElevar = arr.plasseringar.reduce((sum, p) => sum + p.elevar, 0);
+        
+        tekst += `📅 ${datoStr} kl ${arr.tid}\n`;
+        tekst += `   ${arr.sal} (${totalElevar}/${arr.kapasitet} plassar)\n`;
+        tekst += `-`.repeat(40) + `\n`;
+        
+        for (const p of arr.plasseringar) {
+            const transport = p.erRutebuss ? `Buss ${p.bussLinje}` : p.kategori.namn;
+            tekst += `   ${p.kategori.ikon} ${p.skule} - ${p.klasse}\n`;
+            tekst += `      ${p.elevar} elevar, ${transport}\n`;
+        }
+        tekst += `\n`;
+    }
+    
+    // Last ned som fil
+    const blob = new Blob([tekst], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `fordeling_${valtTrinn}trinn_${new Date().toISOString().slice(0,10)}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+// Nullstill fordeling
+function nullstillFordeling() {
+    arrangement = [];
+    visArrangementListe();
+    document.getElementById('fordelingResultat').style.display = 'none';
+    oppdaterFordelKnapp();
+}
+    </script>
+</body>
+</html>
