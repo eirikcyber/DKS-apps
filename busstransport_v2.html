@@ -298,6 +298,17 @@ const SKULAR = [
   'International School of Asker','Montessori Asker','Oslo Internasjonale Skole',
 ];
 
+function skolKjerne(s) {
+  return s.replace(/\b(barneskole|ungdomsskole|videregående|skole|school)\b/g, '')
+    .replace(/\s+/g, ' ').trim();
+}
+
+function normWords(s) {
+  return s.replace(/\b(of|i|og|the)\b/g, '')
+    .replace(/\s+/g, ' ').trim()
+    .split(/\s+/).sort().join(' ');
+}
+
 function normSkule(s) {
   s = s.trim().replace(/:$/, '');
   const sl = s.toLowerCase();
@@ -311,6 +322,23 @@ function normSkule(s) {
   for (const off of SKULAR) {
     const ol = off.toLowerCase();
     if (sl.includes(ol) || ol.includes(sl)) return off;
+  }
+
+  // Steg 2b: kjerne-match – ignorer skuletypeord som "barneskole"/"skole"
+  const slKjerne = skolKjerne(sl);
+  if (slKjerne.length > 2) {
+    for (const off of SKULAR) {
+      const ofKjerne = skolKjerne(off.toLowerCase());
+      if (ofKjerne.length > 2 && slKjerne === ofKjerne) return off;
+    }
+  }
+
+  // Steg 2c: ordrekkjefølge-uavhengig match (t.d. "Asker international School")
+  const slWords = normWords(sl);
+  if (slWords.length > 2) {
+    for (const off of SKULAR) {
+      if (normWords(off.toLowerCase()) === slWords) return off;
+    }
   }
 
   // Steg 3: fuzzy med høg terskel (0.95+)
@@ -804,6 +832,9 @@ document.getElementById('btnRun').addEventListener('click', async () => {
 // KOMBINER bestilling + bekreftelse
 // ============================================================
 function byggKombinert(best, bekr) {
+  // Skular i bestilling som er RUFUS (treng ikkje bekreftelse)
+  const rufusSkular = new Set(best.filter(b => b.transport === 'RUFUS').map(b => b.skule_norm || b.skole));
+
   // Grupper bekreftelse etter normalisert skulnamn
   const bekrMap = {};
   for (const e of bekr) {
@@ -864,7 +895,8 @@ function byggKombinert(best, bekr) {
     if (r.best) {
       r._transport = r.best.transport || 'Buss';
     } else {
-      r._transport = 'Ukjend';
+      // Bekreftelse-only: sjekk om skulen er RUFUS i bestilling
+      r._transport = rufusSkular.has(r.skole) ? 'RUFUS' : 'Ukjend';
     }
   });
   // Sorter: dato/skole, RUFUS/gange nedst
