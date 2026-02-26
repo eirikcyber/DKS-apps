@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DKS Transport</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap');
+
+  :root {
+    --bg: #f4f2ed;
+    --surface: #ffffff;
+    --border: #d4cfc6;
+    --text: #1a1916;
+    --dim: #7a756c;
+    --accent: #2a5caa;
+    --ok: #1a7a4a;
+    --warn: #c47d00;
+    --err: #b83232;
+    --ok-bg: #eaf5ef;
+    --warn-bg: #fdf4e3;
+    --err-bg: #fdeaea;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--text);
+    color: #f4f2ed;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  header h1 {
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  header span {
+    font-size: 12px;
+    opacity: 0.5;
+    font-family: var(--mono);
+  }
+
+  .main { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+  /* Upload */
+  .upload-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  @media(max-width: 700px){ .upload-grid { grid-template-columns: 1fr; } }
+
+  .drop-zone {
+    border: 1.5px dashed var(--border);
+    border-radius: 6px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    background: var(--surface);
+    transition: border-color 0.15s, background 0.15s;
+    position: relative;
+  }
+  .drop-zone:hover, .drop-zone.over { border-color: var(--accent); background: #f0f4fb; }
+  .drop-zone.loaded { border-color: var(--ok); border-style: solid; background: var(--ok-bg); }
+  .drop-zone input { display: none; }
+  .drop-zone .label { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+  .drop-zone .hint { font-size: 11px; color: var(--dim); font-family: var(--mono); }
+  .drop-zone .fname { font-size: 11px; font-family: var(--mono); color: var(--ok); margin-top: 6px; }
+
+  .btn-row { display: flex; gap: 10px; margin-bottom: 20px; }
+
+  button {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 9px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: opacity 0.15s;
+  }
+  button:disabled { opacity: 0.35; cursor: not-allowed; }
+  #btnRun { background: var(--accent); color: #fff; }
+  #btnRun:not(:disabled):hover { opacity: 0.85; }
+  #btnReset { background: var(--border); color: var(--text); }
+  #btnReset:hover { background: #c4bfb6; }
+
+  /* Status */
+  #status {
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 10px 14px;
+    border-radius: 4px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+    display: none;
+  }
+  #status.visible { display: block; }
+
+  /* Log */
+  #logBox {
+    font-family: var(--mono);
+    font-size: 11px;
+    background: #1a1916;
+    color: #c8c4bc;
+    border-radius: 6px;
+    padding: 12px 14px;
+    max-height: 180px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    display: none;
+  }
+  #logBox.visible { display: block; }
+  #logBox .ok { color: #6fc28a; }
+  #logBox .err { color: #e07070; }
+  #logBox .info { color: #7aabda; }
+  #logBox .warn { color: #e0b870; }
+
+  /* Tabs */
+  #results { display: none; }
+  #results.visible { display: block; }
+  .tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 16px; }
+  .tab {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 18px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    color: var(--dim);
+    letter-spacing: 0.04em;
+    transition: color 0.1s;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Table */
+  .tbl-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    text-align: left;
+    padding: 8px 10px;
+    background: var(--text);
+    color: #f4f2ed;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  td { padding: 7px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:hover td { background: #f8f6f2; }
+  tr.tur td { }
+  tr.retur td { color: var(--dim); font-size: 12px; }
+  tr.avvik td { background: var(--warn-bg) !important; }
+  tr.avvik td:first-child { border-left: 3px solid var(--warn); }
+  tr.mangler td { background: var(--err-bg) !important; }
+  tr.mangler td:first-child { border-left: 3px solid var(--err); }
+  tr.group-start td { border-top: 2px solid var(--border); }
+
+  .badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .badge-buss { background: #dde8f8; color: #2a5caa; }
+  .badge-rufus { background: #fde8cc; color: #a05000; }
+  .badge-tur { background: #e8f0e8; color: #2a5a2a; }
+  .badge-retur { background: #f0e8f8; color: #5a2a7a; }
+  .badge-avvik { background: var(--warn-bg); color: var(--warn); }
+  .badge-mangler { background: var(--err-bg); color: var(--err); }
+
+  .summary {
+    display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;
+  }
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 16px;
+    min-width: 120px;
+  }
+  .stat .n { font-family: var(--mono); font-size: 22px; font-weight: 600; }
+  .stat .l { font-size: 11px; color: var(--dim); font-family: var(--mono); margin-top: 2px; }
+
+  .empty { color: var(--dim); font-family: var(--mono); font-size: 12px; padding: 20px; text-align: center; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>DKS // TRANSPORT</h1>
+  <span>Asker kommune</span>
+</header>
+
+<div class="main">
+
+  <div class="upload-grid">
+    <div class="drop-zone" id="dropBest">
+      <input type="file" id="fileBest" accept=".pdf">
+      <div class="label">📋 Ordrebestilling</div>
+      <div class="hint">Drag & drop eller klikk</div>
+      <div class="fname" id="nameBest"></div>
+    </div>
+    <div class="drop-zone" id="dropBekr">
+      <input type="file" id="fileBekr" accept=".pdf">
+      <div class="label">✅ Ordrebekreftelse</div>
+      <div class="hint">Drag & drop eller klikk</div>
+      <div class="fname" id="nameBekr"></div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button id="btnRun" disabled>▶ Analyser</button>
+    <button id="btnReset">↺ Nullstill</button>
+  </div>
+
+  <div id="status"></div>
+  <div id="logBox"></div>
+  <div id="results">
+    <div class="summary" id="summary"></div>
+    <div class="tabs">
+      <div class="tab active" data-tab="kombinert">Kombinert</div>
+      <div class="tab" data-tab="bestilling">Bestilling</div>
+      <div class="tab" data-tab="bekreftelse">Bekreftelse</div>
+      <div class="tab" data-tab="avvik">Avvik</div>
+    </div>
+    <div class="tab-panel active" id="tab-kombinert"></div>
+    <div class="tab-panel" id="tab-bestilling"></div>
+    <div class="tab-panel" id="tab-bekreftelse"></div>
+    <div class="tab-panel" id="tab-avvik"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js"></script>
+<script>
+// ============================================================
+// STATE
+// ============================================================
+let bestFile = null, bekrFile = null;
+let pyodide = null;
+let pyReady = false;
+
+// ============================================================
+// SKULELISTE (Asker)
+// ============================================================
+const SKULAR = [
+  'Arnestad skole','Billingstad skole','Blakstad skole','Bondi skole',
+  'Drengsrud skole','Folkestad skole','Frydenlund barneskole',
+  'Hagaløkka skole','Heggedal skole','Hofstad skole','Hyggen skole',
+  'Hvalstad skole','Jansløkka skole','Mellom-Nes skole','Midtbygda barneskole',
+  'Nærsnes barneskole','Nesøya skole','Rønningen skole','Slemmestad barneskole',
+  'Solberg skole','Spikkestad barneskole','Steinerskolen i Asker',
+  'Steinerskolen i Hurum','Sætre skole','Sydskogen barneskole',
+  'Tofte skole','Torvbråten barneskole','Vardåsen skole','Vettre skole',
+  'Arnestad skole','Asker ungdomsskole','Bleiker videregående skole',
+  'Hagaløkka skole','Risenga ungdomsskole','Røyken videregående skole',
+  'International School of Asker','Montessori Asker','Oslo Internasjonale Skole',
+];
+
+function normSkule(s) {
+  s = s.trim().replace(/:$/, '');
+  // Finn beste match
+  let best = s, bestScore = 0;
+  for (const off of SKULAR) {
+    const score = similarity(s.toLowerCase(), off.toLowerCase());
+    if (score > bestScore) { bestScore = score; best = off; }
+  }
+  return bestScore > 0.7 ? best : s;
+}
+
+function similarity(a, b) {
+  if (a === b) return 1;
+  const la = a.replace(/[^a-zæøå0-9]/g,''), lb = b.replace(/[^a-zæøå0-9]/g,'');
+  if (la === lb) return 1;
+  let matches = 0;
+  const longer = la.length > lb.length ? la : lb;
+  const shorter = la.length > lb.length ? lb : la;
+  for (let i = 0; i < shorter.length; i++) {
+    if (longer.includes(shorter[i])) matches++;
+  }
+  return matches / longer.length;
+}
+
+// ============================================================
+// LOGGING
+// ============================================================
+const logBox = document.getElementById('logBox');
+function log(type, msg) {
+  logBox.classList.add('visible');
+  const ts = new Date().toLocaleTimeString('no');
+  const line = document.createElement('div');
+  line.className = type;
+  line.textContent = `[${ts}] ${msg}`;
+  logBox.appendChild(line);
+  logBox.scrollTop = logBox.scrollHeight;
+}
+
+function setStatus(msg) {
+  const s = document.getElementById('status');
+  s.textContent = msg;
+  s.classList.add('visible');
+}
+
+// ============================================================
+// DROPZONES
+// ============================================================
+function setupDrop(zoneId, inputId, nameId, onFile) {
+  const zone = document.getElementById(zoneId);
+  const input = document.getElementById(inputId);
+  const nameEl = document.getElementById(nameId);
+  zone.addEventListener('click', () => input.click());
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('over'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('over'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault(); zone.classList.remove('over');
+    const f = e.dataTransfer.files[0];
+    if (f) setFile(f, zone, nameEl, onFile);
+  });
+  input.addEventListener('change', e => {
+    const f = e.target.files[0];
+    if (f) setFile(f, zone, nameEl, onFile);
+  });
+}
+function setFile(f, zone, nameEl, cb) {
+  zone.classList.add('loaded');
+  nameEl.textContent = f.name;
+  cb(f);
+  checkReady();
+}
+function checkReady() {
+  document.getElementById('btnRun').disabled = !(bestFile && bekrFile && pyReady);
+}
+
+setupDrop('dropBest','fileBest','nameBest', f => { bestFile = f; });
+setupDrop('dropBekr','fileBekr','nameBekr', f => { bekrFile = f; });
+
+// ============================================================
+// PYODIDE INIT
+// ============================================================
+async function initPyodide() {
+  setStatus('Lastar Pyodide (første gong tek litt tid)…');
+  try {
+    pyodide = await loadPyodide();
+    await pyodide.loadPackage('micropip');
+    const micropip = pyodide.pyimport('micropip');
+    setStatus('Installerer pdfminer.six…');
+    await micropip.install('pdfminer.six');
+    pyReady = true;
+    setStatus('Klar – last opp PDF-ane og trykk Analyser');
+    log('ok', 'Pyodide + pdfminer.six klar');
+    checkReady();
+  } catch(e) {
+    log('err', 'Pyodide-feil: ' + e.message);
+    setStatus('Feil ved lasting av Pyodide: ' + e.message);
+  }
+}
+initPyodide();
+
+// ============================================================
+// TABS
+// ============================================================
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+// ============================================================
+// RESET
+// ============================================================
+document.getElementById('btnReset').addEventListener('click', () => {
+  bestFile = null; bekrFile = null;
+  ['dropBest','dropBekr'].forEach(id => document.getElementById(id).classList.remove('loaded'));
+  ['nameBest','nameBekr'].forEach(id => document.getElementById(id).textContent = '');
+  ['fileBest','fileBekr'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('results').classList.remove('visible');
+  document.getElementById('logBox').innerHTML = '';
+  document.getElementById('logBox').classList.remove('visible');
+  checkReady();
+  if (pyReady) setStatus('Klar – last opp PDF-ane og trykk Analyser');
+});
+
+// ============================================================
+// PYTHON PARSE-KODE
+// ============================================================
+const PYTHON_CODE = `
+import sys, io, re
+from pdfminer.layout import LAParams, LTTextLine
+from pdfminer.pdfpage import PDFPage
+from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+from pdfminer.converter import PDFPageAggregator
+import json
+
+def get_items(data):
+    items = []
+    rsrcmgr = PDFResourceManager()
+    device = PDFPageAggregator(rsrcmgr, laparams=LAParams())
+    interpreter = PDFPageInterpreter(rsrcmgr, device)
+    f = io.BytesIO(bytes(data))
+    for pn, page in enumerate(PDFPage.get_pages(f)):
+        interpreter.process_page(page)
+        layout = device.get_result()
+        for el in layout:
+            if hasattr(el, '__iter__'):
+                for line in el:
+                    if hasattr(line, 'get_text'):
+                        t = line.get_text().strip()
+                        if t:
+                            items.append({
+                                'page': pn+1,
+                                'x': round(line.x0),
+                                'y': round(line.y0),
+                                'raw': t
+                            })
+    return items
+
+def decode(text):
+    r = ''
+    for c in text:
+        code = ord(c)
+        if 0x21 <= code <= 0x7e:
+            r += chr(code + 29)
+        elif 0x13 <= code <= 0x1c:
+            r += str(code - 0x13)
+        elif code == 0x1d:
+            r += ':'
+        elif code in (0x10, 0x11):
+            r += ' '
+        elif code == 0x03:
+            r += ' '
+        else:
+            r += c
+    return r
+
+MONTH = {'januar':'01','februar':'02','mars':'03','april':'04','mai':'05',
+         'juni':'06','juli':'07','august':'08','september':'09',
+         'oktober':'10','november':'11','desember':'12'}
+
+SKIP = re.compile(
+    r'Tildelt|Avgang|Retur|Tekst til|skole til|Norske teatret|Dikemark|'
+    r'avreise|Vakttelefon|DKS |bestiller|betaler|elevene|kollektiv|RUFUS|'
+    r'Ordrenr|faktura|Dette|sendes|epost|Totalt|Vy Buss|Hovudscenen|'
+    r'Kristian|Oslo|0164|henter|Plantasjen|klasse|Nesvangen|Nesbukta|'
+    r'Sokkabekk|Bakkekroken|Semsveien|Breivikveien|Skoledalen|Skoleveien|'
+    r'Frydenlund.*skole til|Frydenlund.*Norske',
+    re.I)
+SCHOOL = re.compile(r'\\b(skole|barneskole|ungdomsskole|School|Montessori|Steinerskolen)\\b', re.I)
+
+def decode_time_raw(raw):
+    # Dekod avgang/retur frå råbytes
+    # Format: \\x04\\x03$YJDQJ\\x1d\\x03<tid>\\x03\\x10\\x035HWXU\\x1d\\x03<tid>
+    codes = [ord(c) for c in raw]
+    
+    def read_time(start):
+        t = ''
+        for i in range(start, len(codes)):
+            b = codes[i]
+            if 0x13 <= b <= 0x1c:
+                t += str(b - 0x13)
+            elif b == 0x1d:
+                t += ':'
+            else:
+                break
+        return t if re.match(r'^\\d{2}:\\d{2}$', t) else ''
+    
+    # Finn $YJDQJ = 0x24 0x59 0x4a ...
+    avg_idx = -1
+    for i in range(len(codes)-5):
+        if codes[i]==0x24 and codes[i+1]==0x59 and codes[i+2]==0x4a:
+            avg_idx = i; break
+    if avg_idx == -1:
+        return '', ''
+    avgang = read_time(avg_idx + 8)  # 6 bytes + \\x1d\\x03
+    
+    # Finn 5HWXU = 0x35 0x48 0x57 ...
+    ret_idx = -1
+    for i in range(avg_idx+8, len(codes)-4):
+        if codes[i]==0x35 and codes[i+1]==0x48 and codes[i+2]==0x57:
+            ret_idx = i; break
+    retur = read_time(ret_idx + 7) if ret_idx != -1 else ''  # 5 bytes + \\x1d\\x03
+    
+    return avgang, retur
+
+def decode_tildelt_raw(raw):
+    # Format: \\x18\\x0b\\x15\\x19\\x0c\\x1d\\x037LOGHOW
+    # Tal mellom \\x0b og \\x0c
+    codes = [ord(c) for c in raw]
+    try:
+        ob = codes.index(0x0b)
+        cb = codes.index(0x0c)
+        if cb > ob:
+            numstr = ''.join(str(b-0x13) for b in codes[ob+1:cb] if 0x13 <= b <= 0x1c)
+            return int(numstr) if numstr else 0
+    except ValueError:
+        pass
+    return 0
+
+def is_avgang_line(raw):
+    codes = [ord(c) for c in raw]
+    for i in range(len(codes)-2):
+        if codes[i]==0x24 and codes[i+1]==0x59 and codes[i+2]==0x4a:
+            return True
+    return False
+
+def is_tildelt_line(raw):
+    return '7LOGHOW' in raw
+
+def parse_bestilling(data):
+    items = get_items(data)
+    items.sort(key=lambda i: (i['page'], -i['y'], i['x']))
+    
+    entries = []
+    current_dato = ''
+    current_arena = 'Det Norske Teatret'
+    
+    for it in items:
+        x, raw = it['x'], it['raw']
+        text = decode(raw)
+        
+        # Dato: x~211
+        if 200 <= x <= 235:
+            dm = re.match(r'^(\\d{1,2})\\s+(januar|februar|mars|april|mai|juni|juli|august|september|oktober|november|desember)\\s+(\\d{4})$', text, re.I)
+            if dm:
+                current_dato = f"{dm.group(1).zfill(2)}.{MONTH[dm.group(2).lower()]}.{dm.group(3)[-2:]}"
+            continue
+        
+        # Arena: x~332-370
+        if 320 <= x <= 375:
+            if 'Det Norske Teatret' in text: current_arena = 'Det Norske Teatret'
+            elif text.startswith('Dikemark'): current_arena = 'Dikemark'
+            continue
+        
+        # Berre deltakarar-kolonne: x~406
+        if not (390 <= x <= 490):
+            continue
+        
+        # Tildelt
+        if is_tildelt_line(raw):
+            n = decode_tildelt_raw(raw)
+            if n > 0 and entries:
+                entries[-1]['elever'] += n
+            continue
+        
+        # Avgang/Retur
+        if is_avgang_line(raw):
+            avg, ret = decode_time_raw(raw)
+            if entries:
+                e = entries[-1]
+                if not e['avgang'] and avg: e['avgang'] = avg
+                if not e['retur'] and ret: e['retur'] = ret
+                if not avg: e['transport'] = 'RUFUS'
+            continue
+        
+        # RUFUS
+        if re.search(r'RUFUS|kollektiv transport', text, re.I):
+            if entries: entries[-1]['transport'] = 'RUFUS'
+            continue
+        
+        # Skulnamn
+        if SCHOOL.search(text) and not SKIP.search(text):
+            skole = re.sub(r'\\s*\\d{4}\\s+\\w.*$', '', text).replace(',','').strip().rstrip(':')
+            if len(skole) > 3:
+                entries.append({
+                    'skole': skole,
+                    'dato': current_dato,
+                    'arena': current_arena,
+                    'elever': 0,
+                    'avgang': '',
+                    'retur': '',
+                    'transport': 'Buss'
+                })
+    
+    return entries
+
+def parse_bekreftelse(data):
+    items = get_items(data)
+    
+    # Besk-kolonne: x=257, inneheld "skulnamn - destinasjon"
+    besk_items = [it for it in items if 250 <= it['x'] <= 265 and ' - ' in it['raw']]
+    
+    entries = []
+    for besk in besk_items:
+        y, page = besk['y'], besk['page']
+        raw_text = besk['raw']
+        
+        # Hent andre besk-linjer på same rad (y til y-15)
+        besk_lines = sorted(
+            [it for it in items if it['page']==page and it['x']==257 and y-15 <= it['y'] <= y],
+            key=lambda i: -i['y']
+        )
+        besktext = ' '.join(it['raw'] for it in besk_lines)
+        
+        # Skulnamn og retning frå beskrivelse
+        skole = ''
+        retning = 'TUR'
+        minibuss = False
+        
+        fwd = re.match(r'(\\*?minibuss\\*?\\s*)?(.+?)\\s*-\\s*Det\\s+Norske', besktext, re.I)
+        rev = re.match(r'Det\\s+Norske[\\s\\w]+-\\s*(\\*?minibuss\\*?\\s*)?(.+)', besktext, re.I)
+        
+        if fwd:
+            skole = fwd.group(2).strip() if fwd.group(2) else ''
+            retning = 'TUR'
+            minibuss = bool(fwd.group(1))
+        elif rev:
+            skole = rev.group(2).strip() if rev.group(2) else ''
+            retning = 'RETUR'
+            minibuss = bool(rev.group(1))
+        
+        if not skole:
+            continue
+        
+        # Dato: x~118, same Y
+        dato_items = [it for it in items if it['page']==page and 110<=it['x']<=155 and abs(it['y']-y)<=4]
+        dato = ''
+        for it in dato_items:
+            if re.match(r'\\d{2}\\.\\d{2}\\.\\d{2}', it['raw']):
+                dato = it['raw']; break
+        
+        # Avgang-tid: x~118, Y-11
+        avg_items = [it for it in items if it['page']==page and 110<=it['x']<=155 and y-16<=it['y']<y]
+        avgang = ''
+        for it in sorted(avg_items, key=lambda i: -i['y']):
+            if re.match(r'\\d{2}:\\d{2}', it['raw']):
+                avgang = it['raw']; break
+        
+        # Slutt-tid: x~167, Y-11
+        slt_items = [it for it in items if it['page']==page and 155<=it['x']<=210 and y-16<=it['y']<y]
+        slutt = ''
+        for it in sorted(slt_items, key=lambda i: -i['y']):
+            if re.match(r'\\d{2}:\\d{2}', it['raw']):
+                slutt = it['raw']; break
+        
+        # Ant: x~369, same Y
+        ant_items = [it for it in items if it['page']==page and 355<=it['x']<=395 and abs(it['y']-y)<=4]
+        elever = 0
+        for it in ant_items:
+            m = re.match(r'(\\d+)', it['raw'])
+            if m: elever = int(m.group(1)); break
+        
+        if dato:
+            entries.append({
+                'skole': skole,
+                'dato': dato,
+                'avgang': avgang,
+                'slutt': slutt,
+                'elever': elever,
+                'retning': retning,
+                'minibuss': minibuss
+            })
+    
+    return entries
+
+# Utfør parsing
+import js
+best_data = list(js.bestData)
+bekr_data = list(js.bekrData)
+
+best = parse_bestilling(best_data)
+bekr = parse_bekreftelse(bekr_data)
+
+result = json.dumps({'best': best, 'bekr': bekr})
+result
+`;
+
+// ============================================================
+// RUN ANALYSIS
+// ============================================================
+document.getElementById('btnRun').addEventListener('click', async () => {
+  document.getElementById('btnRun').disabled = true;
+  document.getElementById('logBox').innerHTML = '';
+  document.getElementById('results').classList.remove('visible');
+
+  try {
+    setStatus('Les PDF-ar…');
+    log('info', 'Startar analyse…');
+
+    const bestBuf = await bestFile.arrayBuffer();
+    const bekrBuf = await bekrFile.arrayBuffer();
+
+    // Send data til Python via JS namespace
+    pyodide.globals.set('bestData', new Uint8Array(bestBuf));
+    pyodide.globals.set('bekrData', new Uint8Array(bekrBuf));
+
+    setStatus('Parser PDF-ar med pdfminer…');
+    const resultStr = await pyodide.runPythonAsync(PYTHON_CODE);
+    const { best, bekr } = JSON.parse(resultStr);
+
+    log('ok', `Bestilling: ${best.length} skular`);
+    log('ok', `Bekreftelse: ${bekr.length} rader`);
+
+    // Normaliser skulnamn
+    best.forEach(e => { e.skule_norm = normSkule(e.skole); });
+    bekr.forEach(e => { e.skule_norm = normSkule(e.skole); });
+
+    // Kombiner og samanlikn
+    const kombinert = byggKombinert(best, bekr);
+
+    // Render
+    renderSummary(best, bekr, kombinert);
+    renderTable('tab-bestilling', best, 'bestilling');
+    renderTable('tab-bekreftelse', bekr, 'bekreftelse');
+    renderKombinert(kombinert);
+    renderAvvik(kombinert);
+
+    document.getElementById('results').classList.add('visible');
+    setStatus('Analyse ferdig');
+    log('ok', 'Ferdig!');
+
+  } catch(e) {
+    log('err', 'Feil: ' + e.message);
+    setStatus('Feil: ' + e.message);
+    console.error(e);
+  }
+
+  document.getElementById('btnRun').disabled = false;
+});
+
+// ============================================================
+// KOMBINER bestilling + bekreftelse
+// ============================================================
+function byggKombinert(best, bekr) {
+  // Grupper bekreftelse etter normalisert skulnamn
+  const bekrMap = {};
+  for (const e of bekr) {
+    const key = e.skule_norm + '|' + e.dato;
+    if (!bekrMap[key]) bekrMap[key] = { tur: null, retur: null };
+    if (e.retning === 'TUR') bekrMap[key].tur = e;
+    else bekrMap[key].retur = e;
+  }
+
+  const rows = [];
+  for (const b of best) {
+    const key = b.skule_norm + '|' + b.dato;
+    const bk = bekrMap[key] || {};
+    const bkTur = bk.tur || null;
+    const bkRetur = bk.retur || null;
+
+    // Samanlikn
+    const avvik = [];
+    if (!bkTur && !bkRetur) avvik.push('Manglar i bekreftelse');
+    if (bkTur) {
+      if (b.avgang && bkTur.avgang && b.avgang !== bkTur.avgang)
+        avvik.push(`Avgang: best=${b.avgang} bekr=${bkTur.avgang}`);
+      if (b.elever && bkTur.elever && Math.abs(b.elever - bkTur.elever) > 2)
+        avvik.push(`Elevar: best=${b.elever} bekr=${bkTur.elever}`);
+    }
+
+    rows.push({
+      dato: b.dato,
+      skole: b.skule_norm || b.skole,
+      arena: b.arena,
+      best: b,
+      bkTur,
+      bkRetur,
+      avvik
+    });
+
+    // Fjern frå map (for å finne "berre i bekreftelse")
+    delete bekrMap[key];
+  }
+
+  // Ting som er i bekreftelse men ikkje i bestilling
+  for (const [key, bk] of Object.entries(bekrMap)) {
+    const e = bk.tur || bk.retur;
+    if (!e) continue;
+    rows.push({
+      dato: e.dato,
+      skole: e.skule_norm || e.skole,
+      arena: '',
+      best: null,
+      bkTur: bk.tur,
+      bkRetur: bk.retur,
+      avvik: ['Manglar i bestilling']
+    });
+  }
+
+  // Sorter på dato, deretter skulnamn
+  rows.sort((a, b) => {
+    const d = (a.dato || '').localeCompare(b.dato || '');
+    return d !== 0 ? d : (a.skole || '').localeCompare(b.skole || '');
+  });
+
+  return rows;
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+const COL_BEST = ['Dato','Skule','Arena','Avgang','Retur','Elevar','Transport'];
+const COL_BEKR = ['Dato','Skule','Retning','Avgang','Slutt','Elevar','Minibuss'];
+const COL_KOMB = ['Dato','Skule','Arena','Avgang (best)','Avgang (bekr)','Retur (bekr)','Elevar (best)','Elevar (bekr)','Transport','Status'];
+
+function renderSummary(best, bekr, komb) {
+  const avvik = komb.filter(r => r.avvik.length > 0).length;
+  document.getElementById('summary').innerHTML = `
+    <div class="stat"><div class="n">${best.length}</div><div class="l">I bestilling</div></div>
+    <div class="stat"><div class="n">${bekr.length}</div><div class="l">Rader i bekreftelse</div></div>
+    <div class="stat"><div class="n">${komb.length}</div><div class="l">Unike skular</div></div>
+    <div class="stat" style="border-color:${avvik>0?'var(--warn)':'var(--ok)'}">
+      <div class="n" style="color:${avvik>0?'var(--warn)':'var(--ok)'}">${avvik}</div>
+      <div class="l">Avvik</div>
+    </div>
+  `;
+}
+
+function th(cols) {
+  return '<thead><tr>' + cols.map(c => `<th>${c}</th>`).join('') + '</tr></thead>';
+}
+
+function badge(txt, cls) {
+  return `<span class="badge ${cls}">${txt}</span>`;
+}
+
+function renderTable(id, data, type) {
+  const el = document.getElementById(id);
+  if (!data.length) { el.innerHTML = '<div class="empty">Ingen data</div>'; return; }
+
+  let rows = '';
+  if (type === 'bestilling') {
+    for (const e of data) {
+      rows += `<tr>
+        <td>${e.dato||''}</td>
+        <td>${e.skule_norm||e.skole}</td>
+        <td>${e.arena||''}</td>
+        <td>${e.avgang||'–'}</td>
+        <td>${e.retur||'–'}</td>
+        <td>${e.elever||'–'}</td>
+        <td>${badge(e.transport||'Buss', e.transport==='RUFUS'?'badge-rufus':'badge-buss')}</td>
+      </tr>`;
+    }
+    el.innerHTML = '<div class="tbl-wrap"><table>' + th(COL_BEST) + '<tbody>' + rows + '</tbody></table></div>';
+  } else {
+    // Grupper bekreftelse på skule, sorter tur/retur saman
+    const grouped = {};
+    for (const e of data) {
+      const key = (e.skule_norm||e.skole) + '|' + e.dato;
+      if (!grouped[key]) grouped[key] = [];
+      grouped[key].push(e);
+    }
+    let first = true;
+    for (const [key, grp] of Object.entries(grouped)) {
+      grp.sort((a,b) => a.retning === 'TUR' ? -1 : 1);
+      grp.forEach((e, i) => {
+        const cls = (i===0 && !first ? 'group-start ' : '') + (e.retning==='RETUR' ? 'retur' : 'tur');
+        rows += `<tr class="${cls}">
+          <td>${e.dato||''}</td>
+          <td>${i===0 ? (e.skule_norm||e.skole) : ''}</td>
+          <td>${badge(e.retning, e.retning==='TUR'?'badge-tur':'badge-retur')}</td>
+          <td>${e.avgang||'–'}</td>
+          <td>${e.slutt||'–'}</td>
+          <td>${e.elever||'–'}</td>
+          <td>${e.minibuss ? '🚐' : ''}</td>
+        </tr>`;
+      });
+      first = false;
+    }
+    el.innerHTML = '<div class="tbl-wrap"><table>' + th(COL_BEKR) + '<tbody>' + rows + '</tbody></table></div>';
+  }
+}
+
+function renderKombinert(komb) {
+  const el = document.getElementById('tab-kombinert');
+  if (!komb.length) { el.innerHTML = '<div class="empty">Ingen data</div>'; return; }
+  let rows = '';
+  let prevSkole = '';
+  for (const r of komb) {
+    const isNew = r.skole !== prevSkole;
+    prevSkole = r.skole;
+    const hasAvvik = r.avvik.length > 0;
+    const mangler = r.avvik.some(a => a.includes('Manglar'));
+    const cls = (isNew && rows ? 'group-start ' : '') + (mangler ? 'mangler' : hasAvvik ? 'avvik' : '');
+
+    const bkAvg = r.bkTur ? r.bkTur.avgang : '';
+    const bkRet = r.bkRetur ? r.bkRetur.avgang : (r.bkTur ? r.bkTur.slutt : '');
+    const bkElev = r.bkTur ? r.bkTur.elever : '';
+    const statusBadge = mangler ? badge('MANGLAR','badge-mangler') : hasAvvik ? badge('AVVIK','badge-avvik') : '✓';
+
+    rows += `<tr class="${cls}">
+      <td>${r.dato||''}</td>
+      <td>${r.skole||''}</td>
+      <td>${r.arena||''}</td>
+      <td>${r.best ? (r.best.avgang||'–') : '–'}</td>
+      <td>${bkAvg||'–'}</td>
+      <td>${bkRet||'–'}</td>
+      <td>${r.best ? (r.best.elever||'–') : '–'}</td>
+      <td>${bkElev||'–'}</td>
+      <td>${r.best ? badge(r.best.transport||'Buss', r.best.transport==='RUFUS'?'badge-rufus':'badge-buss') : '–'}</td>
+      <td>${statusBadge}</td>
+    </tr>`;
+  }
+  el.innerHTML = '<div class="tbl-wrap"><table>' + th(COL_KOMB) + '<tbody>' + rows + '</tbody></table></div>';
+}
+
+function renderAvvik(komb) {
+  const avvik = komb.filter(r => r.avvik.length > 0);
+  const el = document.getElementById('tab-avvik');
+  if (!avvik.length) { el.innerHTML = '<div class="empty" style="color:var(--ok)">✓ Ingen avvik funne</div>'; return; }
+  let rows = '';
+  for (const r of avvik) {
+    const mangler = r.avvik.some(a => a.includes('Manglar'));
+    const cls = mangler ? 'mangler' : 'avvik';
+    rows += `<tr class="${cls}">
+      <td>${r.dato||''}</td>
+      <td>${r.skole||''}</td>
+      <td>${r.arena||''}</td>
+      <td>${r.best ? (r.best.avgang||'–') : '–'}</td>
+      <td>${r.bkTur ? (r.bkTur.avgang||'–') : '–'}</td>
+      <td>${r.best ? (r.best.elever||'–') : '–'}</td>
+      <td>${r.bkTur ? (r.bkTur.elever||'–') : '–'}</td>
+      <td>${r.avvik.join('; ')}</td>
+    </tr>`;
+  }
+  const cols = ['Dato','Skule','Arena','Avgang (best)','Avgang (bekr)','Elevar (best)','Elevar (bekr)','Avvik'];
+  el.innerHTML = '<div class="tbl-wrap"><table>' + th(cols) + '<tbody>' + rows + '</tbody></table></div>';
+}
+</script>
+</body>
+</html>
