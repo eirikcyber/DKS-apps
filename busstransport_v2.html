@@ -595,14 +595,21 @@ def decode_time_raw(raw):
 
 def decode_tildelt_raw(raw):
     # Format: \\x18\\x0b\\x15\\x19\\x0c\\x1d\\x037LOGHOW
-    # Tal mellom \\x0b og \\x0c
+    # \\x0b='(' og \\x0c=')' i fontenkodinga.
+    # "5(27)" = trinn 5, 27 elevar: bruk SISTE \\x0b (innste parentes)
+    # slik at berre elevtalet (27) vert henta, ikkje trinnnummeret (5).
     codes = [ord(c) for c in raw]
     try:
-        ob = codes.index(0x0b)
-        cb = codes.index(0x0c)
-        if cb > ob:
-            numstr = ''.join(str(b-0x13) for b in codes[ob+1:cb] if 0x13 <= b <= 0x1c)
-            return int(numstr) if numstr else 0
+        cb = codes.index(0x0c)  # Første ')'
+        # Finn siste '(' FØR ')' for å handtere "trinn(elevar)"-format
+        ob = -1
+        for i in range(cb):
+            if codes[i] == 0x0b:
+                ob = i
+        if ob == -1:
+            return 0
+        numstr = ''.join(str(b-0x13) for b in codes[ob+1:cb] if 0x13 <= b <= 0x1c)
+        return int(numstr) if numstr else 0
     except ValueError:
         pass
     return 0
