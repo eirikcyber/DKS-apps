@@ -639,7 +639,13 @@ def parse_bekreftelse(data):
     items = get_items(data)
     entries = []
     # Ankerpunkt: dato-element i Start-kolonne (x=118)
-    dato_items = [it for it in items if it['x']==118 and re.match(r'\d{2}\.\d{2}\.\d{2}$', it['raw'])]
+    # Debug: logg unike x-koordinatar
+    xs = sorted(set(it['x'] for it in items))
+    import js as _js
+    _js.console.log('Bekr x-koordinatar: ' + str(xs[:20]))
+    _js.console.log('Bekr total items: ' + str(len(items)))
+    dato_items = [it for it in items if 115<=it['x']<=125 and re.match(r'\d{2}\.\d{2}\.\d{2}$', it['raw'])]
+    _js.console.log('Dato items funne: ' + str(len(dato_items)))
     for dato_it in dato_items:
         page, y_dato = dato_it['page'], dato_it['y']
         dato = dato_it['raw']
