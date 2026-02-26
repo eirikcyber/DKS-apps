@@ -872,14 +872,16 @@ function byggKombinert(best, bekr) {
     // Sum elevar over alle TUR-rader (t.d. to bussar med 34+35=69 elevar)
     const bkEleverTot = bk.turer ? bk.turer.reduce((s, t) => s + (t.elever || 0), 0) : 0;
 
-    // Samanlikn
+    // Samanlikn (RUFUS treng ikkje bekreftelse - generer aldri avvik for dei)
     const avvik = [];
-    if (!bkTur && !bkRetur) avvik.push('Manglar i bekreftelse');
-    if (bkTur) {
-      if (b.avgang && bkTur.avgang && b.avgang !== bkTur.avgang)
-        avvik.push(`Avgang: best=${b.avgang} bekr=${bkTur.avgang}`);
-      if (b.elever && bkEleverTot && Math.abs(b.elever - bkEleverTot) > 2)
-        avvik.push(`Elevar: best=${b.elever} bekr=${bkEleverTot}`);
+    if (b.transport !== 'RUFUS') {
+      if (!bkTur && !bkRetur) avvik.push('Manglar i bekreftelse');
+      if (bkTur) {
+        if (b.avgang && bkTur.avgang && b.avgang !== bkTur.avgang)
+          avvik.push(`Avgang: best=${b.avgang} bekr=${bkTur.avgang}`);
+        if (b.elever && bkEleverTot && Math.abs(b.elever - bkEleverTot) > 2)
+          avvik.push(`Elevar: best=${b.elever} bekr=${bkEleverTot}`);
+      }
     }
 
     rows.push({
