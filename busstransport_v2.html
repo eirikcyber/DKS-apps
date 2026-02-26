@@ -666,7 +666,7 @@ def parse_bekreftelse(data):
         ant = get(363, 380, y_dato)
         elever = 0
         for it in ant:
-            m = re.match(r'^(\d+)$', it['raw'])
+            m = re.match(r'^(\\d+)$', it['raw'])
             if m: elever = int(m.group(1)); break
         # Beskrivelse: x=257, y_dato og y_tid (og ev. y_tid-11 for trelinjerader)
         besk_parts = []
@@ -683,12 +683,12 @@ def parse_bekreftelse(data):
             fra_parts += [it['raw'] for it in sorted(f, key=lambda i: -i['y'])]
         fra_text = ' '.join(fra_parts).lower()
         # Minibuss og retning
-        minibuss = bool(re.search(r'\*minibuss\*', besktext, re.I))
-        besk_clean = re.sub(r'\*minibuss\*\s*', '', besktext, flags=re.I).strip()
+        minibuss = bool(re.search(r'\\*minibuss\\*', besktext, re.I))
+        besk_clean = re.sub(r'\\*minibuss\\*\\s*', '', besktext, flags=re.I).strip()
         skole = ''
         retning = ''
-        fwd = re.search(r'^(.+?)\s*[-\u2013]\s*Det\s+Norske', besk_clean, re.I)
-        rev = re.search(r'Det\s+Norske[^-\u2013]*[-\u2013]\s*(.+)', besk_clean, re.I)
+        fwd = re.search(r'^(.+?)\\s*[-\u2013]\\s*Det\\s+Norske', besk_clean, re.I)
+        rev = re.search(r'Det\\s+Norske[^-\u2013]*[-\u2013]\\s*(.+)', besk_clean, re.I)
         fra_er_arena = 'det norske' in fra_text
         if fwd and not fra_er_arena:
             skole = fwd.group(1).strip(); retning = 'TUR'
@@ -700,7 +700,7 @@ def parse_bekreftelse(data):
         elif rev:
             skole = rev.group(1).strip()
             retning = 'TUR' if not fra_er_arena else 'RETUR'
-        if skole and dato and re.match(r'\d{2}:\d{2}', avgang):
+        if skole and dato and re.match(r'\\d{2}:\\d{2}', avgang):
             entries.append({'skole': skole, 'dato': dato, 'avgang': avgang,
                            'slutt': slutt, 'elever': elever, 'retning': retning, 'minibuss': minibuss})
     return entries
