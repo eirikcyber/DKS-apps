@@ -296,19 +296,33 @@ const SKULAR = [
 
 function normSkule(s) {
   s = s.trim().replace(/:$/, '');
-  // Finn beste match
+  const sl = s.toLowerCase();
+
+  // Steg 1: eksakt match (case-insensitive)
+  for (const off of SKULAR) {
+    if (sl === off.toLowerCase()) return off;
+  }
+
+  // Steg 2: substring i begge retningar
+  for (const off of SKULAR) {
+    const ol = off.toLowerCase();
+    if (sl.includes(ol) || ol.includes(sl)) return off;
+  }
+
+  // Steg 3: fuzzy med høg terskel (0.95+)
   let best = s, bestScore = 0;
   for (const off of SKULAR) {
-    const score = similarity(s.toLowerCase(), off.toLowerCase());
+    const score = similarity(sl, off.toLowerCase());
     if (score > bestScore) { bestScore = score; best = off; }
   }
-  return bestScore > 0.7 ? best : s;
+  return bestScore >= 0.95 ? best : s;
 }
 
 function similarity(a, b) {
   if (a === b) return 1;
   const la = a.replace(/[^a-zæøå0-9]/g,''), lb = b.replace(/[^a-zæøå0-9]/g,'');
   if (la === lb) return 1;
+  if (!la.length || !lb.length) return 0;
   let matches = 0;
   const longer = la.length > lb.length ? la : lb;
   const shorter = la.length > lb.length ? lb : la;
