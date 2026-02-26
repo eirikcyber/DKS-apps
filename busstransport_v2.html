@@ -679,10 +679,9 @@ def parse_bekreftelse(data):
     
     return entries
 
-# Utfør parsing
-import js
-best_data = list(js.bestData)
-bekr_data = list(js.bekrData)
+# Utfør parsing - data er sett frå JS via globals
+best_data = list(best_bytes)
+bekr_data = list(bekr_bytes)
 
 best = parse_bestilling(best_data)
 bekr = parse_bekreftelse(bekr_data)
@@ -706,11 +705,10 @@ document.getElementById('btnRun').addEventListener('click', async () => {
     const bestBuf = await bestFile.arrayBuffer();
     const bekrBuf = await bekrFile.arrayBuffer();
 
-    // Send data til Python via JS namespace
-    pyodide.globals.set('bestData', new Uint8Array(bestBuf));
-    pyodide.globals.set('bekrData', new Uint8Array(bekrBuf));
-
     setStatus('Parser PDF-ar med pdfminer…');
+    // Konverter til lister av tal og send via globals
+    pyodide.globals.set('best_bytes', pyodide.toPy(Array.from(new Uint8Array(bestBuf))));
+    pyodide.globals.set('bekr_bytes', pyodide.toPy(Array.from(new Uint8Array(bekrBuf))));
     const resultStr = await pyodide.runPythonAsync(PYTHON_CODE);
     const { best, bekr } = JSON.parse(resultStr);
 
