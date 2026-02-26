@@ -681,7 +681,7 @@ def parse_bekreftelse(data):
         fra_text = ' '.join(fra_parts).lower()
         # Minibuss og retning
         minibuss = '*minibuss*' in besktext.lower()
-        besk_clean = re.sub(r'\*minibuss\*\s*', '', besktext, flags=re.I).strip()
+        besk_clean = besktext.replace('*minibuss*', '').replace('*Minibuss*', '').strip()
         skole = ''
         retning = ''
         fwd = re.search(r'^(.+?)\s*[-\u2013]\s*Det\s+Norske', besk_clean, re.I)
