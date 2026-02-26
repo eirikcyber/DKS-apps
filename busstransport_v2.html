@@ -188,6 +188,7 @@
     letter-spacing: 0.05em;
   }
   .badge-buss { background: #dde8f8; color: #2a5caa; }
+  .badge-gange { background: #e8e8f0; color: #555580; }
   .badge-rufus { background: #fde8cc; color: #a05000; }
   .badge-tur { background: #e8f0e8; color: #2a5a2a; }
   .badge-retur { background: #f0e8f8; color: #5a2a7a; }
@@ -208,6 +209,12 @@
   .stat .l { font-size: 11px; color: var(--dim); font-family: var(--mono); margin-top: 2px; }
 
   .empty { color: var(--dim); font-family: var(--mono); font-size: 12px; padding: 20px; text-align: center; }
+  .sort-row { display: flex; gap: 8px; margin-bottom: 10px; align-items: center; }
+  .sort-row label { font-size: 11px; font-family: var(--mono); color: var(--dim); }
+  .sort-btn { font-family: var(--mono); font-size: 11px; padding: 4px 12px; border: 1px solid var(--border); border-radius: 3px; background: var(--surface); cursor: pointer; }
+  .sort-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+  tr.gange td { background: #f0f0f8 !important; color: var(--dim); }
+  tr.gange td:first-child { border-left: 3px solid #9999cc; }
 </style>
 </head>
 <body>
@@ -243,6 +250,11 @@
   <div id="logBox"></div>
   <div id="results">
     <div class="summary" id="summary"></div>
+    <div class="sort-row">
+      <label>Sorter:</label>
+      <button class="sort-btn active" id="sortDato" onclick="setSortOrder('dato')">Dato</button>
+      <button class="sort-btn" id="sortSkole" onclick="setSortOrder('skole')">Alfabetisk</button>
+    </div>
     <div class="tabs">
       <div class="tab active" data-tab="kombinert">Kombinert</div>
       <div class="tab" data-tab="bestilling">Bestilling</div>
@@ -392,6 +404,29 @@ document.querySelectorAll('.tab').forEach(tab => {
     document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
   });
 });
+
+let sortOrder = 'dato';
+let lastBest = [], lastBekr = [], lastKomb = [];
+function setSortOrder(o) {
+  sortOrder = o;
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sort' + o.charAt(0).toUpperCase() + o.slice(1)).classList.add('active');
+  if (lastBest.length) {
+    renderTable('tab-bestilling', lastBest, 'bestilling');
+    renderTable('tab-bekreftelse', lastBekr, 'bekreftelse');
+    renderKombinert(lastKomb);
+    renderAvvik(lastKomb);
+  }
+}
+function sortData(arr, keyFn) {
+  return [...arr].sort((a,b) => {
+    if (sortOrder === 'skole') {
+      const s = (keyFn(a)||'').localeCompare(keyFn(b)||'');
+      if (s !== 0) return s;
+    }
+    return (a.dato||'').localeCompare(b.dato||'') || (keyFn(a)||'').localeCompare(keyFn(b)||'');
+  });
+}
 
 // ============================================================
 // RESET
@@ -602,81 +637,61 @@ def parse_bestilling(data):
 
 def parse_bekreftelse(data):
     items = get_items(data)
-    
-    # Besk-kolonne: x=257, inneheld "skulnamn - destinasjon"
-    besk_items = [it for it in items if 250 <= it['x'] <= 265 and ' - ' in it['raw']]
-    
     entries = []
-    for besk in besk_items:
-        y, page = besk['y'], besk['page']
-        raw_text = besk['raw']
-        
-        # Hent andre besk-linjer på same rad (y til y-15)
-        besk_lines = sorted(
-            [it for it in items if it['page']==page and it['x']==257 and y-15 <= it['y'] <= y],
-            key=lambda i: -i['y']
-        )
-        besktext = ' '.join(it['raw'] for it in besk_lines)
-        
-        # Skulnamn og retning frå beskrivelse
-        skole = ''
-        retning = 'TUR'
-        minibuss = False
-        
-        fwd = re.match(r'(\\*?minibuss\\*?\\s*)?(.+?)\\s*-\\s*Det\\s+Norske', besktext, re.I)
-        rev = re.match(r'Det\\s+Norske[\\s\\w]+-\\s*(\\*?minibuss\\*?\\s*)?(.+)', besktext, re.I)
-        
-        if fwd:
-            skole = fwd.group(2).strip() if fwd.group(2) else ''
-            retning = 'TUR'
-            minibuss = bool(fwd.group(1))
-        elif rev:
-            skole = rev.group(2).strip() if rev.group(2) else ''
-            retning = 'RETUR'
-            minibuss = bool(rev.group(1))
-        
-        if not skole:
-            continue
-        
-        # Dato: x~118, same Y
-        dato_items = [it for it in items if it['page']==page and 110<=it['x']<=155 and abs(it['y']-y)<=4]
-        dato = ''
-        for it in dato_items:
-            if re.match(r'\\d{2}\\.\\d{2}\\.\\d{2}', it['raw']):
-                dato = it['raw']; break
-        
-        # Avgang-tid: x~118, Y-11
-        avg_items = [it for it in items if it['page']==page and 110<=it['x']<=155 and y-16<=it['y']<y]
-        avgang = ''
-        for it in sorted(avg_items, key=lambda i: -i['y']):
-            if re.match(r'\\d{2}:\\d{2}', it['raw']):
-                avgang = it['raw']; break
-        
-        # Slutt-tid: x~167, Y-11
-        slt_items = [it for it in items if it['page']==page and 155<=it['x']<=210 and y-16<=it['y']<y]
-        slutt = ''
-        for it in sorted(slt_items, key=lambda i: -i['y']):
-            if re.match(r'\\d{2}:\\d{2}', it['raw']):
-                slutt = it['raw']; break
-        
-        # Ant: x~369, same Y
-        ant_items = [it for it in items if it['page']==page and 355<=it['x']<=395 and abs(it['y']-y)<=4]
+    # Ankerpunkt: dato-element i Start-kolonne (x=118)
+    dato_items = [it for it in items if it['x']==118 and re.match(r'\d{2}\.\d{2}\.\d{2}$', it['raw'])]
+    for dato_it in dato_items:
+        page, y_dato = dato_it['page'], dato_it['y']
+        dato = dato_it['raw']
+        y_tid = y_dato - 11
+        def get(x_min, x_max, y, tol=4):
+            return [it for it in items if it['page']==page and x_min<=it['x']<=x_max and abs(it['y']-y)<=tol]
+        # Avgang og slutt
+        avg = get(115, 130, y_tid)
+        avgang = avg[0]['raw'] if avg else ''
+        slt = get(163, 175, y_tid)
+        slutt = slt[0]['raw'] if slt else ''
+        # Ant
+        ant = get(363, 380, y_dato)
         elever = 0
-        for it in ant_items:
-            m = re.match(r'(\\d+)', it['raw'])
+        for it in ant:
+            m = re.match(r'^(\d+)$', it['raw'])
             if m: elever = int(m.group(1)); break
-        
-        if dato:
-            entries.append({
-                'skole': skole,
-                'dato': dato,
-                'avgang': avgang,
-                'slutt': slutt,
-                'elever': elever,
-                'retning': retning,
-                'minibuss': minibuss
-            })
-    
+        # Beskrivelse: x=257, y_dato og y_tid (og ev. y_tid-11 for trelinjerader)
+        besk_parts = []
+        for y_check in [y_dato, y_tid]:
+            b = get(255, 295, y_check)
+            besk_parts += [it['raw'] for it in sorted(b, key=lambda i: -i['y'])]
+        b3 = [it for it in items if it['page']==page and it['x']==257 and y_tid-16<=it['y']<y_tid-4]
+        besk_parts += [it['raw'] for it in sorted(b3, key=lambda i: -i['y'])]
+        besktext = ' '.join(besk_parts).strip()
+        # Fra: x=77
+        fra_parts = []
+        for y_check in [y_dato, y_tid, y_tid-11]:
+            f = get(75, 115, y_check)
+            fra_parts += [it['raw'] for it in sorted(f, key=lambda i: -i['y'])]
+        fra_text = ' '.join(fra_parts).lower()
+        # Minibuss og retning
+        minibuss = '*minibuss*' in besktext.lower()
+        besk_clean = re.sub(r'\*minibuss\*\s*', '', besktext, flags=re.I).strip()
+        skole = ''
+        retning = ''
+        fwd = re.search(r'^(.+?)\s*[-\u2013]\s*Det\s+Norske', besk_clean, re.I)
+        rev = re.search(r'Det\s+Norske[^-\u2013]*[-\u2013]\s*(.+)', besk_clean, re.I)
+        fra_er_arena = 'det norske' in fra_text
+        if fwd and not fra_er_arena:
+            skole = fwd.group(1).strip(); retning = 'TUR'
+        elif rev and fra_er_arena:
+            skole = rev.group(1).strip(); retning = 'RETUR'
+        elif fwd:
+            skole = fwd.group(1).strip()
+            retning = 'RETUR' if fra_er_arena else 'TUR'
+        elif rev:
+            skole = rev.group(1).strip()
+            retning = 'TUR' if not fra_er_arena else 'RETUR'
+        if skole and dato and re.match(r'\d{2}:\d{2}', avgang):
+            entries.append({'skole': skole, 'dato': dato, 'avgang': avgang,
+                           'slutt': slutt, 'elever': elever, 'retning': retning, 'minibuss': minibuss})
     return entries
 
 # Utfør parsing - les frå base64-strengar sett av JS
@@ -732,6 +747,7 @@ document.getElementById('btnRun').addEventListener('click', async () => {
     const kombinert = byggKombinert(best, bekr);
 
     // Render
+    lastBest = best; lastBekr = bekr; lastKomb = kombinert;
     renderSummary(best, bekr, kombinert);
     renderTable('tab-bestilling', best, 'bestilling');
     renderTable('tab-bekreftelse', bekr, 'bekreftelse');
@@ -810,10 +826,24 @@ function byggKombinert(best, bekr) {
     });
   }
 
-  // Sorter på dato, deretter skulnamn
+  // Skill RUFUS/gange frå buss
+  rows.forEach(r => {
+    if (r.best) {
+      r._transport = r.best.transport || 'Buss';
+    } else {
+      r._transport = 'Ukjend';
+    }
+  });
+  // Sorter: dato/skole, RUFUS/gange nedst
   rows.sort((a, b) => {
-    const d = (a.dato || '').localeCompare(b.dato || '');
-    return d !== 0 ? d : (a.skole || '').localeCompare(b.skole || '');
+    const aRufus = a._transport === 'RUFUS' || a._transport === 'GANGE';
+    const bRufus = b._transport === 'RUFUS' || b._transport === 'GANGE';
+    if (aRufus !== bRufus) return aRufus ? 1 : -1;
+    if (sortOrder === 'skole') {
+      const s = (a.skole||'').localeCompare(b.skole||'');
+      if (s !== 0) return s;
+    }
+    return (a.dato||'').localeCompare(b.dato||'') || (a.skole||'').localeCompare(b.skole||'');
   });
 
   return rows;
@@ -853,22 +883,29 @@ function renderTable(id, data, type) {
 
   let rows = '';
   if (type === 'bestilling') {
-    for (const e of data) {
-      rows += `<tr>
+    const sorted = sortData(data, e => e.skule_norm||e.skole);
+    const buss = sorted.filter(e => e.transport !== 'RUFUS' && e.transport !== 'GANGE');
+    const rufus = sorted.filter(e => e.transport === 'RUFUS');
+    const gange = sorted.filter(e => e.transport === 'GANGE');
+    for (const e of [...buss, ...gange, ...rufus]) {
+      const isGange = e.transport === 'GANGE';
+      const isRufus = e.transport === 'RUFUS';
+      const cls = isGange ? 'gange' : '';
+      rows += `<tr class="${cls}">
         <td>${e.dato||''}</td>
         <td>${e.skule_norm||e.skole}</td>
         <td>${e.arena||''}</td>
         <td>${e.avgang||'–'}</td>
         <td>${e.retur||'–'}</td>
         <td>${e.elever||'–'}</td>
-        <td>${badge(e.transport||'Buss', e.transport==='RUFUS'?'badge-rufus':'badge-buss')}</td>
+        <td>${isRufus ? badge('RUFUS','badge-rufus') : isGange ? badge('Gange','badge-gange') : badge('Buss','badge-buss')}</td>
       </tr>`;
     }
     el.innerHTML = '<div class="tbl-wrap"><table>' + th(COL_BEST) + '<tbody>' + rows + '</tbody></table></div>';
   } else {
-    // Grupper bekreftelse på skule, sorter tur/retur saman
+    const sorted = sortData(data, e => e.skule_norm||e.skole);
     const grouped = {};
-    for (const e of data) {
+    for (const e of sorted) {
       const key = (e.skule_norm||e.skole) + '|' + e.dato;
       if (!grouped[key]) grouped[key] = [];
       grouped[key].push(e);
@@ -904,7 +941,9 @@ function renderKombinert(komb) {
     prevSkole = r.skole;
     const hasAvvik = r.avvik.length > 0;
     const mangler = r.avvik.some(a => a.includes('Manglar'));
-    const cls = (isNew && rows ? 'group-start ' : '') + (mangler ? 'mangler' : hasAvvik ? 'avvik' : '');
+    const isRufus = r._transport === 'RUFUS';
+    const isGange = r._transport === 'GANGE';
+    const cls = (isNew && rows ? 'group-start ' : '') + (mangler ? 'mangler' : hasAvvik ? 'avvik' : isGange ? 'gange' : '');
 
     const bkAvg = r.bkTur ? r.bkTur.avgang : '';
     const bkRet = r.bkRetur ? r.bkRetur.avgang : (r.bkTur ? r.bkTur.slutt : '');
@@ -920,7 +959,7 @@ function renderKombinert(komb) {
       <td>${bkRet||'–'}</td>
       <td>${r.best ? (r.best.elever||'–') : '–'}</td>
       <td>${bkElev||'–'}</td>
-      <td>${r.best ? badge(r.best.transport||'Buss', r.best.transport==='RUFUS'?'badge-rufus':'badge-buss') : '–'}</td>
+      <td>${r.best ? (r.best.transport==='RUFUS' ? badge('RUFUS','badge-rufus') : r.best.transport==='GANGE' ? badge('Gange','badge-gange') : badge('Buss','badge-buss')) : '–'}</td>
       <td>${statusBadge}</td>
     </tr>`;
   }
@@ -928,7 +967,8 @@ function renderKombinert(komb) {
 }
 
 function renderAvvik(komb) {
-  const avvik = komb.filter(r => r.avvik.length > 0);
+  // RUFUS treng ikkje bekreftelse - filtrer dei ut frå avvik-lista
+  const avvik = komb.filter(r => r.avvik.length > 0 && r._transport !== 'RUFUS');
   const el = document.getElementById('tab-avvik');
   if (!avvik.length) { el.innerHTML = '<div class="empty" style="color:var(--ok)">✓ Ingen avvik funne</div>'; return; }
   let rows = '';
