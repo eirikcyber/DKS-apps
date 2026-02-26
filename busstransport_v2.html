@@ -642,8 +642,16 @@ def parse_bekreftelse(data):
     xs = sorted(set(it['x'] for it in items))
     print('BEKR x-koordinatar:', xs[:20])
     print('BEKR total items:', len(items))
-    dato_items = [it for it in items if 115<=it['x']<=125 and re.match(r'\d{2}\.\d{2}\.\d{2}$', it['raw'])]
+    # Lausare sjekk - Pyodide kan ha whitespace eller linjeskift
+    dato_items = [it for it in items if 115<=it['x']<=125 and re.search(r'\d{2}\.\d{2}\.\d{2}', it['raw'])]
     print('BEKR dato items:', len(dato_items))
+    if dato_items:
+        print('BEKR dato eksempel:', repr(dato_items[0]['raw']))
+    else:
+        x118 = [it for it in items if 115<=it['x']<=125]
+        print('BEKR x118 items:', len(x118))
+        for it in x118[:5]:
+            print('  raw=', repr(it['raw']))
     for dato_it in dato_items:
         page, y_dato = dato_it['page'], dato_it['y']
         dato = dato_it['raw']
