@@ -679,9 +679,10 @@ def parse_bekreftelse(data):
     
     return entries
 
-# Utfør parsing - data er sett frå JS via globals
-best_data = list(best_bytes)
-bekr_data = list(bekr_bytes)
+# Utfør parsing - les frå base64-strengar sett av JS
+import base64
+best_data = list(base64.b64decode(best_b64))
+bekr_data = list(base64.b64decode(bekr_b64))
 
 best = parse_bestilling(best_data)
 bekr = parse_bekreftelse(bekr_data)
@@ -706,9 +707,17 @@ document.getElementById('btnRun').addEventListener('click', async () => {
     const bekrBuf = await bekrFile.arrayBuffer();
 
     setStatus('Parser PDF-ar med pdfminer…');
-    // Konverter til lister av tal og send via globals
-    pyodide.globals.set('best_bytes', pyodide.toPy(Array.from(new Uint8Array(bestBuf))));
-    pyodide.globals.set('bekr_bytes', pyodide.toPy(Array.from(new Uint8Array(bekrBuf))));
+    // Konverter til base64 og send som streng
+    function toBase64(buf) {
+      let binary = '';
+      const bytes = new Uint8Array(buf);
+      for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+      return btoa(binary);
+    }
+    const bestB64 = toBase64(bestBuf);
+    const bekrB64 = toBase64(bekrBuf);
+    pyodide.globals.set('best_b64', bestB64);
+    pyodide.globals.set('bekr_b64', bekrB64);
     const resultStr = await pyodide.runPythonAsync(PYTHON_CODE);
     const { best, bekr } = JSON.parse(resultStr);
 
