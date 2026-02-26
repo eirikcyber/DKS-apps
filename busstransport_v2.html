@@ -645,13 +645,10 @@ def parse_bekreftelse(data):
     # Lausare sjekk - Pyodide kan ha whitespace eller linjeskift
     dato_items = [it for it in items if 115<=it['x']<=125 and re.search(r'\d{2}\.\d{2}\.\d{2}', it['raw'])]
     print('BEKR dato items:', len(dato_items))
-    if dato_items:
-        print('BEKR dato eksempel:', repr(dato_items[0]['raw']))
-    else:
-        x118 = [it for it in items if 115<=it['x']<=125]
-        print('BEKR x118 items:', len(x118))
-        for it in x118[:5]:
-            print('  raw=', repr(it['raw']))
+    x118 = [it for it in items if 115<=it['x']<=125]
+    print('BEKR x118 count:', len(x118))
+    for it in x118[:8]:
+        print('  x='+str(it['x'])+' raw='+repr(it['raw'])+' bytes='+str([ord(c) for c in it['raw'][:6]]))
     for dato_it in dato_items:
         page, y_dato = dato_it['page'], dato_it['y']
         dato = dato_it['raw']
