@@ -832,15 +832,34 @@ document.getElementById('btnRun').addEventListener('click', async () => {
 // KOMBINER bestilling + bekreftelse
 // ============================================================
 function byggKombinert(best, bekr) {
-  // Skular i bestilling som er RUFUS (treng ikkje bekreftelse)
-  const rufusSkular = new Set(best.filter(b => b.transport === 'RUFUS').map(b => b.skule_norm || b.skole));
+  // Set av RUFUS-skulnamn (normalisert, rå og kjerne) for sjekk av bekreftelse-berre-rader
+  const rufusSkular = new Set();
+  for (const b of best) {
+    if (b.transport === 'RUFUS') {
+      const n = b.skule_norm || b.skole;
+      rufusSkular.add(n);
+      rufusSkular.add(n.toLowerCase());
+      if (b.skole) { rufusSkular.add(b.skole); rufusSkular.add(b.skole.toLowerCase()); }
+    }
+  }
+  function isRufusByName(skole) {
+    if (!skole) return false;
+    if (rufusSkular.has(skole) || rufusSkular.has(skole.toLowerCase())) return true;
+    const k = skolKjerne(skole.toLowerCase());
+    if (k.length <= 2) return false;
+    for (const r of rufusSkular) {
+      if (skolKjerne(r) === k) return true;
+    }
+    return false;
+  }
 
-  // Grupper bekreftelse etter normalisert skulnamn
+  // Grupper bekreftelse etter normalisert skulnamn.
+  // turer: array av alle TUR-rader (t.d. fleire bussar for same skule+dato)
   const bekrMap = {};
   for (const e of bekr) {
     const key = e.skule_norm + '|' + e.dato;
-    if (!bekrMap[key]) bekrMap[key] = { tur: null, retur: null };
-    if (e.retning === 'TUR') bekrMap[key].tur = e;
+    if (!bekrMap[key]) bekrMap[key] = { turer: [], retur: null };
+    if (e.retning === 'TUR') bekrMap[key].turer.push(e);
     else bekrMap[key].retur = e;
   }
 
@@ -848,8 +867,10 @@ function byggKombinert(best, bekr) {
   for (const b of best) {
     const key = b.skule_norm + '|' + b.dato;
     const bk = bekrMap[key] || {};
-    const bkTur = bk.tur || null;
+    const bkTur = (bk.turer && bk.turer.length > 0) ? bk.turer[0] : null;
     const bkRetur = bk.retur || null;
+    // Sum elevar over alle TUR-rader (t.d. to bussar med 34+35=69 elevar)
+    const bkEleverTot = bk.turer ? bk.turer.reduce((s, t) => s + (t.elever || 0), 0) : 0;
 
     // Samanlikn
     const avvik = [];
@@ -857,8 +878,8 @@ function byggKombinert(best, bekr) {
     if (bkTur) {
       if (b.avgang && bkTur.avgang && b.avgang !== bkTur.avgang)
         avvik.push(`Avgang: best=${b.avgang} bekr=${bkTur.avgang}`);
-      if (b.elever && bkTur.elever && Math.abs(b.elever - bkTur.elever) > 2)
-        avvik.push(`Elevar: best=${b.elever} bekr=${bkTur.elever}`);
+      if (b.elever && bkEleverTot && Math.abs(b.elever - bkEleverTot) > 2)
+        avvik.push(`Elevar: best=${b.elever} bekr=${bkEleverTot}`);
     }
 
     rows.push({
@@ -868,6 +889,7 @@ function byggKombinert(best, bekr) {
       best: b,
       bkTur,
       bkRetur,
+      bkEleverTot,
       avvik
     });
 
@@ -877,15 +899,17 @@ function byggKombinert(best, bekr) {
 
   // Ting som er i bekreftelse men ikkje i bestilling
   for (const [key, bk] of Object.entries(bekrMap)) {
-    const e = bk.tur || bk.retur;
+    const e = (bk.turer && bk.turer.length > 0) ? bk.turer[0] : bk.retur;
     if (!e) continue;
+    const bkEleverTot = bk.turer ? bk.turer.reduce((s, t) => s + (t.elever || 0), 0) : 0;
     rows.push({
       dato: e.dato,
       skole: e.skule_norm || e.skole,
       arena: '',
       best: null,
-      bkTur: bk.tur,
+      bkTur: (bk.turer && bk.turer.length > 0) ? bk.turer[0] : null,
       bkRetur: bk.retur,
+      bkEleverTot,
       avvik: ['Manglar i bestilling']
     });
   }
@@ -895,8 +919,8 @@ function byggKombinert(best, bekr) {
     if (r.best) {
       r._transport = r.best.transport || 'Buss';
     } else {
-      // Bekreftelse-only: sjekk om skulen er RUFUS i bestilling
-      r._transport = rufusSkular.has(r.skole) ? 'RUFUS' : 'Ukjend';
+      // Bekreftelse-only: sjekk om skulen er RUFUS i bestilling (robust namnesjekk)
+      r._transport = isRufusByName(r.skole) ? 'RUFUS' : 'Ukjend';
     }
   });
   // Sorter: dato/skole, RUFUS/gange nedst
@@ -1034,7 +1058,7 @@ function renderKombinert(komb) {
 
     const bkAvg = r.bkTur ? r.bkTur.avgang : '';
     const bkRet = r.bkRetur ? r.bkRetur.avgang : (r.bkTur ? r.bkTur.slutt : '');
-    const bkElev = r.bkTur ? r.bkTur.elever : '';
+    const bkElev = r.bkEleverTot || '';
     const statusBadge = mangler ? badge('MANGLAR','badge-mangler') : hasAvvik ? badge('AVVIK','badge-avvik') : '✓';
 
     rows += `<tr class="${cls}">
@@ -1069,7 +1093,7 @@ function renderAvvik(komb) {
       <td>${r.best ? (r.best.avgang||'–') : '–'}</td>
       <td>${r.bkTur ? (r.bkTur.avgang||'–') : '–'}</td>
       <td>${r.best ? (r.best.elever||'–') : '–'}</td>
-      <td>${r.bkTur ? (r.bkTur.elever||'–') : '–'}</td>
+      <td>${r.bkEleverTot || '–'}</td>
       <td>${r.avvik.join('; ')}</td>
     </tr>`;
   }
