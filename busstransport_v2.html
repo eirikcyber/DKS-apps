@@ -215,6 +215,10 @@
   .sort-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
   tr.gange td { background: #f0f0f8 !important; color: var(--dim); }
   tr.gange td:first-child { border-left: 3px solid #9999cc; }
+  .csv-row { margin-bottom: 10px; }
+  .csv-btn { background: var(--surface); border: 1px solid var(--border); color: var(--dim); font-size: 11px; padding: 5px 14px; border-radius: 3px; }
+  .csv-btn:hover { background: var(--bg); color: var(--text); border-color: var(--text); }
+  .csv-btn.copied { color: var(--ok); border-color: var(--ok); }
 </style>
 </head>
 <body>
@@ -899,6 +903,28 @@ function th(cols) {
   return '<thead><tr>' + cols.map(c => `<th>${c}</th>`).join('') + '</tr></thead>';
 }
 
+function copyTableCSV(panelId) {
+  const table = document.querySelector('#' + panelId + ' table');
+  if (!table) return;
+  const rows = [];
+  for (const tr of table.querySelectorAll('tr')) {
+    const cells = [...tr.querySelectorAll('th, td')].map(c => c.textContent.trim().replace(/\s+/g, ' '));
+    rows.push(cells.join('\t'));
+  }
+  navigator.clipboard.writeText(rows.join('\n')).then(() => {
+    const btn = document.querySelector('#' + panelId + ' .csv-btn');
+    if (btn) {
+      btn.textContent = '✓ Kopiert!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = '⎘ Kopier som CSV'; btn.classList.remove('copied'); }, 2000);
+    }
+  });
+}
+
+function csvBtn(panelId) {
+  return '<div class="csv-row"><button class="csv-btn" onclick="copyTableCSV(\'' + panelId + '\')">⎘ Kopier som CSV</button></div>';
+}
+
 function badge(txt, cls) {
   return `<span class="badge ${cls}">${txt}</span>`;
 }
@@ -927,7 +953,7 @@ function renderTable(id, data, type) {
         <td>${isRufus ? badge('RUFUS','badge-rufus') : isGange ? badge('Gange','badge-gange') : badge('Buss','badge-buss')}</td>
       </tr>`;
     }
-    el.innerHTML = '<div class="tbl-wrap"><table>' + th(COL_BEST) + '<tbody>' + rows + '</tbody></table></div>';
+    el.innerHTML = csvBtn(id) + '<div class="tbl-wrap"><table>' + th(COL_BEST) + '<tbody>' + rows + '</tbody></table></div>';
   } else {
     const sorted = sortData(data, e => e.skule_norm||e.skole);
     const grouped = {};
@@ -953,7 +979,7 @@ function renderTable(id, data, type) {
       });
       first = false;
     }
-    el.innerHTML = '<div class="tbl-wrap"><table>' + th(COL_BEKR) + '<tbody>' + rows + '</tbody></table></div>';
+    el.innerHTML = csvBtn(id) + '<div class="tbl-wrap"><table>' + th(COL_BEKR) + '<tbody>' + rows + '</tbody></table></div>';
   }
 }
 
@@ -989,7 +1015,7 @@ function renderKombinert(komb) {
       <td>${statusBadge}</td>
     </tr>`;
   }
-  el.innerHTML = '<div class="tbl-wrap"><table>' + th(COL_KOMB) + '<tbody>' + rows + '</tbody></table></div>';
+  el.innerHTML = csvBtn('tab-kombinert') + '<div class="tbl-wrap"><table>' + th(COL_KOMB) + '<tbody>' + rows + '</tbody></table></div>';
 }
 
 function renderAvvik(komb) {
