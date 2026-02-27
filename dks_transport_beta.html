@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DKS Bustransport – Asker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blaa: #005B8E;
+      --blaa-mork: #004068;
+      --blaa-lys: #d6e8f3;
+      --gronn: #4A7C59;
+      --sand: #C8B89A;
+      --sand-lys: #f5efe8;
+      --terrakotta: #C0583A;
+      --gul: #E8B84B;
+      --svart: #1a1a1a;
+      --graa: #6b6b6b;
+      --graa-lys: #f0ede9;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--sand-lys);
+      color: var(--svart);
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--blaa);
+      color: white;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 48px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .dks-logo { height: 44px; display: block; }
+
+    .header-divider {
+      width: 1px;
+      height: 32px;
+      background: rgba(255,255,255,0.25);
+      margin: 0 4px;
+    }
+
+    .header-section { font-size: 13px; opacity: 0.7; font-weight: 300; }
+
+    .header-back {
+      margin-left: auto;
+      color: rgba(255,255,255,0.7);
+      font-size: 13px;
+      font-weight: 300;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .header-back:hover { color: white; }
+
+    .header-hero {
+      padding: 52px 48px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 40%; height: 100%;
+      background: linear-gradient(135deg, transparent 0%, rgba(0,64,104,0.4) 100%);
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      background: var(--gul);
+      color: var(--blaa-mork);
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 2px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: 'Source Serif 4', serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 300; line-height: 1.2;
+      margin-bottom: 14px; letter-spacing: -0.01em;
+    }
+
+    h1 em { font-style: italic; color: var(--gul); }
+
+    .hero-desc {
+      font-size: 15px; font-weight: 300;
+      opacity: 0.8; max-width: 520px; line-height: 1.6;
+    }
+
+    main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    .status-bar {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.07);
+      border-radius: 4px;
+      padding: 14px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 13.5px;
+      color: var(--graa);
+    }
+
+    .status-bar .progress-text { flex: 1; }
+
+    .progress-bar {
+      height: 4px;
+      background: var(--graa-lys);
+      border-radius: 2px;
+      overflow: hidden;
+      width: 180px;
+      flex-shrink: 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--gul);
+      border-radius: 2px;
+      transition: width 0.2s ease;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 16px; height: 16px;
+      border: 2px solid var(--sand);
+      border-top-color: var(--blaa);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+
+    .filter-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .filter-input {
+      border: 1px solid var(--sand);
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-size: 13.5px;
+      font-family: 'DM Sans', sans-serif;
+      background: white;
+      color: var(--svart);
+      outline: none;
+      min-width: 260px;
+    }
+
+    .filter-input:focus { border-color: var(--blaa); }
+
+    .result-count {
+      font-size: 13px;
+      color: var(--graa);
+      margin-left: auto;
+    }
+
+    .table-wrap {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.07);
+      border-radius: 4px;
+      overflow: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+
+    thead th {
+      background: var(--blaa);
+      color: white;
+      padding: 12px 14px;
+      text-align: left;
+      font-weight: 400;
+      font-size: 11.5px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--graa-lys);
+      transition: background 0.1s;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--sand-lys); }
+
+    tbody td {
+      padding: 10px 14px;
+      vertical-align: top;
+      line-height: 1.45;
+    }
+
+    .td-dato { white-space: nowrap; font-weight: 500; color: var(--blaa-mork); }
+    .td-elev { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .td-lok { color: var(--graa); }
+    .td-komm { color: var(--graa); font-size: 12.5px; max-width: 340px; }
+
+    .empty-msg {
+      text-align: center;
+      padding: 48px;
+      color: var(--graa);
+      font-size: 14px;
+    }
+
+    footer {
+      background: var(--blaa-mork);
+      color: rgba(255,255,255,0.6);
+      text-align: center; padding: 28px;
+      font-size: 12.5px; font-weight: 300; letter-spacing: 0.02em;
+    }
+
+    footer span { color: rgba(255,255,255,0.9); }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 600px) {
+      .header-top { padding: 16px 20px; }
+      .header-hero { padding: 36px 20px 40px; }
+      main { padding: 28px 16px 60px; }
+      .progress-bar { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <a href="https://www.denkulturelleskolesekken.no/asker/" target="_blank">
+      <img class="dks-logo" src="https://cdn.denkulturelleskolesekken.no/asker/cd010066-dks_positiv_farge_liggende_logo_cmyk_20-2-3.png" alt="Den kulturelle skulesekken i Asker">
+    </a>
+    <div class="header-divider"></div>
+    <span class="header-section">Bustransport 2025/26</span>
+    <a class="header-back" href="index.html">← Tilbake</a>
+  </div>
+  <div class="header-hero">
+    <div class="hero-tag">Den kulturelle skulesekken i Asker</div>
+    <h1>Bus&shy;transport<br>for <em>Asker-skulane</em></h1>
+    <p class="hero-desc">
+      Oversikt over alle DKS-arrangement med busstransport for Asker-skular, henta direkte frå DKS-portalen.
+    </p>
+  </div>
+</header>
+
+<main>
+  <div id="status-bar" class="status-bar">
+    <div class="loading-spinner" id="spinner"></div>
+    <span class="progress-text" id="progress-text">Hentar data frå DKS-portalen…</span>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+  </div>
+
+  <div class="filter-bar" id="filter-bar" style="display:none">
+    <input class="filter-input" type="text" id="filter-input" placeholder="Filtrer på skule, produksjon, lokasjon…">
+    <span class="result-count" id="result-count"></span>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Dato</th>
+          <th>Skule</th>
+          <th>Produksjon</th>
+          <th>Lokasjon</th>
+          <th>Elevar</th>
+          <th>Kommentar</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</main>
+
+<footer>
+  <span>Den kulturelle skulesekken i Asker</span> · Bustransport
+</footer>
+
+<script>
+const API = 'https://portal.denkulturelleskolesekken.no/public/events/findBySchool?orgNumber=';
+
+const SKULAR = [
+  {name: 'Arnestad skole',          org: '973601997'},
+  {name: 'Billingstad skole',        org: '974578263'},
+  {name: 'Blakstad skole',           org: '979200293'},
+  {name: 'Bondi skole',              org: '974578212'},
+  {name: 'Drengsrud skole',          org: '974578220'},
+  {name: 'Folkestad skole',          org: '975285103'},
+  {name: 'Frydenlund barneskole',    org: '973747010'},
+  {name: 'Hagaløkka skole',          org: '974578239'},
+  {name: 'Heggedal skole',           org: '974578247'},
+  {name: 'Hofstad skole',            org: '974578255'},
+  {name: 'Hvalstad skole',           org: '980785343'},
+  {name: 'Hyggen skole',             org: '973747045'},
+  {name: 'Jansløkka skole',          org: '974578271'},
+  {name: 'Mellom-Nes skole',         org: '874578282'},
+  {name: 'Midtbygda barneskole',     org: '973747002'},
+  {name: 'Nesøya skole',             org: '974578298'},
+  {name: 'Nærsnes barneskole',       org: '973747029'},
+  {name: 'Rønningen skole',          org: '974578301'},
+  {name: 'Slemmestad barneskole',    org: '973747037'},
+  {name: 'Solberg skole',            org: '874578312'},
+  {name: 'Steinerskolen i Asker',    org: '971522585'},
+  {name: 'Steinerskolen i Hurum',    org: '974185385'},
+  {name: 'Asker International School', org: '998258383'},
+  {name: 'Vollen Montessoriskole',   org: '984666675'},
+  {name: 'Sydskogen barneskole',     org: '973746987'},
+  {name: 'Sætre skole',              org: '975285111'},
+  {name: 'Tofte skole',              org: '875285092'},
+  {name: 'Torvbråten barneskole',    org: '973746995'},
+  {name: 'Vardåsen skole',           org: '977264502'},
+  {name: 'Vettre skole',             org: '974578328'},
+];
+
+function fmtDato(s) {
+  if (!s) return '';
+  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!m) return s;
+  return `${m[3]}.${m[2]}.${m[1].slice(2)}`;
+}
+
+function escHtml(s) {
+  return String(s ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+let allRows = [];
+
+async function fetchAll() {
+  const total = SKULAR.length;
+  let done = 0;
+  const eventMap = {}; // id → {event, schools:[]}
+
+  await Promise.allSettled(
+    SKULAR.map(skule =>
+      fetch(API + skule.org)
+        .then(r => r.ok ? r.json() : [])
+        .then(events => {
+          for (const ev of (Array.isArray(events) ? events : [])) {
+            if (!eventMap[ev.id]) {
+              eventMap[ev.id] = {event: ev, schools: []};
+            }
+            eventMap[ev.id].schools.push(skule.name);
+          }
+        })
+        .catch(() => {})
+        .finally(() => {
+          done++;
+          document.getElementById('progress-fill').style.width = (done / total * 100) + '%';
+          document.getElementById('progress-text').textContent =
+            `Hentar data… ${done}/${total} skular`;
+        })
+    )
+  );
+
+  // Filter for bus events
+  const busEvents = Object.values(eventMap).filter(({event}) => {
+    const c = (event.commentForParticipants || '').toLowerCase();
+    return c.includes('buss');
+  });
+
+  // Sort by dateStart ascending
+  busEvents.sort((a, b) =>
+    (a.event.dateStart || '').localeCompare(b.event.dateStart || '')
+  );
+
+  allRows = busEvents;
+
+  // Update status bar
+  document.getElementById('spinner').style.display = 'none';
+  document.getElementById('progress-fill').style.width = '100%';
+  document.getElementById('progress-text').textContent =
+    `${busEvents.length} arrangement med busstransport (${Object.keys(eventMap).length} totalt)`;
+
+  document.getElementById('filter-bar').style.display = 'flex';
+  renderTable(allRows);
+}
+
+function renderTable(rows) {
+  const tbody = document.getElementById('tbody');
+  document.getElementById('result-count').textContent = rows.length + ' arrangement';
+
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="6" class="empty-msg">Ingen arrangement funne</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = rows.map(({event, schools}) => {
+    const dato = fmtDato(event.dateStart);
+    const skule = schools.join(', ');
+    const prod = event.production || (typeof event.tour === 'string' ? event.tour : '') || '';
+    const lok  = event.location || '';
+    const elev = event.numberOfStudents != null ? event.numberOfStudents : '';
+    const komm = event.commentForParticipants || '';
+    return `<tr>
+      <td class="td-dato">${escHtml(dato)}</td>
+      <td class="td-skule">${escHtml(skule)}</td>
+      <td class="td-prod">${escHtml(prod)}</td>
+      <td class="td-lok">${escHtml(lok)}</td>
+      <td class="td-elev">${elev !== '' ? escHtml(String(elev)) : '–'}</td>
+      <td class="td-komm">${escHtml(komm)}</td>
+    </tr>`;
+  }).join('');
+}
+
+document.getElementById('filter-input').addEventListener('input', function () {
+  const q = this.value.toLowerCase().trim();
+  if (!q) { renderTable(allRows); return; }
+  const filtered = allRows.filter(({event, schools}) => {
+    return [
+      schools.join(' '),
+      event.production || '',
+      event.location || '',
+      event.commentForParticipants || '',
+    ].join(' ').toLowerCase().includes(q);
+  });
+  renderTable(filtered);
+});
+
+fetchAll();
+</script>
+
+</body>
+</html>
