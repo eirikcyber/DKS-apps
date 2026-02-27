@@ -338,12 +338,12 @@ const SKULAR = [
 
 function fmtDato(s) {
   if (!s) return '';
-  // Handle Unix timestamp (ms or s)
   if (typeof s === 'number') {
-    const d = new Date(s > 1e10 ? s : s * 1000);
-    const dd = String(d.getDate()).padStart(2, '0');
-    const mm = String(d.getMonth() + 1).padStart(2, '0');
-    const yy = String(d.getFullYear()).slice(2);
+    // Unix timestamp in seconds (dateStart from DKS API)
+    const d = new Date(s * 1000);
+    const dd = String(d.getUTCDate()).padStart(2, '0');
+    const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+    const yy = String(d.getUTCFullYear()).slice(2);
     return `${dd}.${mm}.${yy}`;
   }
   const m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);
@@ -353,8 +353,14 @@ function fmtDato(s) {
 
 function sortKey(s) {
   if (!s) return '';
-  if (typeof s === 'number') return String(s > 1e10 ? s : s * 1000);
-  return String(s);
+  return typeof s === 'number' ? s : String(s);
+}
+
+function strVal(v) {
+  if (!v) return '';
+  if (typeof v === 'string') return v;
+  if (typeof v === 'object') return v.name || v.title || '';
+  return String(v);
 }
 
 function escHtml(s) {
@@ -427,8 +433,8 @@ function renderTable(rows) {
   tbody.innerHTML = rows.map(({event, schools}) => {
     const dato = fmtDato(event.dateStart);
     const skule = schools.join(', ');
-    const prod = event.production || (typeof event.tour === 'string' ? event.tour : '') || '';
-    const lok  = event.location || '';
+    const prod = strVal(event.production) || strVal(event.tour);
+    const lok  = strVal(event.location);
     const elev = event.numberOfStudents != null ? event.numberOfStudents : '';
     const komm = event.commentForParticipants || '';
     return `<tr>
