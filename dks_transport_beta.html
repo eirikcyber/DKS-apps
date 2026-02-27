@@ -338,9 +338,23 @@ const SKULAR = [
 
 function fmtDato(s) {
   if (!s) return '';
-  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if (!m) return s;
+  // Handle Unix timestamp (ms or s)
+  if (typeof s === 'number') {
+    const d = new Date(s > 1e10 ? s : s * 1000);
+    const dd = String(d.getDate()).padStart(2, '0');
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const yy = String(d.getFullYear()).slice(2);
+    return `${dd}.${mm}.${yy}`;
+  }
+  const m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!m) return String(s);
   return `${m[3]}.${m[2]}.${m[1].slice(2)}`;
+}
+
+function sortKey(s) {
+  if (!s) return '';
+  if (typeof s === 'number') return String(s > 1e10 ? s : s * 1000);
+  return String(s);
 }
 
 function escHtml(s) {
@@ -355,30 +369,26 @@ let allRows = [];
 
 async function fetchAll() {
   const total = SKULAR.length;
-  let done = 0;
   const eventMap = {}; // id → {event, schools:[]}
 
-  await Promise.allSettled(
-    SKULAR.map(skule =>
-      fetch(API + skule.org)
-        .then(r => r.ok ? r.json() : [])
-        .then(events => {
-          for (const ev of (Array.isArray(events) ? events : [])) {
-            if (!eventMap[ev.id]) {
-              eventMap[ev.id] = {event: ev, schools: []};
-            }
-            eventMap[ev.id].schools.push(skule.name);
-          }
-        })
-        .catch(() => {})
-        .finally(() => {
-          done++;
-          document.getElementById('progress-fill').style.width = (done / total * 100) + '%';
-          document.getElementById('progress-text').textContent =
-            `Hentar data… ${done}/${total} skular`;
-        })
-    )
-  );
+  for (let i = 0; i < SKULAR.length; i++) {
+    const skule = SKULAR[i];
+    document.getElementById('progress-text').textContent =
+      `Hentar ${skule.name}… (${i + 1}/${total})`;
+    document.getElementById('progress-fill').style.width =
+      ((i + 1) / total * 100) + '%';
+
+    try {
+      const r = await fetch(API + skule.org);
+      const events = r.ok ? await r.json() : [];
+      for (const ev of (Array.isArray(events) ? events : [])) {
+        if (!eventMap[ev.id]) {
+          eventMap[ev.id] = {event: ev, schools: []};
+        }
+        eventMap[ev.id].schools.push(skule.name);
+      }
+    } catch (_) {}
+  }
 
   // Filter for bus events
   const busEvents = Object.values(eventMap).filter(({event}) => {
@@ -386,10 +396,12 @@ async function fetchAll() {
     return c.includes('buss');
   });
 
-  // Sort by dateStart ascending
-  busEvents.sort((a, b) =>
-    (a.event.dateStart || '').localeCompare(b.event.dateStart || '')
-  );
+  // Sort by dateStart ascending (handles string ISO dates and numeric timestamps)
+  busEvents.sort((a, b) => {
+    const ka = sortKey(a.event.dateStart);
+    const kb = sortKey(b.event.dateStart);
+    return ka < kb ? -1 : ka > kb ? 1 : 0;
+  });
 
   allRows = busEvents;
 
