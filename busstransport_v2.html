@@ -172,7 +172,6 @@
   tr:hover td { background: #f8f6f2; }
   tr.tur td { }
   tr.retur td { color: var(--dim); font-size: 12px; }
-  tr.avvik td { background: var(--warn-bg) !important; }
   tr.avvik td:first-child { border-left: 3px solid var(--warn); }
   tr.mangler td { background: var(--err-bg) !important; }
   tr.mangler td:first-child { border-left: 3px solid var(--err); }
@@ -381,6 +380,12 @@ function log(type, msg) {
   logBox.scrollTop = logBox.scrollHeight;
 }
 
+function clearLog() {
+  const vl = document.getElementById('versionLine');
+  logBox.innerHTML = '';
+  if (vl) logBox.appendChild(vl);
+}
+
 function setStatus(msg) {
   const s = document.getElementById('status');
   s.textContent = msg;
@@ -440,7 +445,14 @@ async function initPyodide() {
     setStatus('Feil ved lasting av Pyodide: ' + e.message);
   }
 }
-log('info', 'Versjon: ' + BUILD_VERSION);
+{
+  const vl = document.createElement('div');
+  vl.id = 'versionLine';
+  vl.className = 'info';
+  vl.textContent = 'Versjon: ' + BUILD_VERSION;
+  logBox.classList.add('visible');
+  logBox.appendChild(vl);
+}
 initPyodide();
 
 // ============================================================
@@ -487,8 +499,7 @@ document.getElementById('btnReset').addEventListener('click', () => {
   ['nameBest','nameBekr'].forEach(id => document.getElementById(id).textContent = '');
   ['fileBest','fileBekr'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('results').classList.remove('visible');
-  document.getElementById('logBox').innerHTML = '';
-  document.getElementById('logBox').classList.remove('visible');
+  clearLog();
   checkReady();
   if (pyReady) setStatus('Klar – last opp PDF-ane og trykk Analyser');
 });
@@ -783,7 +794,7 @@ result
 // ============================================================
 document.getElementById('btnRun').addEventListener('click', async () => {
   document.getElementById('btnRun').disabled = true;
-  document.getElementById('logBox').innerHTML = '';
+  clearLog();
   document.getElementById('results').classList.remove('visible');
 
   try {
