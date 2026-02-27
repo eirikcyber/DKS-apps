@@ -296,6 +296,7 @@ const SKULAR = [
   'Arnestad skole','Asker ungdomsskole','Bleiker videregående skole',
   'Hagaløkka skole','Risenga ungdomsskole','Røyken videregående skole',
   'International School of Asker','Montessori Asker','Oslo Internasjonale Skole',
+  'Vollen Montessoriskole',
 ];
 
 function skolKjerne(s) {
@@ -368,6 +369,8 @@ function similarity(a, b) {
 // LOGGING
 // ============================================================
 const logBox = document.getElementById('logBox');
+const BUILD_VERSION = '2026-02-27 15:00';
+
 function log(type, msg) {
   logBox.classList.add('visible');
   const ts = new Date().toLocaleTimeString('no');
@@ -437,6 +440,7 @@ async function initPyodide() {
     setStatus('Feil ved lasting av Pyodide: ' + e.message);
   }
 }
+log('info', 'Versjon: ' + BUILD_VERSION);
 initPyodide();
 
 // ============================================================
@@ -1069,16 +1073,20 @@ function renderKombinert(komb) {
     const bkRet = r.bkRetur ? r.bkRetur.avgang : (r.bkTur ? r.bkTur.slutt : '');
     const bkElev = r.bkEleverTot || '';
     const statusBadge = mangler ? badge('MANGLAR','badge-mangler') : hasAvvik ? badge('AVVIK','badge-avvik') : '✓';
+    const avvikAvg = r.avvik.some(a => a.startsWith('Avgang:'));
+    const avvikElev = r.avvik.some(a => a.startsWith('Elevar:'));
+    const hlAvg = avvikAvg ? ' style="background:#ffe082!important"' : '';
+    const hlElev = avvikElev ? ' style="background:#ffe082!important"' : '';
 
     rows += `<tr class="${cls}">
       <td>${r.dato||''}</td>
       <td>${r.skole||''}</td>
       <td>${r.arena||''}</td>
-      <td>${r.best ? (r.best.avgang||'–') : '–'}</td>
-      <td>${bkAvg||'–'}</td>
+      <td${hlAvg}>${r.best ? (r.best.avgang||'–') : '–'}</td>
+      <td${hlAvg}>${bkAvg||'–'}</td>
       <td>${bkRet||'–'}</td>
-      <td>${r.best ? (r.best.elever||'–') : '–'}</td>
-      <td>${bkElev||'–'}</td>
+      <td${hlElev}>${r.best ? (r.best.elever||'–') : '–'}</td>
+      <td${hlElev}>${bkElev||'–'}</td>
       <td>${r.best ? (r.best.transport==='RUFUS' ? badge('RUFUS','badge-rufus') : r.best.transport==='GANGE' ? badge('Gange','badge-gange') : badge('Buss','badge-buss')) : '–'}</td>
       <td>${statusBadge}</td>
     </tr>`;
