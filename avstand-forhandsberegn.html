@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Forhåndsberegn avstandar</title>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_AfzzIMq0Jot-Jzkm1GjvaGTmQGqg8Q0&libraries=places"></script>
 <style>
   body { font-family: system-ui, sans-serif; max-width: 1100px; margin: 30px auto; padding: 0 20px; background: #f5f5f5; color: #333; }
   h1 { font-size: 22px; margin-bottom: 4px; }
@@ -128,6 +127,9 @@ const SKULER = {
     "Vollen ungdomsskole": {lat: 59.800708, lon: 10.489653}
 };
 
+const GOOGLE_KEY = 'AIzaSyD_AfzzIMq0Jot-Jzkm1GjvaGTmQGqg8Q0';
+const PROXY = 'https://corsproxy.io/?';
+
 const skuleListe = Object.entries(SKULER);
 let resultatData = {}; // cacheKey → {avstand, tid, avstandTekst, tidTekst}
 let destKoordinatar = []; // [{namn, adresse, lat, lon}]
@@ -145,51 +147,47 @@ function cacheNokkel(mode, fraLat, fraLon, tilLat, tilLon) {
     return `gmap_${mode}_${fraLat.toFixed(3)}_${fraLon.toFixed(3)}_${tilLat.toFixed(3)}_${tilLon.toFixed(3)}`;
 }
 
-function geocode(adresse) {
-    return new Promise((resolve, reject) => {
-        const geocoder = new google.maps.Geocoder();
-        geocoder.geocode({ address: adresse + ', Norge' }, (results, status) => {
-            if (status === 'OK' && results[0]) {
-                const loc = results[0].geometry.location;
-                resolve({ lat: loc.lat(), lon: loc.lng() });
-            } else {
-                reject(new Error(`Geocoding feila for "${adresse}": ${status}`));
+async function geocode(adresse) {
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(adresse)}&key=${GOOGLE_KEY}`;
+    const resp = await fetch(PROXY + encodeURIComponent(url));
+    const data = await resp.json();
+    if (data.status !== 'OK' || !data.results[0]) {
+        throw new Error(`Geocoding feila for "${adresse}": ${data.status}`);
+    }
+    const loc = data.results[0].geometry.location;
+    return { lat: loc.lat, lon: loc.lng };
+}
+
+// Google Distance Matrix REST API for éin batch: skuler[] → destinasjonar[]
+async function distanceMatrix(skuleBatch, destBatch, mode) {
+    const origins = skuleBatch.map(([_, k]) => `${k.lat},${k.lon}`).join('|');
+    const destinations = destBatch.map(d => `${d.lat},${d.lon}`).join('|');
+    const googleMode = mode === 'DRIVING' ? 'driving' : 'walking';
+    const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(origins)}&destinations=${encodeURIComponent(destinations)}&mode=${googleMode}&units=metric&key=${GOOGLE_KEY}`;
+
+    const resp = await fetch(PROXY + encodeURIComponent(url));
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    if (data.status !== 'OK') throw new Error(data.status);
+
+    const resultat = [];
+    data.rows.forEach((row, si) => {
+        row.elements.forEach((el, di) => {
+            if (el.status === 'OK') {
+                resultat.push({
+                    skule: skuleBatch[si][0],
+                    skuleLat: skuleBatch[si][1].lat,
+                    skuleLon: skuleBatch[si][1].lon,
+                    dest: destBatch[di],
+                    avstand: el.distance.value,
+                    tid: Math.round(el.duration.value / 60),
+                    avstandTekst: el.distance.text,
+                    tidTekst: el.duration.text
+                });
             }
         });
     });
-}
-
-// Google Distance Matrix for éin batch: skuler[] → destinasjonar[]
-function distanceMatrix(skuleBatch, destBatch, mode) {
-    return new Promise((resolve, reject) => {
-        const service = new google.maps.DistanceMatrixService();
-        service.getDistanceMatrix({
-            origins: skuleBatch.map(([_, k]) => new google.maps.LatLng(k.lat, k.lon)),
-            destinations: destBatch.map(d => new google.maps.LatLng(d.lat, d.lon)),
-            travelMode: google.maps.TravelMode[mode],
-            unitSystem: google.maps.UnitSystem.METRIC
-        }, (resp, status) => {
-            if (status !== 'OK') { reject(new Error(status)); return; }
-            const resultat = [];
-            resp.rows.forEach((row, si) => {
-                row.elements.forEach((el, di) => {
-                    if (el.status === 'OK') {
-                        resultat.push({
-                            skule: skuleBatch[si][0],
-                            skuleLat: skuleBatch[si][1].lat,
-                            skuleLon: skuleBatch[si][1].lon,
-                            dest: destBatch[di],
-                            avstand: el.distance.value,
-                            tid: Math.round(el.duration.value / 60),
-                            avstandTekst: el.distance.text,
-                            tidTekst: el.duration.text
-                        });
-                    }
-                });
-            });
-            resolve(resultat);
-        });
-    });
+    return resultat;
 }
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
