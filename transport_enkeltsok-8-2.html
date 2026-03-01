@@ -975,7 +975,9 @@
         }
         .turne-skule-rad:last-child { border-bottom: none; }
         .turne-skule-namn { font-weight: 600; min-width: 200px; flex: 1; }
+        .turne-detaljar { font-size: 13px; color: #555; flex: 2; min-width: 150px; }
         .turne-alternativ-knappar { display: flex; gap: 6px; flex-wrap: wrap; }
+        .turne-alt-wrapper { position: relative; display: inline-block; }
         .turne-alternativ-knappar button {
             padding: 4px 10px;
             font-size: 12px;
@@ -992,6 +994,29 @@
             color: white;
             border-color: #667eea;
         }
+        .turne-extra-dropdown {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 4px);
+            left: 0;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            z-index: 200;
+            min-width: 230px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            padding: 4px 0;
+        }
+        .turne-alt-wrapper:hover .turne-extra-dropdown { display: block; }
+        .turne-dropdown-rad {
+            padding: 6px 12px;
+            font-size: 12px;
+            color: #333;
+            border-bottom: 1px solid #f3f4f6;
+            white-space: nowrap;
+        }
+        .turne-dropdown-rad:last-child { border-bottom: none; }
+        .turne-dropdown-rad.aktiv-dropdown { background: #f0f4ff; font-weight: 600; color: #667eea; }
         .turne-fortid-header { background: #9ca3af !important; }
         .turne-ingen-skular { color: #9ca3af; font-style: italic; font-size: 13px; padding: 8px 15px; background: white; }
     </style>
@@ -3931,12 +3956,14 @@ async function sokTransportForAlleTurneHendingar() {
                 continue;
             }
 
-            const [bussReiser, togReiser] = await Promise.all([
+            const [bussReiser, togReiser, googleGange, googleKøyring] = await Promise.all([
                 finnReise(sCoords, dCoords, arriveBy, 'bus'),
-                finnReise(sCoords, dCoords, arriveBy, 'rail')
+                finnReise(sCoords, dCoords, arriveBy, 'rail'),
+                hentGoogleAvstand(sCoords, dCoords, 'WALKING'),
+                hentGoogleAvstand(sCoords, dCoords, 'DRIVING')
             ]);
 
-            const sr = analysertransportTurne(skule, bussReiser, togReiser, sCoords, dCoords, maksGange);
+            const sr = analysertransportTurne(skule, bussReiser, togReiser, googleGange, googleKøyring, maksGange);
             hendingResultat.skuleResultat.push(sr);
         }
 
@@ -3947,30 +3974,46 @@ async function sokTransportForAlleTurneHendingar() {
     turneStatusEl.textContent = `Ferdig! ${turneHendingar.length} arrangement behandla.`;
 }
 
-function analysertransportTurne(skule, bussReiser, togReiser, sCoords, dCoords, maksGange) {
+function analysertransportTurne(skule, bussReiser, togReiser, googleGange, googleKøyring, maksGange) {
     const alternativ = [];
 
-    // Gange — bruk eksisterande haversine-funksjon
-    const avstand = beregnAvstandLuftlinje(sCoords, dCoords);
-    if (avstand <= maksGange) {
-        alternativ.push({ type: 'gange', avstand: avstand });
+    // Gange — Google WALKING (med haversine-fallback)
+    if (googleGange && googleGange.avstand <= maksGange) {
+        alternativ.push({
+            type: 'gange',
+            avstand: googleGange.avstand,
+            tid: googleGange.tid,
+            avstandTekst: googleGange.avstandTekst || `${(googleGange.avstand/1000).toFixed(1)} km`,
+            tidTekst: googleGange.tidTekst || `${googleGange.tid} min`
+        });
     }
 
-    // Direktetog
+    // Direktetog — behold alle direkte tog for hover-visning
     if (togReiser && togReiser.length > 0) {
-        const togReise = togReiser[0];
-        if (telKollektivLegs(togReise.legs) === 1) {
+        const direkteTog = togReiser.filter(t => telKollektivLegs(t.legs) === 1);
+        if (direkteTog.length > 0) {
+            const togReise = direkteTog[0];
             const togLegs = togReise.legs.filter(l => l.mode === 'rail');
+            const ekstraAvgangar = direkteTog.slice(1, 5).map(t => {
+                const legs = t.legs.filter(l => l.mode === 'rail');
+                return {
+                    avgang: t.startTime, ankomst: t.endTime,
+                    varigheit: Math.round(t.duration / 60),
+                    linje: legs.map(l => l.line && l.line.publicCode).filter(Boolean).join(' → ')
+                };
+            });
             alternativ.push({
                 type: 'tog',
                 linje: togLegs.map(l => l.line && l.line.publicCode).filter(Boolean).join(' → '),
                 avgang: togReise.startTime,
-                ankomst: togReise.endTime
+                ankomst: togReise.endTime,
+                varigheit: Math.round(togReise.duration / 60),
+                ekstraAvgangar
             });
         }
     }
 
-    // Direktebuss
+    // Direktebuss — behold alle direkte bussar for hover-visning
     if (bussReiser && bussReiser.length > 0) {
         const sorterteBussar = [...bussReiser].sort((a, b) => {
             const la = telKollektivLegs(a.legs);
@@ -3978,20 +4021,37 @@ function analysertransportTurne(skule, bussReiser, togReiser, sCoords, dCoords, 
             if (la !== lb) return la - lb;
             return a.duration - b.duration;
         });
-        const bussReise = sorterteBussar[0];
-        if (telKollektivLegs(bussReise.legs) === 1) {
+        const direkteBussar = sorterteBussar.filter(b => telKollektivLegs(b.legs) === 1);
+        if (direkteBussar.length > 0) {
+            const bussReise = direkteBussar[0];
             const bussLegs = bussReise.legs.filter(l => l.mode === 'bus' || l.mode === 'coach');
+            const ekstraAvgangar = direkteBussar.slice(1, 5).map(b => {
+                const legs = b.legs.filter(l => l.mode === 'bus' || l.mode === 'coach');
+                return {
+                    avgang: b.startTime, ankomst: b.endTime,
+                    varigheit: Math.round(b.duration / 60),
+                    linje: legs.map(l => l.line && l.line.publicCode).filter(Boolean).join(' → ')
+                };
+            });
             alternativ.push({
                 type: 'buss',
                 linje: bussLegs.map(l => l.line && l.line.publicCode).filter(Boolean).join(' → '),
                 avgang: bussReise.startTime,
-                ankomst: bussReise.endTime
+                ankomst: bussReise.endTime,
+                varigheit: Math.round(bussReise.duration / 60),
+                ekstraAvgangar
             });
         }
     }
 
-    // Bestillerbuss er alltid tilgjengeleg
-    alternativ.push({ type: 'bestillerbuss' });
+    // Bestillerbuss med køyretid frå Google DRIVING
+    alternativ.push({
+        type: 'bestillerbuss',
+        avstand: googleKøyring ? googleKøyring.avstand : null,
+        tid: googleKøyring ? googleKøyring.tid : null,
+        avstandTekst: googleKøyring ? (googleKøyring.avstandTekst || `${(googleKøyring.avstand/1000).toFixed(0)} km`) : null,
+        tidTekst: googleKøyring ? (googleKøyring.tidTekst || `${googleKøyring.tid} min`) : null
+    });
 
     // Auto-vel beste etter prioritet: gange > tog > buss > bestillerbuss
     const valt = alternativ[0].type;
@@ -4023,23 +4083,50 @@ function visTurneResultat() {
         for (const sr of hr.skuleResultat) {
             const overstyringKey = `${hending.id}_${sr.skuleId}`;
             const valtType = turneOverstyring[overstyringKey] || sr.valt;
+            const valtAlt = (sr.alternativ || []).find(a => a.type === valtType);
             const fortidTekst = sr.erFortidig ? ' <span style="font-size:11px;color:#aaa">(fortid)</span>' : '';
 
+            // Detaljar for valt alternativ
+            let detaljar = '';
+            if (valtAlt) {
+                if (valtAlt.type === 'gange') {
+                    detaljar = `${valtAlt.avstandTekst}, ${valtAlt.tidTekst}`;
+                } else if (valtAlt.type === 'tog' || valtAlt.type === 'buss') {
+                    detaljar = `avgang ${turneFormatTid(valtAlt.avgang)} → ${turneFormatTid(valtAlt.ankomst)} (${valtAlt.varigheit} min)`;
+                } else if (valtAlt.type === 'bestillerbuss' && valtAlt.tid) {
+                    detaljar = `${valtAlt.avstandTekst || ''}, ca. ${valtAlt.tidTekst || valtAlt.tid + ' min'}`.replace(/^, /, '');
+                }
+            }
+            if (sr.feil) detaljar = `⚠️ ${sr.feil}`;
+
+            // Knappar med hover-dropdown for tog/buss
             let knappar = '';
             for (const alt of (sr.alternativ || [])) {
                 const erValt = alt.type === valtType;
                 let label = '';
-                if (alt.type === 'gange') label = `🚶 Gange ${Math.round(alt.avstand)}m`;
-                else if (alt.type === 'tog') label = `🚂 Tog ${alt.linje || '?'} ${turneFormatTid(alt.avgang)}`;
-                else if (alt.type === 'buss') label = `🚌 Buss ${alt.linje || '?'} ${turneFormatTid(alt.avgang)}`;
+                if (alt.type === 'gange') label = `🚶 Gange`;
+                else if (alt.type === 'tog') label = `🚂 Tog ${alt.linje || '?'}`;
+                else if (alt.type === 'buss') label = `🚌 Buss ${alt.linje || '?'}`;
                 else label = `🚐 Bestillerbuss`;
-                knappar += `<button onclick="settTurneOverstyring('${overstyringKey}', '${alt.type}')" class="${erValt ? 'aktiv-overstyring' : ''}">${label}</button>`;
+
+                const knappHtml = `<button onclick="settTurneOverstyring('${overstyringKey}', '${alt.type}')" class="${erValt ? 'aktiv-overstyring' : ''}">${label}</button>`;
+
+                const hasExtra = (alt.type === 'tog' || alt.type === 'buss') && alt.ekstraAvgangar && alt.ekstraAvgangar.length > 0;
+                if (hasExtra) {
+                    let dropRows = `<div class="turne-dropdown-rad aktiv-dropdown">avgang ${turneFormatTid(alt.avgang)} → ${turneFormatTid(alt.ankomst)} (${alt.varigheit} min)</div>`;
+                    for (const ekstra of alt.ekstraAvgangar) {
+                        dropRows += `<div class="turne-dropdown-rad">avgang ${turneFormatTid(ekstra.avgang)} → ${turneFormatTid(ekstra.ankomst)} (${ekstra.varigheit} min)</div>`;
+                    }
+                    knappar += `<div class="turne-alt-wrapper">${knappHtml}<div class="turne-extra-dropdown">${dropRows}</div></div>`;
+                } else {
+                    knappar += knappHtml;
+                }
             }
-            if (sr.feil) knappar += ` <span style="color:#aaa;font-size:12px">(${sr.feil})</span>`;
 
             html += `
                 <div class="turne-skule-rad">
                     <span class="turne-skule-namn">${sr.skule}${fortidTekst}</span>
+                    <span class="turne-detaljar">${detaljar}</span>
                     <div class="turne-alternativ-knappar">${knappar}</div>
                 </div>`;
         }
