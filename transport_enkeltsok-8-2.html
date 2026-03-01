@@ -3988,32 +3988,24 @@ function analysertransportTurne(skule, bussReiser, togReiser, googleGange, googl
         });
     }
 
-    // Direktetog — behold alle direkte tog for hover-visning
+    // Direktetog — reiseveg-detaljar, ingen hover (tog har fast rutetabell)
     if (togReiser && togReiser.length > 0) {
         const direkteTog = togReiser.filter(t => telKollektivLegs(t.legs) === 1);
         if (direkteTog.length > 0) {
             const togReise = direkteTog[0];
             const togLegs = togReise.legs.filter(l => l.mode === 'rail');
-            const ekstraAvgangar = direkteTog.slice(1, 5).map(t => {
-                const legs = t.legs.filter(l => l.mode === 'rail');
-                return {
-                    avgang: t.startTime, ankomst: t.endTime,
-                    varigheit: Math.round(t.duration / 60),
-                    linje: legs.map(l => l.line && l.line.publicCode).filter(Boolean).join(' → ')
-                };
-            });
             alternativ.push({
                 type: 'tog',
                 linje: togLegs.map(l => l.line && l.line.publicCode).filter(Boolean).join(' → '),
                 avgang: togReise.startTime,
                 ankomst: togReise.endTime,
                 varigheit: Math.round(togReise.duration / 60),
-                ekstraAvgangar
+                reiseveg: byggReiseveg(togReise.legs)
             });
         }
     }
 
-    // Direktebuss — behold alle direkte bussar for hover-visning
+    // Direktebuss — reiseveg + hover med ekstra avgangar
     if (bussReiser && bussReiser.length > 0) {
         const sorterteBussar = [...bussReiser].sort((a, b) => {
             const la = telKollektivLegs(a.legs);
@@ -4039,6 +4031,7 @@ function analysertransportTurne(skule, bussReiser, togReiser, googleGange, googl
                 avgang: bussReise.startTime,
                 ankomst: bussReise.endTime,
                 varigheit: Math.round(bussReise.duration / 60),
+                reiseveg: byggReiseveg(bussReise.legs),
                 ekstraAvgangar
             });
         }
@@ -4092,7 +4085,9 @@ function visTurneResultat() {
                 if (valtAlt.type === 'gange') {
                     detaljar = `${valtAlt.avstandTekst}, ${valtAlt.tidTekst}`;
                 } else if (valtAlt.type === 'tog' || valtAlt.type === 'buss') {
-                    detaljar = `avgang ${turneFormatTid(valtAlt.avgang)} → ${turneFormatTid(valtAlt.ankomst)} (${valtAlt.varigheit} min)`;
+                    detaljar = (valtAlt.reiseveg && valtAlt.reiseveg.length > 0)
+                        ? valtAlt.reiseveg.join(' → ')
+                        : `avgang ${turneFormatTid(valtAlt.avgang)} → ${turneFormatTid(valtAlt.ankomst)} (${valtAlt.varigheit} min)`;
                 } else if (valtAlt.type === 'bestillerbuss' && valtAlt.tid) {
                     detaljar = `${valtAlt.avstandTekst || ''}, ca. ${valtAlt.tidTekst || valtAlt.tid + ' min'}`.replace(/^, /, '');
                 }
@@ -4111,7 +4106,7 @@ function visTurneResultat() {
 
                 const knappHtml = `<button onclick="settTurneOverstyring('${overstyringKey}', '${alt.type}')" class="${erValt ? 'aktiv-overstyring' : ''}">${label}</button>`;
 
-                const hasExtra = (alt.type === 'tog' || alt.type === 'buss') && alt.ekstraAvgangar && alt.ekstraAvgangar.length > 0;
+                const hasExtra = alt.type === 'buss' && alt.ekstraAvgangar && alt.ekstraAvgangar.length > 0;
                 if (hasExtra) {
                     let dropRows = `<div class="turne-dropdown-rad aktiv-dropdown">avgang ${turneFormatTid(alt.avgang)} → ${turneFormatTid(alt.ankomst)} (${alt.varigheit} min)</div>`;
                     for (const ekstra of alt.ekstraAvgangar) {
