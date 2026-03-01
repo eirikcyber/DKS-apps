@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forhåndsberegn avstandar</title>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_AfzzIMq0Jot-Jzkm1GjvaGTmQGqg8Q0&libraries=places"></script>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 1100px; margin: 30px auto; padding: 0 20px; background: #f5f5f5; color: #333; }
+  h1 { font-size: 22px; margin-bottom: 4px; }
+  p.ingress { color: #666; margin-bottom: 24px; font-size: 14px; }
+  .kort { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,.08); margin-bottom: 20px; }
+  label { font-weight: 600; display: block; margin-bottom: 6px; font-size: 14px; }
+  textarea { width: 100%; box-sizing: border-box; border: 1px solid #ddd; border-radius: 8px; padding: 10px; font-size: 13px; font-family: monospace; }
+  button { background: #667eea; color: white; border: none; border-radius: 8px; padding: 10px 22px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  button:hover { background: #5a6fd6; }
+  button:disabled { background: #aaa; cursor: not-allowed; }
+  #status { margin: 12px 0; font-size: 14px; color: #555; min-height: 20px; }
+  .progress-bar { background: #e5e7eb; border-radius: 4px; height: 8px; margin: 8px 0 16px; }
+  .progress-fill { background: #667eea; height: 8px; border-radius: 4px; transition: width 0.3s; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #667eea; color: white; padding: 8px 10px; text-align: left; position: sticky; top: 0; }
+  td { padding: 7px 10px; border-bottom: 1px solid #f0f0f0; }
+  tr:nth-child(even) { background: #f9f9f9; }
+  .ok { color: #16a34a; }
+  .feil { color: #dc2626; }
+  .kode-boks { background: #1e1e1e; color: #d4d4d4; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; overflow: auto; max-height: 500px; white-space: pre; }
+  .kopier-btn { background: #22c55e; margin-top: 10px; }
+  .kopier-btn:hover { background: #16a34a; }
+  .stat { display: inline-block; margin-right: 20px; }
+  .stat strong { font-size: 22px; display: block; }
+  .stat span { font-size: 12px; color: #888; }
+</style>
+</head>
+<body>
+
+<h1>Forhåndsberegn skule↔destinasjon-avstandar</h1>
+<p class="ingress">Køyrer Google Distance Matrix (WALKING + DRIVING) for alle skulekombinasjonar og genererer ein JS-kode-snippet til hardkoding i transport-appen.</p>
+
+<div class="kort">
+  <label>Destinasjonar (éi per linje, format: <code>Namn || Adresse, Stad</code>)</label>
+  <textarea id="destInput" rows="8" placeholder="Asker kino || Kinoveien 2, Asker
+Asker kulturhus || Strøket 15, Asker
+Dikemark || Dikemarkveien 1, Asker
+Nationaltheatret || Johanne Dybwads plass 1, Oslo
+Det Norske Teatret || Kristian IVs gate 8, Oslo
+Drammen teater || Grønland 8, Drammen
+Sandvika teater || Rådhusplassen 1, Bærum
+Oslofjordmuseet || Storgaten 1, Drøbak"></textarea>
+
+  <div style="margin-top:12px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+    <button onclick="startBeregning()" id="startBtn">Start beregning</button>
+    <label style="display:flex;align-items:center;gap:6px;font-weight:normal;margin:0">
+      <input type="checkbox" id="kunWalking"> Berre WALKING (halverer API-kall)
+    </label>
+  </div>
+</div>
+
+<div class="kort" id="progresKort" style="display:none">
+  <div id="statBlokk" style="margin-bottom:12px"></div>
+  <div id="status">Ventar...</div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
+    <table id="resultatTabell">
+      <thead><tr>
+        <th>Skule</th>
+        <th>Destinasjon</th>
+        <th>WALKING avstand</th>
+        <th>WALKING tid</th>
+        <th>DRIVING avstand</th>
+        <th>DRIVING tid</th>
+      </tr></thead>
+      <tbody id="resultatBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="kort" id="kodeKort" style="display:none">
+  <h2 style="margin-top:0;font-size:16px">Generert kode — lim inn i Claude Code</h2>
+  <p style="font-size:13px;color:#666">Kopier heile innhaldet og send til Claude Code, som hardkodar det i transport-appen.</p>
+  <div class="kode-boks" id="kodeBoks"></div>
+  <button class="kopier-btn" onclick="kopierKode()">Kopier kode</button>
+  <span id="kopierStatus" style="margin-left:12px;color:#16a34a;font-size:13px"></span>
+</div>
+
+<script>
+// ===== SKULELISTE (frå transport_enkeltsok-8-2.html) =====
+const SKULER = {
+    "Arnestad skole": {lat: 59.802359, lon: 10.489763},
+    "Billingstad skole": {lat: 59.874775, lon: 10.473602},
+    "Blakstad skole": {lat: 59.812853, lon: 10.455711},
+    "Bondi skole": {lat: 59.824182, lon: 10.438759},
+    "Borgen ungdomsskole": {lat: 59.826511, lon: 10.419711},
+    "Drengsrud skole": {lat: 59.829521, lon: 10.402867},
+    "Folkestad skole": {lat: 59.551733, lon: 10.464845},
+    "Frydenlund barneskole": {lat: 59.714439, lon: 10.510600},
+    "Hagaløkka skole": {lat: 59.830190, lon: 10.421680},
+    "Heggedal skole": {lat: 59.792046, lon: 10.446009},
+    "Hofstad skole": {lat: 59.847705, lon: 10.472101},
+    "Hovedgården ungdomsskole": {lat: 59.784877, lon: 10.436124},
+    "Hvalstad skole": {lat: 59.860225, lon: 10.464530},
+    "Hyggen skole": {lat: 59.716636, lon: 10.373096},
+    "Jansløkka skole": {lat: 59.848701, lon: 10.442136},
+    "Landøya ungdomsskole": {lat: 59.860075, lon: 10.497705},
+    "Mellom-Nes skole": {lat: 59.866242, lon: 10.496780},
+    "Midtbygda barneskole": {lat: 59.745331, lon: 10.414124},
+    "Nesøya skole": {lat: 59.869018, lon: 10.517625},
+    "Nærsnes barneskole": {lat: 59.755114, lon: 10.505103},
+    "Risenga ungdomsskole": {lat: 59.825835, lon: 10.441419},
+    "Rønningen skole": {lat: 59.817907, lon: 10.428843},
+    "Slemmestad barneskole": {lat: 59.779891, lon: 10.492663},
+    "Slemmestad ungdomsskole": {lat: 59.777703, lon: 10.478921},
+    "Solberg skole": {lat: 59.804596, lon: 10.393851},
+    "Solvang ungdomsskole": {lat: 59.839680, lon: 10.424440},
+    "Spikkestad barneskole": {lat: 59.749222, lon: 10.336518},
+    "Spikkestad ungdomsskole": {lat: 59.739543, lon: 10.349502},
+    "Steinerskolen i Asker": {lat: 59.861350, lon: 10.495025},
+    "Steinerskolen i Hurum": {lat: 59.633059, lon: 10.495805},
+    "Stiftelsen Asker International School": {lat: 59.829707, lon: 10.417161},
+    "Stiftelsen Vollen Montessoriskole": {lat: 59.805508, lon: 10.477063},
+    "Den Alternative skolen Asker": {lat: 59.806271, lon: 10.489047},
+    "Sydskogen barneskole": {lat: 59.759999, lon: 10.452457},
+    "Sætre skole": {lat: 59.676227, lon: 10.538927},
+    "Sætre ungdomsskole": {lat: 59.670310, lon: 10.536507},
+    "Tofte skole": {lat: 59.541911, lon: 10.554040},
+    "Tofte ungdomsskole": {lat: 59.549030, lon: 10.564134},
+    "Torstad ungdomsskole": {lat: 59.862176, lon: 10.480741},
+    "Torvbråten barneskole": {lat: 59.761652, lon: 10.479902},
+    "Vardåsen skole": {lat: 59.819986, lon: 10.381315},
+    "Vettre skole": {lat: 59.825693, lon: 10.469614},
+    "Vollen ungdomsskole": {lat: 59.800708, lon: 10.489653}
+};
+
+const skuleListe = Object.entries(SKULER);
+let resultatData = {}; // cacheKey → {avstand, tid, avstandTekst, tidTekst}
+let destKoordinatar = []; // [{namn, adresse, lat, lon}]
+
+function parseDest(tekst) {
+    return tekst.split('\n')
+        .map(l => l.trim()).filter(Boolean)
+        .map(l => {
+            const deler = l.split('||').map(s => s.trim());
+            return { namn: deler[0], adresse: deler[1] || deler[0] };
+        });
+}
+
+function cacheNokkel(mode, fraLat, fraLon, tilLat, tilLon) {
+    return `gmap_${mode}_${fraLat.toFixed(3)}_${fraLon.toFixed(3)}_${tilLat.toFixed(3)}_${tilLon.toFixed(3)}`;
+}
+
+function geocode(adresse) {
+    return new Promise((resolve, reject) => {
+        const geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ address: adresse + ', Norge' }, (results, status) => {
+            if (status === 'OK' && results[0]) {
+                const loc = results[0].geometry.location;
+                resolve({ lat: loc.lat(), lon: loc.lng() });
+            } else {
+                reject(new Error(`Geocoding feila for "${adresse}": ${status}`));
+            }
+        });
+    });
+}
+
+// Google Distance Matrix for éin batch: skuler[] → destinasjonar[]
+function distanceMatrix(skuleBatch, destBatch, mode) {
+    return new Promise((resolve, reject) => {
+        const service = new google.maps.DistanceMatrixService();
+        service.getDistanceMatrix({
+            origins: skuleBatch.map(([_, k]) => new google.maps.LatLng(k.lat, k.lon)),
+            destinations: destBatch.map(d => new google.maps.LatLng(d.lat, d.lon)),
+            travelMode: google.maps.TravelMode[mode],
+            unitSystem: google.maps.UnitSystem.METRIC
+        }, (resp, status) => {
+            if (status !== 'OK') { reject(new Error(status)); return; }
+            const resultat = [];
+            resp.rows.forEach((row, si) => {
+                row.elements.forEach((el, di) => {
+                    if (el.status === 'OK') {
+                        resultat.push({
+                            skule: skuleBatch[si][0],
+                            skuleLat: skuleBatch[si][1].lat,
+                            skuleLon: skuleBatch[si][1].lon,
+                            dest: destBatch[di],
+                            avstand: el.distance.value,
+                            tid: Math.round(el.duration.value / 60),
+                            avstandTekst: el.distance.text,
+                            tidTekst: el.duration.text
+                        });
+                    }
+                });
+            });
+            resolve(resultat);
+        });
+    });
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function startBeregning() {
+    const destTekst = document.getElementById('destInput').value.trim();
+    if (!destTekst) { alert('Skriv inn minst éin destinasjon'); return; }
+
+    const kunWalking = document.getElementById('kunWalking').checked;
+    const destinasjonar = parseDest(destTekst);
+    if (destinasjonar.length === 0) { alert('Ingen gyldige destinasjonar'); return; }
+
+    document.getElementById('startBtn').disabled = true;
+    document.getElementById('progresKort').style.display = '';
+    document.getElementById('kodeKort').style.display = 'none';
+    document.getElementById('resultatBody').innerHTML = '';
+    resultatData = {};
+    destKoordinatar = [];
+
+    const statusEl = document.getElementById('status');
+    const progressEl = document.getElementById('progressFill');
+
+    // 1. Geocode destinasjonar
+    statusEl.textContent = 'Geocodar destinasjonar...';
+    for (const d of destinasjonar) {
+        try {
+            const coords = await geocode(d.adresse);
+            destKoordinatar.push({ ...d, ...coords });
+            statusEl.textContent = `Geocoda: ${d.namn} ✓`;
+        } catch (e) {
+            statusEl.textContent = `Geocoding feila: ${d.namn} — ${e.message}`;
+        }
+    }
+    if (destKoordinatar.length === 0) {
+        statusEl.textContent = 'Ingen destinasjonar vart geocoda. Avbryt.';
+        document.getElementById('startBtn').disabled = false;
+        return;
+    }
+
+    // 2. Bygg batchplan: max 25 skular × destinasjonar ≤ 100 element per request
+    const maxSkularPerBatch = Math.max(1, Math.floor(100 / destKoordinatar.length));
+    const skuleBatchar = [];
+    for (let i = 0; i < skuleListe.length; i += maxSkularPerBatch) {
+        skuleBatchar.push(skuleListe.slice(i, i + maxSkularPerBatch));
+    }
+
+    const modusListe = kunWalking ? ['WALKING'] : ['WALKING', 'DRIVING'];
+    const totalBatchar = skuleBatchar.length * modusListe.length;
+    let ferdig = 0;
+
+    const tbody = document.getElementById('resultatBody');
+
+    // 3. Kjør batchane
+    for (const mode of modusListe) {
+        for (const batch of skuleBatchar) {
+            statusEl.textContent = `${mode}: behandlar ${batch[0][0]} … (${ferdig + 1}/${totalBatchar})`;
+            try {
+                const rader = await distanceMatrix(batch, destKoordinatar, mode);
+                for (const r of rader) {
+                    const key = cacheNokkel(mode, r.skuleLat, r.skuleLon, r.dest.lat, r.dest.lon);
+                    resultatData[key] = {
+                        avstand: r.avstand,
+                        tid: r.tid,
+                        avstandTekst: r.avstandTekst,
+                        tidTekst: r.tidTekst
+                    };
+                    // Legg til i tabell (berre éi rad per skule/dest/mode)
+                    const tr = document.createElement('tr');
+                    if (mode === 'WALKING') {
+                        const drivKey = cacheNokkel('DRIVING', r.skuleLat, r.skuleLon, r.dest.lat, r.dest.lon);
+                        const driv = resultatData[drivKey] || {};
+                        tr.id = `rad_${r.skule.replace(/\s/g,'_')}_${r.dest.namn.replace(/\s/g,'_')}`;
+                        tr.innerHTML = `
+                            <td>${r.skule}</td>
+                            <td>${r.dest.namn}</td>
+                            <td class="ok">${r.avstandTekst}</td>
+                            <td class="ok">${r.tidTekst}</td>
+                            <td id="driv_avstand_${r.skule.replace(/\s/g,'_')}_${r.dest.namn.replace(/\s/g,'_')}" class="${driv.avstandTekst ? 'ok' : ''}">${driv.avstandTekst || '…'}</td>
+                            <td id="driv_tid_${r.skule.replace(/\s/g,'_')}_${r.dest.namn.replace(/\s/g,'_')}" class="${driv.tidTekst ? 'ok' : ''}">${driv.tidTekst || '…'}</td>`;
+                        tbody.appendChild(tr);
+                    } else {
+                        // Oppdater eksisterande rad
+                        const dEl = document.getElementById(`driv_avstand_${r.skule.replace(/\s/g,'_')}_${r.dest.namn.replace(/\s/g,'_')}`);
+                        const tEl = document.getElementById(`driv_tid_${r.skule.replace(/\s/g,'_')}_${r.dest.namn.replace(/\s/g,'_')}`);
+                        if (dEl) { dEl.textContent = r.avstandTekst; dEl.className = 'ok'; }
+                        if (tEl) { tEl.textContent = r.tidTekst; tEl.className = 'ok'; }
+                    }
+                }
+            } catch (e) {
+                statusEl.textContent = `Feil i ${mode}-batch: ${e.message}`;
+            }
+            ferdig++;
+            progressEl.style.width = `${Math.round((ferdig / totalBatchar) * 100)}%`;
+            // Liten pause mellom requests for å unngå rate-limit
+            if (ferdig < totalBatchar) await sleep(300);
+        }
+    }
+
+    // 4. Statistikk
+    const nøklarTotalt = Object.keys(resultatData).length;
+    document.getElementById('statBlokk').innerHTML = `
+        <div class="stat"><strong>${skuleListe.length}</strong><span>skular</span></div>
+        <div class="stat"><strong>${destKoordinatar.length}</strong><span>destinasjonar</span></div>
+        <div class="stat"><strong>${nøklarTotalt}</strong><span>kombinasjonar lagra</span></div>`;
+
+    statusEl.textContent = `Ferdig! ${nøklarTotalt} avstandar berekna.`;
+    progressEl.style.width = '100%';
+
+    // 5. Generer kode
+    genererKode();
+    document.getElementById('startBtn').disabled = false;
+}
+
+function genererKode() {
+    const destLinje = destKoordinatar.map(d =>
+        `//   ${d.namn}: (${d.lat.toFixed(5)}, ${d.lon.toFixed(5)})`
+    ).join('\n');
+
+    const oppslag = JSON.stringify(resultatData, null, 2);
+
+    const kode = `// STATISK AVSTANDSTABELL — generert ${new Date().toLocaleDateString('nb-NO')}
+// Skuler: ${skuleListe.length}
+// Destinasjonar:
+${destLinje}
+// Nøkkelformat: gmap_MODE_fraLat.toFixed(3)_fraLon.toFixed(3)_tilLat.toFixed(3)_tilLon.toFixed(3)
+
+const STATISK_AVSTAND = ${oppslag};`;
+
+    document.getElementById('kodeBoks').textContent = kode;
+    document.getElementById('kodeKort').style.display = '';
+}
+
+function kopierKode() {
+    const tekst = document.getElementById('kodeBoks').textContent;
+    navigator.clipboard.writeText(tekst).then(() => {
+        document.getElementById('kopierStatus').textContent = '✓ Kopiert!';
+        setTimeout(() => document.getElementById('kopierStatus').textContent = '', 3000);
+    });
+}
+</script>
+</body>
+</html>
