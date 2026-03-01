@@ -975,20 +975,25 @@
         }
         .turne-skule-rad:last-child { border-bottom: none; }
         .turne-skule-namn { font-weight: 600; min-width: 200px; flex: 1; }
-        .turne-transport-info { color: #444; font-size: 14px; flex: 2; }
-        .turne-overstyring-knappar button {
-            padding: 3px 10px;
+        .turne-alternativ-knappar { display: flex; gap: 6px; flex-wrap: wrap; }
+        .turne-alternativ-knappar button {
+            padding: 4px 10px;
             font-size: 12px;
             border: 1px solid #d1d5db;
             border-radius: 4px;
             background: white;
             cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.15s, border-color 0.15s;
         }
-        .turne-overstyring-knappar button.aktiv-overstyring {
+        .turne-alternativ-knappar button:hover { background: #f0f4ff; border-color: #667eea; }
+        .turne-alternativ-knappar button.aktiv-overstyring {
             background: #667eea;
             color: white;
             border-color: #667eea;
         }
+        .turne-fortid-header { background: #9ca3af !important; }
+        .turne-ingen-skular { color: #9ca3af; font-style: italic; font-size: 13px; padding: 8px 15px; background: white; }
     </style>
 </head>
 <body>
@@ -3783,6 +3788,24 @@ function byttModus(mode) {
     document.getElementById('btnTurne').classList.toggle('aktiv', mode === 'turne');
 }
 
+// Hent skular frå event: prøv schools-dict, så participants som fallback
+function skuleFraEvent(e) {
+    if (e.schools && typeof e.schools === 'object') {
+        const skuler = Object.values(e.schools).filter(s => s && s.id && s.name);
+        if (skuler.length > 0) return skuler;
+    }
+    if (Array.isArray(e.participants)) {
+        const map = {};
+        for (const p of e.participants) {
+            const s = p.school || (p.registrationGroup && p.registrationGroup.school);
+            if (s && s.id && s.name) map[s.id] = { id: s.id, name: s.name };
+        }
+        const skuler = Object.values(map);
+        if (skuler.length > 0) return skuler;
+    }
+    return [];
+}
+
 async function hentTurne() {
     const tourId = document.getElementById('turneId').value.trim();
     if (!tourId) {
@@ -3810,9 +3833,9 @@ async function hentTurne() {
             return;
         }
 
+        const now = new Date();
         turneHendingar = events
-            .filter(e => e.schools && Object.keys(e.schools).length > 0)
-            .sort((a, b) => a.dateStart - b.dateStart)
+            .sort((a, b) => turneParseDate(a.dateStart) - turneParseDate(b.dateStart))
             .map(e => {
                 let dCoords = null;
                 if (e.location && e.location.address && e.location.address.coordinate) {
@@ -3821,16 +3844,23 @@ async function hentTurne() {
                         lon: e.location.address.coordinate.lng
                     };
                 }
+                const skuler = skuleFraEvent(e);
+                const dato = turneParseDate(e.dateStart);
                 return {
                     id: e.id,
                     dateStart: e.dateStart,
                     location: (e.location && e.location.name) ? e.location.name : 'Ukjend lokale',
                     destCoords: dCoords,
-                    schools: Object.values(e.schools)
+                    schools: skuler,
+                    erFortidig: dato < now
                 };
             });
 
-        turneStatusEl.textContent = `Fann ${turneHendingar.length} arrangement. Søker transport...`;
+        const totalt = turneHendingar.length;
+        const medSkular = turneHendingar.filter(h => !h.erFortidig && h.schools.length > 0).length;
+        const utenSkular = turneHendingar.filter(h => !h.erFortidig && h.schools.length === 0).length;
+        turneStatusEl.textContent = `Fann ${totalt} arrangement (${medSkular} framtidige med skular, ${utenSkular} utan skular). Søker transport...`;
+
         await sokTransportForAlleTurneHendingar();
 
     } catch (err) {
@@ -3849,12 +3879,35 @@ async function sokTransportForAlleTurneHendingar() {
         const hendingResultat = { hending: hending, skuleResultat: [] };
         turneResultat.push(hendingResultat);
 
+        // Arrangement utan skular — vis men hopp over søk
+        if (hending.schools.length === 0) {
+            visTurneResultat();
+            document.getElementById('turneResultatSeksjon').style.display = '';
+            continue;
+        }
+
+        // Fortidige arrangement — ikkje søk Entur (returnerer ingenting)
+        if (hending.erFortidig) {
+            for (const skule of hending.schools) {
+                hendingResultat.skuleResultat.push({
+                    skuleId: skule.id, skule: skule.name,
+                    alternativ: [{ type: 'bestillerbuss' }],
+                    valt: 'bestillerbuss', erFortidig: true
+                });
+            }
+            visTurneResultat();
+            document.getElementById('turneResultatSeksjon').style.display = '';
+            continue;
+        }
+
         let dCoords = hending.destCoords;
         if (!dCoords) {
             turneStatusEl.textContent = `Geocodar lokale: ${hending.location}...`;
             dCoords = await geocodeAddress(hending.location);
             if (!dCoords) {
                 turneStatusEl.textContent = `Fann ikkje koordinatar for ${hending.location}`;
+                visTurneResultat();
+                document.getElementById('turneResultatSeksjon').style.display = '';
                 continue;
             }
         }
@@ -3871,10 +3924,9 @@ async function sokTransportForAlleTurneHendingar() {
             }
             if (!sCoords) {
                 hendingResultat.skuleResultat.push({
-                    skuleId: skule.id,
-                    skule: skule.name,
-                    type: '?',
-                    feil: 'Koordinatar ikkje funne'
+                    skuleId: skule.id, skule: skule.name,
+                    alternativ: [{ type: 'bestillerbuss' }],
+                    valt: 'bestillerbuss', feil: 'Koordinatar ikkje funne'
                 });
                 continue;
             }
@@ -3892,35 +3944,34 @@ async function sokTransportForAlleTurneHendingar() {
         document.getElementById('turneResultatSeksjon').style.display = '';
     }
 
-    turneStatusEl.textContent = `Ferdig! ${turneHendingar.length} arrangement søkt.`;
+    turneStatusEl.textContent = `Ferdig! ${turneHendingar.length} arrangement behandla.`;
 }
 
 function analysertransportTurne(skule, bussReiser, togReiser, sCoords, dCoords, maksGange) {
-    const sr = {
-        skuleId: skule.id,
-        skule: skule.name,
-        type: 'bestillerbuss',
-        linje: null,
-        avgang: null,
-        ankomst: null
-    };
+    const alternativ = [];
 
-    // 1. Direktetog (prioritert)
-    let togFunne = false;
+    // Gange — bruk eksisterande haversine-funksjon
+    const avstand = beregnAvstandLuftlinje(sCoords, dCoords);
+    if (avstand <= maksGange) {
+        alternativ.push({ type: 'gange', avstand: avstand });
+    }
+
+    // Direktetog
     if (togReiser && togReiser.length > 0) {
         const togReise = togReiser[0];
         if (telKollektivLegs(togReise.legs) === 1) {
             const togLegs = togReise.legs.filter(l => l.mode === 'rail');
-            sr.type = 'tog';
-            sr.linje = togLegs.map(l => l.line && l.line.publicCode).filter(Boolean).join(' → ');
-            sr.avgang = togReise.startTime;
-            sr.ankomst = togReise.endTime;
-            togFunne = true;
+            alternativ.push({
+                type: 'tog',
+                linje: togLegs.map(l => l.line && l.line.publicCode).filter(Boolean).join(' → '),
+                avgang: togReise.startTime,
+                ankomst: togReise.endTime
+            });
         }
     }
 
-    // 2. Direktebuss (berre viss ikkje direktetog)
-    if (!togFunne && bussReiser && bussReiser.length > 0) {
+    // Direktebuss
+    if (bussReiser && bussReiser.length > 0) {
         const sorterteBussar = [...bussReiser].sort((a, b) => {
             const la = telKollektivLegs(a.legs);
             const lb = telKollektivLegs(b.legs);
@@ -3930,15 +3981,22 @@ function analysertransportTurne(skule, bussReiser, togReiser, sCoords, dCoords, 
         const bussReise = sorterteBussar[0];
         if (telKollektivLegs(bussReise.legs) === 1) {
             const bussLegs = bussReise.legs.filter(l => l.mode === 'bus' || l.mode === 'coach');
-            sr.type = 'buss';
-            sr.linje = bussLegs.map(l => l.line && l.line.publicCode).filter(Boolean).join(' → ');
-            sr.avgang = bussReise.startTime;
-            sr.ankomst = bussReise.endTime;
+            alternativ.push({
+                type: 'buss',
+                linje: bussLegs.map(l => l.line && l.line.publicCode).filter(Boolean).join(' → '),
+                avgang: bussReise.startTime,
+                ankomst: bussReise.endTime
+            });
         }
     }
 
-    // 3. Elles: bestillerbuss (standard)
-    return sr;
+    // Bestillerbuss er alltid tilgjengeleg
+    alternativ.push({ type: 'bestillerbuss' });
+
+    // Auto-vel beste etter prioritet: gange > tog > buss > bestillerbuss
+    const valt = alternativ[0].type;
+
+    return { skuleId: skule.id, skule: skule.name, alternativ, valt };
 }
 
 function visTurneResultat() {
@@ -3954,32 +4012,35 @@ function visTurneResultat() {
         const gruppe = document.createElement('div');
         gruppe.className = 'turne-resultat-gruppe';
 
-        let html = `<div class="turne-resultat-gruppe-header">${datoStr} kl. ${tidStr} — ${hending.location}</div>`;
+        const fortidKlasse = hending.erFortidig ? ' turne-fortid-header' : '';
+        const fortidLabel = hending.erFortidig ? ' <span style="font-size:11px;background:rgba(255,255,255,0.25);padding:2px 6px;border-radius:3px;margin-left:8px;">Fortid</span>' : '';
+        let html = `<div class="turne-resultat-gruppe-header${fortidKlasse}">${datoStr} kl. ${tidStr} — ${hending.location}${fortidLabel}</div>`;
+
+        if (hending.schools.length === 0) {
+            html += `<div class="turne-ingen-skular">Ingen skular tildelt endå</div>`;
+        }
 
         for (const sr of hr.skuleResultat) {
             const overstyringKey = `${hending.id}_${sr.skuleId}`;
-            const overstyrt = turneOverstyring[overstyringKey];
-            const visType = overstyrt || sr.type;
+            const valtType = turneOverstyring[overstyringKey] || sr.valt;
+            const fortidTekst = sr.erFortidig ? ' <span style="font-size:11px;color:#aaa">(fortid)</span>' : '';
 
-            let transportTekst = '';
-            if (sr.feil) {
-                transportTekst = `⚠️ ${sr.feil}`;
-            } else if (visType === 'buss') {
-                transportTekst = `🚌 Buss linje ${sr.linje || '?'} — avgang ${turneFormatTid(sr.avgang)}, ankomst ${turneFormatTid(sr.ankomst)}`;
-            } else if (visType === 'tog') {
-                transportTekst = `🚂 Tog ${sr.linje || '?'} — avgang ${turneFormatTid(sr.avgang)}, ankomst ${turneFormatTid(sr.ankomst)}`;
-            } else {
-                transportTekst = `🚐 Bestillerbuss`;
+            let knappar = '';
+            for (const alt of (sr.alternativ || [])) {
+                const erValt = alt.type === valtType;
+                let label = '';
+                if (alt.type === 'gange') label = `🚶 Gange ${Math.round(alt.avstand)}m`;
+                else if (alt.type === 'tog') label = `🚂 Tog ${alt.linje || '?'} ${turneFormatTid(alt.avgang)}`;
+                else if (alt.type === 'buss') label = `🚌 Buss ${alt.linje || '?'} ${turneFormatTid(alt.avgang)}`;
+                else label = `🚐 Bestillerbuss`;
+                knappar += `<button onclick="settTurneOverstyring('${overstyringKey}', '${alt.type}')" class="${erValt ? 'aktiv-overstyring' : ''}">${label}</button>`;
             }
+            if (sr.feil) knappar += ` <span style="color:#aaa;font-size:12px">(${sr.feil})</span>`;
 
-            const erBestiller = visType === 'bestillerbuss';
             html += `
                 <div class="turne-skule-rad">
-                    <span class="turne-skule-namn">${sr.skule}</span>
-                    <span class="turne-transport-info">${transportTekst}</span>
-                    <div class="turne-overstyring-knappar">
-                        <button onclick="settTurneOverstyring('${overstyringKey}', 'bestillerbuss')" class="${erBestiller ? 'aktiv-overstyring' : ''}">🚐 Bestillerbuss</button>
-                    </div>
+                    <span class="turne-skule-namn">${sr.skule}${fortidTekst}</span>
+                    <div class="turne-alternativ-knappar">${knappar}</div>
                 </div>`;
         }
 
@@ -4001,7 +4062,7 @@ function turneParseDate(dateStart) {
 
 function settTurneOverstyring(key, type) {
     if (turneOverstyring[key] === type) {
-        delete turneOverstyring[key];
+        delete turneOverstyring[key]; // Klikk same knapp igjen → revert til auto
     } else {
         turneOverstyring[key] = type;
     }
@@ -4014,26 +4075,29 @@ function genererTurnePayload() {
     const payload = {
         tourId: parseInt(tourId),
         generert: new Date().toISOString(),
-        events: turneResultat.map(hr => {
-            const hending = hr.hending;
-            const dato = turneParseDate(hending.dateStart);
-            return {
-                eventId: hending.id,
-                dateStart: dato.toISOString(),
-                location: hending.location,
-                schools: hr.skuleResultat.map(sr => {
-                    const overstyringKey = `${hending.id}_${sr.skuleId}`;
-                    const visType = turneOverstyring[overstyringKey] || sr.type;
-                    return {
-                        schoolId: sr.skuleId,
-                        name: sr.skule,
-                        transport: visType,
-                        linje: (visType === 'buss' || visType === 'tog') ? (sr.linje || null) : null,
-                        departureTime: (visType === 'buss' || visType === 'tog') ? turneFormatTid(sr.avgang) : null
-                    };
-                })
-            };
-        })
+        events: turneResultat
+            .filter(hr => !hr.hending.erFortidig && hr.skuleResultat.length > 0)
+            .map(hr => {
+                const hending = hr.hending;
+                const dato = turneParseDate(hending.dateStart);
+                return {
+                    eventId: hending.id,
+                    dateStart: dato.toISOString(),
+                    location: hending.location,
+                    schools: hr.skuleResultat.map(sr => {
+                        const overstyringKey = `${hending.id}_${sr.skuleId}`;
+                        const valtType = turneOverstyring[overstyringKey] || sr.valt;
+                        const valtAlt = (sr.alternativ || []).find(a => a.type === valtType) || { type: 'bestillerbuss' };
+                        return {
+                            schoolId: sr.skuleId,
+                            name: sr.skule,
+                            transport: valtAlt.type,
+                            linje: (valtAlt.type === 'buss' || valtAlt.type === 'tog') ? (valtAlt.linje || null) : null,
+                            departureTime: (valtAlt.type === 'buss' || valtAlt.type === 'tog') ? turneFormatTid(valtAlt.avgang) : null
+                        };
+                    })
+                };
+            })
     };
 
     const payloadStr = JSON.stringify(payload, null, 2);
