@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#005B8E"/>
+  <!-- 5-pointed gold star -->
+  <polygon points="256,76 298,198 427,200 324,278 362,402 256,328 150,402 188,278 85,200 214,198" fill="#E8B84B"/>
+</svg>

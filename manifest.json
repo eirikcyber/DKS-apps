@@ -1,0 +1,18 @@
+{
+  "name": "DKS Program – Asker",
+  "short_name": "DKS Program",
+  "description": "Kommande arrangement i Den kulturelle skulesekken for Asker-skular",
+  "start_url": "dks_program.html",
+  "display": "standalone",
+  "background_color": "#004068",
+  "theme_color": "#005B8E",
+  "lang": "nb",
+  "icons": [
+    {
+      "src": "dks-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
