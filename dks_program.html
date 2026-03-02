@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>DKS Program – Asker</title>
 
-  <!-- PWA meta tags for iOS -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -14,18 +13,15 @@
 
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="dks-icon.svg">
-
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Source+Serif+4:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --blaa: #005B8E;
       --blaa-mork: #004068;
       --blaa-lys: #d6e8f3;
-      --gronn: #4A7C59;
       --sand: #C8B89A;
       --sand-lys: #f5efe8;
-      --terrakotta: #C0583A;
       --gul: #E8B84B;
       --svart: #1a1a1a;
       --graa: #6b6b6b;
@@ -39,7 +35,6 @@
       font-family: 'DM Sans', -apple-system, sans-serif;
       background: var(--sand-lys);
       color: var(--svart);
-      min-height: 100vh;
       min-height: 100dvh;
     }
 
@@ -48,282 +43,283 @@
       background: var(--blaa);
       color: white;
     }
-
     .header-top {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 14px 16px;
-      padding-top: calc(14px + env(safe-area-inset-top, 0px));
+      padding: 13px 16px;
+      padding-top: calc(13px + env(safe-area-inset-top, 0px));
     }
-
     .back-link {
       color: rgba(255,255,255,0.75);
       text-decoration: none;
-      font-size: 24px;
+      font-size: 22px;
       line-height: 1;
       flex-shrink: 0;
       padding: 4px 6px;
       margin-left: -6px;
       border-radius: 4px;
-      transition: color 0.15s, background 0.15s;
     }
     .back-link:hover { color: white; background: rgba(255,255,255,0.1); }
-
     .header-title { flex: 1; }
-
-    .header-title h1 {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 19px;
-      font-weight: 500;
-      line-height: 1.2;
-    }
-
-    .header-title p {
-      font-size: 12px;
-      opacity: 0.65;
-      font-weight: 300;
-      margin-top: 2px;
-    }
-
+    .header-title h1 { font-size: 18px; font-weight: 500; line-height: 1.2; }
+    .header-title p  { font-size: 11.5px; opacity: 0.6; font-weight: 300; margin-top: 2px; }
     .refresh-btn {
       background: rgba(255,255,255,0.12);
       border: 1px solid rgba(255,255,255,0.22);
       border-radius: 8px;
       color: white;
-      font-size: 20px;
-      width: 38px;
-      height: 38px;
+      font-size: 19px;
+      width: 36px; height: 36px;
       cursor: pointer;
       flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       transition: background 0.15s;
     }
-    .refresh-btn:hover { background: rgba(255,255,255,0.2); }
+    .refresh-btn:hover  { background: rgba(255,255,255,0.2); }
     .refresh-btn:active { background: rgba(255,255,255,0.28); }
     .refresh-btn.spinning { animation: spin 0.8s linear infinite; }
 
-    /* ── LASTE-INDIKATOR ── */
-    #loading-overlay {
-      display: none;
-      padding: 72px 32px 48px;
-      text-align: center;
-    }
+    /* ── LOADING ── */
+    #loading-overlay { display: none; padding: 72px 32px 48px; text-align: center; }
     #loading-overlay.vis { display: block; }
-
     .big-spinner {
-      width: 44px;
-      height: 44px;
+      width: 40px; height: 40px;
       border: 3px solid var(--sand);
       border-top-color: var(--blaa);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
-      margin: 0 auto 20px;
+      margin: 0 auto 18px;
     }
-
-    .loading-label {
-      font-size: 15px;
-      color: var(--svart);
-      font-weight: 400;
-      margin-bottom: 6px;
-    }
-
-    .loading-skule {
-      font-size: 13px;
-      color: var(--graa);
-      min-height: 20px;
-    }
-
+    .loading-label { font-size: 14px; color: var(--svart); margin-bottom: 5px; }
+    .loading-skule { font-size: 12.5px; color: var(--graa); min-height: 18px; }
     .prog-wrap {
-      width: 220px;
-      height: 4px;
-      background: var(--sand);
-      border-radius: 2px;
-      margin: 14px auto 0;
-      overflow: hidden;
+      width: 200px; height: 4px;
+      background: var(--sand); border-radius: 2px;
+      margin: 12px auto 0; overflow: hidden;
     }
+    .prog-fill { height: 100%; background: var(--blaa); border-radius: 2px; transition: width 0.2s; }
 
-    .prog-fill {
-      height: 100%;
-      background: var(--blaa);
-      border-radius: 2px;
-      transition: width 0.25s ease;
-    }
-
-    /* ── FEILMELDING ── */
-    #feil-melding {
-      display: none;
-      padding: 64px 32px;
-      text-align: center;
-    }
+    /* ── FEIL ── */
+    #feil-melding { display: none; padding: 64px 32px; text-align: center; }
     #feil-melding.vis { display: block; }
-
-    #feil-melding p {
-      color: var(--graa);
-      font-size: 15px;
-      line-height: 1.65;
-    }
-
+    #feil-melding p { color: var(--graa); font-size: 14px; line-height: 1.65; }
     #feil-melding button {
-      margin-top: 24px;
-      padding: 11px 28px;
-      background: var(--blaa);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 15px;
-      font-family: 'DM Sans', sans-serif;
-      cursor: pointer;
+      margin-top: 22px; padding: 10px 26px;
+      background: var(--blaa); color: white; border: none;
+      border-radius: 8px; font-size: 14px;
+      font-family: 'DM Sans', sans-serif; cursor: pointer;
     }
 
-    /* ── OFFLINE-BANNER ── */
+    /* ── OFFLINE ── */
     #offline-banner {
-      display: none;
-      background: #7a5c10;
-      color: rgba(255,255,255,0.92);
-      font-size: 13px;
-      font-weight: 300;
-      padding: 9px 16px;
-      text-align: center;
+      display: none; background: #7a5c10;
+      color: rgba(255,255,255,0.9);
+      font-size: 12.5px; font-weight: 300;
+      padding: 8px 16px; text-align: center;
     }
     #offline-banner.vis { display: block; }
 
     /* ── DATO-INFO ── */
     .dato-info {
-      padding: 10px 16px;
-      font-size: 12.5px;
-      color: var(--graa);
-      background: white;
+      padding: 8px 16px; font-size: 12px;
+      color: var(--graa); background: white;
       border-bottom: 1px solid var(--graa-lys);
     }
 
-    /* ── ARRANGEMENT ── */
-    #events-container {
+    /* ── PRODUKSJONSFILTER ── */
+    #prod-filter {
       display: none;
-      padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+      background: white;
+      border-bottom: 1px solid var(--graa-lys);
+      padding: 10px 12px;
     }
+    #prod-filter.vis { display: block; }
+    .filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .filter-chip {
+      padding: 5px 12px;
+      border-radius: 16px;
+      border: 1.5px solid var(--sand);
+      background: white;
+      color: var(--svart);
+      font-size: 12.5px;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .filter-chip:hover   { border-color: var(--blaa); }
+    .filter-chip.active  { background: var(--blaa); border-color: var(--blaa); color: white; }
+
+    /* ── EVENTS ── */
+    #events-container { display: none; padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px)); }
     #events-container.vis { display: block; }
 
-    .dag-gruppe {
-      animation: fadeIn 0.3s ease both;
-    }
+    .dag-gruppe { animation: fadeIn 0.25s ease both; }
 
+    /* Date header – clickable, sticky */
     .dag-header {
       display: flex;
-      align-items: baseline;
+      align-items: center;
       justify-content: space-between;
-      padding: 20px 16px 8px;
+      padding: 14px 16px 9px;
       position: sticky;
       top: 0;
       background: var(--sand-lys);
       z-index: 5;
       border-bottom: 1px solid var(--sand);
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
-
+    .dag-header:active { background: #ede7de; }
+    .dag-venstre { display: flex; align-items: baseline; gap: 8px; }
     .dag-namn {
-      font-size: 11.5px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--blaa-mork);
     }
-
     .dag-tel {
       font-size: 11px;
       color: var(--graa);
       background: var(--graa-lys);
-      padding: 2px 9px;
+      padding: 1px 8px;
       border-radius: 10px;
     }
+    .dag-chevron {
+      font-size: 14px;
+      color: var(--graa);
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+    .dag-gruppe.collapsed .dag-chevron  { transform: rotate(-90deg); }
+    .dag-gruppe.collapsed .dag-events   { display: none; }
 
+    .dag-events { padding: 6px 0 10px; }
+
+    /* ── KORT (collapsible) ── */
     .event-kort {
       background: white;
-      margin: 10px 12px 0;
-      border-radius: 10px;
-      padding: 14px 16px 16px;
-      box-shadow: 0 1px 5px rgba(0,0,0,0.07);
+      margin: 0 10px 6px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
       border-left: 3px solid var(--blaa);
     }
 
-    .dag-gruppe:last-child .event-kort:last-child {
-      margin-bottom: 0;
+    /* Clickable header row of each card */
+    .ev-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
+    .ev-header:active { background: #f8f6f3; }
 
     .ev-tid {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
       color: var(--blaa);
-      letter-spacing: 0.08em;
-      margin-bottom: 5px;
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+      width: 42px;
     }
-
+    .ev-info { flex: 1; min-width: 0; }
     .ev-prod {
-      font-size: 19px;
+      font-size: 15px;
       font-weight: 500;
-      line-height: 1.3;
       color: var(--svart);
-      margin-bottom: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.35;
     }
-
-    .ev-meta {
-      font-size: 14px;
+    .ev-lok-row {
+      font-size: 12px;
       color: var(--graa);
-      line-height: 1.9;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 1px;
     }
-
-    .ev-elevar {
-      display: inline-block;
-      margin-top: 8px;
-      background: var(--blaa-lys);
-      color: var(--blaa-mork);
-      font-size: 13px;
-      font-weight: 500;
-      padding: 3px 12px;
-      border-radius: 12px;
-    }
-
-    .tom-melding {
-      padding: 72px 32px;
-      text-align: center;
+    .ev-chevron {
       font-size: 15px;
       color: var(--graa);
-      line-height: 1.7;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+    .event-kort.open .ev-chevron { transform: rotate(90deg); }
+
+    /* Expanded details */
+    .ev-details {
+      display: none;
+      padding: 0 14px 12px 14px;
+      border-top: 1px solid var(--graa-lys);
+    }
+    .event-kort.open .ev-details { display: block; }
+
+    .ev-details-row {
+      font-size: 13px;
+      color: var(--graa);
+      line-height: 1.9;
+      padding-top: 9px;
     }
 
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .ev-kal-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 10px;
+      padding: 7px 14px;
+      background: var(--blaa-lys);
+      color: var(--blaa-mork);
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 12.5px;
+      font-weight: 500;
+      -webkit-tap-highlight-color: transparent;
     }
+    .ev-kal-btn:hover { background: #bcd8ee; }
+
+    .tom-melding {
+      padding: 64px 32px; text-align: center;
+      font-size: 14px; color: var(--graa); line-height: 1.7;
+    }
+
+    @keyframes spin    { to { transform: rotate(360deg); } }
+    @keyframes fadeIn  { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
 <header>
   <div class="header-top">
-    <a class="back-link" href="index.html" title="Tilbake til hovudsida">←</a>
+    <a class="back-link" href="index.html">←</a>
     <div class="header-title">
       <h1>DKS Program</h1>
-      <p>Asker-skular · neste 4 veker</p>
+      <p>Asker-skular · neste 2 veker</p>
     </div>
-    <button class="refresh-btn" id="refresh-btn" title="Hent nye data" onclick="forceRefresh()">↻</button>
+    <button class="refresh-btn" id="refresh-btn" title="Oppdater" onclick="forceRefresh()">↻</button>
   </div>
 </header>
 
-<div id="offline-banner">
-  Viser bufra data – sist oppdatert <span id="cache-age-txt"></span>
-</div>
+<div id="offline-banner">Viser bufra data – sist oppdatert <span id="cache-age-txt"></span></div>
 
 <div id="loading-overlay">
   <div class="big-spinner"></div>
   <p class="loading-label" id="loading-label">Hentar arrangement for alle Asker-skular…</p>
   <p class="loading-skule" id="loading-skule"></p>
-  <div class="prog-wrap">
-    <div class="prog-fill" id="prog-fill" style="width:0%"></div>
-  </div>
+  <div class="prog-wrap"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
 </div>
 
 <div id="feil-melding">
@@ -332,49 +328,50 @@
 </div>
 
 <div id="dato-info-wrap"></div>
+<div id="prod-filter"><div class="filter-chips" id="filter-chips"></div></div>
 <div id="events-container"></div>
 
 <script>
-const API      = 'https://portal.denkulturelleskolesekken.no/public/events/findBySchool?orgNumber=';
+const API       = 'https://portal.denkulturelleskolesekken.no/public/events/findBySchool?orgNumber=';
 const CACHE_KEY = 'dks_program_v1';
-const MAX_AGE   = 4 * 60 * 60 * 1000; // 4 timar
+const MAX_AGE   = 4 * 60 * 60 * 1000;
 
 const SKULAR = [
   {name: 'Arnestad skole',            org: '973601997'},
-  {name: 'Billingstad skole',          org: '974578263'},
-  {name: 'Blakstad skole',             org: '979200293'},
-  {name: 'Bondi skole',                org: '974578212'},
-  {name: 'Drengsrud skole',            org: '974578220'},
-  {name: 'Folkestad skole',            org: '975285103'},
-  {name: 'Frydenlund barneskole',      org: '973747010'},
-  {name: 'Hagaløkka skole',            org: '974578239'},
-  {name: 'Heggedal skole',             org: '974578247'},
-  {name: 'Hofstad skole',              org: '974578255'},
-  {name: 'Hvalstad skole',             org: '980785343'},
-  {name: 'Hyggen skole',               org: '973747045'},
-  {name: 'Jansløkka skole',            org: '974578271'},
-  {name: 'Mellom-Nes skole',           org: '874578282'},
-  {name: 'Midtbygda barneskole',       org: '973747002'},
-  {name: 'Nesøya skole',               org: '974578298'},
-  {name: 'Nærsnes barneskole',         org: '973747029'},
-  {name: 'Rønningen skole',            org: '974578301'},
-  {name: 'Slemmestad barneskole',      org: '973747037'},
-  {name: 'Solberg skole',              org: '874578312'},
-  {name: 'Steinerskolen i Asker',      org: '971522585'},
-  {name: 'Steinerskolen i Hurum',      org: '974185385'},
-  {name: 'Asker International School', org: '998258383'},
-  {name: 'Vollen Montessoriskole',     org: '984666675'},
-  {name: 'Sydskogen barneskole',       org: '973746987'},
-  {name: 'Sætre skole',                org: '975285111'},
-  {name: 'Tofte skole',                org: '875285092'},
-  {name: 'Torvbråten barneskole',      org: '973746995'},
-  {name: 'Vardåsen skole',             org: '977264502'},
-  {name: 'Vettre skole',               org: '974578328'},
+  {name: 'Billingstad skole',         org: '974578263'},
+  {name: 'Blakstad skole',            org: '979200293'},
+  {name: 'Bondi skole',               org: '974578212'},
+  {name: 'Drengsrud skole',           org: '974578220'},
+  {name: 'Folkestad skole',           org: '975285103'},
+  {name: 'Frydenlund barneskole',     org: '973747010'},
+  {name: 'Hagaløkka skole',           org: '974578239'},
+  {name: 'Heggedal skole',            org: '974578247'},
+  {name: 'Hofstad skole',             org: '974578255'},
+  {name: 'Hvalstad skole',            org: '980785343'},
+  {name: 'Hyggen skole',              org: '973747045'},
+  {name: 'Jansløkka skole',           org: '974578271'},
+  {name: 'Mellom-Nes skole',          org: '874578282'},
+  {name: 'Midtbygda barneskole',      org: '973747002'},
+  {name: 'Nesøya skole',              org: '974578298'},
+  {name: 'Nærsnes barneskole',        org: '973747029'},
+  {name: 'Rønningen skole',           org: '974578301'},
+  {name: 'Slemmestad barneskole',     org: '973747037'},
+  {name: 'Solberg skole',             org: '874578312'},
+  {name: 'Steinerskolen i Asker',     org: '971522585'},
+  {name: 'Steinerskolen i Hurum',     org: '974185385'},
+  {name: 'Asker International School',org: '998258383'},
+  {name: 'Vollen Montessoriskole',    org: '984666675'},
+  {name: 'Sydskogen barneskole',      org: '973746987'},
+  {name: 'Sætre skole',               org: '975285111'},
+  {name: 'Tofte skole',               org: '875285092'},
+  {name: 'Torvbråten barneskole',     org: '973746995'},
+  {name: 'Vardåsen skole',            org: '977264502'},
+  {name: 'Vettre skole',              org: '974578328'},
 ];
 
 // ── Hjelpefunksjonar ──────────────────────────────────────────────
 
-function el(id) { return document.getElementById(id); }
+const el = id => document.getElementById(id);
 
 function strVal(v) {
   if (!v) return '';
@@ -385,13 +382,19 @@ function strVal(v) {
 
 function escHtml(s) {
   return String(s ?? '')
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-function fmtTime(dateStartSec) {
-  const d = new Date(dateStartSec * 1000);
-  return d.toLocaleTimeString('nb-NO', {hour: '2-digit', minute: '2-digit'});
+// Produksjonsnamn utan parentes-suffiks
+function prodKortNamn(ev) {
+  const full = strVal(ev.production) || strVal(ev.tour) || '';
+  const idx  = full.indexOf('(');
+  return (idx > 0 ? full.slice(0, idx) : full).trim();
+}
+
+function fmtTime(ts) {
+  return new Date(ts * 1000).toLocaleTimeString('nb-NO', {hour: '2-digit', minute: '2-digit'});
 }
 
 function fmtDateHeader(d) {
@@ -408,12 +411,45 @@ function fmtRelative(ts) {
   return `${Math.floor(hrs / 24)} dag${Math.floor(hrs/24) > 1 ? 'ar' : ''} sidan`;
 }
 
-// ── Cache ──────────────────────────────────────────────────────────
+// ── ICS-kalender ──────────────────────────────────────────────────
+
+function fmtICSDate(ts) {
+  return new Date(ts * 1000).toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z';
+}
+
+function makeICSHref(ev) {
+  const title  = (strVal(ev.production) || strVal(ev.tour) || 'DKS-arrangement').replace(/[,;]/g, '');
+  const lok    = (strVal(ev.location) || '').replace(/[,;]/g, '');
+  const skular = (ev._schools || []).join(', ');
+  const elevar = ev.numberOfStudents > 0 ? `Elevar: ${ev.numberOfStudents}` : '';
+  const desc   = [skular ? `Skule: ${skular}` : '', elevar].filter(Boolean).join('\\n');
+  const start  = fmtICSDate(ev.dateStart);
+  const end    = fmtICSDate(ev.dateEnd || (ev.dateStart + 3600));
+
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//DKS Asker//DKS Program//NO',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    `UID:dks-${ev.id}@asker.dks`,
+    `DTSTART:${start}`,
+    `DTEND:${end}`,
+    `SUMMARY:${title}`,
+    `DESCRIPTION:${desc}`,
+    `LOCATION:${lok}`,
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ].join('\r\n');
+
+  return 'data:text/calendar;charset=utf8,' + encodeURIComponent(ics);
+}
+
+// ── Cache ─────────────────────────────────────────────────────────
 
 function saveCache(events) {
-  try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify({ts: Date.now(), events}));
-  } catch(_) {}
+  try { localStorage.setItem(CACHE_KEY, JSON.stringify({ts: Date.now(), events})); } catch(_) {}
 }
 
 function loadCache(allowStale = false) {
@@ -426,16 +462,13 @@ function loadCache(allowStale = false) {
   } catch(_) { return null; }
 }
 
-// ── Filtrering og gruppering ───────────────────────────────────────
+// ── Filtrering og gruppering ──────────────────────────────────────
 
 function filterEvents(events) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const end = new Date(today);
-  end.setDate(end.getDate() + 28);
+  const today = new Date(); today.setHours(0,0,0,0);
+  const end   = new Date(today); end.setDate(end.getDate() + 14);
   const fromTs = today.getTime() / 1000;
   const toTs   = end.getTime() / 1000;
-
   return events
     .filter(ev => {
       const ts = Number(ev.dateStart);
@@ -449,7 +482,7 @@ function filterEvents(events) {
 function groupByDate(events) {
   const groups = new Map();
   for (const ev of events) {
-    const d = new Date(ev.dateStart * 1000);
+    const d   = new Date(ev.dateStart * 1000);
     const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
     if (!groups.has(key)) groups.set(key, {date: d, events: []});
     groups.get(key).events.push(ev);
@@ -460,79 +493,147 @@ function groupByDate(events) {
 // ── Rendering ─────────────────────────────────────────────────────
 
 function renderCard(ev) {
-  const tid    = fmtTime(ev.dateStart);
+  const tid    = escHtml(fmtTime(ev.dateStart));
   const prod   = escHtml(strVal(ev.production) || strVal(ev.tour) || '–');
   const lok    = strVal(ev.location);
   const skular = (ev._schools || []).join(', ') || '–';
   const elevar = ev.numberOfStudents > 0 ? ev.numberOfStudents : null;
+  const icsHref = escHtml(makeICSHref(ev));
 
   return `<div class="event-kort">
-    <div class="ev-tid">${escHtml(tid)}</div>
-    <div class="ev-prod">${prod}</div>
-    ${lok ? `<div class="ev-meta">📍 ${escHtml(lok)}</div>` : ''}
-    <div class="ev-meta">🏫 ${escHtml(skular)}</div>
-    ${elevar !== null ? `<span class="ev-elevar">👥 ${elevar} elevar</span>` : ''}
+    <div class="ev-header">
+      <span class="ev-tid">${tid}</span>
+      <div class="ev-info">
+        <div class="ev-prod">${prod}</div>
+        ${lok ? `<div class="ev-lok-row">📍 ${escHtml(lok)}</div>` : ''}
+      </div>
+      <span class="ev-chevron">›</span>
+    </div>
+    <div class="ev-details">
+      <div class="ev-details-row">
+        🏫 ${escHtml(skular)}${elevar !== null ? `<br>👥 ${elevar} elevar` : ''}
+      </div>
+      <a class="ev-kal-btn" href="${icsHref}" download="dks-arrangement.ics">📅 Legg til i kalender</a>
+    </div>
   </div>`;
 }
 
 function renderGroups(groups) {
   if (!groups.length) {
-    return '<div class="tom-melding">Ingen planlagde arrangement dei neste 4 vekene.</div>';
+    return '<div class="tom-melding">Ingen planlagde arrangement dei neste 2 vekene.</div>';
   }
   return groups.map(({date, events}, i) =>
-    `<div class="dag-gruppe" style="animation-delay:${Math.min(i * 0.06, 0.5)}s">
+    `<div class="dag-gruppe" style="animation-delay:${Math.min(i*0.05,0.4)}s">
       <div class="dag-header">
-        <span class="dag-namn">${escHtml(fmtDateHeader(date))}</span>
-        <span class="dag-tel">${events.length} arr.</span>
+        <div class="dag-venstre">
+          <span class="dag-namn">${escHtml(fmtDateHeader(date))}</span>
+          <span class="dag-tel">${events.length} arr.</span>
+        </div>
+        <span class="dag-chevron">›</span>
       </div>
-      ${events.map(renderCard).join('')}
+      <div class="dag-events">
+        ${events.map(renderCard).join('')}
+      </div>
     </div>`
   ).join('');
 }
+
+// ── Interaksjon via event delegation ─────────────────────────────
+
+el('events-container').addEventListener('click', e => {
+  // Ikkje let kalenderlenka boble opp til ev-header
+  if (e.target.closest('.ev-kal-btn')) return;
+
+  const header = e.target.closest('.ev-header');
+  if (header) {
+    header.closest('.event-kort').classList.toggle('open');
+    return;
+  }
+
+  const dagHdr = e.target.closest('.dag-header');
+  if (dagHdr) {
+    dagHdr.closest('.dag-gruppe').classList.toggle('collapsed');
+  }
+});
+
+// ── Produksjonsfilter ─────────────────────────────────────────────
+
+let currentEvents  = [];
+const activeFilters = new Set();
+
+function buildProductionChips(events) {
+  const names = [...new Set(events.map(prodKortNamn).filter(Boolean))].sort();
+  const chips = el('filter-chips');
+
+  if (!names.length) { el('prod-filter').classList.remove('vis'); return; }
+
+  chips.innerHTML = names.map(name =>
+    `<button class="filter-chip" data-prod="${escHtml(name)}">${escHtml(name)}</button>`
+  ).join('');
+
+  el('prod-filter').classList.add('vis');
+}
+
+el('filter-chips').addEventListener('click', e => {
+  const chip = e.target.closest('.filter-chip');
+  if (!chip) return;
+  const name = chip.dataset.prod;
+  if (activeFilters.has(name)) { activeFilters.delete(name); chip.classList.remove('active'); }
+  else                         { activeFilters.add(name);    chip.classList.add('active'); }
+  renderView();
+});
+
+// ── Skjermvisning ─────────────────────────────────────────────────
 
 function showScreen(which) {
   el('loading-overlay').className  = which === 'loading' ? 'vis' : '';
   el('feil-melding').className     = which === 'error'   ? 'vis' : '';
   el('events-container').className = which === 'events'  ? 'vis' : '';
-  el('dato-info-wrap').style.display = which === 'events' ? '' : 'none';
+  el('dato-info-wrap').style.display  = which === 'events' ? '' : 'none';
+  if (which !== 'events') el('prod-filter').classList.remove('vis');
 }
 
-function renderEvents(events, fetchedAt, isStale = false) {
-  const filtered = filterEvents(events);
-  const groups   = groupByDate(filtered);
+function renderView() {
+  let evs = currentEvents;
+  if (activeFilters.size > 0) {
+    evs = evs.filter(ev => activeFilters.has(prodKortNamn(ev)));
+  }
+  el('events-container').innerHTML = renderGroups(groupByDate(evs));
+}
 
-  el('events-container').innerHTML = renderGroups(groups);
+function renderEvents(allEvents, fetchedAt, isStale = false) {
+  currentEvents = filterEvents(allEvents);
+
+  activeFilters.clear();
+  buildProductionChips(currentEvents);
+
+  renderView();
 
   const today = new Date(); today.setHours(0,0,0,0);
-  const end   = new Date(today); end.setDate(end.getDate() + 28);
-  const fraDato = today.toLocaleDateString('nb-NO', {day: 'numeric', month: 'long'});
-  const tilDato = end.toLocaleDateString('nb-NO',   {day: 'numeric', month: 'long'});
+  const end   = new Date(today); end.setDate(end.getDate() + 14);
+  const fra = today.toLocaleDateString('nb-NO', {day: 'numeric', month: 'long'});
+  const til = end.toLocaleDateString('nb-NO',   {day: 'numeric', month: 'long'});
 
   el('dato-info-wrap').innerHTML =
-    `<div class="dato-info">${fraDato} – ${tilDato} · ${filtered.length} arrangement · oppdatert ${fmtRelative(fetchedAt)}</div>`;
+    `<div class="dato-info">${fra} – ${til} · ${currentEvents.length} arrangement · oppdatert ${fmtRelative(fetchedAt)}</div>`;
 
-  if (isStale) {
-    el('offline-banner').classList.add('vis');
-    el('cache-age-txt').textContent = fmtRelative(fetchedAt);
-  } else {
-    el('offline-banner').classList.remove('vis');
-  }
+  el('offline-banner').classList.toggle('vis', isStale);
+  if (isStale) el('cache-age-txt').textContent = fmtRelative(fetchedAt);
 
   showScreen('events');
 }
 
 // ── API-henting ───────────────────────────────────────────────────
 
-function updateProgress(i, total, skuleName) {
+function updateProgress(i, total, name) {
   el('loading-label').textContent = `Hentar arrangement (${i+1}/${total})…`;
-  el('loading-skule').textContent = skuleName;
+  el('loading-skule').textContent = name;
   el('prog-fill').style.width = Math.round((i / total) * 100) + '%';
 }
 
 async function fetchAllEvents() {
   const eventMap = {};
-  const total    = SKULAR.length;
-
+  const total = SKULAR.length;
   for (let i = 0; i < total; i++) {
     const {name, org} = SKULAR[i];
     updateProgress(i, total, name);
@@ -549,7 +650,6 @@ async function fetchAllEvents() {
       }
     } catch(_) {}
   }
-
   return Object.values(eventMap);
 }
 
@@ -559,29 +659,21 @@ let isFetching = false;
 
 async function loadData(force = false) {
   if (isFetching) return;
-
   if (!force) {
     const cached = loadCache();
     if (cached) { renderEvents(cached.events, cached.ts); return; }
   }
-
   isFetching = true;
   showScreen('loading');
   el('refresh-btn').classList.add('spinning');
-
   try {
     const events = await fetchAllEvents();
     saveCache(events);
     renderEvents(events, Date.now());
   } catch(err) {
     const stale = loadCache(true);
-    if (stale) {
-      renderEvents(stale.events, stale.ts, true);
-    } else {
-      el('feil-tekst').textContent =
-        'Klarte ikkje hente data. Sjekk at du er tilkopla internett og prøv igjen.';
-      showScreen('error');
-    }
+    if (stale) { renderEvents(stale.events, stale.ts, true); }
+    else { showScreen('error'); }
   } finally {
     isFetching = false;
     el('refresh-btn').classList.remove('spinning');
@@ -590,12 +682,10 @@ async function loadData(force = false) {
 
 function forceRefresh() { loadData(true); }
 
-// ── Service Worker ────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 
-// ── Start ─────────────────────────────────────────────────────────
 loadData();
 </script>
 </body>
