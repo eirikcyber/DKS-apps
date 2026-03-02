@@ -127,9 +127,6 @@ const SKULER = {
     "Vollen ungdomsskole": {lat: 59.800708, lon: 10.489653}
 };
 
-const GOOGLE_KEY = 'AIzaSyD_AfzzIMq0Jot-Jzkm1GjvaGTmQGqg8Q0';
-const PROXY = 'https://corsproxy.io/?';
-
 const skuleListe = Object.entries(SKULER);
 let resultatData = {}; // cacheKey → {avstand, tid, avstandTekst, tidTekst}
 let destKoordinatar = []; // [{namn, adresse, lat, lon}]
@@ -158,33 +155,44 @@ async function geocode(adresse) {
     return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
 }
 
-// Google Distance Matrix REST API for éin batch: skuler[] → destinasjonar[]
+// OSRM Table API — gratis, ingen nøkkel, CORS-støtte
+// profil: 'driving' eller 'foot' (walking)
 async function distanceMatrix(skuleBatch, destBatch, mode) {
-    const origins = skuleBatch.map(([_, k]) => `${k.lat},${k.lon}`).join('|');
-    const destinations = destBatch.map(d => `${d.lat},${d.lon}`).join('|');
-    const googleMode = mode === 'DRIVING' ? 'driving' : 'walking';
-    const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(origins)}&destinations=${encodeURIComponent(destinations)}&mode=${googleMode}&units=metric&key=${GOOGLE_KEY}`;
+    const profil = mode === 'DRIVING' ? 'driving' : 'foot';
 
-    const resp = await fetch(PROXY + encodeURIComponent(url));
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    // OSRM brukar lon,lat-rekkefølge (motsett av Google)
+    const alleKoords = [
+        ...skuleBatch.map(([_, k]) => `${k.lon},${k.lat}`),
+        ...destBatch.map(d => `${d.lon},${d.lat}`)
+    ].join(';');
+
+    const kjelder = skuleBatch.map((_, i) => i).join(';');
+    const mål = destBatch.map((_, i) => skuleBatch.length + i).join(';');
+
+    const url = `https://router.project-osrm.org/table/v1/${profil}/${alleKoords}?sources=${kjelder}&destinations=${mål}&annotations=duration,distance`;
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`OSRM HTTP ${resp.status}`);
     const data = await resp.json();
-    if (data.status !== 'OK') throw new Error(data.status);
+    if (data.code !== 'Ok') throw new Error(`OSRM: ${data.message || data.code}`);
 
     const resultat = [];
-    data.rows.forEach((row, si) => {
-        row.elements.forEach((el, di) => {
-            if (el.status === 'OK') {
-                resultat.push({
-                    skule: skuleBatch[si][0],
-                    skuleLat: skuleBatch[si][1].lat,
-                    skuleLon: skuleBatch[si][1].lon,
-                    dest: destBatch[di],
-                    avstand: el.distance.value,
-                    tid: Math.round(el.duration.value / 60),
-                    avstandTekst: el.distance.text,
-                    tidTekst: el.duration.text
-                });
-            }
+    (data.durations || []).forEach((rad, si) => {
+        rad.forEach((sek, di) => {
+            if (sek === null) return;
+            const meter = data.distances?.[si]?.[di] ?? null;
+            const avstand = meter !== null ? Math.round(meter) : null;
+            resultat.push({
+                skule: skuleBatch[si][0],
+                skuleLat: skuleBatch[si][1].lat,
+                skuleLon: skuleBatch[si][1].lon,
+                dest: destBatch[di],
+                avstand,
+                tid: Math.round(sek / 60),
+                avstandTekst: avstand !== null
+                    ? (avstand >= 1000 ? `${(avstand / 1000).toFixed(1)} km` : `${avstand} m`)
+                    : '?',
+                tidTekst: `${Math.round(sek / 60)} min`
+            });
         });
     });
     return resultat;
@@ -228,12 +236,8 @@ async function startBeregning() {
         return;
     }
 
-    // 2. Bygg batchplan: max 25 skular × destinasjonar ≤ 100 element per request
-    const maxSkularPerBatch = Math.max(1, Math.floor(100 / destKoordinatar.length));
-    const skuleBatchar = [];
-    for (let i = 0; i < skuleListe.length; i += maxSkularPerBatch) {
-        skuleBatchar.push(skuleListe.slice(i, i + maxSkularPerBatch));
-    }
+    // 2. OSRM handterer alle skular i éin request (ingen element-grense)
+    const skuleBatchar = [skuleListe];
 
     const modusListe = kunWalking ? ['WALKING'] : ['WALKING', 'DRIVING'];
     const totalBatchar = skuleBatchar.length * modusListe.length;
