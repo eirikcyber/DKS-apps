@@ -1426,6 +1426,26 @@ let turneOverstyring = {};
 
 const CORS_PROXY = 'https://corsproxy.io/?';
 
+// Prøv direkte → corsproxy.io → allorigins.win (fallback ved brannmur)
+async function corsHent(url) {
+    const proxyer = [
+        url,
+        'https://corsproxy.io/?' + encodeURIComponent(url),
+        'https://api.allorigins.win/raw?url=' + encodeURIComponent(url)
+    ];
+    let sisteErr;
+    for (const forsøkUrl of proxyer) {
+        try {
+            const resp = await fetch(forsøkUrl);
+            if (resp.ok) return resp;
+            sisteErr = new Error(`HTTP ${resp.status} frå ${forsøkUrl}`);
+        } catch (e) {
+            sisteErr = e;
+        }
+    }
+    throw sisteErr || new Error('Alle proxyer feila');
+}
+
 // ========== INIT ==========
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('dato').valueAsDate = new Date();
@@ -1561,7 +1581,7 @@ async function geocodeAddress(address) {
     // Prøv Entur geocoder
     try {
         const url = `https://api.entur.io/geocoder/v1/autocomplete?text=${encodeURIComponent(address)}&size=1`;
-        const response = await fetch(CORS_PROXY + encodeURIComponent(url));
+        const response = await corsHent(url);
         const data = await response.json();
         
         if (data.features?.length > 0) {
@@ -3855,7 +3875,7 @@ async function hentTurne() {
 
     try {
         const url = `https://portal.denkulturelleskolesekken.no/public/events/findByTourId?tourId=${tourId}`;
-        const resp = await fetch(CORS_PROXY + encodeURIComponent(url));
+        const resp = await corsHent(url);
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         const events = await resp.json();
 
