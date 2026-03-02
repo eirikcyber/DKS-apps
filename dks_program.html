@@ -307,7 +307,7 @@
     <a class="back-link" href="index.html">←</a>
     <div class="header-title">
       <h1>DKS Program</h1>
-      <p>Asker-skular · neste 2 veker</p>
+      <p>Asker-skular · neste 4 veker</p>
     </div>
     <button class="refresh-btn" id="refresh-btn" title="Oppdater" onclick="forceRefresh()">↻</button>
   </div>
@@ -466,7 +466,7 @@ function loadCache(allowStale = false) {
 
 function filterEvents(events) {
   const today = new Date(); today.setHours(0,0,0,0);
-  const end   = new Date(today); end.setDate(end.getDate() + 14);
+  const end   = new Date(today); end.setDate(end.getDate() + 28);
   const fromTs = today.getTime() / 1000;
   const toTs   = end.getTime() / 1000;
   return events
@@ -520,7 +520,7 @@ function renderCard(ev) {
 
 function renderGroups(groups) {
   if (!groups.length) {
-    return '<div class="tom-melding">Ingen planlagde arrangement dei neste 2 vekene.</div>';
+    return '<div class="tom-melding">Ingen planlagde arrangement dei neste 4 vekene.</div>';
   }
   return groups.map(({date, events}, i) =>
     `<div class="dag-gruppe" style="animation-delay:${Math.min(i*0.05,0.4)}s">
@@ -610,7 +610,7 @@ function renderEvents(allEvents, fetchedAt, isStale = false) {
   renderView();
 
   const today = new Date(); today.setHours(0,0,0,0);
-  const end   = new Date(today); end.setDate(end.getDate() + 14);
+  const end   = new Date(today); end.setDate(end.getDate() + 28);
   const fra = today.toLocaleDateString('nb-NO', {day: 'numeric', month: 'long'});
   const til = end.toLocaleDateString('nb-NO',   {day: 'numeric', month: 'long'});
 
