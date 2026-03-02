@@ -334,7 +334,7 @@
 
 <script>
 const API       = 'https://portal.denkulturelleskolesekken.no/public/events/findBySchool?orgNumber=';
-const CACHE_KEY = 'dks_program_v1';
+const CACHE_KEY = 'dks_program_v2';
 const MAX_AGE   = 4 * 60 * 60 * 1000;
 
 const SKULAR = [
@@ -656,15 +656,20 @@ async function fetchAllEvents() {
     const {name, org} = SKULAR[i];
     updateProgress(i, total, name);
     try {
-      const r = await fetch(API + org);
-      if (!r.ok) continue;
-      const evs = await r.json();
-      if (!Array.isArray(evs)) continue;
-      for (const ev of evs) {
-        if (!ev.id) continue;
-        if (!eventMap[ev.id]) eventMap[ev.id] = {...ev, _schools: []};
-        if (!eventMap[ev.id]._schools.includes(name))
-          eventMap[ev.id]._schools.push(name);
+      let page = 1;
+      while (true) {
+        const r = await fetch(`${API}${org}&page=${page}`);
+        if (!r.ok) break;
+        const evs = await r.json();
+        if (!Array.isArray(evs) || evs.length === 0) break;
+        for (const ev of evs) {
+          if (!ev.id) continue;
+          if (!eventMap[ev.id]) eventMap[ev.id] = {...ev, _schools: []};
+          if (!eventMap[ev.id]._schools.includes(name))
+            eventMap[ev.id]._schools.push(name);
+        }
+        if (evs.length < 15) break; // siste side
+        page++;
       }
     } catch(_) {}
   }
