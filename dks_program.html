@@ -275,11 +275,12 @@
       padding-top: 9px;
     }
 
+    .ev-knappar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+
     .ev-kal-btn {
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      margin-top: 10px;
       padding: 7px 14px;
       background: var(--blaa-lys);
       color: var(--blaa-mork);
@@ -513,7 +514,10 @@ function renderCard(ev) {
       <div class="ev-details-row">
         🏫 ${escHtml(skular)}${elevar !== null ? `<br>👥 ${elevar} elevar` : ''}
       </div>
-      <a class="ev-kal-btn" href="${icsHref}" download="dks-arrangement.ics">📅 Legg til i kalender</a>
+      <div class="ev-knappar">
+        ${ev.production?.id ? `<a class="ev-kal-btn" href="https://www.denkulturelleskolesekken.no/utforsk-produksjoner-i-dks/?produksjon=${ev.production.id}" target="_blank" rel="noopener">🔗 Om produksjonen</a>` : ''}
+        <a class="ev-kal-btn" href="${icsHref}" download="dks-arrangement.ics">📅 Legg til i kalender</a>
+      </div>
     </div>
   </div>`;
 }
@@ -541,7 +545,7 @@ function renderGroups(groups) {
 // ── Interaksjon via event delegation ─────────────────────────────
 
 el('events-container').addEventListener('click', e => {
-  // Ikkje let kalenderlenka boble opp til ev-header
+  // Ikkje let lenkjer boble opp til ev-header
   if (e.target.closest('.ev-kal-btn')) return;
 
   const header = e.target.closest('.ev-header');
