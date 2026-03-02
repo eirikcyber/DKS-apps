@@ -1276,6 +1276,7 @@
         <div class="input-row">
           <div class="input-group" style="flex:2; min-width:240px">
             <label>Vel turné <span id="turneLastStatus" style="font-weight:normal;color:#999;font-size:12px"></span></label>
+            <input type="text" id="turneSok" placeholder="Søk på namn…" oninput="filtrerTurnear(this.value)" style="margin-bottom:4px;display:none">
             <select id="turneVelg" onchange="velgTurne(this.value)">
               <option value="">Laster turnear…</option>
             </select>
@@ -1865,6 +1866,7 @@ let turneHendingar = [];
 let turneResultat = [];
 let turneOverstyring = {};
 let turneListeLasta = false;
+let alleTurnear = [];
 
 const CORS_PROXY = 'https://corsproxy.io/?';
 
@@ -4288,27 +4290,47 @@ function byttModus(mode) {
 
 async function lastTurnearFraAPI() {
     const velg = document.getElementById('turneVelg');
+    const sokEl = document.getElementById('turneSok');
     const status = document.getElementById('turneLastStatus');
     velg.innerHTML = '<option value="">Laster…</option>';
     status.textContent = '';
     try {
-        const url = 'https://portal.denkulturelleskolesekken.no/public/tours?branchOfficeId=16';
+        const url = 'https://portal.denkulturelleskolesekken.no/public/tours';
         const resp = await corsHent(url);
         const data = await resp.json();
         if (!Array.isArray(data) || data.length === 0) throw new Error('Ingen turnear funne');
         data.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'nb'));
-        velg.innerHTML = '<option value="">– Vel turné –</option>';
-        for (const t of data) {
-            const opt = document.createElement('option');
-            opt.value = t.id;
-            opt.textContent = t.name || `Turné ${t.id}`;
-            velg.appendChild(opt);
-        }
-        status.textContent = `(${data.length} funne)`;
+        alleTurnear = data;
+        sokEl.style.display = '';
+        status.textContent = `(${data.length} totalt — søk for å filtrere)`;
+        fyllTurnearDropdown(data);
     } catch (e) {
         velg.innerHTML = '<option value="">Feil ved henting av turnear</option>';
         status.textContent = e.message;
     }
+}
+
+function fyllTurnearDropdown(liste) {
+    const velg = document.getElementById('turneVelg');
+    velg.innerHTML = '<option value="">– Vel turné –</option>';
+    for (const t of liste) {
+        const opt = document.createElement('option');
+        opt.value = t.id;
+        opt.textContent = t.name || `Turné ${t.id}`;
+        velg.appendChild(opt);
+    }
+}
+
+function filtrerTurnear(q) {
+    const q2 = q.trim().toLowerCase();
+    const filtrert = q2
+        ? alleTurnear.filter(t => (t.name || '').toLowerCase().includes(q2))
+        : alleTurnear;
+    fyllTurnearDropdown(filtrert);
+    const status = document.getElementById('turneLastStatus');
+    status.textContent = q2
+        ? `(${filtrert.length} av ${alleTurnear.length})`
+        : `(${alleTurnear.length} totalt — søk for å filtrere)`;
 }
 
 function velgTurne(id) {
