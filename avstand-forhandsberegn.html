@@ -148,14 +148,14 @@ function cacheNokkel(mode, fraLat, fraLon, tilLat, tilLon) {
 }
 
 async function geocode(adresse) {
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(adresse)}&key=${GOOGLE_KEY}`;
-    const resp = await fetch(PROXY + encodeURIComponent(url));
+    // Nominatim (OpenStreetMap) — gratis, ingen API-nøkkel, ingen proxy
+    const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=no&q=${encodeURIComponent(adresse)}`;
+    const resp = await fetch(url, { headers: { 'Accept-Language': 'nb' } });
     const data = await resp.json();
-    if (data.status !== 'OK' || !data.results[0]) {
-        throw new Error(`Geocoding feila for "${adresse}": ${data.status}`);
+    if (!data || data.length === 0) {
+        throw new Error(`Geocoding feila for "${adresse}"`);
     }
-    const loc = data.results[0].geometry.location;
-    return { lat: loc.lat, lon: loc.lng };
+    return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
 }
 
 // Google Distance Matrix REST API for éin batch: skuler[] → destinasjonar[]
@@ -210,16 +210,17 @@ async function startBeregning() {
     const statusEl = document.getElementById('status');
     const progressEl = document.getElementById('progressFill');
 
-    // 1. Geocode destinasjonar
+    // 1. Geocode destinasjonar (Nominatim: maks 1 req/sek)
     statusEl.textContent = 'Geocodar destinasjonar...';
     for (const d of destinasjonar) {
         try {
             const coords = await geocode(d.adresse);
             destKoordinatar.push({ ...d, ...coords });
-            statusEl.textContent = `Geocoda: ${d.namn} ✓`;
+            statusEl.textContent = `Geocoda: ${d.namn} ✓ (${coords.lat.toFixed(4)}, ${coords.lon.toFixed(4)})`;
         } catch (e) {
-            statusEl.textContent = `Geocoding feila: ${d.namn} — ${e.message}`;
+            statusEl.textContent = `⚠️ Geocoding feila: ${d.namn} — ${e.message}`;
         }
+        await sleep(1100); // Nominatim rate limit
     }
     if (destKoordinatar.length === 0) {
         statusEl.textContent = 'Ingen destinasjonar vart geocoda. Avbryt.';
