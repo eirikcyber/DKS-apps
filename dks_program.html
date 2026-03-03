@@ -740,13 +740,11 @@ async function loadData(force = false) {
     const events = await fetchAllEvents(
       partial => {
         if (!shown) {
+          // Første last utan cache: vis arrangement etter kvart
           shown = true;
           renderEvents(partial, fetchedAt);
-        } else {
-          currentEvents = filterEvents(partial);
-          buildProductionChips(currentEvents);
-          renderView();
         }
+        // Bakgrunnsoppdatering: ikkje rør lista – gammal visning står
       },
       (done, total, name) => {
         setStatus(`${name} (${done}/${total})`);
