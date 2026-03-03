@@ -4334,6 +4334,9 @@ function byttModus(mode) {
     }
 }
 
+const TURNE_CACHE_KEY = 'dks_turnear_v1';
+const TURNE_CACHE_TTL = 6 * 60 * 60 * 1000; // 6 timar
+
 async function lastTurnearFraAPI() {
     const velg = document.getElementById('turneVelg');
     const sokEl = document.getElementById('turneSok');
@@ -4341,13 +4344,25 @@ async function lastTurnearFraAPI() {
     velg.innerHTML = '<option value="">Laster…</option>';
     sokEl.style.display = 'none';
 
-    const tourMap = {};
-    const total = SKULAR_ORG.length;
-    const baseUrl = 'https://portal.denkulturelleskolesekken.no/public/events/findBySchool?orgNumber=';
+    // Sjekk cache
+    try {
+        const cached = JSON.parse(localStorage.getItem(TURNE_CACHE_KEY) || 'null');
+        if (cached && (Date.now() - cached.ts) < TURNE_CACHE_TTL) {
+            alleTurnear = cached.tours;
+            const alder = Math.round((Date.now() - cached.ts) / 60000);
+            status.textContent = `(${cached.tours.length} Asker-turnear, henta for ${alder} min sidan)`;
+            sokEl.style.display = cached.tours.length > 8 ? '' : 'none';
+            fyllTurnearDropdown(cached.tours);
+            return;
+        }
+    } catch (_) {}
 
-    for (let i = 0; i < total; i++) {
-        const {name, org} = SKULAR_ORG[i];
-        status.textContent = `Hentar (${i + 1}/${total}): ${name}…`;
+    const baseUrl = 'https://portal.denkulturelleskolesekken.no/public/events/findBySchool?orgNumber=';
+    let ferdig = 0;
+    status.textContent = `Hentar (0/${SKULAR_ORG.length})…`;
+
+    async function hentForSkule({org}) {
+        const tourMap = {};
         try {
             let page = 1;
             while (true) {
@@ -4362,11 +4377,28 @@ async function lastTurnearFraAPI() {
                 page++;
             }
         } catch (_) {}
+        ferdig++;
+        status.textContent = `Hentar (${ferdig}/${SKULAR_ORG.length})…`;
+        return tourMap;
     }
 
-    const tours = Object.values(tourMap);
+    // Parallell henting, maks 8 samtidige
+    const resultat = {};
+    const BATCH = 8;
+    for (let i = 0; i < SKULAR_ORG.length; i += BATCH) {
+        const batch = SKULAR_ORG.slice(i, i + BATCH);
+        const batchResultat = await Promise.all(batch.map(hentForSkule));
+        for (const map of batchResultat) Object.assign(resultat, map);
+    }
+
+    const tours = Object.values(resultat);
     tours.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'nb'));
     alleTurnear = tours;
+
+    // Lagre i cache
+    try {
+        localStorage.setItem(TURNE_CACHE_KEY, JSON.stringify({ts: Date.now(), tours}));
+    } catch (_) {}
 
     if (tours.length === 0) {
         velg.innerHTML = '<option value="">Ingen Asker-turnear funne</option>';
