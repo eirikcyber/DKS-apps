@@ -643,36 +643,58 @@ function renderEvents(allEvents, fetchedAt, isStale = false) {
 
 // ── API-henting ───────────────────────────────────────────────────
 
-function updateProgress(i, total, name) {
-  el('loading-label').textContent = `Hentar arrangement (${i+1}/${total})…`;
+function updateProgress(done, total, name) {
+  el('loading-label').textContent = `Hentar arrangement (${done}/${total})…`;
   el('loading-skule').textContent = name;
-  el('prog-fill').style.width = Math.round((i / total) * 100) + '%';
+  el('prog-fill').style.width = Math.round((done / total) * 100) + '%';
+}
+
+async function fetchSkule(name, org) {
+  const all = [];
+  try {
+    let page = 1;
+    while (true) {
+      const r = await fetch(`${API}${org}&page=${page}`);
+      if (!r.ok) break;
+      const evs = await r.json();
+      if (!Array.isArray(evs) || evs.length === 0) break;
+      all.push(...evs);
+      if (evs.length < 15) break;
+      page++;
+    }
+  } catch(_) {}
+  return {name, events: all};
 }
 
 async function fetchAllEvents() {
   const eventMap = {};
   const total = SKULAR.length;
-  for (let i = 0; i < total; i++) {
-    const {name, org} = SKULAR[i];
-    updateProgress(i, total, name);
-    try {
-      let page = 1;
-      while (true) {
-        const r = await fetch(`${API}${org}&page=${page}`);
-        if (!r.ok) break;
-        const evs = await r.json();
-        if (!Array.isArray(evs) || evs.length === 0) break;
-        for (const ev of evs) {
-          if (!ev.id) continue;
-          if (!eventMap[ev.id]) eventMap[ev.id] = {...ev, _schools: []};
-          if (!eventMap[ev.id]._schools.includes(name))
-            eventMap[ev.id]._schools.push(name);
-        }
-        if (evs.length < 15) break; // siste side
-        page++;
+  const BATCH = 5;
+  let done = 0;
+
+  updateProgress(0, total, '');
+
+  for (let i = 0; i < total; i += BATCH) {
+    const batch = SKULAR.slice(i, i + BATCH);
+    const results = await Promise.all(
+      batch.map(({name, org}) =>
+        fetchSkule(name, org).then(res => {
+          done++;
+          updateProgress(done, total, res.name);
+          return res;
+        })
+      )
+    );
+    for (const {name, events} of results) {
+      for (const ev of events) {
+        if (!ev.id) continue;
+        if (!eventMap[ev.id]) eventMap[ev.id] = {...ev, _schools: []};
+        if (!eventMap[ev.id]._schools.includes(name))
+          eventMap[ev.id]._schools.push(name);
       }
-    } catch(_) {}
+    }
   }
+
   return Object.values(eventMap);
 }
 
