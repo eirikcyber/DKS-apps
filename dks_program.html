@@ -309,6 +309,7 @@
     <div class="header-title">
       <h1>DKS Program</h1>
       <p>Asker-skular · neste 4 veker</p>
+      <p id="header-status" style="font-size:10px;opacity:0.55;font-weight:300;margin-top:2px;min-height:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;"></p>
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0">
       <button class="refresh-btn" id="refresh-btn" title="Oppdater" onclick="forceRefresh()">↻</button>
@@ -676,7 +677,7 @@ async function fetchSkule(name, org) {
   return {name, events: all};
 }
 
-async function fetchAllEvents(onBatch) {
+async function fetchAllEvents(onBatch, onProgress) {
   const eventMap = {};
   const total = SKULAR.length;
   const BATCH = 5;
@@ -686,7 +687,11 @@ async function fetchAllEvents(onBatch) {
     const batch = SKULAR.slice(i, i + BATCH);
     const results = await Promise.all(
       batch.map(({name, org}) =>
-        fetchSkule(name, org).then(res => { done++; return res; })
+        fetchSkule(name, org).then(res => {
+          done++;
+          if (onProgress) onProgress(done, total, name);
+          return res;
+        })
       )
     );
     for (const {name, events} of results) {
@@ -729,23 +734,29 @@ async function loadData(force = false) {
   }
 
   const fetchedAt = Date.now();
+  const setStatus = (txt) => { el('header-status').textContent = txt; };
 
   try {
-    const events = await fetchAllEvents(partial => {
-      if (!shown) {
-        // Første batch: byt frå laste-overlay til events
-        shown = true;
-        renderEvents(partial, fetchedAt);
-      } else {
-        // Bakgrunnsoppdatering: oppdater lista utan å nullstille filter
-        currentEvents = filterEvents(partial);
-        buildProductionChips(currentEvents);
-        renderView();
+    const events = await fetchAllEvents(
+      partial => {
+        if (!shown) {
+          shown = true;
+          renderEvents(partial, fetchedAt);
+        } else {
+          currentEvents = filterEvents(partial);
+          buildProductionChips(currentEvents);
+          renderView();
+        }
+      },
+      (done, total, name) => {
+        setStatus(`${name} (${done}/${total})`);
       }
-    });
+    );
     saveCache(events);
     renderEvents(events, fetchedAt);
+    setStatus('');
   } catch(err) {
+    setStatus('');
     const s = loadCache(true);
     if (s) renderEvents(s.events, s.ts, true);
     else showScreen('error');
