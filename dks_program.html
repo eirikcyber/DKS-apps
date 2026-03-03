@@ -312,7 +312,7 @@
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0">
       <button class="refresh-btn" id="refresh-btn" title="Oppdater" onclick="forceRefresh()">↻</button>
-      <span style="font-size:9px;opacity:0.45;color:white;letter-spacing:0.03em">v 03.03.26 09:55</span>
+      <span id="ver-txt" style="font-size:9px;opacity:0.45;color:white;letter-spacing:0.03em"></span>
     </div>
   </div>
 </header>
@@ -390,6 +390,13 @@ const SKULAR = [
 // ── Hjelpefunksjonar ──────────────────────────────────────────────
 
 const el = id => document.getElementById(id);
+
+// Versjonsdato frå sist endra fil
+(function() {
+  const d = new Date(document.lastModified);
+  const p = n => String(n).padStart(2,'0');
+  el('ver-txt').textContent = `v ${p(d.getDate())}.${p(d.getMonth()+1)}.${String(d.getFullYear()).slice(2)} ${p(d.getHours())}:${p(d.getMinutes())}`;
+})();
 
 function strVal(v) {
   if (!v) return '';
@@ -589,7 +596,7 @@ function buildProductionChips(events) {
   if (!names.length) { el('prod-filter').classList.remove('vis'); return; }
 
   chips.innerHTML = names.map(name =>
-    `<button class="filter-chip" data-prod="${escHtml(name)}">${escHtml(name)}</button>`
+    `<button class="filter-chip${activeFilters.has(name) ? ' active' : ''}" data-prod="${escHtml(name)}">${escHtml(name)}</button>`
   ).join('');
 
   el('prod-filter').classList.add('vis');
@@ -669,23 +676,17 @@ async function fetchSkule(name, org) {
   return {name, events: all};
 }
 
-async function fetchAllEvents() {
+async function fetchAllEvents(onBatch) {
   const eventMap = {};
   const total = SKULAR.length;
   const BATCH = 5;
   let done = 0;
 
-  updateProgress(0, total, '');
-
   for (let i = 0; i < total; i += BATCH) {
     const batch = SKULAR.slice(i, i + BATCH);
     const results = await Promise.all(
       batch.map(({name, org}) =>
-        fetchSkule(name, org).then(res => {
-          done++;
-          updateProgress(done, total, res.name);
-          return res;
-        })
+        fetchSkule(name, org).then(res => { done++; return res; })
       )
     );
     for (const {name, events} of results) {
@@ -696,6 +697,7 @@ async function fetchAllEvents() {
           eventMap[ev.id]._schools.push(name);
       }
     }
+    if (onBatch) onBatch(Object.values(eventMap));
   }
 
   return Object.values(eventMap);
@@ -707,21 +709,46 @@ let isFetching = false;
 
 async function loadData(force = false) {
   if (isFetching) return;
+
   if (!force) {
     const cached = loadCache();
     if (cached) { renderEvents(cached.events, cached.ts); return; }
   }
+
   isFetching = true;
-  showScreen('loading');
   el('refresh-btn').classList.add('spinning');
+
+  const stale = loadCache(true);
+  let shown = !!stale;
+
+  if (stale) {
+    // Vis bufra data med ein gong; oppdater i bakgrunnen
+    renderEvents(stale.events, stale.ts, Date.now() - stale.ts > MAX_AGE);
+  } else {
+    showScreen('loading');
+  }
+
+  const fetchedAt = Date.now();
+
   try {
-    const events = await fetchAllEvents();
+    const events = await fetchAllEvents(partial => {
+      if (!shown) {
+        // Første batch: byt frå laste-overlay til events
+        shown = true;
+        renderEvents(partial, fetchedAt);
+      } else {
+        // Bakgrunnsoppdatering: oppdater lista utan å nullstille filter
+        currentEvents = filterEvents(partial);
+        buildProductionChips(currentEvents);
+        renderView();
+      }
+    });
     saveCache(events);
-    renderEvents(events, Date.now());
+    renderEvents(events, fetchedAt);
   } catch(err) {
-    const stale = loadCache(true);
-    if (stale) { renderEvents(stale.events, stale.ts, true); }
-    else { showScreen('error'); }
+    const s = loadCache(true);
+    if (s) renderEvents(s.events, s.ts, true);
+    else showScreen('error');
   } finally {
     isFetching = false;
     el('refresh-btn').classList.remove('spinning');
