@@ -758,7 +758,13 @@ async function loadData(force = false) {
 function forceRefresh() { loadData(true); }
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(() => {});
+  navigator.serviceWorker.register('sw.js').then(reg => {
+    reg.addEventListener('updatefound', () => {
+      reg.installing.addEventListener('statechange', function() {
+        if (this.state === 'activated') window.location.reload();
+      });
+    });
+  }).catch(() => {});
 }
 
 loadData();

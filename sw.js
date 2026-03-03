@@ -24,9 +24,9 @@ self.addEventListener('fetch', e => {
   const isHTML = url.pathname.endsWith('.html') || url.pathname === '/';
 
   if (isHTML) {
-    // Network-first for HTML: alltid hent ny versjon, bruk cache berre offline
+    // Network-first for HTML: tving henting frå server (ikkje HTTP-cache)
     e.respondWith(
-      fetch(e.request)
+      fetch(new Request(e.request, {cache: 'reload'}))
         .then(res => {
           if (res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
           return res;
