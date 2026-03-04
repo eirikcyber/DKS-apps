@@ -10,10 +10,18 @@
   p.ingress { color: #666; margin-bottom: 24px; font-size: 14px; }
   .kort { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,.08); margin-bottom: 20px; }
   label { font-weight: 600; display: block; margin-bottom: 6px; font-size: 14px; }
-  textarea { width: 100%; box-sizing: border-box; border: 1px solid #ddd; border-radius: 8px; padding: 10px; font-size: 13px; font-family: monospace; }
+  textarea, input[type="text"], input[type="password"] {
+    width: 100%; box-sizing: border-box; border: 1px solid #ddd; border-radius: 8px;
+    padding: 10px; font-size: 13px; font-family: monospace;
+  }
+  input[type="text"], input[type="password"] { font-family: system-ui, sans-serif; }
+  .radio-gruppe { display: flex; gap: 20px; margin: 10px 0; }
+  .radio-gruppe label { font-weight: normal; display: flex; align-items: center; gap: 6px; cursor: pointer; }
   button { background: #667eea; color: white; border: none; border-radius: 8px; padding: 10px 22px; font-size: 14px; font-weight: 600; cursor: pointer; }
   button:hover { background: #5a6fd6; }
   button:disabled { background: #aaa; cursor: not-allowed; }
+  .btn-grøn { background: #22c55e; }
+  .btn-grøn:hover { background: #16a34a; }
   #status { margin: 12px 0; font-size: 14px; color: #555; min-height: 20px; }
   .progress-bar { background: #e5e7eb; border-radius: 4px; height: 8px; margin: 8px 0 16px; }
   .progress-fill { background: #667eea; height: 8px; border-radius: 4px; transition: width 0.3s; }
@@ -24,21 +32,49 @@
   .ok { color: #16a34a; }
   .feil { color: #dc2626; }
   .kode-boks { background: #1e1e1e; color: #d4d4d4; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; overflow: auto; max-height: 500px; white-space: pre; }
-  .kopier-btn { background: #22c55e; margin-top: 10px; }
-  .kopier-btn:hover { background: #16a34a; }
   .stat { display: inline-block; margin-right: 20px; }
   .stat strong { font-size: 22px; display: block; }
   .stat span { font-size: 12px; color: #888; }
+  .api-rad { display: flex; gap: 10px; align-items: center; }
+  .api-rad input { flex: 1; }
+  .api-status { font-size: 13px; color: #16a34a; }
+  .api-feil { font-size: 13px; color: #dc2626; }
 </style>
 </head>
 <body>
 
-<h1>Forhåndsberegn skule↔destinasjon-avstandar</h1>
-<p class="ingress">Køyrer Google Distance Matrix (WALKING + DRIVING) for alle skulekombinasjonar og genererer ein JS-kode-snippet til hardkoding i transport-appen.</p>
+<h1>Forhåndsberegn avstandar</h1>
+<p class="ingress">Køyrer Google Distance Matrix (WALKING + DRIVING) for alle kombinasjonar og genererer ein JS-kode-snippet til hardkoding i transport-appen.</p>
 
+<!-- API-nøkkel -->
 <div class="kort">
-  <label>Destinasjonar (éi per linje, format: <code>Namn || Adresse, Stad</code>)</label>
-  <textarea id="destInput" rows="8">Asker kulturhus || Strøket 15a, Asker
+  <label>Google Maps API-nøkkel</label>
+  <div class="api-rad">
+    <input type="password" id="apiKey" placeholder="AIza..." autocomplete="off">
+    <button onclick="lagreNøkkel()">Lagre</button>
+    <span id="apiStatus"></span>
+  </div>
+  <p style="margin:8px 0 0;font-size:12px;color:#888">Nøkkelen lagrast lokalt i nettlesaren. Krev <strong>Maps JavaScript API</strong> og <strong>Distance Matrix API</strong> aktivert i Google Cloud Console.</p>
+</div>
+
+<!-- Utgangspunkt -->
+<div class="kort">
+  <label>Utgangspunkt</label>
+  <div class="radio-gruppe">
+    <label><input type="radio" name="originMode" value="skuler" checked onchange="byttOriginMode(this.value)"> Skuleliste (43 skular, Asker)</label>
+    <label><input type="radio" name="originMode" value="manuell" onchange="byttOriginMode(this.value)"> Manuell adresse</label>
+  </div>
+  <div id="manuelleOriginar" style="display:none">
+    <label style="font-weight:normal;margin-bottom:4px;font-size:13px">Éi per linje — format: <code>Namn || Adresse, Stad</code></label>
+    <textarea id="originInput" rows="5" placeholder="Asker stasjon || Askerveien 1, 1370 Asker
+Oslo S || Jernbanetorget 1, 0154 Oslo"></textarea>
+  </div>
+</div>
+
+<!-- Destinasjonar -->
+<div class="kort">
+  <label>Destinasjonar (éi per linje — format: <code>Namn || Adresse, Stad</code>)</label>
+  <textarea id="destInput" rows="8">Asker kulturhus || Strøket 15a, 1383 Asker
 Oslofjordmuseet || Chr. Jensens vei 8, 1390 Vollen
 Asker museum || Otto Valstads vei 19, 1395 Hvalstad
 Dikemark || Sykehusveien 15, 1385 Asker
@@ -52,6 +88,7 @@ Det Norske Teatret || Kristian IVs gate 8, 0164 Oslo</textarea>
   </div>
 </div>
 
+<!-- Progresjon -->
 <div class="kort" id="progresKort" style="display:none">
   <div id="statBlokk" style="margin-bottom:12px"></div>
   <div id="status">Ventar...</div>
@@ -59,7 +96,7 @@ Det Norske Teatret || Kristian IVs gate 8, 0164 Oslo</textarea>
   <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
     <table id="resultatTabell">
       <thead><tr>
-        <th>Skule</th>
+        <th>Utgangspunkt</th>
         <th>Destinasjon</th>
         <th>WALKING avstand</th>
         <th>WALKING tid</th>
@@ -71,266 +108,315 @@ Det Norske Teatret || Kristian IVs gate 8, 0164 Oslo</textarea>
   </div>
 </div>
 
+<!-- Generert kode -->
 <div class="kort" id="kodeKort" style="display:none">
   <h2 style="margin-top:0;font-size:16px">Generert kode — lim inn i Claude Code</h2>
   <p style="font-size:13px;color:#666">Kopier heile innhaldet og send til Claude Code, som hardkodar det i transport-appen.</p>
   <div class="kode-boks" id="kodeBoks"></div>
-  <button class="kopier-btn" onclick="kopierKode()">Kopier kode</button>
-  <span id="kopierStatus" style="margin-left:12px;color:#16a34a;font-size:13px"></span>
+  <div style="margin-top:10px;display:flex;align-items:center;gap:12px">
+    <button class="btn-grøn" onclick="kopierKode()">Kopier kode</button>
+    <span id="kopierStatus" style="color:#16a34a;font-size:13px"></span>
+  </div>
 </div>
 
 <script>
-// ===== SKULELISTE (frå transport_enkeltsok-8-2.html) =====
+// ===== SKULELISTE =====
 const SKULER = {
-    "Arnestad skole": {lat: 59.802359, lon: 10.489763},
-    "Billingstad skole": {lat: 59.874775, lon: 10.473602},
-    "Blakstad skole": {lat: 59.812853, lon: 10.455711},
-    "Bondi skole": {lat: 59.824182, lon: 10.438759},
-    "Borgen ungdomsskole": {lat: 59.826511, lon: 10.419711},
-    "Drengsrud skole": {lat: 59.829521, lon: 10.402867},
-    "Folkestad skole": {lat: 59.551733, lon: 10.464845},
-    "Frydenlund barneskole": {lat: 59.714439, lon: 10.510600},
-    "Hagaløkka skole": {lat: 59.830190, lon: 10.421680},
-    "Heggedal skole": {lat: 59.792046, lon: 10.446009},
-    "Hofstad skole": {lat: 59.847705, lon: 10.472101},
-    "Hovedgården ungdomsskole": {lat: 59.784877, lon: 10.436124},
-    "Hvalstad skole": {lat: 59.860225, lon: 10.464530},
-    "Hyggen skole": {lat: 59.716636, lon: 10.373096},
-    "Jansløkka skole": {lat: 59.848701, lon: 10.442136},
-    "Landøya ungdomsskole": {lat: 59.860075, lon: 10.497705},
-    "Mellom-Nes skole": {lat: 59.866242, lon: 10.496780},
-    "Midtbygda barneskole": {lat: 59.745331, lon: 10.414124},
-    "Nesøya skole": {lat: 59.869018, lon: 10.517625},
-    "Nærsnes barneskole": {lat: 59.755114, lon: 10.505103},
-    "Risenga ungdomsskole": {lat: 59.825835, lon: 10.441419},
-    "Rønningen skole": {lat: 59.817907, lon: 10.428843},
-    "Slemmestad barneskole": {lat: 59.779891, lon: 10.492663},
-    "Slemmestad ungdomsskole": {lat: 59.777703, lon: 10.478921},
-    "Solberg skole": {lat: 59.804596, lon: 10.393851},
-    "Solvang ungdomsskole": {lat: 59.839680, lon: 10.424440},
-    "Spikkestad barneskole": {lat: 59.749222, lon: 10.336518},
-    "Spikkestad ungdomsskole": {lat: 59.739543, lon: 10.349502},
-    "Steinerskolen i Asker": {lat: 59.861350, lon: 10.495025},
-    "Steinerskolen i Hurum": {lat: 59.633059, lon: 10.495805},
-    "Stiftelsen Asker International School": {lat: 59.829707, lon: 10.417161},
-    "Stiftelsen Vollen Montessoriskole": {lat: 59.805508, lon: 10.477063},
-    "Den Alternative skolen Asker": {lat: 59.806271, lon: 10.489047},
-    "Sydskogen barneskole": {lat: 59.759999, lon: 10.452457},
-    "Sætre skole": {lat: 59.676227, lon: 10.538927},
-    "Sætre ungdomsskole": {lat: 59.670310, lon: 10.536507},
-    "Tofte skole": {lat: 59.541911, lon: 10.554040},
-    "Tofte ungdomsskole": {lat: 59.549030, lon: 10.564134},
-    "Torstad ungdomsskole": {lat: 59.862176, lon: 10.480741},
-    "Torvbråten barneskole": {lat: 59.761652, lon: 10.479902},
-    "Vardåsen skole": {lat: 59.819986, lon: 10.381315},
-    "Vettre skole": {lat: 59.825693, lon: 10.469614},
-    "Vollen ungdomsskole": {lat: 59.800708, lon: 10.489653}
+  "Arnestad skole":                       {lat: 59.802359, lon: 10.489763},
+  "Billingstad skole":                    {lat: 59.874775, lon: 10.473602},
+  "Blakstad skole":                       {lat: 59.812853, lon: 10.455711},
+  "Bondi skole":                          {lat: 59.824182, lon: 10.438759},
+  "Borgen ungdomsskole":                  {lat: 59.826511, lon: 10.419711},
+  "Drengsrud skole":                      {lat: 59.829521, lon: 10.402867},
+  "Folkestad skole":                      {lat: 59.551733, lon: 10.464845},
+  "Frydenlund barneskole":                {lat: 59.714439, lon: 10.510600},
+  "Hagaløkka skole":                      {lat: 59.830190, lon: 10.421680},
+  "Heggedal skole":                       {lat: 59.792046, lon: 10.446009},
+  "Hofstad skole":                        {lat: 59.847705, lon: 10.472101},
+  "Hovedgården ungdomsskole":             {lat: 59.784877, lon: 10.436124},
+  "Hvalstad skole":                       {lat: 59.860225, lon: 10.464530},
+  "Hyggen skole":                         {lat: 59.716636, lon: 10.373096},
+  "Jansløkka skole":                      {lat: 59.848701, lon: 10.442136},
+  "Landøya ungdomsskole":                 {lat: 59.860075, lon: 10.497705},
+  "Mellom-Nes skole":                     {lat: 59.866242, lon: 10.496780},
+  "Midtbygda barneskole":                 {lat: 59.745331, lon: 10.414124},
+  "Nesøya skole":                         {lat: 59.869018, lon: 10.517625},
+  "Nærsnes barneskole":                   {lat: 59.755114, lon: 10.505103},
+  "Risenga ungdomsskole":                 {lat: 59.825835, lon: 10.441419},
+  "Rønningen skole":                      {lat: 59.817907, lon: 10.428843},
+  "Slemmestad barneskole":                {lat: 59.779891, lon: 10.492663},
+  "Slemmestad ungdomsskole":              {lat: 59.777703, lon: 10.478921},
+  "Solberg skole":                        {lat: 59.804596, lon: 10.393851},
+  "Solvang ungdomsskole":                 {lat: 59.839680, lon: 10.424440},
+  "Spikkestad barneskole":                {lat: 59.749222, lon: 10.336518},
+  "Spikkestad ungdomsskole":              {lat: 59.739543, lon: 10.349502},
+  "Steinerskolen i Asker":                {lat: 59.861350, lon: 10.495025},
+  "Steinerskolen i Hurum":                {lat: 59.633059, lon: 10.495805},
+  "Stiftelsen Asker International School":{lat: 59.829707, lon: 10.417161},
+  "Stiftelsen Vollen Montessoriskole":    {lat: 59.805508, lon: 10.477063},
+  "Den Alternative skolen Asker":         {lat: 59.806271, lon: 10.489047},
+  "Sydskogen barneskole":                 {lat: 59.759999, lon: 10.452457},
+  "Sætre skole":                          {lat: 59.676227, lon: 10.538927},
+  "Sætre ungdomsskole":                   {lat: 59.670310, lon: 10.536507},
+  "Tofte skole":                          {lat: 59.541911, lon: 10.554040},
+  "Tofte ungdomsskole":                   {lat: 59.549030, lon: 10.564134},
+  "Torstad ungdomsskole":                 {lat: 59.862176, lon: 10.480741},
+  "Torvbråten barneskole":                {lat: 59.761652, lon: 10.479902},
+  "Vardåsen skole":                       {lat: 59.819986, lon: 10.381315},
+  "Vettre skole":                         {lat: 59.825693, lon: 10.469614},
+  "Vollen ungdomsskole":                  {lat: 59.800708, lon: 10.489653}
 };
 
-const skuleListe = Object.entries(SKULER);
-let resultatData = {}; // cacheKey → {avstand, tid, avstandTekst, tidTekst}
-let destKoordinatar = []; // [{namn, adresse, lat, lon}]
+// ===== STATE =====
+let resultatData = {};
+let googleMapsLasta = false;
+let googleMapsLastar = false;
 
-function parseDest(tekst) {
-    return tekst.split('\n')
-        .map(l => l.trim()).filter(Boolean)
-        .map(l => {
-            const deler = l.split('||').map(s => s.trim());
-            return { namn: deler[0], adresse: deler[1] || deler[0] };
-        });
+// ===== INIT =====
+window.addEventListener('DOMContentLoaded', () => {
+  const lagra = localStorage.getItem('gmaps_api_key');
+  if (lagra) {
+    document.getElementById('apiKey').value = lagra;
+    lastGoogleMaps(lagra);
+  }
+});
+
+// ===== API-NØKKEL =====
+function lagreNøkkel() {
+  const nøkkel = document.getElementById('apiKey').value.trim();
+  if (!nøkkel) { alert('Skriv inn ein API-nøkkel'); return; }
+  localStorage.setItem('gmaps_api_key', nøkkel);
+  lastGoogleMaps(nøkkel);
 }
 
-function cacheNokkel(mode, fraLat, fraLon, tilLat, tilLon) {
-    return `gmap_${mode}_${fraLat.toFixed(3)}_${fraLon.toFixed(3)}_${tilLat.toFixed(3)}_${tilLon.toFixed(3)}`;
+function lastGoogleMaps(nøkkel) {
+  if (googleMapsLasta || googleMapsLastar) return;
+  googleMapsLastar = true;
+  const statusEl = document.getElementById('apiStatus');
+  statusEl.textContent = 'Lastar Google Maps...';
+  statusEl.className = '';
+
+  const script = document.createElement('script');
+  script.src = `https://maps.googleapis.com/maps/api/js?key=${nøkkel}&libraries=geometry&callback=googleMapsKlar`;
+  script.onerror = () => {
+    statusEl.textContent = 'Feil: kunne ikkje laste Google Maps API';
+    statusEl.className = 'api-feil';
+    googleMapsLastar = false;
+  };
+  document.head.appendChild(script);
 }
 
-async function geocode(adresse) {
-    // Nominatim (OpenStreetMap) — gratis, ingen API-nøkkel, ingen proxy
-    const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=no&q=${encodeURIComponent(adresse)}`;
-    const resp = await fetch(url, { headers: { 'Accept-Language': 'nb' } });
-    const data = await resp.json();
-    if (!data || data.length === 0) {
-        throw new Error(`Geocoding feila for "${adresse}"`);
-    }
-    return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
+window.googleMapsKlar = function () {
+  googleMapsLasta = true;
+  googleMapsLastar = false;
+  const statusEl = document.getElementById('apiStatus');
+  statusEl.textContent = '✓ Google Maps klar';
+  statusEl.className = 'api-status';
+};
+
+// ===== UI =====
+function byttOriginMode(val) {
+  document.getElementById('manuelleOriginar').style.display = val === 'manuell' ? '' : 'none';
 }
 
-// OSRM Table API — gratis, ingen nøkkel, CORS-støtte
-// profil: 'driving' eller 'foot' (walking)
-async function distanceMatrix(skuleBatch, destBatch, mode) {
-    const profil = mode === 'DRIVING' ? 'driving' : 'foot';
-
-    // OSRM brukar lon,lat-rekkefølge (motsett av Google)
-    const alleKoords = [
-        ...skuleBatch.map(([_, k]) => `${k.lon},${k.lat}`),
-        ...destBatch.map(d => `${d.lon},${d.lat}`)
-    ].join(';');
-
-    const kjelder = skuleBatch.map((_, i) => i).join(';');
-    const mål = destBatch.map((_, i) => skuleBatch.length + i).join(';');
-
-    const url = `https://router.project-osrm.org/table/v1/${profil}/${alleKoords}?sources=${kjelder}&destinations=${mål}&annotations=duration,distance`;
-    const resp = await fetch(url);
-    if (!resp.ok) throw new Error(`OSRM HTTP ${resp.status}`);
-    const data = await resp.json();
-    if (data.code !== 'Ok') throw new Error(`OSRM: ${data.message || data.code}`);
-
-    const resultat = [];
-    (data.durations || []).forEach((rad, si) => {
-        rad.forEach((sek, di) => {
-            if (sek === null) return;
-            const meter = data.distances?.[si]?.[di] ?? null;
-            const avstand = meter !== null ? Math.round(meter) : null;
-            resultat.push({
-                skule: skuleBatch[si][0],
-                skuleLat: skuleBatch[si][1].lat,
-                skuleLon: skuleBatch[si][1].lon,
-                dest: destBatch[di],
-                avstand,
-                tid: Math.round(sek / 60),
-                avstandTekst: avstand !== null
-                    ? (avstand >= 1000 ? `${(avstand / 1000).toFixed(1)} km` : `${avstand} m`)
-                    : '?',
-                tidTekst: `${Math.round(sek / 60)} min`
-            });
-        });
-    });
-    return resultat;
+function parseLinjer(tekst) {
+  return tekst.split('\n').map(l => l.trim()).filter(Boolean).map(l => {
+    const deler = l.split('||').map(s => s.trim());
+    return { namn: deler[0], adresse: deler[1] || deler[0] };
+  });
 }
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-async function startBeregning() {
-    const destTekst = document.getElementById('destInput').value.trim();
-    if (!destTekst) { alert('Skriv inn minst éin destinasjon'); return; }
+// ===== GOOGLE DISTANCE MATRIX =====
+// Maks 25 origins × 25 destinations per request
+const GM_MAX = 25;
 
-    const kunWalking = document.getElementById('kunWalking').checked;
-    const destinasjonar = parseDest(destTekst);
-    if (destinasjonar.length === 0) { alert('Ingen gyldige destinasjonar'); return; }
-
-    document.getElementById('startBtn').disabled = true;
-    document.getElementById('progresKort').style.display = '';
-    document.getElementById('kodeKort').style.display = 'none';
-    document.getElementById('resultatBody').innerHTML = '';
-    resultatData = {};
-    destKoordinatar = [];
-
-    const statusEl = document.getElementById('status');
-    const progressEl = document.getElementById('progressFill');
-
-    // 1. Geocode destinasjonar (Nominatim: maks 1 req/sek)
-    statusEl.textContent = 'Geocodar destinasjonar...';
-    for (const d of destinasjonar) {
-        try {
-            const coords = await geocode(d.adresse);
-            destKoordinatar.push({ ...d, ...coords });
-            statusEl.textContent = `Geocoda: ${d.namn} ✓ (${coords.lat.toFixed(4)}, ${coords.lon.toFixed(4)})`;
-        } catch (e) {
-            statusEl.textContent = `⚠️ Geocoding feila: ${d.namn} — ${e.message}`;
-        }
-        await sleep(1100); // Nominatim rate limit
-    }
-    if (destKoordinatar.length === 0) {
-        statusEl.textContent = 'Ingen destinasjonar vart geocoda. Avbryt.';
-        document.getElementById('startBtn').disabled = false;
-        return;
-    }
-
-    // 2. OSRM handterer alle skular i éin request (ingen element-grense)
-    const skuleBatchar = [skuleListe];
-
-    const modusListe = kunWalking ? ['WALKING'] : ['WALKING', 'DRIVING'];
-    const totalBatchar = skuleBatchar.length * modusListe.length;
-    let ferdig = 0;
-
-    const tbody = document.getElementById('resultatBody');
-
-    // 3. Kjør batchane
-    for (const mode of modusListe) {
-        for (const batch of skuleBatchar) {
-            statusEl.textContent = `${mode}: behandlar ${batch[0][0]} … (${ferdig + 1}/${totalBatchar})`;
-            try {
-                const rader = await distanceMatrix(batch, destKoordinatar, mode);
-                for (const r of rader) {
-                    const key = cacheNokkel(mode, r.skuleLat, r.skuleLon, r.dest.lat, r.dest.lon);
-                    resultatData[key] = {
-                        avstand: r.avstand,
-                        tid: r.tid,
-                        avstandTekst: r.avstandTekst,
-                        tidTekst: r.tidTekst
-                    };
-                    // Legg til i tabell (berre éi rad per skule/dest/mode)
-                    const tr = document.createElement('tr');
-                    if (mode === 'WALKING') {
-                        const drivKey = cacheNokkel('DRIVING', r.skuleLat, r.skuleLon, r.dest.lat, r.dest.lon);
-                        const driv = resultatData[drivKey] || {};
-                        tr.id = `rad_${r.skule.replace(/\s/g,'_')}_${r.dest.namn.replace(/\s/g,'_')}`;
-                        tr.innerHTML = `
-                            <td>${r.skule}</td>
-                            <td>${r.dest.namn}</td>
-                            <td class="ok">${r.avstandTekst}</td>
-                            <td class="ok">${r.tidTekst}</td>
-                            <td id="driv_avstand_${r.skule.replace(/\s/g,'_')}_${r.dest.namn.replace(/\s/g,'_')}" class="${driv.avstandTekst ? 'ok' : ''}">${driv.avstandTekst || '…'}</td>
-                            <td id="driv_tid_${r.skule.replace(/\s/g,'_')}_${r.dest.namn.replace(/\s/g,'_')}" class="${driv.tidTekst ? 'ok' : ''}">${driv.tidTekst || '…'}</td>`;
-                        tbody.appendChild(tr);
-                    } else {
-                        // Oppdater eksisterande rad
-                        const dEl = document.getElementById(`driv_avstand_${r.skule.replace(/\s/g,'_')}_${r.dest.namn.replace(/\s/g,'_')}`);
-                        const tEl = document.getElementById(`driv_tid_${r.skule.replace(/\s/g,'_')}_${r.dest.namn.replace(/\s/g,'_')}`);
-                        if (dEl) { dEl.textContent = r.avstandTekst; dEl.className = 'ok'; }
-                        if (tEl) { tEl.textContent = r.tidTekst; tEl.className = 'ok'; }
-                    }
-                }
-            } catch (e) {
-                statusEl.textContent = `Feil i ${mode}-batch: ${e.message}`;
-            }
-            ferdig++;
-            progressEl.style.width = `${Math.round((ferdig / totalBatchar) * 100)}%`;
-            // Liten pause mellom requests for å unngå rate-limit
-            if (ferdig < totalBatchar) await sleep(300);
-        }
-    }
-
-    // 4. Statistikk
-    const nøklarTotalt = Object.keys(resultatData).length;
-    document.getElementById('statBlokk').innerHTML = `
-        <div class="stat"><strong>${skuleListe.length}</strong><span>skular</span></div>
-        <div class="stat"><strong>${destKoordinatar.length}</strong><span>destinasjonar</span></div>
-        <div class="stat"><strong>${nøklarTotalt}</strong><span>kombinasjonar lagra</span></div>`;
-
-    statusEl.textContent = `Ferdig! ${nøklarTotalt} avstandar berekna.`;
-    progressEl.style.width = '100%';
-
-    // 5. Generer kode
-    genererKode();
-    document.getElementById('startBtn').disabled = false;
+function lagBatchar(arr, storleik) {
+  const b = [];
+  for (let i = 0; i < arr.length; i += storleik) b.push(arr.slice(i, i + storleik));
+  return b;
 }
 
-function genererKode() {
-    const destLinje = destKoordinatar.map(d =>
-        `//   ${d.namn}: (${d.lat.toFixed(5)}, ${d.lon.toFixed(5)})`
-    ).join('\n');
+function distanceMatrixGoogle(gOrigins, gDests, mode) {
+  return new Promise((resolve, reject) => {
+    const service = new google.maps.DistanceMatrixService();
+    service.getDistanceMatrix({
+      origins: gOrigins,
+      destinations: gDests,
+      travelMode: google.maps.TravelMode[mode],
+      unitSystem: google.maps.UnitSystem.METRIC,
+      region: 'no'
+    }, (resp, status) => {
+      if (status !== 'OK') { reject(new Error(`Distance Matrix: ${status}`)); return; }
+      const resultat = [];
+      resp.rows.forEach((rad, i) => {
+        rad.elements.forEach((el, j) => {
+          resultat.push({
+            originIdx: i,
+            destIdx: j,
+            ok: el.status === 'OK',
+            avstand: el.status === 'OK' ? el.distance.value : null,
+            avstandTekst: el.status === 'OK' ? el.distance.text : '—',
+            tid: el.status === 'OK' ? Math.round(el.duration.value / 60) : null,
+            tidTekst: el.status === 'OK' ? el.duration.text : '—'
+          });
+        });
+      });
+      resolve(resultat);
+    });
+  });
+}
 
-    const oppslag = JSON.stringify(resultatData, null, 2);
+// ===== HOVUDFUNKSJON =====
+async function startBeregning() {
+  if (!googleMapsLasta) {
+    const nøkkel = document.getElementById('apiKey').value.trim();
+    if (!nøkkel) { alert('Skriv inn og lagre ein Google Maps API-nøkkel fyrst.'); return; }
+    lastGoogleMaps(nøkkel);
+    alert('Google Maps lastar — prøv igjen om nokre sekund.'); return;
+  }
 
-    const kode = `// STATISK AVSTANDSTABELL — generert ${new Date().toLocaleDateString('nb-NO')}
-// Skuler: ${skuleListe.length}
-// Destinasjonar:
-${destLinje}
-// Nøkkelformat: gmap_MODE_fraLat.toFixed(3)_fraLon.toFixed(3)_tilLat.toFixed(3)_tilLon.toFixed(3)
+  const destTekst = document.getElementById('destInput').value.trim();
+  if (!destTekst) { alert('Skriv inn minst éin destinasjon'); return; }
 
-const STATISK_AVSTAND = ${oppslag};`;
+  const kunWalking = document.getElementById('kunWalking').checked;
+  const modusListe = kunWalking ? ['WALKING'] : ['WALKING', 'DRIVING'];
+  const originMode = document.querySelector('input[name="originMode"]:checked').value;
 
-    document.getElementById('kodeBoks').textContent = kode;
-    document.getElementById('kodeKort').style.display = '';
+  // Bygg originliste
+  let originar = [];
+  if (originMode === 'skuler') {
+    originar = Object.entries(SKULER).map(([namn, k]) => ({
+      namn,
+      gLatLng: new google.maps.LatLng(k.lat, k.lon)
+    }));
+  } else {
+    const tekst = document.getElementById('originInput').value.trim();
+    if (!tekst) { alert('Skriv inn minst éi adresse under Manuell adresse'); return; }
+    originar = parseLinjer(tekst).map(d => ({ namn: d.namn, adresse: d.adresse }));
+  }
+
+  const destinasjonar = parseLinjer(destTekst);
+
+  // Reset UI
+  document.getElementById('startBtn').disabled = true;
+  document.getElementById('progresKort').style.display = '';
+  document.getElementById('kodeKort').style.display = 'none';
+  document.getElementById('resultatBody').innerHTML = '';
+  resultatData = {};
+
+  const statusEl = document.getElementById('status');
+  const progressEl = document.getElementById('progressFill');
+
+  const originBatchar = lagBatchar(originar, GM_MAX);
+  const destBatchar = lagBatchar(destinasjonar, GM_MAX);
+  const totalt = originBatchar.length * destBatchar.length * modusListe.length;
+  let ferdig = 0;
+
+  const tbody = document.getElementById('resultatBody');
+
+  function rId(oNamn, dNamn) {
+    return (oNamn + '__' + dNamn).replace(/\W/g, '_');
+  }
+
+  for (const mode of modusListe) {
+    for (let oi = 0; oi < originBatchar.length; oi++) {
+      const oBatch = originBatchar[oi];
+      const gOrigins = oBatch.map(o => o.gLatLng || o.adresse);
+
+      for (let di = 0; di < destBatchar.length; di++) {
+        const dBatch = destBatchar[di];
+        const gDests = dBatch.map(d => d.adresse);
+
+        statusEl.textContent = `${mode}: batch ${ferdig + 1}/${totalt}`;
+
+        try {
+          const rader = await distanceMatrixGoogle(gOrigins, gDests, mode);
+
+          for (const r of rader) {
+            const origin = oBatch[r.originIdx];
+            const dest = dBatch[r.destIdx];
+            const cKey = `${mode}__${origin.namn}__${dest.namn}`;
+            resultatData[cKey] = {
+              avstand: r.avstand,
+              avstandTekst: r.avstandTekst,
+              tid: r.tid,
+              tidTekst: r.tidTekst
+            };
+
+            const rid = rId(origin.namn, dest.namn);
+
+            if (mode === 'WALKING') {
+              const tr = document.createElement('tr');
+              tr.id = `rad_${rid}`;
+              const drivKey = `DRIVING__${origin.namn}__${dest.namn}`;
+              const driv = resultatData[drivKey] || {};
+              tr.innerHTML = `
+                <td>${origin.namn}</td>
+                <td>${dest.namn}</td>
+                <td class="${r.ok ? 'ok' : 'feil'}">${r.avstandTekst}</td>
+                <td class="${r.ok ? 'ok' : 'feil'}">${r.tidTekst}</td>
+                <td id="da_${rid}" class="${driv.avstandTekst ? 'ok' : ''}">${driv.avstandTekst || (kunWalking ? '—' : '…')}</td>
+                <td id="dt_${rid}" class="${driv.tidTekst ? 'ok' : ''}">${driv.tidTekst || (kunWalking ? '—' : '…')}</td>`;
+              tbody.appendChild(tr);
+            } else {
+              const aEl = document.getElementById(`da_${rid}`);
+              const tEl = document.getElementById(`dt_${rid}`);
+              if (aEl) { aEl.textContent = r.avstandTekst; aEl.className = r.ok ? 'ok' : 'feil'; }
+              if (tEl) { tEl.textContent = r.tidTekst; tEl.className = r.ok ? 'ok' : 'feil'; }
+            }
+          }
+        } catch (e) {
+          statusEl.textContent = `⚠️ Feil i ${mode} batch ${ferdig + 1}: ${e.message}`;
+          console.error(e);
+        }
+
+        ferdig++;
+        progressEl.style.width = `${Math.round((ferdig / totalt) * 100)}%`;
+        if (ferdig < totalt) await sleep(200);
+      }
+    }
+  }
+
+  const n = Object.keys(resultatData).length;
+  document.getElementById('statBlokk').innerHTML = `
+    <div class="stat"><strong>${originar.length}</strong><span>utgangspunkt</span></div>
+    <div class="stat"><strong>${destinasjonar.length}</strong><span>destinasjonar</span></div>
+    <div class="stat"><strong>${n}</strong><span>kombinasjonar lagra</span></div>`;
+  statusEl.textContent = `Ferdig! ${n} avstandar berekna.`;
+  progressEl.style.width = '100%';
+
+  genererKode(originar, destinasjonar);
+  document.getElementById('startBtn').disabled = false;
+}
+
+// ===== KODE-GENERERING =====
+function genererKode(originar, destinasjonar) {
+  const oKomm = originar.map(o => `//   ${o.namn}${o.adresse ? ': ' + o.adresse : ''}`).join('\n');
+  const dKomm = destinasjonar.map(d => `//   ${d.namn}: ${d.adresse}`).join('\n');
+  const kode = `// STATISK AVSTANDSTABELL — generert ${new Date().toLocaleDateString('nb-NO')}
+// Kilde: Google Distance Matrix API
+//
+// Utgangspunkt (${originar.length}):
+${oKomm}
+//
+// Destinasjonar (${destinasjonar.length}):
+${dKomm}
+//
+// Nøkkelformat: "MODE__OriginNamn__DestNamn"
+
+const STATISK_AVSTAND = ${JSON.stringify(resultatData, null, 2)};`;
+
+  document.getElementById('kodeBoks').textContent = kode;
+  document.getElementById('kodeKort').style.display = '';
 }
 
 function kopierKode() {
-    const tekst = document.getElementById('kodeBoks').textContent;
-    navigator.clipboard.writeText(tekst).then(() => {
-        document.getElementById('kopierStatus').textContent = '✓ Kopiert!';
-        setTimeout(() => document.getElementById('kopierStatus').textContent = '', 3000);
-    });
+  navigator.clipboard.writeText(document.getElementById('kodeBoks').textContent).then(() => {
+    document.getElementById('kopierStatus').textContent = '✓ Kopiert!';
+    setTimeout(() => document.getElementById('kopierStatus').textContent = '', 3000);
+  });
 }
 </script>
 </body>
