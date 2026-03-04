@@ -171,6 +171,7 @@ const SKULER = {
 let resultatData = {};
 let googleMapsLasta = false;
 let googleMapsLastar = false;
+let routeMatrixClass = null;
 
 // ===== INIT =====
 window.addEventListener('DOMContentLoaded', () => {
@@ -206,12 +207,19 @@ function lastGoogleMaps(nøkkel) {
   document.head.appendChild(script);
 }
 
-window.googleMapsKlar = function () {
+window.googleMapsKlar = async function () {
   googleMapsLasta = true;
   googleMapsLastar = false;
   const statusEl = document.getElementById('apiStatus');
-  statusEl.textContent = '✓ Google Maps klar';
-  statusEl.className = 'api-status';
+  try {
+    const lib = await google.maps.importLibrary('routes');
+    routeMatrixClass = lib.RouteMatrix;
+    statusEl.textContent = '✓ Google Maps klar';
+    statusEl.className = 'api-status';
+  } catch (e) {
+    statusEl.textContent = `Feil ved lasting av routes-bibliotek: ${e.message}`;
+    statusEl.className = 'api-feil';
+  }
 };
 
 // ===== UI =====
@@ -228,8 +236,8 @@ function parseLinjer(tekst) {
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-// ===== GOOGLE DISTANCE MATRIX =====
-// Maks 25 origins × 25 destinations per request
+// ===== GOOGLE ROUTE MATRIX =====
+// RouteMatrix: maks 625 items (origins × destinations) per request
 const GM_MAX = 25;
 
 function lagBatchar(arr, storleik) {
@@ -238,34 +246,43 @@ function lagBatchar(arr, storleik) {
   return b;
 }
 
-function distanceMatrixGoogle(gOrigins, gDests, mode) {
-  return new Promise((resolve, reject) => {
-    const service = new google.maps.DistanceMatrixService();
-    service.getDistanceMatrix({
-      origins: gOrigins,
-      destinations: gDests,
-      travelMode: google.maps.TravelMode[mode],
-      unitSystem: google.maps.UnitSystem.METRIC,
-      region: 'no'
-    }, (resp, status) => {
-      if (status !== 'OK') { reject(new Error(`Distance Matrix: ${status}`)); return; }
-      const resultat = [];
-      resp.rows.forEach((rad, i) => {
-        rad.elements.forEach((el, j) => {
-          resultat.push({
-            originIdx: i,
-            destIdx: j,
-            ok: el.status === 'OK',
-            avstand: el.status === 'OK' ? el.distance.value : null,
-            avstandTekst: el.status === 'OK' ? el.distance.text : '—',
-            tid: el.status === 'OK' ? Math.round(el.duration.value / 60) : null,
-            tidTekst: el.status === 'OK' ? el.duration.text : '—'
-          });
-        });
+function formatAvstand(meter) {
+  return meter >= 1000 ? `${(meter / 1000).toFixed(1)} km` : `${meter} m`;
+}
+
+function formatTid(min) {
+  if (min < 60) return `${min} min`;
+  const t = Math.floor(min / 60);
+  const m = min % 60;
+  return m > 0 ? `${t} t ${m} min` : `${t} t`;
+}
+
+async function distanceMatrixGoogle(gOrigins, gDests, mode) {
+  const response = await routeMatrixClass.computeRouteMatrix({
+    origins: gOrigins,
+    destinations: gDests,
+    travelMode: mode  // 'WALKING' eller 'DRIVING'
+  });
+
+  const resultat = [];
+  response.matrix.rows.forEach((row, i) => {
+    row.items.forEach((item, j) => {
+      const ok = item.condition === 'ROUTE_EXISTS';
+      const meter = ok ? item.distanceMeters : null;
+      const ms = ok ? item.durationMillis : null;
+      const min = ms !== null ? Math.round(ms / 60000) : null;
+      resultat.push({
+        originIdx: i,
+        destIdx: j,
+        ok,
+        avstand: meter,
+        avstandTekst: meter !== null ? formatAvstand(meter) : '—',
+        tid: min,
+        tidTekst: min !== null ? formatTid(min) : '—'
       });
-      resolve(resultat);
     });
   });
+  return resultat;
 }
 
 // ===== HOVUDFUNKSJON =====
@@ -289,7 +306,7 @@ async function startBeregning() {
   if (originMode === 'skuler') {
     originar = Object.entries(SKULER).map(([namn, k]) => ({
       namn,
-      gLatLng: new google.maps.LatLng(k.lat, k.lon)
+      gLatLng: { lat: k.lat, lng: k.lon }
     }));
   } else {
     const tekst = document.getElementById('originInput').value.trim();
