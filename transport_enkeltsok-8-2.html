@@ -4500,12 +4500,21 @@ async function hentTurne() {
                 }
                 const skuler = skuleFraEvent(e);
                 const dato = turneParseDate(e.dateStart);
+                // Aggreger elevtal per skule frå participants
+                const elevtalPerSkule = {};
+                for (const p of (e.participants || [])) {
+                    const rg = p.registrationGroup || p;
+                    const sid = rg.schoolId;
+                    const n = rg.numberOfStudents;
+                    if (sid && n) elevtalPerSkule[sid] = (elevtalPerSkule[sid] || 0) + n;
+                }
                 return {
                     id: e.id,
                     dateStart: e.dateStart,
                     location: (e.location && e.location.name) ? e.location.name : 'Ukjend lokale',
                     destCoords: dCoords,
                     schools: skuler,
+                    elevtalPerSkule,
                     erFortidig: dato < now
                 };
             });
@@ -4545,6 +4554,7 @@ async function sokTransportForAlleTurneHendingar() {
             for (const skule of hending.schools) {
                 hendingResultat.skuleResultat.push({
                     skuleId: skule.id, skule: skule.name,
+                    elevtal: (hending.elevtalPerSkule || {})[skule.id] || null,
                     alternativ: [{ type: 'bestillerbuss' }],
                     valt: 'bestillerbuss', erFortidig: true
                 });
@@ -4579,6 +4589,7 @@ async function sokTransportForAlleTurneHendingar() {
             if (!sCoords) {
                 hendingResultat.skuleResultat.push({
                     skuleId: skule.id, skule: skule.name,
+                    elevtal: (hending.elevtalPerSkule || {})[skule.id] || null,
                     alternativ: [{ type: 'bestillerbuss' }],
                     valt: 'bestillerbuss', feil: 'Koordinatar ikkje funne'
                 });
@@ -4593,6 +4604,7 @@ async function sokTransportForAlleTurneHendingar() {
             ]);
 
             const sr = analysertransportTurne(skule, bussReiser, togReiser, googleGange, googleKøyring, maksGange);
+            sr.elevtal = (hending.elevtalPerSkule || {})[skule.id] || null;
             hendingResultat.skuleResultat.push(sr);
         }
 
@@ -4747,9 +4759,10 @@ function visTurneResultat() {
                 }
             }
 
+            const elevtalHtml = sr.elevtal ? ` <span style="font-size:12px;color:#888;font-weight:normal;">(${sr.elevtal} elever)</span>` : '';
             html += `
                 <div class="turne-skule-rad">
-                    <span class="turne-skule-namn">${sr.skule}${fortidTekst}</span>
+                    <span class="turne-skule-namn">${sr.skule}${elevtalHtml}${fortidTekst}</span>
                     <span class="turne-detaljar">${detaljar}</span>
                     <div class="turne-alternativ-knappar">${knappar}</div>
                 </div>`;
