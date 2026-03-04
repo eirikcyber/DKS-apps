@@ -308,7 +308,7 @@
     <a class="back-link" href="index.html">←</a>
     <div class="header-title">
       <h1>DKS Program</h1>
-      <p>Asker-skular · neste 4 veker</p>
+      <p>Asker-skular · resten av skuleåret</p>
       <p id="header-status" style="font-size:10px;opacity:0.55;font-weight:300;margin-top:2px;min-height:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;"></p>
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0">
@@ -337,56 +337,23 @@
 <div id="events-container"></div>
 
 <script>
-const API       = 'https://portal.denkulturelleskolesekken.no/public/events/findBySchool?orgNumber=';
-const CACHE_KEY = 'dks_program_v2';
+const CACHE_KEY = 'dks_program_v3';
 const MAX_AGE   = 4 * 60 * 60 * 1000;
 
-const SKULAR = [
-  {name: 'Arnestad skole',            org: '973601997'},
-  {name: 'Billingstad skole',         org: '974578263'},
-  {name: 'Blakstad skole',            org: '979200293'},
-  {name: 'Bondi skole',               org: '974578212'},
-  {name: 'Drengsrud skole',           org: '974578220'},
-  {name: 'Folkestad skole',           org: '975285103'},
-  {name: 'Frydenlund barneskole',     org: '973747010'},
-  {name: 'Hagaløkka skole',           org: '974578239'},
-  {name: 'Heggedal skole',            org: '974578247'},
-  {name: 'Hofstad skole',             org: '974578255'},
-  {name: 'Hvalstad skole',            org: '980785343'},
-  {name: 'Hyggen skole',              org: '973747045'},
-  {name: 'Jansløkka skole',           org: '974578271'},
-  {name: 'Mellom-Nes skole',          org: '874578282'},
-  {name: 'Midtbygda barneskole',      org: '973747002'},
-  {name: 'Nesøya skole',              org: '974578298'},
-  {name: 'Nærsnes barneskole',        org: '973747029'},
-  {name: 'Rønningen skole',           org: '974578301'},
-  {name: 'Slemmestad barneskole',     org: '973747037'},
-  {name: 'Solberg skole',             org: '874578312'},
-  {name: 'Steinerskolen i Asker',     org: '971522585'},
-  {name: 'Steinerskolen i Hurum',     org: '974185385'},
-  {name: 'Asker International School',org: '998258383'},
-  {name: 'Vollen Montessoriskole',    org: '984666675'},
-  {name: 'Sydskogen barneskole',      org: '973746987'},
-  {name: 'Sætre skole',               org: '975285111'},
-  {name: 'Tofte skole',               org: '875285092'},
-  {name: 'Torvbråten barneskole',     org: '973746995'},
-  {name: 'Vardåsen skole',            org: '977264502'},
-  {name: 'Vettre skole',              org: '974578328'},
-  // Ungdomsskular og øvrige
-  {name: 'Borgen ungdomsskole',         org: '974578336'},
-  {name: 'Hovedgården ungdomsskole',    org: '974578344'},
-  {name: 'Landøya ungdomsskole',        org: '974578352'},
-  {name: 'Risenga ungdomsskole',        org: '974578360'},
-  {name: 'Slemmestad ungdomsskole',     org: '973746979'},
-  {name: 'Solvang ungdomsskole',        org: '974578379'},
-  {name: 'Spikkestad barneskole',       org: '973747053'},
-  {name: 'Spikkestad ungdomsskole',     org: '973746960'},
-  {name: 'Sætre ungdomsskole',          org: '975299732'},
-  {name: 'Tofte ungdomsskole',          org: '975285138'},
-  {name: 'Torstad ungdomsskole',        org: '974578387'},
-  {name: 'Vollen ungdomsskole',         org: '984577311'},
-  {name: 'Den Alternative skolen Asker',org: '973601970'},
-];
+const API_URL  = 'https://portal.denkulturelleskolesekken.no/api/wordpress/productions/get_calendar_events';
+const API_BODY = {
+  wordpressHomeUrl:            'https://www.denkulturelleskolesekken.no/asker',
+  view:                        'calendar',
+  sort:                        'date',
+  academicYearId:              '',
+  skip:                        0,
+  limit:                       1000,
+  openAllEvents:               false,
+  datePeriods:                 [],
+  includeEvents:               true,
+  hideUnspecifiedLocationName: true,
+  includeSchoolDetails:        true,
+};
 
 // ── Hjelpefunksjonar ──────────────────────────────────────────────
 
@@ -492,13 +459,11 @@ function loadCache(allowStale = false) {
 
 function filterEvents(events) {
   const today = new Date(); today.setHours(0,0,0,0);
-  const end   = new Date(today); end.setDate(end.getDate() + 28);
   const fromTs = today.getTime() / 1000;
-  const toTs   = end.getTime() / 1000;
   return events
     .filter(ev => {
       const ts = Number(ev.dateStart);
-      if (isNaN(ts) || ts < fromTs || ts >= toTs) return false;
+      if (isNaN(ts) || ts < fromTs) return false;
       if ((ev.status || '').includes('cancel')) return false;
       return true;
     })
@@ -549,7 +514,7 @@ function renderCard(ev) {
 
 function renderGroups(groups) {
   if (!groups.length) {
-    return '<div class="tom-melding">Ingen planlagde arrangement dei neste 4 vekene.</div>';
+    return '<div class="tom-melding">Ingen planlagde arrangement resten av skuleåret.</div>';
   }
   return groups.map(({date, events}, i) =>
     `<div class="dag-gruppe" style="animation-delay:${Math.min(i*0.05,0.4)}s">
@@ -638,13 +603,8 @@ function renderEvents(allEvents, fetchedAt, isStale = false) {
 
   renderView();
 
-  const today = new Date(); today.setHours(0,0,0,0);
-  const end   = new Date(today); end.setDate(end.getDate() + 28);
-  const fra = today.toLocaleDateString('nb-NO', {day: 'numeric', month: 'long'});
-  const til = end.toLocaleDateString('nb-NO',   {day: 'numeric', month: 'long'});
-
   el('dato-info-wrap').innerHTML =
-    `<div class="dato-info">${fra} – ${til} · ${currentEvents.length} arrangement · oppdatert ${fmtRelative(fetchedAt)}</div>`;
+    `<div class="dato-info">Resten av skuleåret · ${currentEvents.length} arrangement · oppdatert ${fmtRelative(fetchedAt)}</div>`;
 
   el('offline-banner').classList.toggle('vis', isStale);
   if (isStale) el('cache-age-txt').textContent = fmtRelative(fetchedAt);
@@ -654,58 +614,19 @@ function renderEvents(allEvents, fetchedAt, isStale = false) {
 
 // ── API-henting ───────────────────────────────────────────────────
 
-function updateProgress(done, total, name) {
-  el('loading-label').textContent = `Hentar arrangement (${done}/${total})…`;
-  el('loading-skule').textContent = name;
-  el('prog-fill').style.width = Math.round((done / total) * 100) + '%';
-}
-
-async function fetchSkule(name, org) {
-  const all = [];
-  try {
-    let page = 1;
-    while (true) {
-      const r = await fetch(`${API}${org}&page=${page}`);
-      if (!r.ok) break;
-      const evs = await r.json();
-      if (!Array.isArray(evs) || evs.length === 0) break;
-      all.push(...evs);
-      if (evs.length < 15) break;
-      page++;
-    }
-  } catch(_) {}
-  return {name, events: all};
-}
-
-async function fetchAllEvents(onBatch, onProgress) {
-  const eventMap = {};
-  const total = SKULAR.length;
-  const BATCH = 5;
-  let done = 0;
-
-  for (let i = 0; i < total; i += BATCH) {
-    const batch = SKULAR.slice(i, i + BATCH);
-    const results = await Promise.all(
-      batch.map(({name, org}) =>
-        fetchSkule(name, org).then(res => {
-          done++;
-          if (onProgress) onProgress(done, total, name);
-          return res;
-        })
-      )
-    );
-    for (const {name, events} of results) {
-      for (const ev of events) {
-        if (!ev.id) continue;
-        if (!eventMap[ev.id]) eventMap[ev.id] = {...ev, _schools: []};
-        if (!eventMap[ev.id]._schools.includes(name))
-          eventMap[ev.id]._schools.push(name);
-      }
-    }
-    if (onBatch) onBatch(Object.values(eventMap));
-  }
-
-  return Object.values(eventMap);
+async function fetchAllEvents() {
+  const r = await fetch(API_URL, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(API_BODY),
+  });
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  const d = await r.json();
+  return d.events.map(ev => ({
+    ...ev,
+    _schools: (Array.isArray(ev.schools) ? ev.schools : Object.values(ev.schools || {}))
+                .map(s => s.name),
+  }));
 }
 
 // ── Hovudflyt ─────────────────────────────────────────────────────
@@ -722,43 +643,25 @@ async function loadData(force = false) {
 
   isFetching = true;
   el('refresh-btn').classList.add('spinning');
+  el('header-status').textContent = 'Hentar arrangement…';
 
   const stale = loadCache(true);
-  let shown = !!stale;
-
   if (stale) {
-    // Vis bufra data med ein gong; oppdater i bakgrunnen
     renderEvents(stale.events, stale.ts, Date.now() - stale.ts > MAX_AGE);
   } else {
     showScreen('loading');
   }
 
-  const fetchedAt = Date.now();
-  const setStatus = (txt) => { el('header-status').textContent = txt; };
-
   try {
-    const events = await fetchAllEvents(
-      partial => {
-        if (!shown) {
-          // Første last utan cache: vis arrangement etter kvart
-          shown = true;
-          renderEvents(partial, fetchedAt);
-        }
-        // Bakgrunnsoppdatering: ikkje rør lista – gammal visning står
-      },
-      (done, total, name) => {
-        setStatus(`${name} (${done}/${total})`);
-      }
-    );
+    const events = await fetchAllEvents();
     saveCache(events);
-    renderEvents(events, fetchedAt);
-    setStatus('');
+    renderEvents(events, Date.now());
   } catch(err) {
-    setStatus('');
     const s = loadCache(true);
     if (s) renderEvents(s.events, s.ts, true);
     else showScreen('error');
   } finally {
+    el('header-status').textContent = '';
     isFetching = false;
     el('refresh-btn').classList.remove('spinning');
   }
