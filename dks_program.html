@@ -275,6 +275,15 @@
       padding-top: 9px;
     }
 
+    .ev-kontakt {
+      font-size: 12px;
+      color: var(--graa);
+      line-height: 1.9;
+      margin-top: 7px;
+    }
+    .ev-kontakt a { color: var(--blaa); text-decoration: none; }
+    .ev-kontakt a:hover { text-decoration: underline; }
+
     .ev-knappar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 
     .ev-kal-btn {
@@ -483,6 +492,30 @@ function groupByDate(events) {
 
 // ── Rendering ─────────────────────────────────────────────────────
 
+function renderKontakt(ev) {
+  const schools = ev.schools || {};
+  const list = Array.isArray(schools) ? schools : Object.values(schools);
+  const lines = [];
+  for (const s of list) {
+    if (s.phone) {
+      const tel = s.phone.replace(/\s/g, '');
+      lines.push(`📞 Skule: <a href="tel:${tel}">${escHtml(s.phone)}</a>`);
+    }
+    for (const cp of (s.contactPersons || [])) {
+      const parts = cp.split(',').map(p => p.trim());
+      const name  = parts[0] || '';
+      const phone = parts.find(p => /\+?\d[\d\s]{5,}/.test(p)) || '';
+      if (phone) {
+        const tel = phone.replace(/\s/g, '');
+        lines.push(`👤 ${escHtml(name)}: <a href="tel:${tel}">${escHtml(phone)}</a>`);
+      }
+    }
+  }
+  return lines.length
+    ? `<div class="ev-kontakt">${lines.join('<br>')}</div>`
+    : '';
+}
+
 function renderCard(ev) {
   const tid    = escHtml(fmtTime(ev.dateStart));
   const prod   = escHtml(strVal(ev.production) || strVal(ev.tour) || '–');
@@ -504,6 +537,7 @@ function renderCard(ev) {
       <div class="ev-details-row">
         🏫 ${escHtml(skular)}${elevar !== null ? `<br>👥 ${elevar} elevar` : ''}
       </div>
+      ${renderKontakt(ev)}
       <div class="ev-knappar">
         ${ev.production?.id ? `<a class="ev-kal-btn" href="https://www.denkulturelleskolesekken.no/utforsk-produksjoner-i-dks/?produksjon=${ev.production.id}" target="_blank" rel="noopener">🔗 Om produksjonen</a>` : ''}
         <a class="ev-kal-btn" href="${icsHref}" download="dks-arrangement.ics">📅 Legg til i kalender</a>
