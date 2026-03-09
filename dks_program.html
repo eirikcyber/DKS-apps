@@ -526,10 +526,8 @@ function filterEvents(events, tab) {
       if (isNaN(ts) || ts < fromTs || ts >= toTs) return false;
       if ((ev.status || '').includes('cancel')) return false;
       if (tab.vgsFilter) {
-        const isVgsProd = (ev.production?.yearLevelMinimum ?? 0) >= 11;
         const names = (ev._schools || []).map(s => s.toLowerCase());
-        const isAskerVgs = tab.vgsFilter.some(f => names.some(n => n === f));
-        if (!isVgsProd || !isAskerVgs) return false;
+        if (!tab.vgsFilter.some(f => names.some(n => n === f))) return false;
       }
       return true;
     })
