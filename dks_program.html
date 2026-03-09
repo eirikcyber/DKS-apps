@@ -306,6 +306,29 @@
       font-size: 14px; color: var(--graa); line-height: 1.7;
     }
 
+    /* ── TABS ── */
+    .tab-nav {
+      display: flex;
+      border-top: 1px solid rgba(255,255,255,0.12);
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 10px 0;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: rgba(255,255,255,0.55);
+      font-size: 13px;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+      letter-spacing: 0.02em;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tab-btn:hover { color: rgba(255,255,255,0.85); }
+    .tab-btn.active { color: white; border-bottom-color: white; }
+
     @keyframes spin    { to { transform: rotate(360deg); } }
     @keyframes fadeIn  { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
   </style>
@@ -317,13 +340,17 @@
     <a class="back-link" href="index.html">←</a>
     <div class="header-title">
       <h1>DKS Program</h1>
-      <p>Asker-skular · resten av skuleåret</p>
+      <p id="header-subtitle">Asker-skular · resten av skuleåret</p>
       <p id="header-status" style="font-size:10px;opacity:0.55;font-weight:300;margin-top:2px;min-height:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;"></p>
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0">
       <button class="refresh-btn" id="refresh-btn" title="Oppdater" onclick="forceRefresh()">↻</button>
       <span id="ver-txt" style="font-size:9px;opacity:0.45;color:white;letter-spacing:0.03em"></span>
     </div>
+  </div>
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="grunnskule" onclick="switchTab('grunnskule')">Grunnskule</button>
+    <button class="tab-btn" data-tab="vgs" onclick="switchTab('vgs')">VGS</button>
   </div>
 </header>
 
@@ -346,23 +373,33 @@
 <div id="events-container"></div>
 
 <script>
-const CACHE_KEY = 'dks_program_v3';
-const MAX_AGE   = 4 * 60 * 60 * 1000;
-
-const API_URL  = 'https://portal.denkulturelleskolesekken.no/api/wordpress/productions/get_calendar_events';
-const API_BODY = {
-  wordpressHomeUrl:            'https://www.denkulturelleskolesekken.no/asker',
-  view:                        'calendar',
-  sort:                        'date',
-  academicYearId:              '',
-  skip:                        0,
-  limit:                       1000,
-  openAllEvents:               false,
-  datePeriods:                 [],
-  includeEvents:               true,
-  hideUnspecifiedLocationName: true,
-  includeSchoolDetails:        true,
+const API_URL = 'https://portal.denkulturelleskolesekken.no/api/wordpress/productions/get_calendar_events';
+const API_BODY_BASE = {
+  view: 'calendar', sort: 'date', academicYearId: '', skip: 0, limit: 1000,
+  openAllEvents: false, datePeriods: [], includeEvents: true,
+  hideUnspecifiedLocationName: true, includeSchoolDetails: true,
 };
+const MAX_AGE = 4 * 60 * 60 * 1000;
+
+const TABS = {
+  grunnskule: {
+    label: 'Grunnskule',
+    cacheKey: 'dks_program_v3',
+    apiBody: {...API_BODY_BASE, wordpressHomeUrl: 'https://www.denkulturelleskolesekken.no/asker'},
+    vgsFilter: null,
+    rawEvents: null, currentEvents: [], fetchedAt: null,
+    activeFilters: new Set(), isFetching: false,
+  },
+  vgs: {
+    label: 'VGS',
+    cacheKey: 'dks_program_vgs_v1',
+    apiBody: {...API_BODY_BASE, wordpressHomeUrl: 'https://www.denkulturelleskolesekken.no/akershus'},
+    vgsFilter: ['asker vgs', 'bleiker vgs', 'nesbru vgs', 'holmen vgs', 'røyken vgs'],
+    rawEvents: null, currentEvents: [], fetchedAt: null,
+    activeFilters: new Set(), isFetching: false,
+  },
+};
+let activeTab = 'grunnskule';
 
 // ── Hjelpefunksjonar ──────────────────────────────────────────────
 
@@ -450,13 +487,13 @@ function makeICSHref(ev) {
 
 // ── Cache ─────────────────────────────────────────────────────────
 
-function saveCache(events) {
-  try { localStorage.setItem(CACHE_KEY, JSON.stringify({ts: Date.now(), events})); } catch(_) {}
+function saveCache(tab, events) {
+  try { localStorage.setItem(tab.cacheKey, JSON.stringify({ts: Date.now(), events})); } catch(_) {}
 }
 
-function loadCache(allowStale = false) {
+function loadCache(tab, allowStale = false) {
   try {
-    const raw = localStorage.getItem(CACHE_KEY);
+    const raw = localStorage.getItem(tab.cacheKey);
     if (!raw) return null;
     const data = JSON.parse(raw);
     if (!allowStale && Date.now() - data.ts > MAX_AGE) return null;
@@ -466,7 +503,7 @@ function loadCache(allowStale = false) {
 
 // ── Filtrering og gruppering ──────────────────────────────────────
 
-function filterEvents(events) {
+function filterEvents(events, tab) {
   const today = new Date(); today.setHours(0,0,0,0);
   const fromTs = today.getTime() / 1000;
   return events
@@ -474,6 +511,10 @@ function filterEvents(events) {
       const ts = Number(ev.dateStart);
       if (isNaN(ts) || ts < fromTs) return false;
       if ((ev.status || '').includes('cancel')) return false;
+      if (tab.vgsFilter) {
+        const names = (ev._schools || []).map(s => s.toLowerCase());
+        if (!tab.vgsFilter.some(f => names.some(s => s.includes(f)))) return false;
+      }
       return true;
     })
     .sort((a, b) => a.dateStart - b.dateStart);
@@ -586,17 +627,14 @@ el('events-container').addEventListener('click', e => {
 
 // ── Produksjonsfilter ─────────────────────────────────────────────
 
-let currentEvents  = [];
-const activeFilters = new Set();
-
-function buildProductionChips(events) {
-  const names = [...new Set(events.map(prodKortNamn).filter(Boolean))].sort();
+function buildProductionChips(tab) {
+  const names = [...new Set(tab.currentEvents.map(prodKortNamn).filter(Boolean))].sort();
   const chips = el('filter-chips');
 
   if (!names.length) { el('prod-filter').classList.remove('vis'); return; }
 
   chips.innerHTML = names.map(name =>
-    `<button class="filter-chip${activeFilters.has(name) ? ' active' : ''}" data-prod="${escHtml(name)}">${escHtml(name)}</button>`
+    `<button class="filter-chip${tab.activeFilters.has(name) ? ' active' : ''}" data-prod="${escHtml(name)}">${escHtml(name)}</button>`
   ).join('');
 
   el('prod-filter').classList.add('vis');
@@ -605,9 +643,10 @@ function buildProductionChips(events) {
 el('filter-chips').addEventListener('click', e => {
   const chip = e.target.closest('.filter-chip');
   if (!chip) return;
+  const tab  = TABS[activeTab];
   const name = chip.dataset.prod;
-  if (activeFilters.has(name)) { activeFilters.delete(name); chip.classList.remove('active'); }
-  else                         { activeFilters.add(name);    chip.classList.add('active'); }
+  if (tab.activeFilters.has(name)) { tab.activeFilters.delete(name); chip.classList.remove('active'); }
+  else                             { tab.activeFilters.add(name);    chip.classList.add('active'); }
   renderView();
 });
 
@@ -622,23 +661,27 @@ function showScreen(which) {
 }
 
 function renderView() {
-  let evs = currentEvents;
-  if (activeFilters.size > 0) {
-    evs = evs.filter(ev => activeFilters.has(prodKortNamn(ev)));
+  const tab = TABS[activeTab];
+  let evs = tab.currentEvents;
+  if (tab.activeFilters.size > 0) {
+    evs = evs.filter(ev => tab.activeFilters.has(prodKortNamn(ev)));
   }
   el('events-container').innerHTML = renderGroups(groupByDate(evs));
 }
 
-function renderEvents(allEvents, fetchedAt, isStale = false) {
-  currentEvents = filterEvents(allEvents);
+function renderEvents(tab, rawEvents, fetchedAt, isStale = false) {
+  tab.rawEvents = rawEvents;
+  tab.currentEvents = filterEvents(rawEvents, tab);
+  tab.fetchedAt = fetchedAt;
 
-  activeFilters.clear();
-  buildProductionChips(currentEvents);
+  // Only update DOM if this tab is active
+  if (tab !== TABS[activeTab]) return;
 
+  buildProductionChips(tab);
   renderView();
 
   el('dato-info-wrap').innerHTML =
-    `<div class="dato-info">Resten av skuleåret · ${currentEvents.length} arrangement · oppdatert ${fmtRelative(fetchedAt)}</div>`;
+    `<div class="dato-info">Resten av skuleåret · ${tab.currentEvents.length} arrangement · oppdatert ${fmtRelative(fetchedAt)}</div>`;
 
   el('offline-banner').classList.toggle('vis', isStale);
   if (isStale) el('cache-age-txt').textContent = fmtRelative(fetchedAt);
@@ -648,11 +691,11 @@ function renderEvents(allEvents, fetchedAt, isStale = false) {
 
 // ── API-henting ───────────────────────────────────────────────────
 
-async function fetchAllEvents() {
+async function fetchAllEvents(tab) {
   const r = await fetch(API_URL, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(API_BODY),
+    body: JSON.stringify(tab.apiBody),
   });
   if (!r.ok) throw new Error(`HTTP ${r.status}`);
   const d = await r.json();
@@ -663,40 +706,64 @@ async function fetchAllEvents() {
   }));
 }
 
+// ── Tabb-navigasjon ───────────────────────────────────────────────
+
+function switchTab(name) {
+  if (name === activeTab) return;
+  activeTab = name;
+
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === name);
+  });
+
+  el('header-subtitle').textContent = name === 'vgs'
+    ? 'Asker VGS · resten av skuleåret'
+    : 'Asker-skular · resten av skuleåret';
+
+  loadData();
+}
+
 // ── Hovudflyt ─────────────────────────────────────────────────────
 
-let isFetching = false;
-
 async function loadData(force = false) {
-  if (isFetching) return;
+  const tab = TABS[activeTab];
+  if (tab.isFetching) return;
 
   if (!force) {
-    const cached = loadCache();
-    if (cached) { renderEvents(cached.events, cached.ts); return; }
+    if (tab.rawEvents !== null && tab.fetchedAt && Date.now() - tab.fetchedAt <= MAX_AGE) {
+      renderEvents(tab, tab.rawEvents, tab.fetchedAt);
+      return;
+    }
+    const cached = loadCache(tab);
+    if (cached) { renderEvents(tab, cached.events, cached.ts); return; }
   }
 
-  isFetching = true;
+  tab.isFetching = true;
   el('refresh-btn').classList.add('spinning');
   el('header-status').textContent = 'Hentar arrangement…';
 
-  const stale = loadCache(true);
-  if (stale) {
-    renderEvents(stale.events, stale.ts, Date.now() - stale.ts > MAX_AGE);
+  const staleData = tab.rawEvents !== null
+    ? {events: tab.rawEvents, ts: tab.fetchedAt || 0}
+    : loadCache(tab, true);
+
+  if (staleData) {
+    renderEvents(tab, staleData.events, staleData.ts, Date.now() - staleData.ts > MAX_AGE);
   } else {
     showScreen('loading');
   }
 
   try {
-    const events = await fetchAllEvents();
-    saveCache(events);
-    renderEvents(events, Date.now());
+    const events = await fetchAllEvents(tab);
+    saveCache(tab, events);
+    renderEvents(tab, events, Date.now());
   } catch(err) {
-    const s = loadCache(true);
-    if (s) renderEvents(s.events, s.ts, true);
+    const s = loadCache(tab, true);
+    if (s) renderEvents(tab, s.events, s.ts, true);
+    else if (tab.rawEvents !== null) renderEvents(tab, tab.rawEvents, tab.fetchedAt, true);
     else showScreen('error');
   } finally {
     el('header-status').textContent = '';
-    isFetching = false;
+    tab.isFetching = false;
     el('refresh-btn').classList.remove('spinning');
   }
 }
