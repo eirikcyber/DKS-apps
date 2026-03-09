@@ -520,7 +520,7 @@ function filterEvents(events, tab) {
       if (tab.vgsFilter) {
         const isVgsProd = (ev.production?.yearLevelMinimum ?? 0) >= 11;
         const names = (ev._schools || []).map(s => s.toLowerCase());
-        const isAskerVgs = tab.vgsFilter.some(f => names.includes(f));
+        const isAskerVgs = tab.vgsFilter.some(f => names.some(n => n === f));
         if (!isVgsProd || !isAskerVgs) return false;
       }
       return true;
