@@ -394,7 +394,7 @@ const TABS = {
     label: 'VGS',
     cacheKey: 'dks_program_vgs_v1',
     apiBody: {...API_BODY_BASE, wordpressHomeUrl: 'https://www.denkulturelleskolesekken.no/akershus'},
-    vgsFilter: ['asker vgs', 'bleiker vgs', 'nesbru vgs', 'holmen vgs', 'røyken vgs'],
+    vgsFilter: ['asker vgs', 'asker videregående', 'bleiker', 'nesbru', 'holmen vgs', 'røyken vgs'],
     rawEvents: null, currentEvents: [], fetchedAt: null,
     activeFilters: new Set(), isFetching: false,
   },
@@ -506,18 +506,29 @@ function loadCache(tab, allowStale = false) {
 function filterEvents(events, tab) {
   const today = new Date(); today.setHours(0,0,0,0);
   const fromTs = today.getTime() / 1000;
-  return events
+  const filtered = events
     .filter(ev => {
       const ts = Number(ev.dateStart);
       if (isNaN(ts) || ts < fromTs) return false;
       if ((ev.status || '').includes('cancel')) return false;
       if (tab.vgsFilter) {
+        const isVgsProd = (ev.production?.yearLevelMinimum ?? 0) >= 11;
         const names = (ev._schools || []).map(s => s.toLowerCase());
-        if (!tab.vgsFilter.some(f => names.some(s => s.includes(f)))) return false;
+        const isAskerVgs = tab.vgsFilter.some(f => names.some(s => s.includes(f)));
+        if (!isVgsProd || !isAskerVgs) return false;
       }
       return true;
     })
     .sort((a, b) => a.dateStart - b.dateStart);
+  if (tab.vgsFilter) {
+    console.log(`[VGS filter] ${filtered.length} arrangement etter filtrering. Første 5:`,
+      filtered.slice(0,5).map(ev => ({
+        prod: ev.production?.name,
+        yearMin: ev.production?.yearLevelMinimum,
+        schools: ev._schools,
+      })));
+  }
+  return filtered;
 }
 
 function groupByDate(events) {
