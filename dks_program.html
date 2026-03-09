@@ -509,13 +509,21 @@ function loadCache(tab, allowStale = false) {
 
 // ── Filtrering og gruppering ──────────────────────────────────────
 
+function getSkuleaarSlutt() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const juli = new Date(year, 6, 1);
+  return (now < juli ? juli : new Date(year + 1, 6, 1)).getTime() / 1000;
+}
+
 function filterEvents(events, tab) {
   const today = new Date(); today.setHours(0,0,0,0);
   const fromTs = today.getTime() / 1000;
+  const toTs   = getSkuleaarSlutt();
   const filtered = events
     .filter(ev => {
       const ts = Number(ev.dateStart);
-      if (isNaN(ts) || ts < fromTs) return false;
+      if (isNaN(ts) || ts < fromTs || ts >= toTs) return false;
       if ((ev.status || '').includes('cancel')) return false;
       if (tab.vgsFilter) {
         const isVgsProd = (ev.production?.yearLevelMinimum ?? 0) >= 11;
@@ -689,8 +697,10 @@ function renderEvents(tab, rawEvents, fetchedAt, isStale = false) {
   buildProductionChips(tab);
   renderView();
 
+  const fraDato = new Date().toLocaleDateString('nb-NO', {day:'numeric', month:'long'});
+  const tilDato = new Date(getSkuleaarSlutt() * 1000).toLocaleDateString('nb-NO', {day:'numeric', month:'long', year:'numeric'});
   el('dato-info-wrap').innerHTML =
-    `<div class="dato-info">Resten av skuleåret · ${tab.currentEvents.length} arrangement · oppdatert ${fmtRelative(fetchedAt)}</div>`;
+    `<div class="dato-info">${fraDato} – ${tilDato} · ${tab.currentEvents.length} arrangement · oppdatert ${fmtRelative(fetchedAt)}</div>`;
 
   el('offline-banner').classList.toggle('vis', isStale);
   if (isStale) el('cache-age-txt').textContent = fmtRelative(fetchedAt);
@@ -701,14 +711,25 @@ function renderEvents(tab, rawEvents, fetchedAt, isStale = false) {
 // ── API-henting ───────────────────────────────────────────────────
 
 async function fetchAllEvents(tab) {
-  const r = await fetch(API_URL, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(tab.apiBody),
-  });
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  const d = await r.json();
-  return d.events.map(ev => ({
+  const limit = 1000;
+  let skip = 0;
+  let allEvents = [];
+
+  while (true) {
+    const r = await fetch(API_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({...tab.apiBody, skip, limit}),
+    });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const d = await r.json();
+    const batch = d.events || [];
+    allEvents = allEvents.concat(batch);
+    if (batch.length < limit) break;
+    skip += limit;
+  }
+
+  return allEvents.map(ev => ({
     ...ev,
     _schools: (Array.isArray(ev.schools) ? ev.schools : Object.values(ev.schools || {}))
                 .map(s => s.name),
