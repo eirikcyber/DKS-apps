@@ -1,0 +1,152 @@
+DKS PROGRAM – TEKNISK FORKLARING FOR CLAUDE-AGENT
+===================================================
+Fil: dks_program.html
+Repo: github.com/eirikcyber/DKS-apps (GitHub Pages)
+Språk: Nynorsk i kode og kommentarar
+
+
+KVA APPEN GJER
+--------------
+Ein PWA (Progressive Web App) som viser kommande DKS-arrangement
+(Den kulturelle skulesekken) for skular i Asker-regionen.
+To faner: Grunnskule (barnetrinn) og VGS (vidaregåande).
+Brukarane er tilsette i DKS Asker som treng oversikt over program.
+
+
+FILSTRUKTUR
+-----------
+dks_program.html  – heile appen (CSS + HTML + JS i éi fil)
+sw.js             – Service Worker
+manifest.json     – PWA-manifest
+dks-icon.svg      – App-ikon
+
+
+API
+---
+Endepunkt:
+  POST https://portal.denkulturelleskolesekken.no/api/wordpress/productions/get_calendar_events
+
+Felles body-base (API_BODY_BASE):
+  view: 'calendar', sort: 'date', academicYearId: '',
+  openAllEvents: false, datePeriods: [], includeEvents: true,
+  hideUnspecifiedLocationName: true, includeSchoolDetails: true
+
+Grunnskule-fana legg til:
+  wordpressHomeUrl: 'https://www.denkulturelleskolesekken.no/asker'
+
+VGS-fana legg til:
+  wordpressHomeUrl: 'https://www.denkulturelleskolesekken.no/akershus'
+  yearLevels: [[11, 13]]   ← server-side trinnfilter
+  datePeriods: []
+
+Paginering: fetchAllEvents() loopar med skip/limit=1000 til
+batch.length < 1000 (dvs. siste side).
+
+Svar-struktur (relevante felt per event):
+  {
+    id, status, dateStart, dateEnd,   ← Unix-sekund (ikkje ms!)
+    numberOfStudents,
+    location: { name, address: { formatted } },
+    schools: { "4168": { name, phone, contactPersons: ["Namn, tlf, epost"] } },
+    production: { id, name, yearLevelMinimum, yearLevelMaximum, thumbnail },
+    participants: [{ numberOfStudents, registrationGroup: { name, schoolId } }]
+  }
+
+VIKTIG: schools er ein dict (ikkje array) → bruk Object.values()
+Appen normaliserer dette til ev._schools = [skulnamn, ...]
+
+
+TABS-ARKITEKTUR
+---------------
+const TABS = {
+  grunnskule: { label, cacheKey, apiBody, vgsFilter: null,
+                rawEvents, currentEvents, fetchedAt,
+                activeFilters (Set), isFetching },
+  vgs:        { label, cacheKey, apiBody, vgsFilter: [...],
+                rawEvents, currentEvents, fetchedAt,
+                activeFilters (Set), isFetching }
+}
+let activeTab = 'grunnskule';
+
+Kvar fane har heilt isolert tilstand. Bakgrunns-henting på éi fane
+oppdaterer ikkje DOM viss brukaren har bytt til den andre
+(sjekk: if (tab !== TABS[activeTab]) return; i renderEvents).
+
+
+FILTRERING (filterEvents)
+-------------------------
+For begge faner:
+  - Forkast arrangement med dateStart < i dag (midnatt)
+  - Forkast arrangement med dateStart >= 1. juli (getSkuleaarSlutt)
+  - Forkast arrangement med status som inneheld 'cancel'
+
+Berre for VGS-fana (vgsFilter er satt):
+  - Behold berre arrangement der minst éin tilknytt skule
+    har namn som eksakt matcher (lowercase) ein av desse:
+      'asker videregående skole'
+      'bleiker videregående skole'
+      'nesbru videregående skole'
+      'holmen videregående skole'
+      'røyken videregående skole'
+
+getSkuleaarSlutt(): returnerer 1. juli inneværande kalenderår
+  viss vi er før 1. juli, elles 1. juli neste år.
+
+
+CACHE
+-----
+localStorage per fane:
+  Grunnskule: nøkkel 'dks_program_v3'
+  VGS:        nøkkel 'dks_program_vgs_v1'
+
+Format: { ts: Date.now(), events: [...rådata frå API...] }
+TTL: 4 timar (MAX_AGE = 4 * 60 * 60 * 1000)
+
+Cache-strategi (loadData):
+  1. Fersk in-memory (rawEvents < 4t) → render og returner
+  2. Fersk localStorage → render og returner
+  3. Elles: vis gammal data medan ny hentast (background refresh)
+     Vis loading-spinner berre viss ingen gammal data finst
+
+
+PRODUKSJONSFILTER (chips)
+-------------------------
+Etter data er lasta, byggjast filter-chips automatisk frå
+produksjonsnamn (tekst FORAN parentes, t.d. "Påskemåne" frå
+"Påskemåne (2026)"). Multi-select. Tilstand per fane i
+tab.activeFilters (Set). renderView() brukar dette.
+
+
+RENDERING
+---------
+Arrangement gruppert per dag → collapsible dag-grupper
+Kvar dag har collapsible kort. Alt via event delegation.
+
+Kvart kort viser:
+  - Klokkeslett, produksjonsnamn, lokasjon (samanklappbart)
+  - Skulnamn, antal elevar (utvida)
+  - Kontaktinfo: skuletelefon + kulturkontakt (tel:-lenkjer)
+  - Lenkje til DKS-produksjonssida
+  - ICS-kalender-nedlasting (data URI)
+
+
+SERVICE WORKER (sw.js)
+----------------------
+HTML: network-first med cache:'reload' (omgår HTTP-cache)
+  → auto-reload på ny SW via updatefound + statechange
+Assets (svg, json): cache-first
+Cache-namn: 'dks-v2'
+
+
+GOTCHAS FOR FRAMTIDIGE ENDRINGAR
+----------------------------------
+1. dateStart/dateEnd er Unix SEKUND – gang med 1000 for Date()
+2. schools er dict, ikkje array – bruk Object.values()
+3. Å legge til ny fane: kopier eit tab-objekt i TABS,
+   legg til tab-btn i HTML, legg til subtitle-tekst i switchTab()
+4. Viss API-et endrar skulnamn: oppdater vgsFilter-lista
+5. Cache-nøkkel MÅ endrast viss rådata-struktur endrar seg
+   (elles les appen inn ugyldig gammal cache)
+6. renderEvents() set tab.rawEvents og tab.currentEvents –
+   rawEvents er ufiltrert API-data, currentEvents er etter
+   dato/vgs-filter men FØR produksjons-chip-filter
