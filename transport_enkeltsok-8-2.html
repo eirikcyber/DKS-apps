@@ -4456,6 +4456,39 @@ function skuleFraEvent(e) {
     return [];
 }
 
+async function hentAlleTurneArrangement(tourId, statusEl) {
+    const baseUrl = `https://portal.denkulturelleskolesekken.no/public/events/findByTourId?tourId=${tourId}`;
+    const limit = 100;
+    let offset = 0;
+    let alle = [];
+
+    while (true) {
+        const url = `${baseUrl}&limit=${limit}&offset=${offset}`;
+        if (statusEl) statusEl.textContent = `Hentar arrangement (${alle.length} henta så langt)...`;
+        const resp = await corsHent(url);
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+
+        let side, hasMore;
+        if (Array.isArray(data)) {
+            side = data;
+            hasMore = side.length === limit;
+        } else if (data && Array.isArray(data.rows)) {
+            side = data.rows;
+            hasMore = !!data.hasMore;
+        } else {
+            side = [];
+            hasMore = false;
+        }
+
+        alle = alle.concat(side);
+        if (!hasMore || side.length === 0) break;
+        offset += limit;
+    }
+
+    return alle;
+}
+
 async function hentTurne() {
     const tourId = document.getElementById('turneId').value.trim();
     if (!tourId) {
@@ -4477,10 +4510,7 @@ async function hentTurne() {
     document.getElementById('turnePayload').style.display = 'none';
 
     try {
-        const url = `https://portal.denkulturelleskolesekken.no/public/events/findByTourId?tourId=${tourId}`;
-        const resp = await corsHent(url);
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        const events = await resp.json();
+        const events = await hentAlleTurneArrangement(tourId, turneStatusEl);
 
         if (!Array.isArray(events) || events.length === 0) {
             turneStatusEl.textContent = 'Ingen arrangement funne for denne turnéen.';
