@@ -4470,32 +4470,33 @@ function skuleFraEvent(e) {
 }
 
 async function hentAlleTurneArrangement(tourId, statusEl) {
-    const baseUrl = `https://portal.denkulturelleskolesekken.no/public/events/findByTourId?tourId=${tourId}`;
-    let offset = 0;
+    // Brukar wordpress-kalender-API som støttar ekte paginering (skip/limit)
+    // og returnerer alle arrangement utan den 15-grensa som findByTourId har
+    const url = 'https://portal.denkulturelleskolesekken.no/api/wordpress/productions/get_calendar_events';
+    const bodyBase = {
+        view: 'calendar', sort: 'date', academicYearId: '',
+        openAllEvents: true, datePeriods: [], includeEvents: true,
+        hideUnspecifiedLocationName: false, includeSchoolDetails: true,
+        wordpressHomeUrl: 'https://www.denkulturelleskolesekken.no/asker',
+        tourIds: [parseInt(tourId)]
+    };
+    const limit = 500;
+    let skip = 0;
     let alle = [];
-    const seideIds = new Set();
 
     while (true) {
         if (statusEl) statusEl.textContent = `Hentar arrangement (${alle.length} henta så langt)...`;
-        const url = `${baseUrl}&offset=${offset}`;
-        const resp = await corsHent(url);
+        const resp = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ...bodyBase, skip, limit })
+        });
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         const data = await resp.json();
-
-        let side;
-        if (Array.isArray(data)) side = data;
-        else if (data && Array.isArray(data.rows)) side = data.rows;
-        else break;
-
-        if (side.length === 0) break;
-
-        // Filtrer duplikat-ID-ar — stoppar dersom API ignorerer offset-parameteren
-        const nye = side.filter(e => !seideIds.has(e.id));
-        if (nye.length === 0) break;
-
-        for (const e of nye) seideIds.add(e.id);
-        alle = alle.concat(nye);
-        offset += side.length;
+        const batch = data.events || [];
+        alle = alle.concat(batch);
+        if (!data.hasMore || batch.length === 0) break;
+        skip += batch.length;
     }
 
     return alle;
