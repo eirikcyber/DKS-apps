@@ -4471,32 +4471,31 @@ function skuleFraEvent(e) {
 
 async function hentAlleTurneArrangement(tourId, statusEl) {
     const baseUrl = `https://portal.denkulturelleskolesekken.no/public/events/findByTourId?tourId=${tourId}`;
-    const limit = 100;
     let offset = 0;
     let alle = [];
+    const seideIds = new Set();
 
     while (true) {
-        const url = `${baseUrl}&limit=${limit}&offset=${offset}`;
         if (statusEl) statusEl.textContent = `Hentar arrangement (${alle.length} henta så langt)...`;
+        const url = `${baseUrl}&offset=${offset}`;
         const resp = await corsHent(url);
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         const data = await resp.json();
 
-        let side, hasMore;
-        if (Array.isArray(data)) {
-            side = data;
-            hasMore = side.length === limit;
-        } else if (data && Array.isArray(data.rows)) {
-            side = data.rows;
-            hasMore = !!data.hasMore;
-        } else {
-            side = [];
-            hasMore = false;
-        }
+        let side;
+        if (Array.isArray(data)) side = data;
+        else if (data && Array.isArray(data.rows)) side = data.rows;
+        else break;
 
-        alle = alle.concat(side);
-        if (!hasMore || side.length === 0) break;
-        offset += limit;
+        if (side.length === 0) break;
+
+        // Filtrer duplikat-ID-ar — stoppar dersom API ignorerer offset-parameteren
+        const nye = side.filter(e => !seideIds.has(e.id));
+        if (nye.length === 0) break;
+
+        for (const e of nye) seideIds.add(e.id);
+        alle = alle.concat(nye);
+        offset += side.length;
     }
 
     return alle;
