@@ -1022,8 +1022,13 @@
     </style>
 </head>
 <body>
-    <h1>🚌 DKS Transport - Enkeltsøk</h1>
-    <p class="subtitle">Søk transportalternativ for éin skule om gongen</p>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0">
+      <div>
+        <h1 style="margin-bottom:5px">🚌 DKS Transport - Enkeltsøk</h1>
+        <p class="subtitle">Søk transportalternativ for éin skule om gongen</p>
+      </div>
+      <span id="ver-txt" style="font-size:10px;opacity:0.4;color:#1a1a2e;letter-spacing:0.03em;margin-top:6px;white-space:nowrap"></span>
+    </div>
     
     <div id="statusMelding" class="status"></div>
 
@@ -1945,6 +1950,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('skule').addEventListener('change', oppdaterKlassar);
     document.getElementById('sokBtn').addEventListener('click', startSok);
 });
+
+// Versjonsinfo frå sist endra fil
+(function() {
+  const d = new Date(document.lastModified);
+  const p = n => String(n).padStart(2, '0');
+  document.getElementById('ver-txt').textContent =
+    `v ${p(d.getDate())}.${p(d.getMonth()+1)}.${String(d.getFullYear()).slice(2)} ${p(d.getHours())}:${p(d.getMinutes())}`;
+})();
 
 // Toggle retur-felt
 function toggleReturFelt() {
