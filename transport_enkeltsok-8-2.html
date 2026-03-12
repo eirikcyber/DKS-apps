@@ -4470,36 +4470,13 @@ function skuleFraEvent(e) {
 }
 
 async function hentAlleTurneArrangement(tourId, statusEl) {
-    // Brukar wordpress-kalender-API som støttar ekte paginering (skip/limit)
-    // og returnerer alle arrangement utan den 15-grensa som findByTourId har
-    const url = 'https://portal.denkulturelleskolesekken.no/api/wordpress/productions/get_calendar_events';
-    const bodyBase = {
-        view: 'calendar', sort: 'date', academicYearId: '',
-        openAllEvents: true, datePeriods: [], includeEvents: true,
-        hideUnspecifiedLocationName: false, includeSchoolDetails: true,
-        wordpressHomeUrl: 'https://www.denkulturelleskolesekken.no/asker',
-        tourIds: [parseInt(tourId)]
-    };
-    const limit = 500;
-    let skip = 0;
-    let alle = [];
-
-    while (true) {
-        if (statusEl) statusEl.textContent = `Hentar arrangement (${alle.length} henta så langt)...`;
-        const resp = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ ...bodyBase, skip, limit })
-        });
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        const data = await resp.json();
-        const batch = data.events || [];
-        alle = alle.concat(batch);
-        if (!data.hasMore || batch.length === 0) break;
-        skip += batch.length;
-    }
-
-    return alle;
+    // findByTourId returnerer alle arrangement for turnéen i éin request
+    const url = `https://portal.denkulturelleskolesekken.no/public/events/findByTourId?tourId=${tourId}`;
+    if (statusEl) statusEl.textContent = 'Hentar turné frå portalen...';
+    const resp = await corsHent(url);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    return Array.isArray(data) ? data : [];
 }
 
 async function hentTurne() {
