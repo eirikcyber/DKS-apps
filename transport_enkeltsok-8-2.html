@@ -4470,13 +4470,21 @@ function skuleFraEvent(e) {
 }
 
 async function hentAlleTurneArrangement(tourId, statusEl) {
-    // findByTourId returnerer alle arrangement for turnéen i éin request
-    const url = `https://portal.denkulturelleskolesekken.no/public/events/findByTourId?tourId=${tourId}`;
+    const baseUrl = `https://portal.denkulturelleskolesekken.no/public/events/findByTourId?tourId=${tourId}`;
     if (statusEl) statusEl.textContent = 'Hentar turné frå portalen...';
-    const resp = await corsHent(url);
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    const data = await resp.json();
-    return Array.isArray(data) ? data : [];
+    let allEvents = [];
+    let page = 1;
+    while (true) {
+        const resp = await corsHent(`${baseUrl}&page=${page}`);
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const batch = await resp.json();
+        if (!Array.isArray(batch) || batch.length === 0) break;
+        allEvents = allEvents.concat(batch);
+        if (statusEl) statusEl.textContent = `Hentar turné... (${allEvents.length} arrangement)`;
+        if (batch.length < 15) break;
+        page++;
+    }
+    return allEvents;
 }
 
 async function hentTurne() {
