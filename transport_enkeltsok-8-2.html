@@ -1019,6 +1019,28 @@
         .turne-dropdown-rad.aktiv-dropdown { background: #f0f4ff; font-weight: 600; color: #667eea; }
         .turne-fortid-header { background: #9ca3af !important; }
         .turne-ingen-skular { color: #9ca3af; font-style: italic; font-size: 13px; padding: 8px 15px; background: white; }
+        .ingen-direkte-ikon {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 16px; height: 16px; border-radius: 50%;
+            background: #fed7d7; color: #c53030; font-size: 11px; font-weight: 700;
+            margin-right: 5px; cursor: help; flex-shrink: 0;
+            position: relative; top: 1px;
+        }
+        .turne-begrunnelse-wrapper { position: relative; display: inline-block; }
+        .turne-begrunnelse-wrapper .turne-begrunnelse-tooltip {
+            display: none; position: absolute; bottom: calc(100% + 6px); left: 0;
+            background: #1a202c; color: #fff; font-size: 12px; padding: 6px 10px;
+            border-radius: 5px; white-space: nowrap; z-index: 300;
+            box-shadow: 0 2px 8px rgba(0,0,0,.25); pointer-events: none;
+        }
+        .turne-begrunnelse-wrapper:hover .turne-begrunnelse-tooltip { display: block; }
+        .turne-bussavtale {
+            margin-top: 5px; font-size: 12px; color: #2b6cb0;
+            background: #ebf8ff; border-left: 3px solid #63b3ed;
+            padding: 4px 8px; border-radius: 0 4px 4px 0;
+            display: flex; flex-wrap: wrap; gap: 8px;
+        }
+        .turne-bussavtale-felt { white-space: nowrap; }
     </style>
 </head>
 <body>
@@ -1293,6 +1315,10 @@
           <div class="input-group" style="max-width:200px">
             <label>Maks gangavstand (m)</label>
             <input type="number" id="turneMaksGange" value="2000" min="0" step="100">
+          </div>
+          <div class="input-group" style="flex:2; min-width:240px">
+            <label>KTSESSION <span style="font-weight:normal;color:#999;font-size:11px">(valfritt — for å vise bussavtalar · vert ikkje lagra)</span></label>
+            <input type="password" id="turneKtsession" placeholder="Lim inn KTSESSION-cookie" autocomplete="off">
           </div>
         </div>
         <button class="nav-btn primary" onclick="hentTurne()" style="margin-top:10px">Hent turné</button>
@@ -1916,6 +1942,7 @@ let aktivModus = 'manuelt';
 let turneHendingar = [];
 let turneResultat = [];
 let turneOverstyring = {};
+let turneBusAvtalar = {}; // { eventId: { schoolId: {departureTime, returnTime, textToSchool} } } — aldri i localStorage
 let turneListeLasta = false;
 let alleTurnear = [];
 
@@ -4499,6 +4526,7 @@ async function hentTurne() {
     turneHendingar = [];
     turneResultat = [];
     turneOverstyring = {};
+    turneBusAvtalar = {};
     // Slett gammal DRIVING-cache (fallback-fart kan ha vore feil)
     for (const k of Object.keys(localStorage)) {
         if (k.startsWith('gmap_DRIVING_')) localStorage.removeItem(k);
@@ -4551,6 +4579,31 @@ async function hentTurne() {
         const medSkular = turneHendingar.filter(h => !h.erFortidig && h.schools.length > 0).length;
         const utenSkular = turneHendingar.filter(h => !h.erFortidig && h.schools.length === 0).length;
         turneStatusEl.textContent = `Fann ${totalt} arrangement (${medSkular} framtidige med skular, ${utenSkular} utan skular). Søker transport...`;
+
+        // Hent bussavtalar om KTSESSION er oppgjeve (aldri lagra)
+        const ktsession = document.getElementById('turneKtsession').value.trim();
+        if (ktsession) {
+            try {
+                turneStatusEl.textContent = 'Hentar bussavtalar frå portalen...';
+                const wbResp = await fetch(
+                    'https://portal.denkulturelleskolesekken.no/api/web-authenticated/widgets/work_bench/get_events',
+                    { method: 'POST', headers: { 'Content-Type': 'application/json', 'Cookie': `KTSESSION=${ktsession}` }, body: JSON.stringify({ tourId: parseInt(tourId) }), credentials: 'include' }
+                );
+                if (wbResp.ok) {
+                    const wbData = await wbResp.json();
+                    const eventsObj = wbData.events || wbData || {};
+                    for (const [eid, ev] of Object.entries(eventsObj)) {
+                        const bySkule = {};
+                        for (const ba of (ev.busAppointments || [])) {
+                            for (const sid of (ba.schoolIds || [])) {
+                                bySkule[sid] = { departureTime: ba.departureTime, returnTime: ba.returnTime, textToSchool: ba.textToSchool };
+                            }
+                        }
+                        if (Object.keys(bySkule).length > 0) turneBusAvtalar[parseInt(eid)] = bySkule;
+                    }
+                }
+            } catch (e) { console.warn('Kunne ikkje hente bussavtalar:', e); }
+        }
 
         await sokTransportForAlleTurneHendingar();
 
@@ -4718,7 +4771,33 @@ function analysertransportTurne(skule, bussReiser, togReiser, googleGange, googl
     // Auto-vel beste etter prioritet: gange > tog > buss > bestillerbuss
     const valt = alternativ[0].type;
 
-    return { skuleId: skule.id, skule: skule.name, alternativ, valt };
+    // Bygg begrunnelse for kvifor dette alternativet vart tilrådd
+    let begrunnelse = '';
+    if (valt === 'gange') {
+        const g = alternativ[0];
+        begrunnelse = `Gangavstand ${g.avstandTekst || ''} (under maks ${maksGange} m)`;
+    } else if (valt === 'tog') {
+        const t = alternativ[0];
+        begrunnelse = `Direktetog funne: linje ${t.linje || '?'}`;
+    } else if (valt === 'buss') {
+        const b = alternativ[0];
+        begrunnelse = `Direktebuss funne: linje ${b.linje || '?'}`;
+    } else {
+        // bestillerbuss — kvifor ingen kollektiv?
+        const grunnar = [];
+        const harDirekteBuss = alternativ.some(a => a.type === 'buss');
+        const harDirekteTog = alternativ.some(a => a.type === 'tog');
+        const busMedBytte = bussReiser && bussReiser.some(r => telKollektivLegs(r.legs) > 1);
+        const togMedBytte = togReiser && togReiser.some(r => telKollektivLegs(r.legs) > 1);
+        if (!harDirekteBuss) grunnar.push(busMedBytte ? 'buss berre med bytte' : 'ingen bussruter funne');
+        if (!harDirekteTog) grunnar.push(togMedBytte ? 'tog berre med bytte' : 'ingen togruter funne');
+        if (googleGange && googleGange.avstand > maksGange) grunnar.push(`gangavstand ${googleGange.avstandTekst || ((googleGange.avstand/1000).toFixed(1)+' km')} (over maks)`);
+        begrunnelse = 'Bestillerbuss: ' + (grunnar.length ? grunnar.join(', ') : 'ingen direkterute');
+    }
+
+    const ingenDirekte = valt === 'bestillerbuss' && !alternativ.some(a => a.type === 'buss' || a.type === 'tog');
+
+    return { skuleId: skule.id, skule: skule.name, alternativ, valt, begrunnelse, ingenDirekte };
 }
 
 function visTurneResultat() {
@@ -4788,12 +4867,31 @@ function visTurneResultat() {
             }
 
             const elevtalHtml = sr.elevtal ? ` <span style="font-size:12px;color:#888;font-weight:normal;">(${sr.elevtal} elever)</span>` : '';
+
+            // ⊘-ikon når ingen direkte kollektivrute er funne
+            const ingenIkon = sr.ingenDirekte ? `<span class="ingen-direkte-ikon" title="Ingen direkterute funne (Entur)">⊘</span>` : '';
+
+            // Vis eksisterande bussavtale frå DKS-portalen om tilgjengeleg
+            let bussavtaleHtml = '';
+            const ba = (turneBusAvtalar[hending.id] || {})[sr.skuleId];
+            if (ba) {
+                const delar = [];
+                if (ba.departureTime) delar.push(`<span class="turne-bussavtale-felt">🚌 Avgang: <b>${ba.departureTime}</b></span>`);
+                if (ba.returnTime) delar.push(`<span class="turne-bussavtale-felt">🔄 Retur: <b>${ba.returnTime}</b></span>`);
+                if (ba.textToSchool) delar.push(`<span class="turne-bussavtale-felt">💬 ${ba.textToSchool}</span>`);
+                if (delar.length) bussavtaleHtml = `<div class="turne-bussavtale">${delar.join('')}</div>`;
+            }
+
             html += `
                 <div class="turne-skule-rad">
-                    <span class="turne-skule-namn">${sr.skule}${elevtalHtml}${fortidTekst}</span>
-                    <span class="turne-detaljar">${detaljar}</span>
+                    <span class="turne-skule-namn">${ingenIkon}${sr.skule}${elevtalHtml}${fortidTekst}</span>
+                    <div class="turne-begrunnelse-wrapper">
+                        <span class="turne-detaljar">${detaljar}</span>
+                        ${sr.begrunnelse ? `<div class="turne-begrunnelse-tooltip">${sr.begrunnelse}</div>` : ''}
+                    </div>
                     <div class="turne-alternativ-knappar">${knappar}</div>
-                </div>`;
+                </div>
+                ${bussavtaleHtml}`;
         }
 
         gruppe.innerHTML = html;
