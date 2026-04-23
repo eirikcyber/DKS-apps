@@ -1315,14 +1315,32 @@
             <label>Maks gangavstand (m)</label>
             <input type="number" id="turneMaksGange" value="2000" min="0" step="100">
           </div>
-          <div class="input-group" style="flex:2; min-width:240px">
-            <label>KTSESSION <span style="font-weight:normal;color:#999;font-size:11px">(valfritt — for å vise bussavtalar · vert ikkje lagra)</span></label>
-            <input type="password" id="turneKtsession" placeholder="Lim inn KTSESSION-cookie" autocomplete="off">
-            <span id="turneKtsessionStatus" style="font-size:12px;margin-top:3px;display:block"></span>
-          </div>
         </div>
         <button class="nav-btn primary" onclick="hentTurne()" style="margin-top:10px">Hent turné</button>
         <p id="turneStatus" style="color:#666;font-size:13px;margin-top:8px"></p>
+
+        <details style="margin-top:12px">
+          <summary style="cursor:pointer;font-size:13px;color:#4a5568;user-select:none">
+            🚌 Last inn bussavtalar frå DKS-portalen (valfritt)
+          </summary>
+          <div style="margin-top:10px;padding:12px;background:#f7fafc;border-radius:8px;border:1px solid #e2e8f0">
+            <p style="font-size:12px;color:#4a5568;margin-bottom:8px">
+              Nettlesaren kan ikkje sende Cookie-header direkte til DKS-portalen. Køyr curl i terminalen og lim inn JSON-svaret nedanfor.
+            </p>
+            <div class="input-group" style="margin-bottom:8px">
+              <label style="font-size:12px">KTSESSION <span style="font-weight:normal;color:#999">(for curl-kommando — vert ikkje lagra)</span></label>
+              <input type="password" id="turneKtsession" placeholder="Lim inn KTSESSION-cookie" autocomplete="off" style="font-size:13px">
+            </div>
+            <button onclick="kopierCurl()" class="nav-btn secondary" style="font-size:12px;padding:5px 12px;margin-bottom:8px">📋 Kopier curl-kommando</button>
+            <span id="turneKtsessionStatus" style="font-size:12px;margin-left:8px"></span>
+            <div class="input-group">
+              <label style="font-size:12px">Lim inn JSON-svar frå curl</label>
+              <textarea id="turneBussavtalarJson" rows="3" placeholder='{"events": {"123456": {...}}}' style="font-size:12px;font-family:monospace;width:100%;border:1px solid #ddd;border-radius:6px;padding:8px;resize:vertical"></textarea>
+            </div>
+            <button onclick="lastInnBussavtalar()" class="nav-btn secondary" style="font-size:12px;padding:5px 12px;margin-top:6px">Last inn bussavtalar</button>
+            <span id="turneBussavtalarStatus" style="font-size:12px;margin-left:8px"></span>
+          </div>
+        </details>
       </div>
 
       <div id="turneResultatSeksjon" style="display:none;">
@@ -4580,59 +4598,50 @@ async function hentTurne() {
         const utenSkular = turneHendingar.filter(h => !h.erFortidig && h.schools.length === 0).length;
         turneStatusEl.textContent = `Fann ${totalt} arrangement (${medSkular} framtidige med skular, ${utenSkular} utan skular). Søker transport...`;
 
-        // Hent bussavtalar om KTSESSION er oppgjeve (aldri lagra)
-        const ktsession = document.getElementById('turneKtsession').value.trim();
-        const ktsStatusEl = document.getElementById('turneKtsessionStatus');
-        if (ktsession) {
-            try {
-                turneStatusEl.textContent = 'Hentar bussavtalar frå portalen...';
-                ktsStatusEl.textContent = '';
-                // Nettlesarar blokkerer Cookie-header direkte — rut via corsproxy.io med x-cors-headers
-                const targetUrl = 'https://portal.denkulturelleskolesekken.no/api/web-authenticated/widgets/work_bench/get_events';
-                const wbResp = await fetch(
-                    'https://corsproxy.io/?' + encodeURIComponent(targetUrl),
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'x-cors-headers': JSON.stringify({ 'Cookie': `KTSESSION=${ktsession}` })
-                        },
-                        body: JSON.stringify({ tourId: parseInt(tourId) })
-                    }
-                );
-                if (wbResp.ok) {
-                    const wbData = await wbResp.json();
-                    const eventsObj = wbData.events || wbData || {};
-                    for (const [eid, ev] of Object.entries(eventsObj)) {
-                        const bySkule = {};
-                        for (const ba of (ev.busAppointments || [])) {
-                            for (const sid of (ba.schoolIds || [])) {
-                                bySkule[sid] = { departureTime: ba.departureTime, returnTime: ba.returnTime, textToSchool: ba.textToSchool };
-                            }
-                        }
-                        if (Object.keys(bySkule).length > 0) turneBusAvtalar[parseInt(eid)] = bySkule;
-                    }
-                    const antall = Object.keys(turneBusAvtalar).length;
-                    ktsStatusEl.style.color = antall > 0 ? '#276749' : '#744210';
-                    ktsStatusEl.textContent = antall > 0
-                        ? `✓ Henta bussavtalar for ${antall} arrangement`
-                        : '⚠ Ingen bussavtalar funne (turnéen kan mangle avtalar)';
-                } else {
-                    ktsStatusEl.style.color = '#c53030';
-                    ktsStatusEl.textContent = `✗ Feil ${wbResp.status} — ugyldig KTSESSION?`;
-                }
-            } catch (e) {
-                ktsStatusEl.style.color = '#c53030';
-                ktsStatusEl.textContent = '✗ Kunne ikkje nå portalen (proxy-feil?)';
-                console.warn('Kunne ikkje hente bussavtalar:', e);
-            }
-        }
-
         await sokTransportForAlleTurneHendingar();
 
     } catch (err) {
         turneStatusEl.textContent = `Feil: ${err.message}`;
         console.error(err);
+    }
+}
+
+function kopierCurl() {
+    const tourId = document.getElementById('turneId').value.trim() || 'TURNE_ID';
+    const ktsession = document.getElementById('turneKtsession').value.trim() || 'DIN_KTSESSION';
+    const cmd = `curl -s -X POST "https://portal.denkulturelleskolesekken.no/api/web-authenticated/widgets/work_bench/get_events" -H "Content-Type: application/json" -H "Cookie: KTSESSION=${ktsession}" -d '{"tourId": ${tourId}}'`;
+    navigator.clipboard.writeText(cmd).then(() => {
+        const el = document.getElementById('turneKtsessionStatus');
+        el.style.color = '#276749';
+        el.textContent = '✓ Kopiert!';
+        setTimeout(() => { el.textContent = ''; }, 2000);
+    });
+}
+
+function lastInnBussavtalar() {
+    const raw = document.getElementById('turneBussavtalarJson').value.trim();
+    const statusEl = document.getElementById('turneBussavtalarStatus');
+    if (!raw) { statusEl.style.color = '#c53030'; statusEl.textContent = '✗ Tom'; return; }
+    try {
+        const wbData = JSON.parse(raw);
+        const eventsObj = wbData.events || wbData || {};
+        turneBusAvtalar = {};
+        for (const [eid, ev] of Object.entries(eventsObj)) {
+            const bySkule = {};
+            for (const ba of (ev.busAppointments || [])) {
+                for (const sid of (ba.schoolIds || [])) {
+                    bySkule[sid] = { departureTime: ba.departureTime, returnTime: ba.returnTime, textToSchool: ba.textToSchool };
+                }
+            }
+            if (Object.keys(bySkule).length > 0) turneBusAvtalar[parseInt(eid)] = bySkule;
+        }
+        const antall = Object.keys(turneBusAvtalar).length;
+        statusEl.style.color = antall > 0 ? '#276749' : '#744210';
+        statusEl.textContent = antall > 0 ? `✓ Lasta inn ${antall} arrangement med bussavtalar` : '⚠ Ingen bussavtalar funne i JSON-svaret';
+        visTurneResultat();
+    } catch (e) {
+        statusEl.style.color = '#c53030';
+        statusEl.textContent = '✗ Ugyldig JSON';
     }
 }
 
