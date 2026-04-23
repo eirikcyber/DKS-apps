@@ -1022,9 +1022,8 @@
         .ingen-direkte-ikon {
             display: inline-flex; align-items: center; justify-content: center;
             width: 16px; height: 16px; border-radius: 50%;
-            background: #fed7d7; color: #c53030; font-size: 11px; font-weight: 700;
-            margin-right: 5px; cursor: help; flex-shrink: 0;
-            position: relative; top: 1px;
+            background: #fed7d7; color: #c53030; font-size: 10px; font-weight: 700;
+            margin-right: 5px; flex-shrink: 0; position: relative; top: 1px;
         }
         .turne-begrunnelse-wrapper { position: relative; display: inline-block; }
         .turne-begrunnelse-wrapper .turne-begrunnelse-tooltip {
@@ -1319,6 +1318,7 @@
           <div class="input-group" style="flex:2; min-width:240px">
             <label>KTSESSION <span style="font-weight:normal;color:#999;font-size:11px">(valfritt — for å vise bussavtalar · vert ikkje lagra)</span></label>
             <input type="password" id="turneKtsession" placeholder="Lim inn KTSESSION-cookie" autocomplete="off">
+            <span id="turneKtsessionStatus" style="font-size:12px;margin-top:3px;display:block"></span>
           </div>
         </div>
         <button class="nav-btn primary" onclick="hentTurne()" style="margin-top:10px">Hent turné</button>
@@ -4582,12 +4582,23 @@ async function hentTurne() {
 
         // Hent bussavtalar om KTSESSION er oppgjeve (aldri lagra)
         const ktsession = document.getElementById('turneKtsession').value.trim();
+        const ktsStatusEl = document.getElementById('turneKtsessionStatus');
         if (ktsession) {
             try {
                 turneStatusEl.textContent = 'Hentar bussavtalar frå portalen...';
+                ktsStatusEl.textContent = '';
+                // Nettlesarar blokkerer Cookie-header direkte — rut via corsproxy.io med x-cors-headers
+                const targetUrl = 'https://portal.denkulturelleskolesekken.no/api/web-authenticated/widgets/work_bench/get_events';
                 const wbResp = await fetch(
-                    'https://portal.denkulturelleskolesekken.no/api/web-authenticated/widgets/work_bench/get_events',
-                    { method: 'POST', headers: { 'Content-Type': 'application/json', 'Cookie': `KTSESSION=${ktsession}` }, body: JSON.stringify({ tourId: parseInt(tourId) }), credentials: 'include' }
+                    'https://corsproxy.io/?' + encodeURIComponent(targetUrl),
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-cors-headers': JSON.stringify({ 'Cookie': `KTSESSION=${ktsession}` })
+                        },
+                        body: JSON.stringify({ tourId: parseInt(tourId) })
+                    }
                 );
                 if (wbResp.ok) {
                     const wbData = await wbResp.json();
@@ -4601,8 +4612,20 @@ async function hentTurne() {
                         }
                         if (Object.keys(bySkule).length > 0) turneBusAvtalar[parseInt(eid)] = bySkule;
                     }
+                    const antall = Object.keys(turneBusAvtalar).length;
+                    ktsStatusEl.style.color = antall > 0 ? '#276749' : '#744210';
+                    ktsStatusEl.textContent = antall > 0
+                        ? `✓ Henta bussavtalar for ${antall} arrangement`
+                        : '⚠ Ingen bussavtalar funne (turnéen kan mangle avtalar)';
+                } else {
+                    ktsStatusEl.style.color = '#c53030';
+                    ktsStatusEl.textContent = `✗ Feil ${wbResp.status} — ugyldig KTSESSION?`;
                 }
-            } catch (e) { console.warn('Kunne ikkje hente bussavtalar:', e); }
+            } catch (e) {
+                ktsStatusEl.style.color = '#c53030';
+                ktsStatusEl.textContent = '✗ Kunne ikkje nå portalen (proxy-feil?)';
+                console.warn('Kunne ikkje hente bussavtalar:', e);
+            }
         }
 
         await sokTransportForAlleTurneHendingar();
@@ -4868,8 +4891,11 @@ function visTurneResultat() {
 
             const elevtalHtml = sr.elevtal ? ` <span style="font-size:12px;color:#888;font-weight:normal;">(${sr.elevtal} elever)</span>` : '';
 
-            // ⊘-ikon når ingen direkte kollektivrute er funne
-            const ingenIkon = sr.ingenDirekte ? `<span class="ingen-direkte-ikon" title="Ingen direkterute funne (Entur)">⊘</span>` : '';
+            // ✕-ikon med tooltip når ingen direkte kollektivrute er funne
+            const ingenIkonTekst = sr.begrunnelse || 'Ingen direkterute funne';
+            const ingenIkon = sr.ingenDirekte
+                ? `<span class="turne-begrunnelse-wrapper" style="margin-right:5px;vertical-align:middle"><span class="ingen-direkte-ikon">✕</span><div class="turne-begrunnelse-tooltip">${ingenIkonTekst}</div></span>`
+                : '';
 
             // Vis eksisterande bussavtale frå DKS-portalen om tilgjengeleg
             let bussavtaleHtml = '';
