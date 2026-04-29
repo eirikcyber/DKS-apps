@@ -45,7 +45,7 @@
         }
         
         .steg-nummer {
-            background: #667eea;
+            background: #1e3a5f;
             color: white;
             width: 28px;
             height: 28px;
@@ -101,7 +101,7 @@
         .input-group input:focus,
         .input-group select:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #1e3a5f;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
         
@@ -118,7 +118,7 @@
             align-items: center;
             gap: 8px;
             padding: 8px 12px;
-            background: #f0f4ff;
+            background: #eef2f7;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
@@ -143,21 +143,24 @@
         .elevar-sum {
             margin-top: 10px;
             font-weight: 500;
-            color: #667eea;
+            color: #1e3a5f;
         }
         
         /* Søk-knapp */
         .sok-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #1e3a5f;
             color: white;
             border: none;
-            padding: 12px 30px;
+            padding: 11px 28px;
             border-radius: 8px;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             margin-top: 15px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: background 0.15s;
+        }
+        .sok-btn:hover {
+            background: #16304f;
         }
         
         .sok-btn:hover {
@@ -184,9 +187,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
+            padding: 12px 16px;
             cursor: pointer;
+            background: #1e3a5f;
+            color: white;
+            font-weight: 500;
             transition: background 0.2s;
+        }
+        .resultat-header:hover {
+            background: #16304f;
+        }
+        .resultat-header .resultat-skule {
+            color: white;
         }
         
         .resultat-header:hover {
@@ -202,7 +214,7 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            color: #666;
+            color: rgba(255,255,255,0.85);
             font-size: 14px;
         }
         
@@ -210,7 +222,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            color: #10b981;
+            color: #a7f3d0;
             font-weight: 500;
         }
         
@@ -236,10 +248,11 @@
         
         /* Transport-alternativ */
         .transport-alternativ {
-            padding: 15px;
-            margin-top: 15px;
-            border-radius: 10px;
+            padding: 10px 15px;
+            margin-top: 8px;
+            border-radius: 8px;
             background: #f9fafb;
+            border: 1px solid #e5e7eb;
         }
         
         .transport-alternativ.beste {
@@ -323,7 +336,7 @@
             flex-wrap: wrap;
             margin-top: 8px;
             padding: 8px 10px;
-            background: #f0f4ff;
+            background: #eef2f7;
             border-radius: 6px;
         }
         
@@ -343,7 +356,7 @@
         
         .ekstra-avgang:hover {
             background: #e0e7ff;
-            border-color: #667eea;
+            border-color: #1e3a5f;
         }
         
         /* Klassar-info i resultat */
@@ -359,7 +372,7 @@
             align-items: center;
             gap: 10px;
             padding: 10px 12px;
-            background: #f0f4ff;
+            background: #eef2f7;
             border-radius: 8px;
             margin-bottom: 12px;
             flex-wrap: wrap;
@@ -388,7 +401,7 @@
         }
         
         .overstyr-btn:hover {
-            border-color: #667eea;
+            border-color: #1e3a5f;
             background: #f5f7ff;
         }
         
@@ -474,7 +487,7 @@
         }
         
         .nav-btn.primary {
-            background: #667eea;
+            background: #1e3a5f;
             color: white;
             border: none;
         }
@@ -485,12 +498,12 @@
         
         .nav-btn.secondary {
             background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
+            color: #1e3a5f;
+            border: 2px solid #1e3a5f;
         }
         
         .nav-btn.secondary:hover {
-            background: #f0f4ff;
+            background: #eef2f7;
         }
         
         /* Resultat-seksjon */
@@ -554,7 +567,7 @@
         .oppsummering-kort .tal {
             font-size: 24px;
             font-weight: 700;
-            color: #667eea;
+            color: #1e3a5f;
         }
         
         .oppsummering-kort .label {
@@ -586,7 +599,7 @@
         
         .kategori-rad .tal {
             font-weight: 600;
-            color: #667eea;
+            color: #1e3a5f;
         }
         
         /* Arrangement-liste */
@@ -663,7 +676,7 @@
         }
         
         .visning-header {
-            background: #667eea;
+            background: #1e3a5f;
             color: white;
             padding: 12px 15px;
             font-weight: 600;
@@ -760,16 +773,16 @@
         }
         
         .skule-velgar-item:hover {
-            background: #f0f4ff;
+            background: #eef2f7;
         }
         
         .skule-velgar-item.valt {
-            background: #667eea;
+            background: #1e3a5f;
             color: white;
         }
         
         .skule-velgar-item input[type="checkbox"] {
-            accent-color: #667eea;
+            accent-color: #1e3a5f;
         }
         
         /* Resultat-wrapper med sidebar */
@@ -907,7 +920,7 @@
         
         .plassering-rad .elevar {
             font-weight: 600;
-            color: #667eea;
+            color: #1e3a5f;
             min-width: 60px;
             text-align: right;
         }
@@ -917,12 +930,12 @@
         }
         
         .visning-sum {
-            background: #f0f4ff;
+            background: #eef2f7;
             padding: 10px 15px;
             display: flex;
             justify-content: space-between;
             font-weight: 600;
-            border-top: 2px solid #667eea;
+            border-top: 2px solid #1e3a5f;
         }
         
         .visning-sum.full {
@@ -938,14 +951,14 @@
             padding: 10px 22px;
             border: none;
             background: white;
-            color: #667eea;
+            color: #1e3a5f;
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             transition: background 0.2s, color 0.2s;
         }
         .modus-btn.aktiv {
-            background: #667eea;
+            background: #1e3a5f;
             color: white;
         }
         .modus-btn:hover:not(.aktiv) {
@@ -1414,10 +1427,10 @@ const skuleKoordinatar = {
     "Folkestad skole": {lat: 59.551733, lon: 10.464845},
     "Frydenlund barneskole": {lat: 59.714439, lon: 10.510600},
     "Hagaløkka skole": {lat: 59.830190, lon: 10.421680},
-    "Heggedal skole": {lat: 59.792046, lon: 10.446009},
+    "Heggedal skole": {lat: 59.792000, lon: 10.444524},
     "Hofstad skole": {lat: 59.847705, lon: 10.472101},
     "Hovedgården ungdomsskole": {lat: 59.784877, lon: 10.436124},
-    "Hvalstad skole": {lat: 59.860225, lon: 10.464530},
+    "Hvalstad skole": {lat: 59.860107, lon: 10.464478},
     "Hyggen skole": {lat: 59.716636, lon: 10.373096},
     "Jansløkka skole": {lat: 59.848701, lon: 10.442136},
     "Landøya ungdomsskole": {lat: 59.860075, lon: 10.497705},
@@ -1427,29 +1440,30 @@ const skuleKoordinatar = {
     "Nærsnes barneskole": {lat: 59.755114, lon: 10.505103},
     "Risenga ungdomsskole": {lat: 59.825835, lon: 10.441419},
     "Rønningen skole": {lat: 59.817907, lon: 10.428843},
-    "Slemmestad barneskole": {lat: 59.779891, lon: 10.492663},
+    "Slemmestad barneskole": {lat: 59.779367, lon: 10.491445},
     "Slemmestad ungdomsskole": {lat: 59.777703, lon: 10.478921},
     "Solberg skole": {lat: 59.804596, lon: 10.393851},
     "Solvang ungdomsskole": {lat: 59.839680, lon: 10.424440},
     "Spikkestad barneskole": {lat: 59.749222, lon: 10.336518},
     "Spikkestad ungdomsskole": {lat: 59.739543, lon: 10.349502},
     "Steinerskolen i Asker": {lat: 59.861350, lon: 10.495025},
-    "Steinerskolen i Hurum": {lat: 59.633059, lon: 10.495805},
-    "Asker International School": {lat: 59.829712, lon: 10.417321},
-    "Vollen Montessoriskole": {lat: 59.805508, lon: 10.477063},
-    "Sydskogen barneskole": {lat: 59.759999, lon: 10.452457},
+    "Steinerskolen i Hurum": {lat: 59.613177, lon: 10.461350},
+    "Asker International School": {lat: 59.829707, lon: 10.417160},
+    "Vollen Montessoriskole": {lat: 59.805691, lon: 10.477149},
+    "Sydskogen barneskole": {lat: 59.759848, lon: 10.452353},
     "Sætre skole": {lat: 59.676227, lon: 10.538927},
     "Sætre ungdomsskole": {lat: 59.670310, lon: 10.536507},
     "Tofte skole": {lat: 59.541911, lon: 10.554040},
     "Tofte ungdomsskole": {lat: 59.549030, lon: 10.564134},
     "Torstad ungdomsskole": {lat: 59.862176, lon: 10.480741},
-    "Torvbråten barneskole": {lat: 59.761652, lon: 10.479902},
+    "Torvbråten barneskole": {lat: 59.761876, lon: 10.480484},
     "Vardåsen skole": {lat: 59.819986, lon: 10.381315},
-    "Vettre skole": {lat: 59.825693, lon: 10.469614},
+    "Vettre skole": {lat: 59.825600, lon: 10.469199},
     "Vollen ungdomsskole": {lat: 59.800708, lon: 10.489653},
     // Portal-namn (alternativ stavemåte)
     "Stiftelsen Asker International School": {lat: 59.829707, lon: 10.417161},
     "Den Alternative skolen Asker": {lat: 59.806271, lon: 10.489047},
+    "Brusetkollen skole og ressurssenter": {lat: 59.852305, lon: 10.459844},
     "Stiftelsen Vollen Montessoriskole": {lat: 59.805508, lon: 10.477063}
 };
 
@@ -1501,15 +1515,19 @@ const SKULAR_ORG = [
 ];
 
 const kjendeDestinasjonar = {
-    'nationaltheatret': { lat: 59.9139, lon: 10.7312 },
-    'nationaltheatret oslo': { lat: 59.9139, lon: 10.7312 },
-    'det norske teatret': { lat: 59.9151, lon: 10.7433 },
-    'asker kulturhus': { lat: 59.8335, lon: 10.4358 },
-    'strøket 15': { lat: 59.8335, lon: 10.4358 },
-    'strøket 15a': { lat: 59.8335, lon: 10.4358 },
-    'strøket 15a asker': { lat: 59.8335, lon: 10.4358 },
+    'nationaltheatret': { lat: 59.914523724909984, lon: 10.7347942999794 },
+    'nationaltheatret oslo': { lat: 59.914523724909984, lon: 10.7347942999794 },
+    'det norske teatret': { lat: 59.915332133885606, lon: 10.739128681739665 },
+    'asker kulturhus': { lat: 59.83600022944709, lon: 10.433614520150302 },
+    'asker kino': { lat: 59.83600022944709, lon: 10.433614520150302 },
+    'strøket 15': { lat: 59.83600022944709, lon: 10.433614520150302 },
+    'strøket 15a': { lat: 59.83600022944709, lon: 10.433614520150302 },
+    'strøket 15a asker': { lat: 59.83600022944709, lon: 10.433614520150302 },
     'oslofjordmuseet': { lat: 59.8147, lon: 10.5111 },
-    'dikemark': { lat: 59.7975, lon: 10.4311 }
+    'dikemark': { lat: 59.80585289830742, lon: 10.372431676765851 },
+    'kunsthall dikemark': { lat: 59.80585289830742, lon: 10.372431676765851 },
+    'asker museum': { lat: 59.85315620655891, lon: 10.45577507676024 },
+    'asker museet': { lat: 59.85315620655891, lon: 10.45577507676024 }
 };
 
 // ========== STATISK AVSTANDSTABELL — generert 2.3.2026 ==========
@@ -2775,7 +2793,7 @@ function visResultat() {
                     Klassar: ${r.klassar.map(k => `${k.namn} (${k.elevar})`).join(', ')}
                 </div>
                 ${overstyrHTML}
-                <div class="tur-header" style="font-size: 13px; font-weight: 600; color: #667eea; margin: 10px 0 8px;">➡️ TUR (ankomst kl ${document.getElementById('ankomsttid').value})</div>
+                <div class="tur-header" style="font-size: 13px; font-weight: 600; color: #1e3a5f; margin: 10px 0 8px;">➡️ TUR (ankomst kl ${document.getElementById('ankomsttid').value})</div>
                 ${r.alternativ.map(a => byggAlternativHTML(a, r.skule, false)).join('')}
                 ${returHTML}
             </div>
