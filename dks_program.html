@@ -276,7 +276,6 @@
     }
     .ev-kontakt a { color: var(--blaa); text-decoration: none; }
     .ev-kontakt a:hover { text-decoration: underline; }
-    .avlyst-tag { background:#d32f2f; color:#fff; font-size:10px; font-weight:600; padding:1px 5px; border-radius:3px; vertical-align:middle; margin-left:4px; }
 
     .ev-knappar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 
@@ -547,9 +546,11 @@ function renderKontakt(ev) {
   for (const s of list) {
     const skulNamn = s.name ? escHtml(s.name) : 'Skule';
     const n        = ev._studentsPerSchool?.[s.id] || 0;
-    const elevar   = n > 0 ? ` · ${n} elevar` : '';
-    const avlyst   = ev._cancelledSchools?.has(s.id) ? ' <span class="avlyst-tag">Avlyst</span>' : '';
-    const lines    = [`<strong>${skulNamn}${elevar}${avlyst}</strong>`];
+    const avd      = ev._avdelingerPerSchool?.[s.id] || 0;
+    const elevar   = n > 0 ? ` · ${n} elevar${avd > 1 ? ` (${avd} avd.)` : ''}` : '';
+    const cancelled = ev._cancelledSchools?.has(s.id);
+    const nameHtml = cancelled ? `<span style="text-decoration:line-through;color:#d32f2f">${skulNamn}</span>` : skulNamn;
+    const lines    = [`<strong>${nameHtml}${elevar}</strong>`];
     if (s.phone) {
       const tel = s.phone.replace(/\s/g, '');
       lines.push(`📞 <a href="tel:${tel}">${escHtml(s.phone)}</a>`);
@@ -726,18 +727,21 @@ async function fetchAllEvents(tab) {
   }
 
   return allEvents.map(ev => {
-    const studentsPerSchool = {};
-    const cancelledSchools  = new Set();
+    const studentsPerSchool  = {};
+    const cancelledSchools   = new Set();
+    const avdelingerPerSchool = {};
     for (const p of (ev.participants || [])) {
       const sid = p.registrationGroup?.schoolId;
       if (!sid) continue;
-      studentsPerSchool[sid] = (studentsPerSchool[sid] || 0) + (p.numberOfStudents || 0);
+      studentsPerSchool[sid]   = (studentsPerSchool[sid]   || 0) + (p.numberOfStudents || 0);
+      avdelingerPerSchool[sid] = (avdelingerPerSchool[sid] || 0) + 1;
       if (p.status !== 'allocated') cancelledSchools.add(sid);
     }
     return {
       ...ev,
-      _studentsPerSchool: studentsPerSchool,
-      _cancelledSchools:  cancelledSchools,
+      _studentsPerSchool:   studentsPerSchool,
+      _cancelledSchools:    cancelledSchools,
+      _avdelingerPerSchool: avdelingerPerSchool,
       _schools: (Array.isArray(ev.schools) ? ev.schools : Object.values(ev.schools || {}))
                   .map(s => s.name),
     };
