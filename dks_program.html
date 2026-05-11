@@ -402,6 +402,8 @@ let activeTab = 'grunnskule';
 
 const el = id => document.getElementById(id);
 
+['dks_program_v2', 'dks_program_v3'].forEach(k => localStorage.removeItem(k));
+
 // Versjonsdato frå sist endra fil
 (function() {
   const d = new Date(document.lastModified);
@@ -562,9 +564,12 @@ function renderKontakt(ev) {
       const parts = cp.split(',').map(p => p.trim());
       const name  = parts[0] || '';
       const phone = parts.find(p => /\+?\d[\d\s]{5,}/.test(p)) || '';
+      const email = parts.find(p => /@/.test(p)) || '';
       if (phone) {
         const tel = phone.replace(/\s/g, '');
         lines.push(`👤 ${escHtml(name)}: <a href="tel:${tel}">${escHtml(phone)}</a>`);
+      } else if (email) {
+        lines.push(`👤 ${escHtml(name)}: <a href="mailto:${escHtml(email)}">${escHtml(email)}</a>`);
       }
     }
     blocks.push(lines.join('<br>'));
@@ -579,8 +584,9 @@ function renderCard(ev) {
   const prod   = escHtml(strVal(ev.production) || strVal(ev.tour) || '–');
   const lok    = strVal(ev.location);
   const skular = (ev._schools || []).join(', ') || '–';
-  const elevar      = ev.numberOfStudents > 0 ? ev.numberOfStudents : null;
-  const harBarnehage = Object.keys(ev._erBarnehage || {}).length > 0;
+  const totalAllocated = Object.values(ev._studentsPerSchool || {}).reduce((a, b) => a + b, 0);
+  const elevar         = totalAllocated > 0 ? totalAllocated : null;
+  const harBarnehage   = Object.keys(ev._erBarnehage || {}).length > 0;
   const icsHref = escHtml(makeICSHref(ev));
 
   return `<div class="event-kort">
@@ -735,13 +741,19 @@ async function fetchAllEvents(tab) {
     const cancelledSchools    = {};
     const avdelingerPerSchool = {};
     const erBarnehage         = {};
+    const harDeltakarar       = {};
     for (const p of (ev.participants || [])) {
       const sid = p.registrationGroup?.schoolId;
       if (!sid) continue;
-      studentsPerSchool[sid]   = (studentsPerSchool[sid]   || 0) + (p.numberOfStudents || 0);
-      avdelingerPerSchool[sid] = (avdelingerPerSchool[sid] || 0) + 1;
-      if (p.status !== 'allocated') cancelledSchools[sid] = true;
+      harDeltakarar[sid] = true;
       if (/år/i.test(p.registrationGroup?.name || '')) erBarnehage[sid] = true;
+      if (p.status === 'allocated') {
+        studentsPerSchool[sid]   = (studentsPerSchool[sid]   || 0) + (p.numberOfStudents || 0);
+        avdelingerPerSchool[sid] = (avdelingerPerSchool[sid] || 0) + 1;
+      }
+    }
+    for (const sid of Object.keys(harDeltakarar)) {
+      if (!studentsPerSchool[sid]) cancelledSchools[sid] = true;
     }
     return {
       ...ev,
@@ -823,7 +835,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').then(reg => {
     reg.addEventListener('updatefound', () => {
       reg.installing.addEventListener('statechange', function() {
-        if (this.state === 'activated') window.location.reload();
+        if (this.state === 'activated' && navigator.serviceWorker.controller) window.location.reload();
       });
     });
   }).catch(() => {});
