@@ -545,9 +545,12 @@ function renderKontakt(ev) {
   const blocks = [];
   for (const s of list) {
     const skulNamn = s.name ? escHtml(s.name) : 'Skule';
-    const n        = ev._studentsPerSchool?.[s.id] || 0;
-    const avd      = ev._avdelingerPerSchool?.[s.id] || 0;
-    const elevar   = n > 0 ? ` · ${n} elevar${avd > 1 ? ` (${avd} avd.)` : ''}` : '';
+    const n          = ev._studentsPerSchool?.[s.id] || 0;
+    const avd        = ev._avdelingerPerSchool?.[s.id] || 0;
+    const barnehage  = ev._erBarnehage?.[s.id];
+    const deltakarar = barnehage ? 'barn' : 'elevar';
+    const grpLabel   = avd > 1 ? ` (${avd} ${barnehage ? 'avd.' : 'kl.'})` : '';
+    const elevar     = n > 0 ? ` · ${n} ${deltakarar}${grpLabel}` : '';
     const cancelled = ev._cancelledSchools?.[s.id];
     const nameHtml = cancelled ? `<span style="text-decoration:line-through;color:#d32f2f">${skulNamn}</span>` : skulNamn;
     const lines    = [`<strong>${nameHtml}${elevar}</strong>`];
@@ -576,7 +579,8 @@ function renderCard(ev) {
   const prod   = escHtml(strVal(ev.production) || strVal(ev.tour) || '–');
   const lok    = strVal(ev.location);
   const skular = (ev._schools || []).join(', ') || '–';
-  const elevar = ev.numberOfStudents > 0 ? ev.numberOfStudents : null;
+  const elevar      = ev.numberOfStudents > 0 ? ev.numberOfStudents : null;
+  const harBarnehage = Object.keys(ev._erBarnehage || {}).length > 0;
   const icsHref = escHtml(makeICSHref(ev));
 
   return `<div class="event-kort">
@@ -590,7 +594,7 @@ function renderCard(ev) {
     </div>
     <div class="ev-details">
       <div class="ev-details-row">
-        🏫 ${escHtml(skular)}${elevar !== null ? `<br>👥 ${elevar} elevar` : ''}
+        🏫 ${escHtml(skular)}${elevar !== null ? `<br>👥 ${elevar} ${harBarnehage ? 'barn' : 'elevar'}` : ''}
       </div>
       ${renderKontakt(ev)}
       <div class="ev-knappar">
@@ -727,21 +731,24 @@ async function fetchAllEvents(tab) {
   }
 
   return allEvents.map(ev => {
-    const studentsPerSchool  = {};
-    const cancelledSchools   = {};
+    const studentsPerSchool   = {};
+    const cancelledSchools    = {};
     const avdelingerPerSchool = {};
+    const erBarnehage         = {};
     for (const p of (ev.participants || [])) {
       const sid = p.registrationGroup?.schoolId;
       if (!sid) continue;
       studentsPerSchool[sid]   = (studentsPerSchool[sid]   || 0) + (p.numberOfStudents || 0);
       avdelingerPerSchool[sid] = (avdelingerPerSchool[sid] || 0) + 1;
       if (p.status !== 'allocated') cancelledSchools[sid] = true;
+      if (/år/i.test(p.registrationGroup?.name || '')) erBarnehage[sid] = true;
     }
     return {
       ...ev,
       _studentsPerSchool:   studentsPerSchool,
       _cancelledSchools:    cancelledSchools,
       _avdelingerPerSchool: avdelingerPerSchool,
+      _erBarnehage:         erBarnehage,
       _schools: (Array.isArray(ev.schools) ? ev.schools : Object.values(ev.schools || {}))
                   .map(s => s.name),
     };
