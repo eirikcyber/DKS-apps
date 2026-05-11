@@ -375,7 +375,7 @@ const MAX_AGE = 4 * 60 * 60 * 1000;
 const TABS = {
   grunnskule: {
     label: 'Grunnskule',
-    cacheKey: 'dks_program_v3',
+    cacheKey: 'dks_program_v4',
     apiBody: {...API_BODY_BASE, wordpressHomeUrl: 'https://www.denkulturelleskolesekken.no/asker'},
     vgsFilter: null,
     rawEvents: null, currentEvents: [], fetchedAt: null,
@@ -548,7 +548,7 @@ function renderKontakt(ev) {
     const n        = ev._studentsPerSchool?.[s.id] || 0;
     const avd      = ev._avdelingerPerSchool?.[s.id] || 0;
     const elevar   = n > 0 ? ` · ${n} elevar${avd > 1 ? ` (${avd} avd.)` : ''}` : '';
-    const cancelled = ev._cancelledSchools?.has(s.id);
+    const cancelled = ev._cancelledSchools?.[s.id];
     const nameHtml = cancelled ? `<span style="text-decoration:line-through;color:#d32f2f">${skulNamn}</span>` : skulNamn;
     const lines    = [`<strong>${nameHtml}${elevar}</strong>`];
     if (s.phone) {
@@ -728,14 +728,14 @@ async function fetchAllEvents(tab) {
 
   return allEvents.map(ev => {
     const studentsPerSchool  = {};
-    const cancelledSchools   = new Set();
+    const cancelledSchools   = {};
     const avdelingerPerSchool = {};
     for (const p of (ev.participants || [])) {
       const sid = p.registrationGroup?.schoolId;
       if (!sid) continue;
       studentsPerSchool[sid]   = (studentsPerSchool[sid]   || 0) + (p.numberOfStudents || 0);
       avdelingerPerSchool[sid] = (avdelingerPerSchool[sid] || 0) + 1;
-      if (p.status !== 'allocated') cancelledSchools.add(sid);
+      if (p.status !== 'allocated') cancelledSchools[sid] = true;
     }
     return {
       ...ev,
