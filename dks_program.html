@@ -276,6 +276,7 @@
     }
     .ev-kontakt a { color: var(--blaa); text-decoration: none; }
     .ev-kontakt a:hover { text-decoration: underline; }
+    .avlyst-tag { background:#d32f2f; color:#fff; font-size:10px; font-weight:600; padding:1px 5px; border-radius:3px; vertical-align:middle; margin-left:4px; }
 
     .ev-knappar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 
@@ -542,14 +543,16 @@ function groupByDate(events) {
 function renderKontakt(ev) {
   const schools = ev.schools || {};
   const list = Array.isArray(schools) ? schools : Object.values(schools);
-  const lines = [];
+  const blocks = [];
   for (const s of list) {
+    const skulNamn = s.name ? escHtml(s.name) : 'Skule';
+    const n        = ev._studentsPerSchool?.[s.id] || 0;
+    const elevar   = n > 0 ? ` · ${n} elevar` : '';
+    const avlyst   = ev._cancelledSchools?.has(s.id) ? ' <span class="avlyst-tag">Avlyst</span>' : '';
+    const lines    = [`<strong>${skulNamn}${elevar}${avlyst}</strong>`];
     if (s.phone) {
-      const tel      = s.phone.replace(/\s/g, '');
-      const skulNamn = s.name ? escHtml(s.name) : 'Skule';
-      const n        = ev._studentsPerSchool?.[s.id] || 0;
-      const elevar   = n > 0 ? ` · ${n} elevar` : '';
-      lines.push(`📞 ${skulNamn}${elevar}: <a href="tel:${tel}">${escHtml(s.phone)}</a>`);
+      const tel = s.phone.replace(/\s/g, '');
+      lines.push(`📞 <a href="tel:${tel}">${escHtml(s.phone)}</a>`);
     }
     for (const cp of (s.contactPersons || [])) {
       const parts = cp.split(',').map(p => p.trim());
@@ -560,9 +563,10 @@ function renderKontakt(ev) {
         lines.push(`👤 ${escHtml(name)}: <a href="tel:${tel}">${escHtml(phone)}</a>`);
       }
     }
+    blocks.push(lines.join('<br>'));
   }
-  return lines.length
-    ? `<div class="ev-kontakt">${lines.join('<br>')}</div>`
+  return blocks.length
+    ? `<div class="ev-kontakt">${blocks.join('<br><br>')}</div>`
     : '';
 }
 
@@ -723,13 +727,17 @@ async function fetchAllEvents(tab) {
 
   return allEvents.map(ev => {
     const studentsPerSchool = {};
+    const cancelledSchools  = new Set();
     for (const p of (ev.participants || [])) {
       const sid = p.registrationGroup?.schoolId;
-      if (sid) studentsPerSchool[sid] = (studentsPerSchool[sid] || 0) + (p.numberOfStudents || 0);
+      if (!sid) continue;
+      studentsPerSchool[sid] = (studentsPerSchool[sid] || 0) + (p.numberOfStudents || 0);
+      if (p.status !== 'allocated') cancelledSchools.add(sid);
     }
     return {
       ...ev,
       _studentsPerSchool: studentsPerSchool,
+      _cancelledSchools:  cancelledSchools,
       _schools: (Array.isArray(ev.schools) ? ev.schools : Object.values(ev.schools || {}))
                   .map(s => s.name),
     };
