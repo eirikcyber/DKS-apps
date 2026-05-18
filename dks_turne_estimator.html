@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DKS Turné-estimator</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
+:root {
+  --bg:#f5f3ef;--surface:#ffffff;--surface2:#f0ede8;--border:#ddd9d2;--border2:#c8c3ba;
+  --ink:#1a1814;--ink2:#6b6560;--ink3:#a8a39c;
+  --accent:#c4531a;--accent-light:#fdf0ea;
+  --green:#2a7a4b;--green-light:#eaf4ef;
+  --blue:#1a4fc4;--blue-light:#eaeffd;
+  --red:#e03535;
+  --mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;--r:6px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:100vh;font-size:14px;}
+header{background:var(--ink);color:white;padding:16px 32px;display:flex;align-items:baseline;gap:16px;}
+.logo{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.08em;}
+.page-title{font-size:15px;font-weight:300;color:rgba(255,255,255,.65);}
+.layout{display:grid;grid-template-columns:320px 1fr;min-height:calc(100vh - 52px);}
+.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:20px;display:flex;flex-direction:column;gap:20px;overflow-y:auto;}
+.sec-label{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px;}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-label{font-size:12px;font-weight:500;color:var(--ink2);}
+select,input[type=number]{background:var(--surface2);border:1px solid var(--border);color:var(--ink);font-family:var(--sans);font-size:13px;padding:7px 10px;border-radius:var(--r);outline:none;width:100%;transition:border-color .15s;appearance:none;}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236b6560'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;}
+select:focus,input:focus{border-color:var(--accent);}
+.checkbox-group{display:flex;flex-direction:column;gap:4px;}
+.cb-item{display:flex;align-items:center;gap:8px;cursor:pointer;padding:5px 7px;border-radius:var(--r);transition:background .1s;}
+.cb-item:hover{background:var(--surface2);}
+.cb-item input[type=checkbox]{width:14px;height:14px;accent-color:var(--accent);flex-shrink:0;cursor:pointer;}
+.cb-item label{cursor:pointer;font-size:13px;}
+.divider{height:1px;background:var(--border);}
+.btn-calc{background:var(--accent);border:none;color:white;font-family:var(--sans);font-size:14px;font-weight:600;padding:11px;border-radius:var(--r);cursor:pointer;width:100%;transition:opacity .2s;}
+.btn-calc:hover{opacity:.88;}
+.main{padding:24px 28px;overflow-y:auto;}
+.summary-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:24px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px;}
+.card-val{font-family:var(--mono);font-size:26px;font-weight:500;line-height:1;margin-bottom:3px;}
+.card-label{font-size:11px;color:var(--ink2);}
+.card.ac{border-color:var(--accent);background:var(--accent-light)}.card.ac .card-val{color:var(--accent);}
+.card.gr{border-color:#b6dcc8;background:var(--green-light)}.card.gr .card-val{color:var(--green);}
+.card.bl{border-color:#b6c8dc;background:var(--blue-light)}.card.bl .card-val{color:var(--blue);}
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:16px;}
+.table-header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.table-title{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);}
+.btn-exp{background:none;border:1px solid var(--border2);color:var(--ink2);font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:4px;cursor:pointer;transition:all .15s;}
+.btn-exp:hover{border-color:var(--accent);color:var(--accent);}
+table{width:100%;border-collapse:collapse;font-size:12.5px;}
+th{text-align:left;padding:7px 12px;background:var(--surface2);border-bottom:1px solid var(--border);font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);white-space:nowrap;}
+td{padding:7px 12px;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--surface2);}
+.num{font-family:var(--mono);font-size:12px;text-align:right;}
+.dag-badge{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:500;padding:2px 7px;border-radius:20px;background:var(--surface2);border:1px solid var(--border2);color:var(--ink2);}
+.vis-badge{display:inline-block;font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:20px;}
+.vis-1{background:#eaf4ef;color:#2a7a4b;}
+.vis-2{background:#eaeffd;color:#1a4fc4;}
+.vis-3{background:#fdf0ea;color:#c4531a;}
+.muted{color:var(--ink3);}
+.empty-state{padding:60px 32px;text-align:center;color:var(--ink3);}
+.empty-icon{font-size:34px;margin-bottom:10px;opacity:.4;}
+.empty-title{font-size:14px;font-weight:500;color:var(--ink2);margin-bottom:6px;}
+.empty-sub{font-size:12px;line-height:1.6;}
+.footnote{font-size:11px;color:var(--ink3);font-family:var(--mono);}
+.toggle-item{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:var(--r);transition:background .1s;cursor:pointer;}
+.toggle-item:hover{background:var(--surface2);}
+.toggle-item input[type=checkbox]{width:15px;height:15px;accent-color:var(--accent);cursor:pointer;}
+.toggle-item label{cursor:pointer;font-size:13px;font-weight:500;}
+.toggle-note{font-size:11px;color:var(--ink3);padding:0 8px 4px 31px;font-family:var(--mono);}
+.chart-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:16px;}
+.chart-title{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);margin-bottom:14px;}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:7px;}
+.bar-label{font-family:var(--mono);font-size:11px;color:var(--ink2);width:80px;text-align:right;flex-shrink:0;}
+.bar-track{flex:1;background:var(--surface2);border-radius:3px;height:22px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:3px;transition:width .4s ease;display:flex;align-items:center;padding-left:8px;}
+.bar-fill span{font-family:var(--mono);font-size:11px;font-weight:500;color:white;white-space:nowrap;}
+.bar-zero .bar-fill span{color:var(--ink3);}
+.results-grid{display:grid;grid-template-columns:1fr 340px;gap:16px;align-items:start;}
+
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">DKS ASKER</div>
+  <div class="page-title">Turné-estimator</div>
+</header>
+<div class="layout">
+  <div class="sidebar">
+    <div>
+      <div class="sec-label">Sjanger</div>
+      <select id="sjanger">
+        <option value="scenekunst">🎭 Scenekunst</option>
+        <option value="musikk">🎵 Musikk</option>
+        <option value="litteratur">📚 Litteratur</option>
+        <option value="visuell">🎨 Visuell kunst</option>
+        <option value="kulturarv">🏛 Kulturarv / museum</option>
+      </select>
+    </div>
+    <div>
+      <div class="sec-label">Trinn</div>
+      <div class="checkbox-group" id="trinnCbs"></div>
+    </div>
+    <div class="divider"></div>
+    <div>
+      <div class="sec-label">Besøkstype</div>
+      <select id="besokstype">
+        <option value="til_skule">Utøvar reiser til skulen</option>
+        <option value="til_institusjon">Skulane reiser til institusjon</option>
+      </select>
+    </div>
+    <div>
+      <div class="sec-label">Kapasitet</div>
+      <div class="form-group">
+        <label class="form-label">Maks elevar per visning</label>
+        <input type="number" id="kapasitet" value="100" min="10" max="500" step="5">
+      </div>
+      <div style="margin-top:10px;" class="form-group">
+        <label class="form-label">Visningar per dag</label>
+        <input type="number" id="visningerPerDag" value="2" min="1" max="6">
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div>
+      <div class="sec-label">Utøvarar</div>
+      <div class="form-group">
+        <label class="form-label">Antal utøvarar</label>
+        <input type="number" id="utøvarar" value="1" min="1" max="20">
+      </div>
+      <div style="margin-top:8px;">
+        <label class="toggle-item">
+          <input type="checkbox" id="solo">
+          <label>Solotillegg</label>
+        </label>
+        <div class="toggle-note">+20% honorar ved 1 utøvar</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div>
+      <div class="sec-label">Økonomi</div>
+      <div class="form-group">
+        <label class="form-label">Honorar per dag (kr)</label>
+        <input type="number" id="honorar" value="8000" min="0" step="500">
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div>
+      <div class="sec-label">Logistikk</div>
+      <label class="toggle-item">
+        <input type="checkbox" id="flytt" checked>
+        <label>Flytt mogleg</label>
+      </label>
+      <div class="toggle-note">Utøvar kan ha 2 skular same dag</div>
+    </div>
+    <div class="divider"></div>
+    <div>
+      <div class="sec-label">Skular</div>
+      <select id="skuleval">
+        <option value="alle">Alle Asker-skular</option>
+        <option value="kommunale">Berre kommunale</option>
+        <option value="barne">Berre barneskuler (1–7)</option>
+        <option value="ungdom">Berre ungdomsskular (8–10)</option>
+      </select>
+    </div>
+    <button class="btn-calc" onclick="kalkuler()">Rekn ut turnéplan</button>
+  </div>
+
+  <div class="main" id="main">
+    <div class="empty-state">
+      <div class="empty-icon">📐</div>
+      <div class="empty-title">Klar til estimering</div>
+      <div class="empty-sub">Vel sjanger, trinn og kapasitet i sidepanelet, og trykk «Rekn ut turnéplan».</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SKULAR = [
+  { namn: "Arnestad skole", type: "barne", trinn: {1:62, 2:58, 3:53, 4:60, 5:60, 6:67, 7:61} },
+  { namn: "Billingstad skole", type: "barne", trinn: {1:45, 2:35, 3:37, 4:34, 5:52, 6:36, 7:41} },
+  { namn: "Blakstad skole", type: "barne", trinn: {1:28, 2:47, 3:28, 4:51, 5:44, 6:47, 7:47} },
+  { namn: "Bondi skole", type: "barne", trinn: {1:60, 2:65, 3:67, 4:67, 5:44, 6:58, 7:59} },
+  { namn: "Borgen ungdomsskole", type: "ungdom", trinn: {8:128, 9:113, 10:100} },
+  { namn: "Drengsrud skole", type: "barne", trinn: {1:50, 2:45, 3:41, 4:54, 5:50, 6:46, 7:54} },
+  { namn: "Folkestad skole", type: "barne", trinn: {1:12, 2:14, 3:13, 4:11, 5:11, 6:15, 7:13} },
+  { namn: "Frydenlund barneskole", type: "barne", trinn: {1:20, 2:34, 3:33, 4:32, 5:31, 6:33, 7:36} },
+  { namn: "Hagaløkka skole", type: "barne", trinn: {1:46, 2:46, 3:46, 4:46, 5:54, 6:46, 7:40} },
+  { namn: "Heggedal skole", type: "barne", trinn: {1:75, 2:75, 3:75, 4:66, 5:70, 6:74, 7:72} },
+  { namn: "Hofstad skole", type: "barne", trinn: {1:73, 2:48, 3:43, 4:51, 5:31, 6:54, 7:56} },
+  { namn: "Hvalstad skole", type: "barne", trinn: {1:78, 2:78, 3:56, 4:55, 5:58, 6:51, 7:62} },
+  { namn: "Hyggen skole", type: "barne", trinn: {1:9, 2:13, 3:14, 4:16, 5:19, 6:15, 7:18} },
+  { namn: "Jansløkka skole", type: "barne", trinn: {1:68, 2:55, 3:65, 4:56, 5:59, 6:55, 7:48} },
+  { namn: "Mellom-Nes skole", type: "barne", trinn: {1:56, 2:65, 3:52, 4:65, 5:48, 6:71, 7:62} },
+  { namn: "Midtbygda barneskole", type: "barne", trinn: {1:66, 2:66, 3:66, 4:60, 5:63, 6:63, 7:71} },
+  { namn: "Nesøya skole", type: "barne", trinn: {1:50, 2:48, 3:57, 4:46, 5:58, 6:56, 7:43} },
+  { namn: "Nærsnes barneskole", type: "barne", trinn: {1:20, 2:27, 3:23, 4:28, 5:27, 6:29, 7:35} },
+  { namn: "Rønningen skole", type: "barne", trinn: {1:29, 2:17, 3:23, 4:28, 5:16, 6:24, 7:28} },
+  { namn: "Slemmestad barneskole", type: "barne", trinn: {1:26, 2:51, 3:30, 4:36, 5:44, 6:32, 7:36} },
+  { namn: "Solberg skole", type: "barne", trinn: {1:17, 2:14, 3:14, 4:16, 5:14, 6:20, 7:16} },
+  { namn: "Spikkestad barneskole", type: "barne", trinn: {1:68, 2:46, 3:43, 4:71, 5:64, 6:53, 7:52} },
+  { namn: "Sydskogen barneskole", type: "barne", trinn: {1:23, 2:26, 3:23, 4:15, 5:27, 6:10, 7:23} },
+  { namn: "Sætre skole", type: "barne", trinn: {1:44, 2:43, 3:34, 4:42, 5:31, 6:36, 7:48} },
+  { namn: "Tofte skole", type: "barne", trinn: {1:27, 2:29, 3:26, 4:26, 5:30, 6:33, 7:34} },
+  { namn: "Torvbråten barneskole", type: "barne", trinn: {1:32, 2:39, 3:39, 4:26, 5:32, 6:50, 7:31} },
+  { namn: "Vardåsen skole", type: "barne", trinn: {1:41, 2:34, 3:41, 4:46, 5:33, 6:46, 7:51} },
+  { namn: "Vettre skole", type: "barne", trinn: {1:51, 2:39, 3:43, 4:46, 5:53, 6:37, 7:50} },
+  { namn: "Hauptgården ungdomsskole", type: "ungdom", trinn: {8:81, 9:81, 10:92} },
+  { namn: "Landøya ungdomsskole", type: "ungdom", trinn: {8:119, 9:107, 10:105} },
+  { namn: "Risenga ungdomsskole", type: "ungdom", trinn: {8:138, 9:160, 10:160} },
+  { namn: "Slemmestad ungdomsskole", type: "ungdom", trinn: {8:126, 9:111, 10:109} },
+  { namn: "Solvang ungdomsskole", type: "ungdom", trinn: {8:95, 9:94, 10:110} },
+  { namn: "Spikkestad ungdomsskole", type: "ungdom", trinn: {8:150, 9:145, 10:148} },
+  { namn: "Sætre ungdomsskole", type: "ungdom", trinn: {8:76, 9:81, 10:76} },
+  { namn: "Tofte ungdomsskole", type: "ungdom", trinn: {8:49, 9:57, 10:60} },
+  { namn: "Torstad ungdomsskole", type: "ungdom", trinn: {8:150, 9:130, 10:153} },
+  { namn: "Vollen ungdomsskole", type: "ungdom", trinn: {8:64, 9:83, 10:91} },
+  // Private / andre
+  { namn: "Steinerskolen i Asker", type: "privat", trinn: {1:22, 2:24, 3:21, 4:10, 5:26, 6:15, 7:23, 8:15, 9:13, 10:16} },
+  { namn: "Steinerskolen i Hurum", type: "privat", trinn: {1:9, 2:14, 3:9, 4:11, 5:12, 6:18, 7:7, 8:20, 9:11, 10:13} },
+  { namn: "Asker International School", type: "privat", trinn: {1:64, 2:64, 3:63, 4:63, 5:63, 6:63, 7:63, 8:60, 9:63, 10:62} },
+  { namn: "Vollen Montessoriskole", type: "privat", trinn: {1:14, 2:14, 3:14, 4:17, 5:7, 6:12, 7:20} },
+];
+
+const TRINN_NAMN = {1:'1.',2:'2.',3:'3.',4:'4.',5:'5.',6:'6.',7:'7.',8:'8.',9:'9.',10:'10.'};
+
+window.onload = () => {
+  const cbs = document.getElementById('trinnCbs');
+  [1,2,3,4,5,6,7,8,9,10].forEach(t => {
+    cbs.innerHTML += `<label class="cb-item">
+      <input type="checkbox" value="${t}" ${t<=7?'checked':''}>
+      <label>${t}. trinn</label></label>`;
+  });
+};
+
+function kr(n){ return n.toLocaleString('nb',{style:'currency',currency:'NOK',maximumFractionDigits:0}); }
+
+function kalkuler() {
+  const valteTrinn = [...document.querySelectorAll('#trinnCbs input:checked')].map(i=>+i.value);
+  if (!valteTrinn.length){ alert('Vel minst eitt trinn.'); return; }
+
+  const kap       = +document.getElementById('kapasitet').value;
+  const honorBase = +document.getElementById('honorar').value;
+  const vpd       = +document.getElementById('visningerPerDag').value;
+  const skuleval  = document.getElementById('skuleval').value;
+  const utøvarar  = +document.getElementById('utøvarar').value;
+  const solo      = document.getElementById('solo').checked;
+  const flytt     = document.getElementById('flytt').checked;
+  const besok     = document.getElementById('besokstype').value;
+
+  // Solotillegg: 20% ekstra viss 1 utøvar og solo er kryssa av
+  const soloFaktor = (solo && utøvarar === 1) ? 1.2 : 1.0;
+  const honor = Math.round(honorBase * soloFaktor);
+
+  // Effektiv vpd: utan flytt er maks 1 skule per dag (men kan ha fleire visningar på same skule)
+  // Med flytt: normalt 2 skular per dag, kvar med sine visningar
+  const effVpd = flytt ? vpd : vpd; // utan flytt: kvar skule eigen dag, men same visningar/dag
+
+  let skular = SKULAR.filter(s => {
+    if (skuleval === 'kommunale' && s.type === 'privat') return false;
+    if (skuleval === 'barne' && s.type !== 'barne') return false;
+    if (skuleval === 'ungdom' && s.type !== 'ungdom') return false;
+    return valteTrinn.some(t => s.trinn[t] !== undefined);
+  });
+
+  const skuleData = skular.map(s => {
+    const elevTotal = valteTrinn.reduce((sum,t) => sum + (s.trinn[t]||0), 0);
+    if (!elevTotal) return null;
+    return { namn: s.namn, type: s.type, elevTotal };
+  }).filter(Boolean).sort((a,b) => b.elevTotal - a.elevTotal);
+
+  const totElevar = skuleData.reduce((s,r)=>s+r.elevTotal,0);
+  let visningar, visRader, dagNr;
+
+  if (besok === 'til_institusjon') {
+    // ── FFD bin packing ──────────────────────────────────────────
+    // Kvar visning er ein boks; skular pakkast i færrast mogleg boksar
+    const boksar = []; // [{ skuler:[{namn,type,elevTotal}], sum:N }]
+
+    skuleData.forEach(s => {
+      // Finn første boks med ledig plass
+      const boks = boksar.find(b => b.sum + s.elevTotal <= kap);
+      if (boks) {
+        boks.skuler.push(s);
+        boks.sum += s.elevTotal;
+      } else {
+        boksar.push({ skuler: [s], sum: s.elevTotal });
+      }
+    });
+
+    // Sorter boksar etter sum, størst først (ryddigare visning)
+    boksar.sort((a,b) => b.sum - a.sum);
+
+    // Tilordne dagar
+    dagNr = 1; let dagTeller = 0;
+    visRader = boksar.map((boks, i) => {
+      if (dagTeller >= effVpd) { dagNr++; dagTeller = 0; }
+      dagTeller++;
+      return {
+        visNr: i + 1,
+        dag: dagNr,
+        skuler: boks.skuler,
+        sum: boks.sum,
+        type: 'institusjon'
+      };
+    });
+    visningar = boksar.length;
+
+  } else {
+    // ── Utøvar reiser til skulen: éi rad per visning per skule ──
+    dagNr = 1; let dagTeller = 0, sisteSkule = null;
+    visRader = [];
+    skuleData.forEach(r => {
+      const vis = Math.ceil(r.elevTotal / kap);
+      if (!flytt && sisteSkule !== null && sisteSkule !== r.namn) {
+        dagNr++; dagTeller = 0;
+      }
+      sisteSkule = r.namn;
+      for (let i = 0; i < vis; i++) {
+        if (dagTeller >= effVpd) { dagNr++; dagTeller = 0; }
+        dagTeller++;
+        const base = Math.floor(r.elevTotal / vis);
+        const rest = r.elevTotal % vis;
+        visRader.push({
+          namn: r.namn, type: r.type, elevTotal: r.elevTotal,
+          elevDenne: base + (i < rest ? 1 : 0),
+          totVis: vis, visNr: i+1, dag: dagNr
+        });
+      }
+    });
+    visningar = visRader.length;
+  }
+
+  const totVis = visningar;
+  const dagar  = dagNr;
+  const totHon = dagar * honor;
+
+  // Histogram: elevar per visning fordelt i bolkar
+  const bolkar = [
+    { label: '< 30',    min:0,   max:29  },
+    { label: '30–49',   min:30,  max:49  },
+    { label: '50–69',   min:50,  max:69  },
+    { label: '70–89',   min:70,  max:89  },
+    { label: '90–100',  min:90,  max:100 },
+    { label: '101–120', min:101, max:120 },
+    { label: '> 120',   min:121, max:9999},
+  ];
+  const hist = bolkar.map(b => ({
+    ...b,
+    count: besok === 'til_institusjon'
+      ? visRader.filter(r => r.sum >= b.min && r.sum <= b.max).length
+      : visRader.filter(r => r.elevDenne >= b.min && r.elevDenne <= b.max).length
+  }));
+  const maxCount = Math.max(...hist.map(h=>h.count), 1);
+
+  const barColors = ['#4f8ef7','#4f8ef7','#4fbc8e','#4fbc8e','#f0c74f','#f09a4f','#f06a6a'];
+
+  const soloTekst = solo && utøvarar === 1 ? ` + solotillegg (×1.2)` : '';
+  const flyttTekst = flytt ? 'Flytt mogleg' : 'Utan flytt';
+
+  document.getElementById('main').innerHTML = `
+    <div class="summary-cards">
+      <div class="card ac"><div class="card-val">${totVis}</div><div class="card-label">Visningar totalt</div></div>
+      <div class="card"><div class="card-val">${dagar}</div><div class="card-label">Dagar (${effVpd}/dag · ${flyttTekst})</div></div>
+      <div class="card"><div class="card-val">${skuleData.length}</div><div class="card-label">Skular</div></div>
+      <div class="card"><div class="card-val">${totElevar.toLocaleString('nb')}</div><div class="card-label">Elevar totalt</div></div>
+      <div class="card"><div class="card-val">${utøvarar}</div><div class="card-label">Utøvarar${solo && utøvarar===1 ? ' · solo' : ''}</div></div>
+      <div class="card gr"><div class="card-val">${kr(totHon)}</div><div class="card-label">Honorar (${dagar} dagar${soloTekst})</div></div>
+    </div>
+    <div class="results-grid">
+      <div class="table-wrap">
+        <div class="table-header">
+          <div class="table-title">Skuleoversikt — ${valteTrinn.map(t=>t+'. trinn').join(', ')}</div>
+          <button class="btn-exp" onclick="eksporter()">↓ CSV</button>
+        </div>
+        <table>
+          <thead><tr>
+            <th>Dag</th>
+            ${besok === 'til_institusjon' ? '<th>Skular i visning</th><th style="text-align:right">Elevar</th>' : '<th>Skule</th><th>Type</th><th style="text-align:right">Elevar/vis</th><th style="text-align:right">Vis.</th>'}
+          </tr></thead>
+          <tbody>
+          ${besok === 'til_institusjon'
+            ? visRader.map(r => `<tr>
+                <td><span class="dag-badge">Dag ${r.dag}</span></td>
+                <td>${r.skuler.map(s =>
+                  `<span style="display:inline-block;margin-right:8px;">${s.namn}
+                  <span class="muted" style="font-size:10px;">(${s.elevTotal})</span></span>`
+                ).join('')}</td>
+                <td>
+                  ${(() => {
+                    const pct = Math.round(r.sum / kap * 100);
+                    const col = pct >= 100 ? 'var(--red)' : pct >= 85 ? '#e07a1a' : pct >= 60 ? 'var(--green)' : 'var(--blue)';
+                    return `<div style="display:flex;align-items:center;gap:8px;">
+                      <div style="flex:1;background:var(--surface2);border-radius:3px;height:18px;min-width:80px;overflow:hidden;">
+                        <div style="width:${Math.min(pct,100)}%;height:100%;background:${col};border-radius:3px;"></div>
+                      </div>
+                      <span style="font-family:var(--mono);font-size:11px;font-weight:600;color:${col};width:36px;">${pct}%</span>
+                      <span style="font-family:var(--mono);font-size:11px;color:var(--ink2);">${r.sum}/${kap}</span>
+                      ${pct > 100 ? '<span style="color:var(--red);font-size:11px;font-weight:700;">!</span>' : ''}
+                    </div>`;
+                  })()}
+                </td>
+              </tr>`).join('')
+            : visRader.map(r => {
+                const visCls = r.totVis === 1 ? 'vis-1' : 'vis-2';
+                const typLabel = {barne:'Barne',ungdom:'Ungdom',privat:'Privat'}[r.type]||r.type;
+                const visLabel = r.totVis > 1 ? ` <span class="muted" style="font-size:11px;">visning ${r.visNr} av ${r.totVis}</span>` : '';
+                return `<tr>
+                  <td><span class="dag-badge">Dag ${r.dag}</span></td>
+                  <td>${r.namn}${visLabel}</td>
+                  <td><span class="muted" style="font-size:11px;">${typLabel}</span></td>
+                  <td class="num">${r.elevDenne}<span class="muted" style="font-size:10px;"> /${r.elevTotal}</span></td>
+                  <td><span class="vis-badge ${visCls}">${r.visNr}/${r.totVis}</span></td>
+                </tr>`;
+              }).join('')
+          }
+          </tbody>
+          <tfoot><tr style="background:var(--surface2);">
+            ${besok === 'til_institusjon'
+              ? `<td colspan="2" style="padding:9px 12px;font-weight:600;">Totalt — ${skuleData.length} skular · ${totElevar.toLocaleString('nb')} elevar · ${totVis} visningar</td>`
+              : `<td colspan="3" style="padding:9px 12px;font-weight:600;">Totalt</td>
+                 <td class="num" style="font-weight:600;">${totElevar.toLocaleString('nb')} <span style="font-weight:400;color:var(--ink3);font-size:10px;">unike</span></td>
+                 <td class="num" style="font-weight:600;">${totVis}×</td>`
+            }
+          </tr></tfoot>
+        </table>
+      </div>
+      <div>
+        <div class="chart-wrap">
+          <div class="chart-title">Elevar per visning</div>
+          ${hist.map((b,i) => {
+            const pct = b.count === 0 ? 0 : Math.max(4, Math.round(b.count / maxCount * 100));
+            return `<div class="bar-row${b.count===0?' bar-zero':''}" title="${b.count} visningar">
+              <div class="bar-label">${b.label}</div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width:${pct}%;background:${barColors[i]}">
+                  <span>${b.count > 0 ? b.count : ''}</span>
+                </div>
+              </div>
+            </div>`;
+          }).join('')}
+          <div style="margin-top:12px;font-family:var(--mono);font-size:10px;color:var(--ink3);">
+            Maks kapasitet: ${kap} elevar · Snitt: ${besok==='til_institusjon' ? Math.round(visRader.reduce((s,r)=>s+r.sum,0)/visRader.length) : Math.round(visRader.reduce((s,r)=>s+r.elevDenne,0)/visRader.length)} elevar/vis
+          </div>
+        </div>
+        <div class="footnote" style="padding:0 4px;">
+          Honorar: ${kr(honor)}/dag × ${dagar} dagar = ${kr(totHon)}<br>
+          Transport: sjå transport-appen<br>
+          Elevtal: jan. 2026
+        </div>
+      </div>
+    </div>
+  `;
+  window._rows = skuleData;
+  window._sisteKap = kap;
+  window._visRader = visRader;
+}
+
+function eksporter() {
+  if (!window._visRader) return;
+  const rader = window._visRader;
+  const erInstitusjon = rader[0] && rader[0].type === 'institusjon';
+  let header, lines;
+  if (erInstitusjon) {
+    header = 'Dag;Visning;Skular;Elevar totalt;Kapasitet %\n';
+    lines = rader.map(r => {
+      const skulerStr = r.skuler.map(s => s.namn + ' (' + s.elevTotal + ')').join(' + ');
+      const kap = window._sisteKap || 100;
+      const pct = Math.round(r.sum / kap * 100);
+      return 'Dag ' + r.dag + ';' + r.visNr + ';' + skulerStr + ';' + r.sum + ';' + pct + '%';
+    });
+  } else {
+    header = 'Dag;Skule;Type;Elevar denne visning;Totalt på skule;Visning\n';
+    lines = rader.map(r => {
+      const vis = r.totVis > 1 ? r.visNr + ' av ' + r.totVis : '1';
+      return 'Dag ' + r.dag + ';' + r.namn + ';' + r.type + ';' + r.elevDenne + ';' + r.elevTotal + ';' + vis;
+    });
+  }
+  const blob = new Blob(['\uFEFF' + header + lines.join('\n')], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'dks_turne_estimat.csv';
+  a.click();
+}
+</script>
+</body>
+</html>
