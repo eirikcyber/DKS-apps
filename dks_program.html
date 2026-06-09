@@ -333,7 +333,7 @@
     <a class="back-link" href="index.html">←</a>
     <div class="header-title">
       <h1>DKS Program</h1>
-      <p id="header-subtitle">Asker-skular · resten av skuleåret</p>
+      <p id="header-subtitle">Asker-skular · skuleåret <span id="skuleaar-label"></span></p>
       <p id="header-status" style="font-size:10px;opacity:0.55;font-weight:300;margin-top:2px;min-height:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;"></p>
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0">
@@ -375,7 +375,7 @@ const MAX_AGE = 4 * 60 * 60 * 1000;
 const TABS = {
   grunnskule: {
     label: 'Grunnskule',
-    cacheKey: 'dks_program_v4',
+    cacheKey: 'dks_program_v5',
     apiBody: {...API_BODY_BASE, wordpressHomeUrl: 'https://www.denkulturelleskolesekken.no/asker'},
     vgsFilter: null,
     rawEvents: null, currentEvents: [], fetchedAt: null,
@@ -402,7 +402,8 @@ let activeTab = 'grunnskule';
 
 const el = id => document.getElementById(id);
 
-['dks_program_v2', 'dks_program_v3'].forEach(k => localStorage.removeItem(k));
+['dks_program_v2', 'dks_program_v3', 'dks_program_v4'].forEach(k => localStorage.removeItem(k));
+document.getElementById('skuleaar-label').textContent = getSkuleaar();
 
 // Versjonsdato frå sist endra fil
 (function() {
@@ -502,11 +503,20 @@ function loadCache(tab, allowStale = false) {
 
 // ── Filtrering og gruppering ──────────────────────────────────────
 
+function getSkuleaar() {
+  const now = new Date();
+  const year = now.getFullYear();
+  // Frå mai: vis neste skuleår (2026/2027 osv.). Frå august er det inneværande.
+  return now.getMonth() >= 4 ? `${year}/${year+1}` : `${year-1}/${year}`;
+}
+
 function getSkuleaarSlutt() {
   const now = new Date();
   const year = now.getFullYear();
-  const juli = new Date(year, 6, 1);
-  return (now < juli ? juli : new Date(year + 1, 6, 1)).getTime() / 1000;
+  // Frå mai og utover: vis heilt til juli neste år (neste skuleår)
+  // Januar–april: vis berre resten av inneværande skuleår (til juli i år)
+  if (now.getMonth() >= 4) return new Date(year + 1, 6, 1).getTime() / 1000;
+  return new Date(year, 6, 1).getTime() / 1000;
 }
 
 function filterEvents(events, tab) {
@@ -707,7 +717,7 @@ function renderEvents(tab, rawEvents, fetchedAt, isStale = false) {
   const fraDato = new Date().toLocaleDateString('nb-NO', {day:'numeric', month:'long'});
   const tilDato = new Date(getSkuleaarSlutt() * 1000).toLocaleDateString('nb-NO', {day:'numeric', month:'long', year:'numeric'});
   el('dato-info-wrap').innerHTML =
-    `<div class="dato-info">${fraDato} – ${tilDato} · ${tab.currentEvents.length} arrangement · oppdatert ${fmtRelative(fetchedAt)}</div>`;
+    `<div class="dato-info">Skuleår ${getSkuleaar()} · ${fraDato} – ${tilDato} · ${tab.currentEvents.length} arrangement · oppdatert ${fmtRelative(fetchedAt)}</div>`;
 
   el('offline-banner').classList.toggle('vis', isStale);
   if (isStale) el('cache-age-txt').textContent = fmtRelative(fetchedAt);
@@ -777,9 +787,10 @@ function switchTab(name) {
     b.classList.toggle('active', b.dataset.tab === name);
   });
 
-  el('header-subtitle').textContent = name === 'vgs'
-    ? 'Asker VGS · resten av skuleåret'
-    : 'Asker-skular · resten av skuleåret';
+  const aa = getSkuleaar();
+  el('header-subtitle').innerHTML = name === 'vgs'
+    ? `Asker VGS · skuleåret <span id="skuleaar-label">${aa}</span>`
+    : `Asker-skular · skuleåret <span id="skuleaar-label">${aa}</span>`;
 
   loadData();
 }
