@@ -402,7 +402,7 @@ let activeTab = 'grunnskule';
 
 const el = id => document.getElementById(id);
 
-['dks_program_v2', 'dks_program_v3', 'dks_program_v4'].forEach(k => localStorage.removeItem(k));
+try { ['dks_program_v2', 'dks_program_v3', 'dks_program_v4'].forEach(k => localStorage.removeItem(k)); } catch(_) {}
 document.getElementById('skuleaar-label').textContent = getSkuleaar();
 
 // Versjonsdato frå sist endra fil
@@ -727,19 +727,26 @@ function renderEvents(tab, rawEvents, fetchedAt, isStale = false) {
 
 // ── API-henting ───────────────────────────────────────────────────
 
+async function fetchJSON(url, body) {
+  const opts = {method: 'POST', headers: {'Content-Type': 'application/json'}, body};
+  let r;
+  try {
+    r = await fetch(url, opts);
+  } catch(_) {
+    r = await fetch(`https://corsproxy.io/?${encodeURIComponent(url)}`, opts);
+  }
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return r.json();
+}
+
 async function fetchAllEvents(tab) {
   const limit = 1000;
   let skip = 0;
   let allEvents = [];
 
   while (true) {
-    const r = await fetch(API_URL, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({...tab.apiBody, skip, limit}),
-    });
-    if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    const d = await r.json();
+    const body = JSON.stringify({...tab.apiBody, skip, limit});
+    const d = await fetchJSON(API_URL, body);
     const batch = d.events || [];
     allEvents = allEvents.concat(batch);
     if (batch.length < limit) break;
@@ -832,7 +839,10 @@ async function loadData(force = false) {
     const s = loadCache(tab, true);
     if (s) renderEvents(tab, s.events, s.ts, true);
     else if (tab.rawEvents !== null) renderEvents(tab, tab.rawEvents, tab.fetchedAt, true);
-    else showScreen('error');
+    else {
+      el('feil-tekst').innerHTML = `Klarte ikkje hente data. Sjekk at du er tilkopla internett og prøv igjen.<br><br><small style="opacity:0.6;font-size:11px">${escHtml(err.message || String(err))}</small>`;
+      showScreen('error');
+    }
   } finally {
     el('header-status').textContent = '';
     tab.isFetching = false;
