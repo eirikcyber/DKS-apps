@@ -16,47 +16,41 @@ jobs:
 
       - name: Fetch grunnskule data
         run: |
-          curl -s -X POST \
+          curl -sf -X POST \
             -H "Content-Type: application/json" \
-            -d '{
-              "wordpressHomeUrl": "https://www.denkulturelleskolesekken.no/asker",
-              "view": "calendar",
-              "sort": "date",
-              "academicYearId": "",
-              "openAllEvents": false,
-              "datePeriods": [],
-              "includeEvents": true,
-              "hideUnspecifiedLocationName": true,
-              "includeSchoolDetails": true,
-              "skip": 0,
-              "limit": 2000
-            }' \
+            -H "Accept: application/json" \
+            -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15" \
+            -H "Origin: https://www.denkulturelleskolesekken.no" \
+            -H "Referer: https://www.denkulturelleskolesekken.no/asker" \
+            -d '{"wordpressHomeUrl":"https://www.denkulturelleskolesekken.no/asker","view":"calendar","sort":"date","academicYearId":"","openAllEvents":false,"datePeriods":[],"includeEvents":true,"hideUnspecifiedLocationName":true,"includeSchoolDetails":true,"skip":0,"limit":2000}' \
             "https://portal.denkulturelleskolesekken.no/api/wordpress/productions/get_calendar_events" \
             > dks_program_data_grunnskule.json
 
       - name: Fetch VGS data
         run: |
-          curl -s -X POST \
+          curl -sf -X POST \
             -H "Content-Type: application/json" \
-            -d '{
-              "wordpressHomeUrl": "https://www.denkulturelleskolesekken.no/akershus",
-              "view": "calendar",
-              "sort": "date",
-              "academicYearId": "",
-              "openAllEvents": false,
-              "datePeriods": [],
-              "includeEvents": true,
-              "hideUnspecifiedLocationName": true,
-              "includeSchoolDetails": true,
-              "yearLevels": [[11, 13]],
-              "skip": 0,
-              "limit": 2000
-            }' \
+            -H "Accept: application/json" \
+            -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15" \
+            -H "Origin: https://www.denkulturelleskolesekken.no" \
+            -H "Referer: https://www.denkulturelleskolesekken.no/akershus" \
+            -d '{"wordpressHomeUrl":"https://www.denkulturelleskolesekken.no/akershus","view":"calendar","sort":"date","academicYearId":"","openAllEvents":false,"datePeriods":[],"includeEvents":true,"hideUnspecifiedLocationName":true,"includeSchoolDetails":true,"yearLevels":[[11,13]],"skip":0,"limit":2000}' \
             "https://portal.denkulturelleskolesekken.no/api/wordpress/productions/get_calendar_events" \
             > dks_program_data_vgs.json
 
-      - name: Commit if changed
+      - name: Verify and commit
         run: |
+          # Sjekk at filene er gyldig JSON (ikkje 403-svar)
+          python3 -c "
+          import json, sys
+          for f in ['dks_program_data_grunnskule.json', 'dks_program_data_vgs.json']:
+              try:
+                  d = json.load(open(f))
+                  print(f, ':', d.get('total'), 'arrangement')
+              except Exception as e:
+                  print('FEIL i', f, ':', e)
+                  sys.exit(1)
+          "
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add dks_program_data_grunnskule.json dks_program_data_vgs.json

@@ -79,39 +79,6 @@
     .refresh-btn:hover  { background: rgba(255,255,255,0.2); }
     .refresh-btn:active { background: rgba(255,255,255,0.28); }
     .refresh-btn.spinning { animation: spin 0.8s linear infinite; }
-    .sync-btn {
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.22);
-      border-radius: 8px;
-      color: white;
-      font-size: 13px;
-      padding: 0 10px;
-      height: 36px;
-      cursor: pointer;
-      flex-shrink: 0;
-      white-space: nowrap;
-      transition: background 0.15s;
-    }
-    .sync-btn:hover  { background: rgba(255,255,255,0.2); }
-    .sync-btn:active { background: rgba(255,255,255,0.28); }
-    .sync-btn:disabled { opacity: 0.45; cursor: default; }
-    #pat-modal {
-      display: none; position: fixed; inset: 0; z-index: 999;
-      background: rgba(0,0,0,0.55); align-items: center; justify-content: center;
-    }
-    #pat-modal.vis { display: flex; }
-    #pat-box {
-      background: white; border-radius: 14px; padding: 24px 20px;
-      width: min(360px, 90vw); box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-    }
-    #pat-box h2 { font-size: 15px; font-weight: 600; margin: 0 0 6px; }
-    #pat-box p  { font-size: 13px; color: #555; margin: 0 0 14px; line-height: 1.45; }
-    #pat-input  { width: 100%; box-sizing: border-box; font-size: 13px; padding: 9px 10px;
-                  border: 1px solid #ccc; border-radius: 8px; font-family: monospace; }
-    #pat-actions { display: flex; gap: 8px; margin-top: 14px; justify-content: flex-end; }
-    #pat-actions button { padding: 8px 16px; border-radius: 8px; border: none; font-size: 13px; cursor: pointer; }
-    #pat-ok  { background: #4a6741; color: white; }
-    #pat-cancel { background: #eee; color: #333; }
 
     /* ── LOADING ── */
     #loading-overlay { display: none; padding: 72px 32px 48px; text-align: center; }
@@ -370,10 +337,7 @@
       <p id="header-status" style="font-size:10px;opacity:0.55;font-weight:300;margin-top:2px;min-height:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;"></p>
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0">
-      <div style="display:flex;gap:6px;align-items:center">
-        <button class="sync-btn" id="sync-btn" title="Hent nye data frå DKS-portalen" onclick="triggerSync()">⟳ Hent ny data</button>
-        <button class="refresh-btn" id="refresh-btn" title="Last inn app på nytt" onclick="forceRefresh()">↻</button>
-      </div>
+      <button class="refresh-btn" id="refresh-btn" title="Oppdater" onclick="forceRefresh()">↻</button>
       <span id="ver-txt" style="font-size:9px;opacity:0.45;color:white;letter-spacing:0.03em"></span>
     </div>
   </div>
@@ -385,17 +349,6 @@
 
 <div id="offline-banner">Viser bufra data – sist oppdatert <span id="cache-age-txt"></span></div>
 
-<div id="pat-modal">
-  <div id="pat-box">
-    <h2>GitHub-token</h2>
-    <p>Lim inn eit GitHub Personal Access Token med <strong>Actions: write</strong>-tilgang for å trigge oppdatering av data. Tokenet lagrast berre lokalt i nettlesaren.</p>
-    <input id="pat-input" type="password" placeholder="github_pat_…" autocomplete="off">
-    <div id="pat-actions">
-      <button id="pat-cancel" onclick="closePat()">Avbryt</button>
-      <button id="pat-ok" onclick="confirmPat()">OK</button>
-    </div>
-  </div>
-</div>
 
 <div id="loading-overlay">
   <div class="big-spinner"></div>
@@ -873,73 +826,6 @@ async function loadData(force = false) {
 }
 
 function forceRefresh() { loadData(true); }
-
-// ── GitHub Actions sync ───────────────────────────────────────────
-
-const GH_WORKFLOW_URL = 'https://api.github.com/repos/eirikcyber/DKS-apps/actions/workflows/update-dks-data.yml/dispatches';
-
-function triggerSync() {
-  const pat = localStorage.getItem('gh_pat');
-  if (pat) { doSync(pat); } else { openPat(); }
-}
-
-function openPat() {
-  el('pat-input').value = '';
-  el('pat-modal').classList.add('vis');
-  setTimeout(() => el('pat-input').focus(), 50);
-}
-
-function closePat() { el('pat-modal').classList.remove('vis'); }
-
-function confirmPat() {
-  const pat = el('pat-input').value.trim();
-  if (!pat) return;
-  localStorage.setItem('gh_pat', pat);
-  closePat();
-  doSync(pat);
-}
-
-async function doSync(pat) {
-  const btn = el('sync-btn');
-  btn.disabled = true;
-  btn.textContent = '⟳ Hentar…';
-  try {
-    const r = await fetch(GH_WORKFLOW_URL, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/vnd.github+json',
-        'Authorization': `Bearer ${pat}`,
-        'X-GitHub-Api-Version': '2022-11-28',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ref: 'main'}),
-    });
-    if (r.status === 401 || r.status === 403) {
-      localStorage.removeItem('gh_pat');
-      btn.textContent = '⟳ Hent ny data';
-      btn.disabled = false;
-      alert('Token ugyldig eller manglar tilgang. Prøv igjen med nytt token.');
-      return;
-    }
-    if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    btn.textContent = '✓ Starta!';
-    el('header-status').textContent = 'Oppdatering starta – nytt innhald om ~1 min';
-    setTimeout(() => {
-      btn.textContent = '⟳ Hent ny data';
-      btn.disabled = false;
-      el('header-status').textContent = '';
-    }, 60000);
-    // Last inn på nytt etter 65 sek
-    setTimeout(() => loadData(true), 65000);
-  } catch(err) {
-    btn.textContent = '⟳ Hent ny data';
-    btn.disabled = false;
-    alert(`Feil: ${err.message}`);
-  }
-}
-
-el('pat-modal').addEventListener('click', e => { if (e.target === el('pat-modal')) closePat(); });
-el('pat-input').addEventListener('keydown', e => { if (e.key === 'Enter') confirmPat(); });
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').then(reg => {
