@@ -1,0 +1,64 @@
+name: Update DKS Program Data
+
+on:
+  schedule:
+    - cron: '0 * * * *'   # Kvar time
+  workflow_dispatch:        # Manuell køyring
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch grunnskule data
+        run: |
+          curl -s -X POST \
+            -H "Content-Type: application/json" \
+            -d '{
+              "wordpressHomeUrl": "https://www.denkulturelleskolesekken.no/asker",
+              "view": "calendar",
+              "sort": "date",
+              "academicYearId": "",
+              "openAllEvents": false,
+              "datePeriods": [],
+              "includeEvents": true,
+              "hideUnspecifiedLocationName": true,
+              "includeSchoolDetails": true,
+              "skip": 0,
+              "limit": 2000
+            }' \
+            "https://portal.denkulturelleskolesekken.no/api/wordpress/productions/get_calendar_events" \
+            > dks_program_data_grunnskule.json
+
+      - name: Fetch VGS data
+        run: |
+          curl -s -X POST \
+            -H "Content-Type: application/json" \
+            -d '{
+              "wordpressHomeUrl": "https://www.denkulturelleskolesekken.no/akershus",
+              "view": "calendar",
+              "sort": "date",
+              "academicYearId": "",
+              "openAllEvents": false,
+              "datePeriods": [],
+              "includeEvents": true,
+              "hideUnspecifiedLocationName": true,
+              "includeSchoolDetails": true,
+              "yearLevels": [[11, 13]],
+              "skip": 0,
+              "limit": 2000
+            }' \
+            "https://portal.denkulturelleskolesekken.no/api/wordpress/productions/get_calendar_events" \
+            > dks_program_data_vgs.json
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add dks_program_data_grunnskule.json dks_program_data_vgs.json
+          git diff --staged --quiet || git commit -m "chore: oppdater DKS-programdata $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push

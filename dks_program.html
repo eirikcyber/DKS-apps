@@ -364,27 +364,21 @@
 <div id="events-container"></div>
 
 <script>
-const API_URL = 'https://portal.denkulturelleskolesekken.no/api/wordpress/productions/get_calendar_events';
-const API_BODY_BASE = {
-  view: 'calendar', sort: 'date', academicYearId: '',
-  openAllEvents: false, datePeriods: [], includeEvents: true,
-  hideUnspecifiedLocationName: true, includeSchoolDetails: true,
-};
 const MAX_AGE = 4 * 60 * 60 * 1000;
 
 const TABS = {
   grunnskule: {
     label: 'Grunnskule',
-    cacheKey: 'dks_program_v5',
-    apiBody: {...API_BODY_BASE, wordpressHomeUrl: 'https://www.denkulturelleskolesekken.no/asker'},
+    cacheKey: 'dks_program_v6',
+    dataFile: 'dks_program_data_grunnskule.json',
     vgsFilter: null,
     rawEvents: null, currentEvents: [], fetchedAt: null,
     activeFilters: new Set(), isFetching: false,
   },
   vgs: {
     label: 'VGS',
-    cacheKey: 'dks_program_vgs_v1',
-    apiBody: {...API_BODY_BASE, wordpressHomeUrl: 'https://www.denkulturelleskolesekken.no/akershus', yearLevels: [[11, 13]], datePeriods: []},
+    cacheKey: 'dks_program_vgs_v2',
+    dataFile: 'dks_program_data_vgs.json',
     vgsFilter: [
       'asker videregående skole',
       'bleiker videregående skole',
@@ -402,7 +396,7 @@ let activeTab = 'grunnskule';
 
 const el = id => document.getElementById(id);
 
-try { ['dks_program_v2', 'dks_program_v3', 'dks_program_v4'].forEach(k => localStorage.removeItem(k)); } catch(_) {}
+try { ['dks_program_v2', 'dks_program_v3', 'dks_program_v4', 'dks_program_v5', 'dks_program_vgs_v1'].forEach(k => localStorage.removeItem(k)); } catch(_) {}
 document.getElementById('skuleaar-label').textContent = getSkuleaar();
 
 // Versjonsdato frå sist endra fil
@@ -727,31 +721,11 @@ function renderEvents(tab, rawEvents, fetchedAt, isStale = false) {
 
 // ── API-henting ───────────────────────────────────────────────────
 
-async function fetchJSON(url, body) {
-  const opts = {method: 'POST', headers: {'Content-Type': 'application/json'}, body};
-  let r;
-  try {
-    r = await fetch(url, opts);
-  } catch(_) {
-    r = await fetch(`https://corsproxy.io/?${encodeURIComponent(url)}`, opts);
-  }
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  return r.json();
-}
-
 async function fetchAllEvents(tab) {
-  const limit = 1000;
-  let skip = 0;
-  let allEvents = [];
-
-  while (true) {
-    const body = JSON.stringify({...tab.apiBody, skip, limit});
-    const d = await fetchJSON(API_URL, body);
-    const batch = d.events || [];
-    allEvents = allEvents.concat(batch);
-    if (batch.length < limit) break;
-    skip += limit;
-  }
+  const r = await fetch(tab.dataFile);
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  const d = await r.json();
+  const allEvents = d.events || [];
 
   return allEvents.map(ev => {
     const studentsPerSchool   = {};
