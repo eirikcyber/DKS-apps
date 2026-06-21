@@ -1,4 +1,4 @@
-const CACHE = 'dks-v2';
+const CACHE = 'dks-v3';
 
 // Berre statiske assets i cache-shell – ikkje HTML
 const SHELL = ['manifest.json', 'dks-icon.svg'];
