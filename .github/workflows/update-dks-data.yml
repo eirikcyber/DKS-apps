@@ -2,7 +2,7 @@ name: Update DKS Program Data
 
 on:
   schedule:
-    - cron: '0 * * * *'   # Kvar time
+    - cron: '0 10,22 * * *'   # Kl. 12:00 og 00:00 norsk tid (UTC+2)
   workflow_dispatch:        # Manuell køyring
 
 jobs:
