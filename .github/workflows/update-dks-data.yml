@@ -14,54 +14,52 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fetch data
+      - name: Fetch and commit
         run: |
-          fetch_url() {
-            local url="$1"
-            local referer="$2"
-            local outfile="$3"
-            for attempt in 1 2 3; do
-              STATUS=$(curl -s -o "$outfile" -w "%{http_code}" -X POST \
-                -H "Content-Type: application/json" \
-                -H "Accept: application/json, */*" \
-                -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15" \
-                -H "Origin: https://www.denkulturelleskolesekken.no" \
-                -H "Referer: $referer" \
-                --retry 2 --retry-delay 3 \
-                -d "$4" "$url")
-              SIZE=$(wc -c < "$outfile")
-              echo "Forsøk $attempt: HTTP $STATUS, $SIZE bytes"
-              if [ "$STATUS" = "200" ] && [ "$SIZE" -gt 100 ]; then
-                return 0
-              fi
-              echo "Svar: $(head -c 200 $outfile)"
-              sleep 10
-            done
-            echo "Alle forsøk feila for $outfile"
-            return 1
-          }
-
-          BODY_G='{"wordpressHomeUrl":"https://www.denkulturelleskolesekken.no/asker","view":"calendar","sort":"date","academicYearId":"","openAllEvents":false,"datePeriods":[],"includeEvents":true,"hideUnspecifiedLocationName":true,"includeSchoolDetails":true,"skip":0,"limit":2000}'
-          BODY_V='{"wordpressHomeUrl":"https://www.denkulturelleskolesekken.no/akershus","view":"calendar","sort":"date","academicYearId":"","openAllEvents":false,"datePeriods":[],"includeEvents":true,"hideUnspecifiedLocationName":true,"includeSchoolDetails":true,"yearLevels":[[11,13]],"skip":0,"limit":2000}'
           URL="https://portal.denkulturelleskolesekken.no/api/wordpress/productions/get_calendar_events"
+          HEADERS=(
+            -H "Content-Type: application/json"
+            -H "Accept: application/json, */*"
+            -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15"
+            -H "Origin: https://www.denkulturelleskolesekken.no"
+          )
 
-          fetch_url "$URL" "https://www.denkulturelleskolesekken.no/asker"   dks_program_data_grunnskule.json "$BODY_G"
-          fetch_url "$URL" "https://www.denkulturelleskolesekken.no/akershus" dks_program_data_vgs.json         "$BODY_V"
+          STATUS_G=$(curl -s -o /tmp/g.json -w "%{http_code}" "${HEADERS[@]}" \
+            -H "Referer: https://www.denkulturelleskolesekken.no/asker" \
+            -d '{"wordpressHomeUrl":"https://www.denkulturelleskolesekken.no/asker","view":"calendar","sort":"date","academicYearId":"","openAllEvents":false,"datePeriods":[],"includeEvents":true,"hideUnspecifiedLocationName":true,"includeSchoolDetails":true,"skip":0,"limit":2000}' \
+            "$URL")
+          echo "Grunnskule: HTTP $STATUS_G, $(wc -c < /tmp/g.json) bytes"
 
-      - name: Verify and commit
-        run: |
-          python3 -c "
-          import json, sys
-          for f in ['dks_program_data_grunnskule.json', 'dks_program_data_vgs.json']:
+          STATUS_V=$(curl -s -o /tmp/v.json -w "%{http_code}" "${HEADERS[@]}" \
+            -H "Referer: https://www.denkulturelleskolesekken.no/akershus" \
+            -d '{"wordpressHomeUrl":"https://www.denkulturelleskolesekken.no/akershus","view":"calendar","sort":"date","academicYearId":"","openAllEvents":false,"datePeriods":[],"includeEvents":true,"hideUnspecifiedLocationName":true,"includeSchoolDetails":true,"yearLevels":[[11,13]],"skip":0,"limit":2000}' \
+            "$URL")
+          echo "VGS: HTTP $STATUS_V, $(wc -c < /tmp/v.json) bytes"
+
+          # Valider JSON — hopp over commit viss ugyldig (server blokkerte)
+          python3 - <<'PYEOF'
+          import json, sys, shutil
+          ok = True
+          for src, dst in [('/tmp/g.json', 'dks_program_data_grunnskule.json'),
+                           ('/tmp/v.json', 'dks_program_data_vgs.json')]:
               try:
-                  d = json.load(open(f))
-                  print(f, ':', d.get('total'), 'arrangement')
+                  d = json.load(open(src))
+                  print(f'{dst}: {d.get("total")} arrangement')
+                  shutil.copy(src, dst)
               except Exception as e:
-                  print('FEIL i', f, ':', e)
-                  sys.exit(1)
-          "
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add dks_program_data_grunnskule.json dks_program_data_vgs.json
-          git diff --staged --quiet || git commit -m "chore: oppdater DKS-programdata $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          git push
+                  print(f'UGYLDIG JSON i {dst} ({e}) — held på eksisterande fil')
+                  ok = False
+          sys.exit(0 if ok else 2)
+          PYEOF
+
+          RESULT=$?
+          if [ $RESULT -eq 0 ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add dks_program_data_grunnskule.json dks_program_data_vgs.json
+            git diff --staged --quiet || git commit -m "chore: oppdater DKS-programdata $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            git push
+          else
+            echo "Ingen oppdatering — data frå server var ugyldig"
+            exit 0
+          fi
