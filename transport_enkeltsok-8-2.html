@@ -4636,9 +4636,35 @@ const WP_SCOPES = [
     'https://www.denkulturelleskolesekken.no/akershus',
 ];
 
+// get_calendar_events sender INGEN Access-Control-Allow-Origin-header
+// (stadfesta 11.08.2026 — OPTIONS-preflight svarar med allow-methods/allow-headers,
+// men ingen allow-origin). Difor blokkerer nettlesaren ALLTID eit direkte
+// fetch()-kall til dette endepunktet, uansett origin. Direktekallet under er difor
+// forventa å feile i nettlesar — corsproxy.io-fallbacken er det som faktisk fungerer.
+// allorigins.win/raw er UTELATT sidan han berre støttar GET, ikkje POST.
+async function fetchPostViaCorsProxy(url, body) {
+    const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
+    let sisteErr;
+    for (const forsøkUrl of [url, proxyUrl]) {
+        try {
+            const resp = await fetch(forsøkUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            if (resp.ok) return resp;
+            sisteErr = new Error(`HTTP ${resp.status} frå ${forsøkUrl}`);
+        } catch (e) {
+            sisteErr = e;
+        }
+    }
+    throw sisteErr || new Error('Direktekall og corsproxy.io feila begge');
+}
+
 // Hentar busAppointments for gitte skule-ID-ar frå get_calendar_events (offentleg,
-// ingen KTSESSION, CORS-fritt). Eitt kall PER SCOPE (ikkje per skule) — alle
-// skule-ID-ane i turnéen sendast i eitt schoolIds-array per scope.
+// ingen KTSESSION). Eitt kall PER SCOPE (ikkje per skule) — alle skule-ID-ane i
+// turnéen sendast i eitt schoolIds-array per scope. Sjå fetchPostViaCorsProxy()
+// for kvifor eit rått fetch() ikkje held her.
 // Returnerer:
 //   foundEventIds — Set av event-ID-ar som dukka opp i minst eitt scope
 //   busAvtalar    — { eventId: { schoolId: {departureTime, returnTime, textToSchool} } }
@@ -4647,19 +4673,17 @@ const WP_SCOPES = [
 async function hentBussavtalarForTurne(skuleIdar) {
     const resultat = await Promise.all(WP_SCOPES.map(async scope => {
         try {
-            const resp = await fetch('https://portal.denkulturelleskolesekken.no/api/wordpress/productions/get_calendar_events', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
+            const resp = await fetchPostViaCorsProxy(
+                'https://portal.denkulturelleskolesekken.no/api/wordpress/productions/get_calendar_events',
+                {
                     view: 'calendar', sort: 'date', academicYearId: '',
                     openAllEvents: false, datePeriods: [], includeEvents: true,
                     hideUnspecifiedLocationName: true, includeSchoolDetails: true,
                     wordpressHomeUrl: scope,
                     schoolIds: skuleIdar,
                     skip: 0, limit: 1000
-                })
-            });
-            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                }
+            );
             const data = await resp.json();
             return { scope, ok: true, events: data.events || [] };
         } catch (err) {
