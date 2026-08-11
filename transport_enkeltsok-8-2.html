@@ -1076,14 +1076,11 @@
         .turne-retur-rad.turne-retur-dimma {
             opacity: 0.55; font-style: italic;
         }
-        .turne-avvik {
-            border-left: 4px solid #d69e2e !important;
-            background: #fffbeb !important;
+        .turne-tur-tekst {
+            font-size: 12px; color: #4a5568; margin: 2px 15px 4px;
         }
-        .turne-avvik-merke {
-            display: inline-block; margin-left: 6px; font-size: 11px; font-weight: 700;
-            color: #b7791f; background: #fefcbf; padding: 1px 6px; border-radius: 10px;
-            vertical-align: middle;
+        .turne-tur-tekst.turne-tur-tekst-tom {
+            color: #9ca3af; font-style: italic;
         }
     </style>
 </head>
@@ -4940,9 +4937,14 @@ function formaterAltDetaljar(alt) {
     if (alt.type === 'gange') {
         return `${alt.avstandTekst}, ${alt.tidTekst}`;
     } else if (alt.type === 'tog' || alt.type === 'buss') {
-        return (alt.reiseveg && alt.reiseveg.length > 0)
-            ? alt.reiseveg.join(' → ')
-            : `avgang ${turneFormatTid(alt.avgang)} → ${turneFormatTid(alt.ankomst)} (${alt.varigheit} min)`;
+        if (alt.reiseveg && alt.reiseveg.length > 0) {
+            // Totalen (alt.varigheit) kjem frå Entur sin tripPattern.duration og
+            // inkluderer gangetappane til/frå stoppestad — ikkje berre sjølve
+            // køyretida. RETTA 11.08.2026: vart før berre vist i fallback-greina.
+            const totalTekst = (alt.varigheit != null) ? ` (${alt.varigheit} min totalt)` : '';
+            return alt.reiseveg.join(' → ') + totalTekst;
+        }
+        return `avgang ${turneFormatTid(alt.avgang)} → ${turneFormatTid(alt.ankomst)} (${alt.varigheit} min)`;
     } else if (alt.type === 'bestillerbuss' && alt.tid) {
         return `${alt.avstandTekst || ''}, ca. ${alt.tidTekst || alt.tid + ' min'}`.replace(/^, /, '');
     }
@@ -4950,19 +4952,6 @@ function formaterAltDetaljar(alt) {
 }
 
 const TURNE_ALT_IKON = { gange: '🚶', tog: '🚂', buss: '🚌', bestillerbuss: '🚐' };
-
-// Sjekk om eit skuleresultat har avvik mot ei eksisterande bussavtale i portalen.
-// Avvik = avtale med utfylt departureTime (bestillerbuss/turbuss) MEN søket tilrår
-// noko anna. Tom departureTime (RUFUS/kollektivt) er ALDRI eit avvik.
-// Delt mellom pre-pass (checkbox-varsel) og hovudløkka i visTurneResultat().
-function turneErAvvik(sr, hending, busStatus) {
-    if (busStatus !== 'bekrefta') return false;
-    const ba = (turneBusAvtalar[hending.id] || {})[sr.skuleId];
-    if (!ba || !ba.departureTime) return false;
-    const overstyringKey = `${hending.id}_${sr.skuleId}`;
-    const valtType = turneOverstyring[overstyringKey] || sr.valt;
-    return valtType !== 'bestillerbuss';
-}
 
 function visTurneResultat() {
     const liste = document.getElementById('turneResultatListe');
@@ -4979,28 +4968,20 @@ function visTurneResultat() {
 
         const busStatus = turneBussdataStatus[hending.id]; // undefined viss hending.schools.length === 0
         const kanVeljast = !hending.erFortidig && hending.schools.length > 0;
-        const harAvvik = kanVeljast && hr.skuleResultat.some(sr => turneErAvvik(sr, hending, busStatus));
         const erValgt = !!valdeEvents[hending.id];
         const erGenerert = !!genererteEvents[hending.id];
 
         const checkboxHtml = kanVeljast
             ? `<input type="checkbox" id="chk_event_${hending.id}" ${erValgt ? 'checked' : ''} onchange="toggleTurneEventValgt(${hending.id}, this.checked)" style="margin-right:8px;vertical-align:middle;width:16px;height:16px;">`
             : `<input type="checkbox" disabled title="Kan ikkje veljast — ${hending.erFortidig ? 'fortidig arrangement' : 'ingen skular tildelt'}" style="margin-right:8px;vertical-align:middle;width:16px;height:16px;">`;
-        const avvikVarselHtml = harAvvik ? `<span title="Eitt eller fleire avvik mot portalen i dette arrangementet" style="margin-left:8px;">⚠️</span>` : '';
         const generertHtml = erGenerert ? `<span style="margin-left:8px;font-size:11px;color:rgba(255,255,255,.65);" title="Teken med i eit generert payload denne økta">✓ generert</span>` : '';
 
         const fortidKlasse = hending.erFortidig ? ' turne-fortid-header' : '';
         const fortidLabel = hending.erFortidig ? ' <span style="font-size:11px;background:rgba(255,255,255,0.25);padding:2px 6px;border-radius:3px;margin-left:8px;">Fortid</span>' : '';
-        let html = `<div class="turne-resultat-gruppe-header${fortidKlasse}">${checkboxHtml}${datoStr} kl. ${tidStr} — ${hending.location}${fortidLabel}${avvikVarselHtml}${generertHtml}</div>`;
+        let html = `<div class="turne-resultat-gruppe-header${fortidKlasse}">${checkboxHtml}${datoStr} kl. ${tidStr} — ${hending.location}${fortidLabel}${generertHtml}</div>`;
 
         if (hending.schools.length === 0) {
             html += `<div class="turne-ingen-skular">Ingen skular tildelt endå</div>`;
-        }
-
-        if (busStatus === 'utilgjengeleg') {
-            html += `<div class="turne-bussavtale-utilgjengeleg">🚫 Bussavtalar ikkje tilgjengelege — turnéen er truleg upublisert (draft)</div>`;
-        } else if (busStatus === 'feil') {
-            html += `<div class="turne-bussavtale-feil">⚠️ Klarte ikkje hente bussavtalar</div>`;
         }
 
         for (const sr of hr.skuleResultat) {
@@ -5011,16 +4992,6 @@ function visTurneResultat() {
 
             // Eksisterande bussavtale frå portalen (om stadfesta via get_calendar_events)
             const ba = (busStatus === 'bekrefta') ? (turneBusAvtalar[hending.id] || {})[sr.skuleId] : null;
-
-            const avvik = turneErAvvik(sr, hending, busStatus);
-            let avvikLabel = '';
-            if (avvik) {
-                const valtLabel = valtType === 'gange' ? 'gange'
-                    : valtType === 'tog' ? `tog ${valtAlt?.linje || '?'}`
-                    : valtType === 'buss' ? `buss ${valtAlt?.linje || '?'}`
-                    : valtType;
-                avvikLabel = `<span class="turne-begrunnelse-wrapper"><span class="turne-avvik-merke">≠ avvik frå portalen</span><div class="turne-begrunnelse-tooltip">Portalen har bussavtale (avgang ${ba.departureTime}). Søket tilrår ${valtLabel}. Sjekk før du sender til payload.</div></span>`;
-            }
 
             // Detaljar for valt alternativ
             let detaljar = formaterAltDetaljar(valtAlt);
@@ -5052,26 +5023,41 @@ function visTurneResultat() {
 
             const elevtalHtml = sr.elevtal ? ` <span style="font-size:12px;color:#888;font-weight:normal;">(${sr.elevtal} elever)</span>` : '';
 
-            // ✕-ikon med tooltip når ingen direkte kollektivrute er funne
+            // ✕-ikon med tooltip når ingen direkte kollektivrute er funne — RETTA
+            // 11.08.2026: flytta bak skulenamnet (var før) slik at skulenamna står
+            // på same x-posisjon uavhengig av om ikonet vert vist.
             const ingenIkonTekst = sr.begrunnelse || 'Ingen direkterute funne';
             const ingenIkon = sr.ingenDirekte
-                ? `<span class="turne-begrunnelse-wrapper" style="margin-right:5px;vertical-align:middle"><span class="ingen-direkte-ikon">✕</span><div class="turne-begrunnelse-tooltip">${ingenIkonTekst}</div></span>`
+                ? `<span class="turne-begrunnelse-wrapper" style="margin-left:5px;vertical-align:middle"><span class="ingen-direkte-ikon">✕</span><div class="turne-begrunnelse-tooltip">${ingenIkonTekst}</div></span>`
                 : '';
 
-            // Vis eksisterande bussavtale frå DKS-portalen — berre når get_calendar_events
+            // Transporttekst frå portalen (textToSchool) — RETTA 11.08.2026: flytta
+            // hit rett under skulenamnet (var gøymd nede i bussavtale-boksen).
+            // Alltid ei linje, sjølv når teksten manglar, så radene får lik høgd.
+            let transportTekstHtml = '';
+            if (busStatus === 'utilgjengeleg') {
+                transportTekstHtml = `<div class="turne-bussavtale-utilgjengeleg">🚫 Bussavtalar ikkje tilgjengelege — turnéen er truleg upublisert (draft)</div>`;
+            } else if (busStatus === 'feil') {
+                transportTekstHtml = `<div class="turne-bussavtale-feil">⚠️ Klarte ikkje hente bussavtalar</div>`;
+            } else if (busStatus === 'bekrefta' && ba && ba.textToSchool) {
+                transportTekstHtml = `<div class="turne-tur-tekst">💬 ${ba.textToSchool}</div>`;
+            } else {
+                transportTekstHtml = `<div class="turne-tur-tekst turne-tur-tekst-tom">Ingen transporttekst</div>`;
+            }
+
+            // Vis eksisterande avgang/retur frå DKS-portalen — berre når get_calendar_events
             // faktisk stadfesta arrangementet (busStatus === 'bekrefta'). Elles veit vi ikkje
-            // om det finst ein avtale eller ikkje, og skal ALDRI la feltet stå tomt
-            // (tomt felt vert lese av brukaren som "ingen avtale" — sjå Del C).
+            // om det finst ein avtale eller ikkje. "Ingen bussavtale registrert" vert berre
+            // vist når det INGEN busAppointment-post finst i det heile (ba er null) — RETTA
+            // 11.08.2026: viss ba finst men berre har textToSchool (t.d. Solvang/RUFUS), er
+            // det alt dekt av transportTekstHtml over, og skal ikkje visast som "ingen avtale".
             let bussavtaleHtml = '';
             if (busStatus === 'bekrefta') {
                 if (ba) {
                     const delar = [];
                     if (ba.departureTime) delar.push(`<span class="turne-bussavtale-felt">🚌 Avgang: <b>${ba.departureTime}</b></span>`);
                     if (ba.returnTime) delar.push(`<span class="turne-bussavtale-felt">🔄 Retur: <b>${ba.returnTime}</b></span>`);
-                    if (ba.textToSchool) delar.push(`<span class="turne-bussavtale-felt">💬 ${ba.textToSchool}</span>`);
-                    bussavtaleHtml = delar.length
-                        ? `<div class="turne-bussavtale">${delar.join('')}</div>`
-                        : `<div class="turne-bussavtale-ingen">Ingen bussavtale registrert</div>`;
+                    if (delar.length) bussavtaleHtml = `<div class="turne-bussavtale">${delar.join('')}</div>`;
                 } else {
                     bussavtaleHtml = `<div class="turne-bussavtale-ingen">Ingen bussavtale registrert</div>`;
                 }
@@ -5093,8 +5079,8 @@ function visTurneResultat() {
             }
 
             html += `
-                <div class="turne-skule-rad${avvik ? ' turne-avvik' : ''}">
-                    <span class="turne-skule-namn">${ingenIkon}${sr.skule}${elevtalHtml}${fortidTekst}${avvikLabel}</span>
+                <div class="turne-skule-rad">
+                    <span class="turne-skule-namn">${sr.skule}${ingenIkon}${elevtalHtml}${fortidTekst}</span>
                     <div class="turne-begrunnelse-wrapper">
                         <span class="turne-tur-label">→ Tur:</span>
                         <span class="turne-detaljar">${detaljar}</span>
@@ -5102,6 +5088,7 @@ function visTurneResultat() {
                     </div>
                     <div class="turne-alternativ-knappar">${knappar}</div>
                 </div>
+                ${transportTekstHtml}
                 ${bussavtaleHtml}
                 ${returHtml}`;
         }
