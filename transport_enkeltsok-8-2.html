@@ -977,18 +977,40 @@
             font-weight: 600;
             font-size: 15px;
         }
+        /* Rutenett med faste kolonnar: Skule | Portal | Tur | Retur | Val
+           (RETTA 11.08.2026 — erstattar tidlegare flex-rad der skulenamn og
+           tur-detaljar vandra ut av linje avhengig av innhald). */
         .turne-skule-rad {
-            display: flex;
-            align-items: center;
-            padding: 10px 15px;
+            display: grid;
+            grid-template-columns: 190px 160px minmax(150px,1fr) minmax(130px,1fr) 120px;
+            gap: 12px;
+            align-items: start;
+            padding: 12px 15px;
             border-bottom: 1px solid #f3f4f6;
             background: white;
-            gap: 10px;
-            flex-wrap: wrap;
         }
         .turne-skule-rad:last-child { border-bottom: none; }
-        .turne-skule-namn { font-weight: 600; min-width: 200px; flex: 1; }
-        .turne-detaljar { font-size: 13px; color: #555; flex: 2; min-width: 150px; }
+        @media (max-width: 760px) {
+            .turne-skule-rad { grid-template-columns: 1fr; gap: 4px; }
+        }
+        .turne-skule-namn { font-weight: 500; }
+        .turne-elevtal { font-size: 12px; color: #888; margin-top: 2px; }
+        .turne-col-portal { font-size: 12px; }
+        .turne-portal-merke {
+            display: inline-block; padding: 2px 9px; border-radius: 10px;
+            font-size: 11px; font-weight: 700; white-space: nowrap;
+        }
+        .turne-portal-bestillerbuss { background: #ebf8ff; color: #2b6cb0; }
+        .turne-portal-kollektiv { background: #f0fff4; color: #276749; }
+        .turne-portal-ukjend { background: #edf2f7; color: #4a5568; }
+        .turne-portal-utilgjengeleg { background: #edf2f7; color: #4a5568; }
+        .turne-portal-feil { background: #fff5f5; color: #c53030; }
+        .turne-portal-tid { display: block; font-size: 11px; color: #666; margin-top: 3px; }
+        .turne-portal-tooltip { white-space: normal !important; max-width: 260px; }
+        .turne-col-tur, .turne-col-retur { font-size: 13px; }
+        .turne-col-retur.turne-retur-dimma { opacity: 0.55; font-style: italic; }
+        .turne-linje-hoved { font-weight: 500; }
+        .turne-linje-under { font-size: 11px; color: #888; margin-top: 2px; }
         .turne-alternativ-knappar { display: flex; gap: 6px; flex-wrap: wrap; }
         .turne-alt-wrapper { position: relative; display: inline-block; }
         .turne-alternativ-knappar button {
@@ -1046,42 +1068,6 @@
             box-shadow: 0 2px 8px rgba(0,0,0,.25); pointer-events: none;
         }
         .turne-begrunnelse-wrapper:hover .turne-begrunnelse-tooltip { display: block; }
-        .turne-bussavtale {
-            margin-top: 5px; font-size: 12px; color: #2b6cb0;
-            background: #ebf8ff; border-left: 3px solid #63b3ed;
-            padding: 4px 8px; border-radius: 0 4px 4px 0;
-            display: flex; flex-wrap: wrap; gap: 8px;
-        }
-        .turne-bussavtale-felt { white-space: nowrap; }
-        .turne-bussavtale-ingen {
-            margin-top: 5px; font-size: 12px; color: #9ca3af; font-style: italic;
-            padding: 4px 8px;
-        }
-        .turne-bussavtale-utilgjengeleg {
-            margin-top: 5px; font-size: 12px; color: #4a5568;
-            background: #edf2f7; border-left: 3px solid #a0aec0;
-            padding: 4px 8px; border-radius: 0 4px 4px 0;
-        }
-        .turne-bussavtale-feil {
-            margin-top: 5px; font-size: 12px; color: #c53030;
-            background: #fff5f5; border-left: 3px solid #fc8181;
-            padding: 4px 8px; border-radius: 0 4px 4px 0;
-        }
-        .turne-tur-label, .turne-retur-label {
-            font-size: 11px; color: #999; margin-right: 4px; white-space: nowrap;
-        }
-        .turne-retur-rad {
-            margin-top: 2px; padding: 2px 15px 6px; font-size: 13px; color: #555;
-        }
-        .turne-retur-rad.turne-retur-dimma {
-            opacity: 0.55; font-style: italic;
-        }
-        .turne-tur-tekst {
-            font-size: 12px; color: #4a5568; margin: 2px 15px 4px;
-        }
-        .turne-tur-tekst.turne-tur-tekst-tom {
-            color: #9ca3af; font-style: italic;
-        }
     </style>
 </head>
 <body>
@@ -4932,26 +4918,108 @@ async function sokTurneRetur(sr, hending, sCoords, dCoords, maksGange, bufferMin
 }
 
 // Formaterer detaljteksten for eit alternativ (delt mellom tur og retur i turnémodus).
-function formaterAltDetaljar(alt) {
-    if (!alt) return '';
-    if (alt.type === 'gange') {
-        return `${alt.avstandTekst}, ${alt.tidTekst}`;
-    } else if (alt.type === 'tog' || alt.type === 'buss') {
-        if (alt.reiseveg && alt.reiseveg.length > 0) {
-            // Totalen (alt.varigheit) kjem frå Entur sin tripPattern.duration og
-            // inkluderer gangetappane til/frå stoppestad — ikkje berre sjølve
-            // køyretida. RETTA 11.08.2026: vart før berre vist i fallback-greina.
-            const totalTekst = (alt.varigheit != null) ? ` (${alt.varigheit} min totalt)` : '';
-            return alt.reiseveg.join(' → ') + totalTekst;
-        }
-        return `avgang ${turneFormatTid(alt.avgang)} → ${turneFormatTid(alt.ankomst)} (${alt.varigheit} min)`;
-    } else if (alt.type === 'bestillerbuss' && alt.tid) {
-        return `${alt.avstandTekst || ''}, ca. ${alt.tidTekst || alt.tid + ' min'}`.replace(/^, /, '');
-    }
-    return '';
+const TURNE_ALT_IKON = { gange: '🚶', tog: '🚂', buss: '🚌', bestillerbuss: '🚐' };
+
+// Kortar ned eit reiseveg-steg (frå byggReiseveg()) til kompakt form for
+// underlinja i rutenettet. "Gå 16 min til Hagaløkka" -> "gå 16",
+// "Buss 280 frå Skolen" -> "280", "Tog R10 frå Stasjonen" -> "R10".
+function kortFormSteg(steg) {
+    let m = steg.match(/^Gå (\d+) min/);
+    if (m) return `gå ${m[1]}`;
+    m = steg.match(/^(?:Buss|Tog) (\S+)/);
+    if (m) return m[1];
+    return steg;
 }
 
-const TURNE_ALT_IKON = { gange: '🚶', tog: '🚂', buss: '🚌', bestillerbuss: '🚐' };
+// Formaterer eit alternativ til hovudlinje (ikon + type/linje + totaltid) og
+// underlinje (kortform reiseveg) for rutenett-cellene Tur/Retur i
+// visTurneResultat(). RETTA 11.08.2026 — returnerte tidlegare éin samla
+// tekststreng, no {hovudlinje, underlinje} for den nye rutenett-layouten.
+function formaterAltDetaljar(alt) {
+    if (!alt) return { hovudlinje: '', underlinje: '' };
+    const ikon = TURNE_ALT_IKON[alt.type] || '';
+
+    if (alt.type === 'gange') {
+        return { hovudlinje: `${ikon} Gange${alt.tidTekst ? ' · ' + alt.tidTekst : ''}`, underlinje: alt.avstandTekst || '' };
+    }
+    if (alt.type === 'tog' || alt.type === 'buss') {
+        const typeNamn = alt.type === 'tog' ? 'Tog' : 'Buss';
+        // Totalen (alt.varigheit) kjem frå Entur sin tripPattern.duration og
+        // inkluderer gangetappane til/frå stoppestad — ikkje berre sjølve køyretida.
+        const totalTekst = (alt.varigheit != null) ? ` · ${alt.varigheit} min` : '';
+        const hovudlinje = `${ikon} ${typeNamn} ${alt.linje || '?'}${totalTekst}`;
+        const underlinje = (alt.reiseveg && alt.reiseveg.length > 0)
+            ? alt.reiseveg.map(kortFormSteg).join(' → ')
+            : `${turneFormatTid(alt.avgang)} → ${turneFormatTid(alt.ankomst)}`;
+        return { hovudlinje, underlinje };
+    }
+    if (alt.type === 'bestillerbuss') {
+        const tidTekst = alt.tidTekst || (alt.tid != null ? `${alt.tid} min` : '');
+        return { hovudlinje: `${ikon} Bestillerbuss${tidTekst ? ' · ' + tidTekst : ''}`, underlinje: alt.avstandTekst || '' };
+    }
+    return { hovudlinje: '', underlinje: '' };
+}
+
+// Stikkord for å klassifisere textToSchool frå portalen til ei kort
+// merkelapp i Portal-kolonnen. Lett å utvide når nye formuleringar dukkar
+// opp (sjå console.warn i klassifiserPortalTekst() under).
+const PORTAL_TEKST_STIKKORD = {
+    bestillerbuss: ['vy', 'turbuss'],
+    kollektiv:     ['gange', 'sykler', 'går', 'kollektiv', 'rufus']
+};
+
+// Klassifiserer ei bussavtale til Portal-kolonnen si merkelapp.
+// Rekkjefølgje er viktig: bestillerbuss FØRST — RUFUS-tekstar nemner ofte
+// BÅDE "kollektivt" og "sykler/går" som eit tilbod, så ei omvendt
+// rekkjefølgje ville feilklassifisert dei som kollektiv/gange.
+function klassifiserPortalTekst(ba) {
+    const tekst = ((ba && ba.textToSchool) || '').toLowerCase();
+    const harDeparture = !!(ba && ba.departureTime);
+
+    if (!tekst && !harDeparture) return { type: 'ingen' };
+
+    if (harDeparture || PORTAL_TEKST_STIKKORD.bestillerbuss.some(s => tekst.includes(s))) {
+        return { type: 'bestillerbuss', tekst: ba.textToSchool || '' };
+    }
+    if (PORTAL_TEKST_STIKKORD.kollektiv.some(s => tekst.includes(s))) {
+        return { type: 'kollektiv', tekst: ba.textToSchool || '' };
+    }
+    console.warn('Portal-tekst ikkje klassifisert (nye stikkord kan trengast i PORTAL_TEKST_STIKKORD):', ba.textToSchool);
+    return { type: 'ukjend', tekst: ba.textToSchool || '' };
+}
+
+const PORTAL_MERKE_NAMN = { bestillerbuss: 'Bestillerbuss', kollektiv: 'Kollektiv/gange', ukjend: 'Sjå tekst' };
+const PORTAL_MERKE_KLASSE = { bestillerbuss: 'turne-portal-bestillerbuss', kollektiv: 'turne-portal-kollektiv', ukjend: 'turne-portal-ukjend' };
+
+// Bygg innhaldet i Portal-kolonnen: merkelapp + evt. tidspunkt, eller
+// draft-/feil-status. Full portaltekst (vakttelefon o.l.) ligg som tooltip
+// på merkelappen, ikkje som synleg tekst — sjå .turne-begrunnelse-tooltip.
+function byggPortalCelle(busStatus, ba) {
+    if (busStatus === 'utilgjengeleg') {
+        return `<span class="turne-portal-merke turne-portal-utilgjengeleg" title="Turnéen er truleg upublisert (draft)">Ikkje tilgjengeleg</span>`;
+    }
+    if (busStatus === 'feil') {
+        return `<span class="turne-portal-merke turne-portal-feil" title="Klarte ikkje hente bussavtalar">Feil ved henting</span>`;
+    }
+    if (busStatus !== 'bekrefta') return '';
+
+    const klass = klassifiserPortalTekst(ba);
+    if (klass.type === 'ingen') return '';
+
+    const merkeHtml = `<span class="turne-portal-merke ${PORTAL_MERKE_KLASSE[klass.type]}">${PORTAL_MERKE_NAMN[klass.type]}</span>`;
+    const tooltipHtml = klass.tekst
+        ? `<div class="turne-begrunnelse-tooltip turne-portal-tooltip">${klass.tekst}</div>`
+        : '';
+    const merkeMedTooltip = tooltipHtml
+        ? `<span class="turne-begrunnelse-wrapper">${merkeHtml}${tooltipHtml}</span>`
+        : merkeHtml;
+
+    const tidHtml = (klass.type === 'bestillerbuss' && (ba.departureTime || ba.returnTime))
+        ? `<span class="turne-portal-tid">${ba.departureTime || '?'}–${ba.returnTime || '?'}</span>`
+        : '';
+
+    return `${merkeMedTooltip}${tidHtml}`;
+}
 
 function visTurneResultat() {
     const liste = document.getElementById('turneResultatListe');
@@ -4993,10 +5061,6 @@ function visTurneResultat() {
             // Eksisterande bussavtale frå portalen (om stadfesta via get_calendar_events)
             const ba = (busStatus === 'bekrefta') ? (turneBusAvtalar[hending.id] || {})[sr.skuleId] : null;
 
-            // Detaljar for valt alternativ
-            let detaljar = formaterAltDetaljar(valtAlt);
-            if (sr.feil) detaljar = `⚠️ ${sr.feil}`;
-
             // Knappar med hover-dropdown for tog/buss
             let knappar = '';
             for (const alt of (sr.alternativ || [])) {
@@ -5021,76 +5085,73 @@ function visTurneResultat() {
                 }
             }
 
-            const elevtalHtml = sr.elevtal ? ` <span style="font-size:12px;color:#888;font-weight:normal;">(${sr.elevtal} elever)</span>` : '';
-
-            // ✕-ikon med tooltip når ingen direkte kollektivrute er funne — RETTA
-            // 11.08.2026: flytta bak skulenamnet (var før) slik at skulenamna står
-            // på same x-posisjon uavhengig av om ikonet vert vist.
+            // ✕-ikon med tooltip når ingen direkte kollektivrute er funne — bak
+            // skulenamnet, slik at skulenamna står på same x-posisjon uavhengig
+            // av om ikonet vert vist.
             const ingenIkonTekst = sr.begrunnelse || 'Ingen direkterute funne';
             const ingenIkon = sr.ingenDirekte
                 ? `<span class="turne-begrunnelse-wrapper" style="margin-left:5px;vertical-align:middle"><span class="ingen-direkte-ikon">✕</span><div class="turne-begrunnelse-tooltip">${ingenIkonTekst}</div></span>`
                 : '';
 
-            // Transporttekst frå portalen (textToSchool) — RETTA 11.08.2026: flytta
-            // hit rett under skulenamnet (var gøymd nede i bussavtale-boksen).
-            // Alltid ei linje, sjølv når teksten manglar, så radene får lik høgd.
-            let transportTekstHtml = '';
-            if (busStatus === 'utilgjengeleg') {
-                transportTekstHtml = `<div class="turne-bussavtale-utilgjengeleg">🚫 Bussavtalar ikkje tilgjengelege — turnéen er truleg upublisert (draft)</div>`;
-            } else if (busStatus === 'feil') {
-                transportTekstHtml = `<div class="turne-bussavtale-feil">⚠️ Klarte ikkje hente bussavtalar</div>`;
-            } else if (busStatus === 'bekrefta' && ba && ba.textToSchool) {
-                transportTekstHtml = `<div class="turne-tur-tekst">💬 ${ba.textToSchool}</div>`;
+            // --- Skule-kolonne: namn (+ ✕-ikon) på éi linje, elevtal under ---
+            const elevtalDiv = sr.elevtal ? `<div class="turne-elevtal">${sr.elevtal} elever</div>` : '';
+            const skuleCelle = `
+                <div>
+                    <div class="turne-skule-namn">${sr.skule}${ingenIkon}${fortidTekst}</div>
+                    ${elevtalDiv}
+                </div>`;
+
+            // --- Portal-kolonne: merkelapp (klassifisert textToSchool) + tidspunkt,
+            // eller draft-/feil-status. Full tekst ligg som tooltip på merkelappen.
+            const portalCelle = `<div class="turne-col-portal">${byggPortalCelle(busStatus, ba)}</div>`;
+
+            // --- Tur-kolonne: hovudlinje (ikon+type/linje+totaltid) + underlinje (kortform reiseveg) ---
+            let turHovud, turUnder;
+            if (sr.feil) {
+                turHovud = `⚠️ ${sr.feil}`;
+                turUnder = '';
             } else {
-                transportTekstHtml = `<div class="turne-tur-tekst turne-tur-tekst-tom">Ingen transporttekst</div>`;
+                const linjer = formaterAltDetaljar(valtAlt);
+                turHovud = linjer.hovudlinje;
+                turUnder = linjer.underlinje;
             }
+            const turCelle = `
+                <div class="turne-col-tur${sr.begrunnelse ? ' turne-begrunnelse-wrapper' : ''}">
+                    <div class="turne-linje-hoved">${turHovud}</div>
+                    ${turUnder ? `<div class="turne-linje-under">${turUnder}</div>` : ''}
+                    ${sr.begrunnelse ? `<div class="turne-begrunnelse-tooltip turne-portal-tooltip">${sr.begrunnelse}</div>` : ''}
+                </div>`;
 
-            // Vis eksisterande avgang/retur frå DKS-portalen — berre når get_calendar_events
-            // faktisk stadfesta arrangementet (busStatus === 'bekrefta'). Elles veit vi ikkje
-            // om det finst ein avtale eller ikkje. "Ingen bussavtale registrert" vert berre
-            // vist når det INGEN busAppointment-post finst i det heile (ba er null) — RETTA
-            // 11.08.2026: viss ba finst men berre har textToSchool (t.d. Solvang/RUFUS), er
-            // det alt dekt av transportTekstHtml over, og skal ikkje visast som "ingen avtale".
-            let bussavtaleHtml = '';
-            if (busStatus === 'bekrefta') {
-                if (ba) {
-                    const delar = [];
-                    if (ba.departureTime) delar.push(`<span class="turne-bussavtale-felt">🚌 Avgang: <b>${ba.departureTime}</b></span>`);
-                    if (ba.returnTime) delar.push(`<span class="turne-bussavtale-felt">🔄 Retur: <b>${ba.returnTime}</b></span>`);
-                    if (delar.length) bussavtaleHtml = `<div class="turne-bussavtale">${delar.join('')}</div>`;
-                } else {
-                    bussavtaleHtml = `<div class="turne-bussavtale-ingen">Ingen bussavtale registrert</div>`;
-                }
-            }
-
-            // Retur-rad (lagt til 11.08.2026) — sjå sokTurneRetur() for regelen som
-            // avgjer om retur vart søkt eller hoppa over.
-            let returHtml = '';
+            // --- Retur-kolonne — sjå sokTurneRetur() for regelen som avgjer om
+            // retur vart søkt eller hoppa over. Kortare tekst ved hoppaOver sidan
+            // tidspunkta alt står i Portal-kolonnen.
+            let returCelle = `<div class="turne-col-retur"></div>`;
             if (sr.retur) {
                 if (sr.retur.hoppaOver) {
-                    const tekst = sr.retur.valt === 'gange' ? 'Gange tilbake' : 'Retur med same bestillerbuss';
-                    returHtml = `<div class="turne-retur-rad turne-retur-dimma"><span class="turne-retur-label">← Retur:</span> ${tekst}</div>`;
+                    const tekst = sr.retur.valt === 'gange' ? 'Gange' : 'Bestillerbuss';
+                    returCelle = `<div class="turne-col-retur turne-retur-dimma"><div class="turne-linje-hoved">${tekst}</div></div>`;
                 } else {
                     const returValtAlt = (sr.retur.alternativ || []).find(a => a.type === sr.retur.valt);
-                    const returIkon = TURNE_ALT_IKON[sr.retur.valt] || '';
-                    const returDetaljar = formaterAltDetaljar(returValtAlt);
-                    returHtml = `<div class="turne-retur-rad"><span class="turne-retur-label">← Retur:</span> ${returIkon} ${returDetaljar}</div>`;
+                    const linjer = formaterAltDetaljar(returValtAlt);
+                    returCelle = `
+                        <div class="turne-col-retur">
+                            <div class="turne-linje-hoved">${linjer.hovudlinje}</div>
+                            ${linjer.underlinje ? `<div class="turne-linje-under">${linjer.underlinje}</div>` : ''}
+                        </div>`;
                 }
             }
+
+            // --- Val-kolonne: knappane for å overstyre transporttype ---
+            const valCelle = `<div class="turne-alternativ-knappar">${knappar}</div>`;
 
             html += `
                 <div class="turne-skule-rad">
-                    <span class="turne-skule-namn">${sr.skule}${ingenIkon}${elevtalHtml}${fortidTekst}</span>
-                    <div class="turne-begrunnelse-wrapper">
-                        <span class="turne-tur-label">→ Tur:</span>
-                        <span class="turne-detaljar">${detaljar}</span>
-                        ${sr.begrunnelse ? `<div class="turne-begrunnelse-tooltip">${sr.begrunnelse}</div>` : ''}
-                    </div>
-                    <div class="turne-alternativ-knappar">${knappar}</div>
-                </div>
-                ${transportTekstHtml}
-                ${bussavtaleHtml}
-                ${returHtml}`;
+                    ${skuleCelle}
+                    ${portalCelle}
+                    ${turCelle}
+                    ${returCelle}
+                    ${valCelle}
+                </div>`;
         }
 
         gruppe.innerHTML = html;
