@@ -89,14 +89,20 @@ Berre for VGS-fana (vgsFilter er satt):
       'holmen videregående skole'
       'røyken videregående skole'
 
-getSkuleaarSlutt(): returnerer 1. juli inneværande kalenderår
-  viss vi er før 1. juli, elles 1. juli neste år.
+getSkuleaar(): returnerer skuleår-streng, t.d. "2026/2027"
+  - Jan–apr: inneværande skuleår (t.d. "2025/2026")
+  - Mai+: neste skuleår (t.d. "2026/2027")
+
+getSkuleaarSlutt(): returnerer øvre datograsse (Unix-sekund)
+  - Jan–apr: 1. juli inneværande år (slutt på inneværande skuleår)
+  - Mai+: 1. juli neste år (heile det komande skuleåret)
+  Frå mai ligg neste skuleår ute i portalen — appen byttar automatisk.
 
 
 CACHE
 -----
 localStorage per fane:
-  Grunnskule: nøkkel 'dks_program_v3'
+  Grunnskule: nøkkel 'dks_program_v5'
   VGS:        nøkkel 'dks_program_vgs_v1'
 
 Format: { ts: Date.now(), events: [...rådata frå API...] }
@@ -107,6 +113,8 @@ Cache-strategi (loadData):
   2. Fersk localStorage → render og returner
   3. Elles: vis gammal data medan ny hentast (background refresh)
      Vis loading-spinner berre viss ingen gammal data finst
+
+Gamle nøklar som ryddast automatisk ved oppstart: v2, v3, v4
 
 
 PRODUKSJONSFILTER (chips)

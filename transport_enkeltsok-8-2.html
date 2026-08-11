@@ -1053,6 +1053,20 @@
             display: flex; flex-wrap: wrap; gap: 8px;
         }
         .turne-bussavtale-felt { white-space: nowrap; }
+        .turne-bussavtale-ingen {
+            margin-top: 5px; font-size: 12px; color: #9ca3af; font-style: italic;
+            padding: 4px 8px;
+        }
+        .turne-bussavtale-utilgjengeleg {
+            margin-top: 5px; font-size: 12px; color: #4a5568;
+            background: #edf2f7; border-left: 3px solid #a0aec0;
+            padding: 4px 8px; border-radius: 0 4px 4px 0;
+        }
+        .turne-bussavtale-feil {
+            margin-top: 5px; font-size: 12px; color: #c53030;
+            background: #fff5f5; border-left: 3px solid #fc8181;
+            padding: 4px 8px; border-radius: 0 4px 4px 0;
+        }
     </style>
 </head>
 <body>
@@ -1331,29 +1345,6 @@
         </div>
         <button class="nav-btn primary" onclick="hentTurne()" style="margin-top:10px">Hent turné</button>
         <p id="turneStatus" style="color:#666;font-size:13px;margin-top:8px"></p>
-
-        <details style="margin-top:12px">
-          <summary style="cursor:pointer;font-size:13px;color:#4a5568;user-select:none">
-            🚌 Last inn bussavtalar frå DKS-portalen (valfritt)
-          </summary>
-          <div style="margin-top:10px;padding:12px;background:#f7fafc;border-radius:8px;border:1px solid #e2e8f0">
-            <p style="font-size:12px;color:#4a5568;margin-bottom:8px">
-              Nettlesaren kan ikkje sende Cookie-header direkte til DKS-portalen. Køyr curl i terminalen og lim inn JSON-svaret nedanfor.
-            </p>
-            <div class="input-group" style="margin-bottom:8px">
-              <label style="font-size:12px">KTSESSION <span style="font-weight:normal;color:#999">(for curl-kommando — vert ikkje lagra)</span></label>
-              <input type="password" id="turneKtsession" placeholder="Lim inn KTSESSION-cookie" autocomplete="off" style="font-size:13px">
-            </div>
-            <button onclick="kopierCurl()" class="nav-btn secondary" style="font-size:12px;padding:5px 12px;margin-bottom:8px">📋 Kopier curl-kommando</button>
-            <span id="turneKtsessionStatus" style="font-size:12px;margin-left:8px"></span>
-            <div class="input-group">
-              <label style="font-size:12px">Lim inn JSON-svar frå curl</label>
-              <textarea id="turneBussavtalarJson" rows="3" placeholder='{"events": {"123456": {...}}}' style="font-size:12px;font-family:monospace;width:100%;border:1px solid #ddd;border-radius:6px;padding:8px;resize:vertical"></textarea>
-            </div>
-            <button onclick="lastInnBussavtalar()" class="nav-btn secondary" style="font-size:12px;padding:5px 12px;margin-top:6px">Last inn bussavtalar</button>
-            <span id="turneBussavtalarStatus" style="font-size:12px;margin-left:8px"></span>
-          </div>
-        </details>
       </div>
 
       <div id="turneResultatSeksjon" style="display:none;">
@@ -1979,6 +1970,7 @@ let turneHendingar = [];
 let turneResultat = [];
 let turneOverstyring = {};
 let turneBusAvtalar = {}; // { eventId: { schoolId: {departureTime, returnTime, textToSchool} } } — aldri i localStorage
+let turneBussdataStatus = {}; // { eventId: 'bekrefta' | 'utilgjengeleg' | 'feil' } — sjå hentBussavtalarForTurne()
 let turneListeLasta = false;
 let alleTurnear = [];
 
@@ -4563,6 +4555,7 @@ async function hentTurne() {
     turneResultat = [];
     turneOverstyring = {};
     turneBusAvtalar = {};
+    turneBussdataStatus = {};
     // Slett gammal DRIVING-cache (fallback-fart kan ha vore feil)
     for (const k of Object.keys(localStorage)) {
         if (k.startsWith('gmap_DRIVING_')) localStorage.removeItem(k);
@@ -4575,7 +4568,7 @@ async function hentTurne() {
         const events = await hentAlleTurneArrangement(tourId, turneStatusEl);
 
         if (!Array.isArray(events) || events.length === 0) {
-            turneStatusEl.textContent = 'Ingen arrangement funne for denne turnéen.';
+            turneStatusEl.textContent = 'Fann ingen arrangement. Sjekk turné-ID-en.';
             return;
         }
 
@@ -4612,6 +4605,16 @@ async function hentTurne() {
             });
 
         const totalt = turneHendingar.length;
+        const harNokonSkular = turneHendingar.some(h => h.schools.length > 0);
+
+        if (!harNokonSkular) {
+            turneStatusEl.textContent = `Fann ${totalt} arrangement, men ingen har tildelte skular enno. Turnéen er truleg upublisert (draft). Bussavtalar og skuletildelingar er ikkje synlege i det offentlege API-et.`;
+            turneResultat = turneHendingar.map(h => ({ hending: h, skuleResultat: [] }));
+            visTurneResultat();
+            document.getElementById('turneResultatSeksjon').style.display = '';
+            return;
+        }
+
         const medSkular = turneHendingar.filter(h => !h.erFortidig && h.schools.length > 0).length;
         const utenSkular = turneHendingar.filter(h => !h.erFortidig && h.schools.length === 0).length;
         turneStatusEl.textContent = `Fann ${totalt} arrangement (${medSkular} framtidige med skular, ${utenSkular} utan skular). Søker transport...`;
@@ -4624,49 +4627,93 @@ async function hentTurne() {
     }
 }
 
-function kopierCurl() {
-    const tourId = document.getElementById('turneId').value.trim() || 'TURNE_ID';
-    const ktsession = document.getElementById('turneKtsession').value.trim() || 'DIN_KTSESSION';
-    const cmd = `curl -s -X POST "https://portal.denkulturelleskolesekken.no/api/web-authenticated/widgets/work_bench/get_events" -H "Content-Type: application/json" -H "Cookie: KTSESSION=${ktsession}" -d '{"tourId": ${tourId}}'`;
-    navigator.clipboard.writeText(cmd).then(() => {
-        const el = document.getElementById('turneKtsessionStatus');
-        el.style.color = '#276749';
-        el.textContent = '✓ Kopiert!';
-        setTimeout(() => { el.textContent = ''; }, 2000);
-    });
-}
+// Kalender-scope for get_calendar_events — filtrerer på KVEN SOM EIG produksjonen,
+// ikkje kva skule arrangementet fysisk er på. Asker-skular kan ha arrangement frå
+// turnéar eigd av andre branchOffice (t.d. Akershus fylkeskommune) — legg til fleire
+// scope her viss fleire eigarar dukkar opp (sjå CLAUDE.md, kartlagt 11.08.2026).
+const WP_SCOPES = [
+    'https://www.denkulturelleskolesekken.no/asker',
+    'https://www.denkulturelleskolesekken.no/akershus',
+];
 
-function lastInnBussavtalar() {
-    const raw = document.getElementById('turneBussavtalarJson').value.trim();
-    const statusEl = document.getElementById('turneBussavtalarStatus');
-    if (!raw) { statusEl.style.color = '#c53030'; statusEl.textContent = '✗ Tom'; return; }
-    try {
-        const wbData = JSON.parse(raw);
-        const eventsObj = wbData.events || wbData || {};
-        turneBusAvtalar = {};
-        for (const [eid, ev] of Object.entries(eventsObj)) {
-            const bySkule = {};
+// Hentar busAppointments for gitte skule-ID-ar frå get_calendar_events (offentleg,
+// ingen KTSESSION, CORS-fritt). Eitt kall PER SCOPE (ikkje per skule) — alle
+// skule-ID-ane i turnéen sendast i eitt schoolIds-array per scope.
+// Returnerer:
+//   foundEventIds — Set av event-ID-ar som dukka opp i minst eitt scope
+//   busAvtalar    — { eventId: { schoolId: {departureTime, returnTime, textToSchool} } }
+//   scopeFeil     — liste av scope som feila (nettverksfeil e.l.)
+//   alleFeila     — true viss ALLE scope feila (vi veit då ingenting)
+async function hentBussavtalarForTurne(skuleIdar) {
+    const resultat = await Promise.all(WP_SCOPES.map(async scope => {
+        try {
+            const resp = await fetch('https://portal.denkulturelleskolesekken.no/api/wordpress/productions/get_calendar_events', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    view: 'calendar', sort: 'date', academicYearId: '',
+                    openAllEvents: false, datePeriods: [], includeEvents: true,
+                    hideUnspecifiedLocationName: true, includeSchoolDetails: true,
+                    wordpressHomeUrl: scope,
+                    schoolIds: skuleIdar,
+                    skip: 0, limit: 1000
+                })
+            });
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            const data = await resp.json();
+            return { scope, ok: true, events: data.events || [] };
+        } catch (err) {
+            console.error(`get_calendar_events feila for scope ${scope}:`, err);
+            return { scope, ok: false, events: [] };
+        }
+    }));
+
+    const foundEventIds = new Set();
+    const busAvtalar = {};
+    for (const r of resultat) {
+        for (const ev of r.events) {
+            foundEventIds.add(ev.id);
             for (const ba of (ev.busAppointments || [])) {
                 for (const sid of (ba.schoolIds || [])) {
-                    bySkule[sid] = { departureTime: ba.departureTime, returnTime: ba.returnTime, textToSchool: ba.textToSchool };
+                    if (!busAvtalar[ev.id]) busAvtalar[ev.id] = {};
+                    busAvtalar[ev.id][sid] = { departureTime: ba.departureTime, returnTime: ba.returnTime, textToSchool: ba.textToSchool };
                 }
             }
-            if (Object.keys(bySkule).length > 0) turneBusAvtalar[parseInt(eid)] = bySkule;
         }
-        const antall = Object.keys(turneBusAvtalar).length;
-        statusEl.style.color = antall > 0 ? '#276749' : '#744210';
-        statusEl.textContent = antall > 0 ? `✓ Lasta inn ${antall} arrangement med bussavtalar` : '⚠ Ingen bussavtalar funne i JSON-svaret';
-        visTurneResultat();
-    } catch (e) {
-        statusEl.style.color = '#c53030';
-        statusEl.textContent = '✗ Ugyldig JSON';
     }
+    const scopeFeil = resultat.filter(r => !r.ok).map(r => r.scope);
+    const alleFeila = resultat.every(r => !r.ok);
+    return { foundEventIds, busAvtalar, scopeFeil, alleFeila };
 }
 
 async function sokTransportForAlleTurneHendingar() {
     const turneStatusEl = document.getElementById('turneStatus');
     const maksGange = parseInt(document.getElementById('turneMaksGange').value) || 2000;
     turneResultat = [];
+    turneBusAvtalar = {};
+    turneBussdataStatus = {};
+
+    const skuleIdarForBuss = [...new Set(turneHendingar.flatMap(h => h.schools.map(s => s.id)))];
+    if (skuleIdarForBuss.length > 0) {
+        turneStatusEl.textContent = 'Hentar bussavtalar...';
+        const { foundEventIds, busAvtalar, scopeFeil, alleFeila } = await hentBussavtalarForTurne(skuleIdarForBuss);
+        turneBusAvtalar = busAvtalar;
+        for (const h of turneHendingar) {
+            if (h.schools.length === 0) continue; // ingen skule tildelt — ingen bussdata mogleg uansett
+            if (alleFeila) {
+                turneBussdataStatus[h.id] = 'feil';
+            } else if (foundEventIds.has(h.id)) {
+                turneBussdataStatus[h.id] = 'bekrefta';
+            } else {
+                turneBussdataStatus[h.id] = 'utilgjengeleg';
+                const datoStr = turneParseDate(h.dateStart).toLocaleDateString('nb-NO');
+                console.warn(`Ingen WP-treff for eventId ${h.id} (${datoStr}, ${h.location}) — moglegvis eigd av eit branchOffice utanfor WP_SCOPES`);
+            }
+        }
+        if (scopeFeil.length > 0) {
+            console.warn(`get_calendar_events feila for scope: ${scopeFeil.join(', ')} — held fram med resterande scope.`);
+        }
+    }
 
     for (let hi = 0; hi < turneHendingar.length; hi++) {
         const hending = turneHendingar[hi];
@@ -4871,6 +4918,13 @@ function visTurneResultat() {
             html += `<div class="turne-ingen-skular">Ingen skular tildelt endå</div>`;
         }
 
+        const busStatus = turneBussdataStatus[hending.id]; // undefined viss hending.schools.length === 0
+        if (busStatus === 'utilgjengeleg') {
+            html += `<div class="turne-bussavtale-utilgjengeleg">🚫 Bussavtalar ikkje tilgjengelege — turnéen er truleg upublisert (draft)</div>`;
+        } else if (busStatus === 'feil') {
+            html += `<div class="turne-bussavtale-feil">⚠️ Klarte ikkje hente bussavtalar</div>`;
+        }
+
         for (const sr of hr.skuleResultat) {
             const overstyringKey = `${hending.id}_${sr.skuleId}`;
             const valtType = turneOverstyring[overstyringKey] || sr.valt;
@@ -4924,15 +4978,24 @@ function visTurneResultat() {
                 ? `<span class="turne-begrunnelse-wrapper" style="margin-right:5px;vertical-align:middle"><span class="ingen-direkte-ikon">✕</span><div class="turne-begrunnelse-tooltip">${ingenIkonTekst}</div></span>`
                 : '';
 
-            // Vis eksisterande bussavtale frå DKS-portalen om tilgjengeleg
+            // Vis eksisterande bussavtale frå DKS-portalen — berre når get_calendar_events
+            // faktisk stadfesta arrangementet (busStatus === 'bekrefta'). Elles veit vi ikkje
+            // om det finst ein avtale eller ikkje, og skal ALDRI la feltet stå tomt
+            // (tomt felt vert lese av brukaren som "ingen avtale" — sjå Del C).
             let bussavtaleHtml = '';
-            const ba = (turneBusAvtalar[hending.id] || {})[sr.skuleId];
-            if (ba) {
-                const delar = [];
-                if (ba.departureTime) delar.push(`<span class="turne-bussavtale-felt">🚌 Avgang: <b>${ba.departureTime}</b></span>`);
-                if (ba.returnTime) delar.push(`<span class="turne-bussavtale-felt">🔄 Retur: <b>${ba.returnTime}</b></span>`);
-                if (ba.textToSchool) delar.push(`<span class="turne-bussavtale-felt">💬 ${ba.textToSchool}</span>`);
-                if (delar.length) bussavtaleHtml = `<div class="turne-bussavtale">${delar.join('')}</div>`;
+            if (busStatus === 'bekrefta') {
+                const ba = (turneBusAvtalar[hending.id] || {})[sr.skuleId];
+                if (ba) {
+                    const delar = [];
+                    if (ba.departureTime) delar.push(`<span class="turne-bussavtale-felt">🚌 Avgang: <b>${ba.departureTime}</b></span>`);
+                    if (ba.returnTime) delar.push(`<span class="turne-bussavtale-felt">🔄 Retur: <b>${ba.returnTime}</b></span>`);
+                    if (ba.textToSchool) delar.push(`<span class="turne-bussavtale-felt">💬 ${ba.textToSchool}</span>`);
+                    bussavtaleHtml = delar.length
+                        ? `<div class="turne-bussavtale">${delar.join('')}</div>`
+                        : `<div class="turne-bussavtale-ingen">Ingen bussavtale registrert</div>`;
+                } else {
+                    bussavtaleHtml = `<div class="turne-bussavtale-ingen">Ingen bussavtale registrert</div>`;
+                }
             }
 
             html += `
@@ -4978,6 +5041,7 @@ function genererTurnePayload() {
     const payload = {
         tourId: parseInt(tourId),
         generert: new Date().toISOString(),
+        _instruks: "Les work_bench/get_events for tourId FØR save_events. Slå saman med eksisterande busAppointments — utelatne avtalar vert sletta. Arrangement med bussdataStatus != 'bekrefta' må sjekkast manuelt før skriving.",
         events: turneResultat
             .filter(hr => !hr.hending.erFortidig && hr.skuleResultat.length > 0)
             .map(hr => {
@@ -4987,6 +5051,7 @@ function genererTurnePayload() {
                     eventId: hending.id,
                     dateStart: dato.toISOString(),
                     location: hending.location,
+                    bussdataStatus: turneBussdataStatus[hending.id] || 'utilgjengeleg',
                     schools: hr.skuleResultat.map(sr => {
                         const overstyringKey = `${hending.id}_${sr.skuleId}`;
                         const valtType = turneOverstyring[overstyringKey] || sr.valt;
