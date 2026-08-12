@@ -1006,6 +1006,30 @@
         .turne-portal-utilgjengeleg { background: #edf2f7; color: #4a5568; }
         .turne-portal-feil { background: #fff5f5; color: #c53030; }
         .turne-portal-tid { display: block; font-size: 11px; color: #666; margin-top: 3px; }
+        .turne-portal-tom { color: #9ca3af; font-style: italic; }
+        /* Kolonneoverskrifter — vist ÉIN gong øvst i lista (RETTA 12.08.2026),
+           ikkje gjenteke som "→ Tur:"/"← Retur:"-etikettar på kvar rad. Same
+           kolonnebreidder som .turne-skule-rad, så alt står i linje nedover. */
+        .turne-kolonne-header {
+            display: grid;
+            grid-template-columns: 190px 160px minmax(150px,1fr) minmax(130px,1fr) 120px;
+            gap: 12px;
+            padding: 8px 15px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            color: #718096;
+            background: #f7fafc;
+            border-radius: 10px 10px 0 0;
+            border-bottom: 2px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+        @media (max-width: 760px) {
+            .turne-kolonne-header { display: none; }
+        }
         .turne-portal-tooltip { white-space: normal !important; max-width: 260px; }
         .turne-col-tur, .turne-col-retur { font-size: 13px; }
         .turne-col-retur.turne-retur-dimma { opacity: 0.55; font-style: italic; }
@@ -5012,7 +5036,7 @@ function byggPortalCelle(busStatus, ba) {
     if (busStatus !== 'bekrefta') return '';
 
     const klass = klassifiserPortalTekst(ba);
-    if (klass.type === 'ingen') return '';
+    if (klass.type === 'ingen') return `<span class="turne-portal-tom">ingen transporttekst</span>`;
 
     const merkeHtml = `<span class="turne-portal-merke ${PORTAL_MERKE_KLASSE[klass.type]}">${PORTAL_MERKE_NAMN[klass.type]}</span>`;
     const tooltipHtml = klass.tekst
@@ -5032,6 +5056,15 @@ function byggPortalCelle(busStatus, ba) {
 function visTurneResultat() {
     const liste = document.getElementById('turneResultatListe');
     liste.innerHTML = '';
+
+    // Kolonneoverskrifter éin gong øvst — RETTA 12.08.2026. Berre vist når det
+    // faktisk finst skulerader å vise (elles ei overskrift over ingenting).
+    if (turneResultat.some(hr => hr.skuleResultat.length > 0)) {
+        const header = document.createElement('div');
+        header.className = 'turne-kolonne-header';
+        header.innerHTML = `<div>Skule</div><div>Portal</div><div>Tur</div><div>Retur</div><div>Val</div>`;
+        liste.appendChild(header);
+    }
 
     for (const hr of turneResultat) {
         const hending = hr.hending;
