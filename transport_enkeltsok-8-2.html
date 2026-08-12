@@ -982,7 +982,7 @@
            tur-detaljar vandra ut av linje avhengig av innhald). */
         .turne-skule-rad {
             display: grid;
-            grid-template-columns: 190px 160px minmax(150px,1fr) minmax(130px,1fr) 120px;
+            grid-template-columns: 180px 150px minmax(140px,1fr) minmax(120px,1fr) 90px minmax(170px,1.3fr);
             gap: 12px;
             align-items: start;
             padding: 12px 15px;
@@ -1012,7 +1012,7 @@
            kolonnebreidder som .turne-skule-rad, så alt står i linje nedover. */
         .turne-kolonne-header {
             display: grid;
-            grid-template-columns: 190px 160px minmax(150px,1fr) minmax(130px,1fr) 120px;
+            grid-template-columns: 180px 150px minmax(140px,1fr) minmax(120px,1fr) 90px minmax(170px,1.3fr);
             gap: 12px;
             padding: 8px 15px;
             font-size: 11px;
@@ -1030,29 +1030,11 @@
         @media (max-width: 760px) {
             .turne-kolonne-header { display: none; }
         }
-        .turne-portal-tooltip { white-space: normal !important; max-width: 260px; }
         .turne-col-tur, .turne-col-retur { font-size: 13px; }
         .turne-col-retur.turne-retur-dimma { opacity: 0.55; font-style: italic; }
         .turne-linje-hoved { font-weight: 500; }
         .turne-linje-under { font-size: 11px; color: #888; margin-top: 2px; }
-        .turne-alternativ-knappar { display: flex; gap: 6px; flex-wrap: wrap; }
         .turne-alt-wrapper { position: relative; display: inline-block; }
-        .turne-alternativ-knappar button {
-            padding: 4px 10px;
-            font-size: 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 4px;
-            background: white;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: background 0.15s, border-color 0.15s;
-        }
-        .turne-alternativ-knappar button:hover { background: #f0f4ff; border-color: #667eea; }
-        .turne-alternativ-knappar button.aktiv-overstyring {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
         .turne-extra-dropdown {
             display: none;
             position: absolute;
@@ -1084,14 +1066,39 @@
             background: #fed7d7; color: #c53030; font-size: 10px; font-weight: 700;
             margin-right: 5px; flex-shrink: 0; position: relative; top: 1px;
         }
-        .turne-begrunnelse-wrapper { position: relative; display: inline-block; }
-        .turne-begrunnelse-wrapper .turne-begrunnelse-tooltip {
-            display: none; position: absolute; bottom: calc(100% + 6px); left: 0;
+        /* Delt tooltip på body-nivå, sjå settOppFlytandeTooltip(). "position:fixed"
+           + manuell mousemove-posisjonering unngår klipping frå forfedre med
+           "overflow:hidden" (t.d. .turne-resultat-gruppe). */
+        .turne-flytande-tooltip {
+            display: none; position: fixed; z-index: 1000;
             background: #1a202c; color: #fff; font-size: 12px; padding: 6px 10px;
-            border-radius: 5px; white-space: nowrap; z-index: 300;
+            border-radius: 5px; max-width: 320px; white-space: normal;
             box-shadow: 0 2px 8px rgba(0,0,0,.25); pointer-events: none;
         }
-        .turne-begrunnelse-wrapper:hover .turne-begrunnelse-tooltip { display: block; }
+        [data-tooltip] { cursor: help; }
+        .turne-col-tekst { display: flex; align-items: flex-start; gap: 6px; font-size: 12px; }
+        .turne-generert-tekst {
+            flex: 1; color: #4a5568; cursor: help;
+            display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .turne-kopier-btn {
+            flex-shrink: 0; border: 1px solid #d1d5db; background: white; border-radius: 4px;
+            padding: 4px 7px; cursor: pointer; font-size: 13px; line-height: 1;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .turne-kopier-btn:hover { background: #f0f4ff; border-color: #667eea; }
+        .turne-kopier-btn.kopiert { background: #c6f6d5; border-color: #48bb78; }
+        .turne-val-ikon-knappar { display: flex; gap: 6px; flex-wrap: wrap; }
+        .turne-val-ikon-knappar button {
+            width: 30px; height: 30px; font-size: 15px;
+            border: 1px solid #d1d5db; border-radius: 4px; background: white;
+            cursor: pointer; transition: background 0.15s, border-color 0.15s;
+        }
+        .turne-val-ikon-knappar button:hover { background: #f0f4ff; border-color: #667eea; }
+        .turne-val-ikon-knappar button.aktiv-overstyring {
+            background: #667eea; color: white; border-color: #667eea;
+        }
     </style>
 </head>
 <body>
@@ -2023,7 +2030,61 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('payloadInfoLest', '1');
         }
     }
+
+    settOppFlytandeTooltip();
 });
+
+// Delt tooltip på body-nivå (RETTA 12.08.2026 — erstattar dei tidlegare
+// .turne-begrunnelse-wrapper/.turne-begrunnelse-tooltip-elementa som var
+// posisjonert med "position:absolute" INNI kvar rad. .turne-resultat-gruppe
+// har "overflow:hidden" (for dei avrunda hjørna på gruppa), som klipte av
+// tooltipen når han stakk utanfor rada. Éin delt <div> på <body> med
+// "position:fixed" og manuell posisjonering via mousemove unngår klipping
+// heilt, sidan han ikkje lenger er eit barn av noko som klipper overflow.
+// Elementa som skal ha tooltip merkast berre med eit "data-tooltip"-attributt
+// — ingen nøsta tooltip-div per element lenger.
+function settOppFlytandeTooltip() {
+    const tooltip = document.createElement('div');
+    tooltip.className = 'turne-flytande-tooltip';
+    document.body.appendChild(tooltip);
+
+    function finnMål(el) {
+        return el && el.closest ? el.closest('[data-tooltip]') : null;
+    }
+
+    function posisjonerTooltip(e) {
+        const margin = 14;
+        let x = e.clientX + margin;
+        let y = e.clientY + margin;
+        const rect = tooltip.getBoundingClientRect();
+        if (x + rect.width > window.innerWidth - 8) x = e.clientX - rect.width - margin;
+        if (y + rect.height > window.innerHeight - 8) y = e.clientY - rect.height - margin;
+        tooltip.style.left = `${Math.max(4, x)}px`;
+        tooltip.style.top = `${Math.max(4, y)}px`;
+    }
+
+    document.addEventListener('mouseover', function(e) {
+        const mål = finnMål(e.target);
+        if (!mål) return;
+        const tekst = mål.getAttribute('data-tooltip');
+        if (!tekst) return;
+        tooltip.textContent = tekst;
+        tooltip.style.display = 'block';
+        posisjonerTooltip(e);
+    });
+
+    document.addEventListener('mousemove', function(e) {
+        if (tooltip.style.display === 'block') posisjonerTooltip(e);
+    });
+
+    document.addEventListener('mouseout', function(e) {
+        const mål = finnMål(e.target);
+        if (!mål) return;
+        // Ikkje skjul viss musa berre flytta seg til eit barn av same mål-element.
+        if (mål.contains(e.relatedTarget)) return;
+        tooltip.style.display = 'none';
+    });
+}
 
 // Versjonsinfo frå sist endra fil
 (function() {
@@ -2824,10 +2885,16 @@ function visResultat() {
             }
         }
 
-        // ✕-ikon + tooltip med grunngjeving for auto-valet (harmonisert med turnémodus, 6d)
+        // ✕-ikon + tooltip med grunngjeving for auto-valet (harmonisert med turnémodus, 6d).
+        // RETTA 12.08.2026: data-tooltip (delt body-tooltip, sjå settOppFlytandeTooltip())
+        // i staden for embedda .turne-begrunnelse-tooltip — same klippingsproblem som i
+        // turnémodus kunne oppstå her òg.
         const ingenIkon = r.ingenDirekte
-            ? `<span class="turne-begrunnelse-wrapper" style="margin-right:5px;vertical-align:middle"><span class="ingen-direkte-ikon">✕</span><div class="turne-begrunnelse-tooltip">${r.begrunnelse || 'Ingen direkterute funne'}</div></span>`
+            ? `<span class="ingen-direkte-ikon" style="margin-right:5px;vertical-align:middle" data-tooltip="${escHtmlAttr(r.begrunnelse || 'Ingen direkterute funne')}">✕</span>`
             : '';
+        const samandragHtml = r.begrunnelse
+            ? `<span class="resultat-beste" data-tooltip="${escHtmlAttr(r.begrunnelse)}">${samandragTekst}</span>`
+            : `<span class="resultat-beste">${samandragTekst}</span>`;
 
         kort.innerHTML = `
             <div class="resultat-header" onclick="toggleResultat(this)">
@@ -2836,10 +2903,7 @@ function visResultat() {
                     <span style="color: #888; font-size: 13px;"> - ${r.trinn}. trinn (${r.elevar} elevar)</span>
                 </div>
                 <div class="resultat-oppsummering">
-                    <div class="turne-begrunnelse-wrapper">
-                        <span class="resultat-beste">${samandragTekst}</span>
-                        ${r.begrunnelse ? `<div class="turne-begrunnelse-tooltip">${r.begrunnelse}</div>` : ''}
-                    </div>
+                    ${samandragHtml}
                     <span class="utvid-pil">▼</span>
                 </div>
             </div>
@@ -4525,7 +4589,10 @@ function byggProduksjonListe(events) {
             events: p.events
         };
     });
-    liste.sort((a, b) => (a.datoFra || 0) - (b.datoFra || 0));
+    // Alfabetisk sortering (RETTA 12.08.2026, tidlegare etter datoFra) — norsk
+    // sorteringsrekkjefølge (æøå sist) via localeCompare('nb'). Dato/tal-visinga
+    // held fram uendra i formaterProduksjonLabel().
+    liste.sort((a, b) => a.name.localeCompare(b.name, 'nb'));
     return liste;
 }
 
@@ -4582,6 +4649,13 @@ function formaterDataAlder(isoTidspunkt) {
     return `for ${dagar} d sidan`;
 }
 
+// Entur sin journey planner gir ikkje treff for søk for langt fram i tid —
+// stadfesta åtferd (lagt til 12.08.2026), men eksakt grense er ikkje kjent
+// (et stad mellom ca. 6 månader). Sett difor litt i underkant (183 dagar =
+// ca. 6 månader) for å varsle FØR søket i staden for å visa eit misvisande
+// "ingen direkterute funne". Juster her viss den faktiske grensa vert avklart.
+const ENTUR_HORISONT_DAGAR = 183;
+
 async function hentTurne() {
     if (!valtProduksjon) {
         document.getElementById('turneStatus').textContent = 'Vel ein produksjon frå lista';
@@ -4613,6 +4687,7 @@ async function hentTurne() {
         }
 
         const now = new Date();
+        const enturGrense = new Date(now.getTime() + ENTUR_HORISONT_DAGAR * 24 * 60 * 60 * 1000);
         turneHendingar = events
             .slice()
             .sort((a, b) => turneParseDate(a.dateStart) - turneParseDate(b.dateStart))
@@ -4652,7 +4727,8 @@ async function hentTurne() {
                     destCoords: dCoords,
                     schools: skuler,
                     elevtalPerSkule,
-                    erFortidig: dato < now
+                    erFortidig: dato < now,
+                    utanforEnturHorisont: dato > enturGrense
                 };
             });
 
@@ -4728,6 +4804,39 @@ async function sokTransportForAlleTurneHendingar() {
             }
         }
 
+        // For langt fram i tid — Entur gir ikkje treff (sjå ENTUR_HORISONT_DAGAR).
+        // Hopp over kollektivsøket, men gange/bestillerbuss kan framleis vurderast
+        // sidan Google-avstandssøket ikkje er dato-avgrensa. Viser ei tydeleg
+        // "NB: for lenge til rutesøk"-melding i staden for eit misvisande
+        // "ingen direkterute funne" (som ville sett ut som eit ekte negativt søkeresultat).
+        if (hending.utanforEnturHorisont) {
+            for (let si = 0; si < hending.schools.length; si++) {
+                const skule = hending.schools[si];
+                turneStatusEl.textContent = `Arr. ${hi + 1}/${turneHendingar.length}: ${skule.name} (${si + 1}/${hending.schools.length}, utanfor Entur-horisont)...`;
+
+                let sCoords = skuleKoordinatar[skule.name];
+                if (!sCoords) sCoords = await geocodeAddress(skule.name + ', Asker');
+
+                let googleGange = null, googleKøyring = null;
+                if (sCoords) {
+                    [googleGange, googleKøyring] = await Promise.all([
+                        hentGoogleAvstand(sCoords, dCoords, 'WALKING'),
+                        hentGoogleAvstand(sCoords, dCoords, 'DRIVING')
+                    ]);
+                }
+
+                const sr = analysertransportTurne(skule, null, null, googleGange, googleKøyring, maksGange);
+                sr.elevtal = (hending.elevtalPerSkule || {})[skule.id] || null;
+                sr.utanforEnturHorisont = true;
+                sr.begrunnelse = `NB: for lenge til rutesøk — Entur gir ikkje treff for arrangement meir enn ca. ${Math.round(ENTUR_HORISONT_DAGAR / 30)} månader fram i tid. Sjekk kollektivtilbod manuelt nærare arrangementet.`;
+                sr.retur = await sokTurneRetur(sr, hending, sCoords, dCoords, maksGange, bufferMin, varigheitMin, googleGange, googleKøyring);
+                hendingResultat.skuleResultat.push(sr);
+            }
+            visTurneResultat();
+            document.getElementById('turneResultatSeksjon').style.display = '';
+            continue;
+        }
+
         const arriveBy = turneParseDate(hending.dateStart).toISOString();
 
         for (let si = 0; si < hending.schools.length; si++) {
@@ -4795,7 +4904,8 @@ function analysertransportTurne(skule, bussReiser, togReiser, googleGange, googl
                 avgang: togReise.startTime,
                 ankomst: togReise.endTime,
                 varigheit: Math.round(togReise.duration / 60),
-                reiseveg: byggReiseveg(togReise.legs)
+                reiseveg: byggReiseveg(togReise.legs),
+                stasjon: togLegs[0]?.fromPlace?.name || null
             });
         }
     }
@@ -4827,7 +4937,8 @@ function analysertransportTurne(skule, bussReiser, togReiser, googleGange, googl
                 ankomst: bussReise.endTime,
                 varigheit: Math.round(bussReise.duration / 60),
                 reiseveg: byggReiseveg(bussReise.legs),
-                ekstraAvgangar
+                ekstraAvgangar,
+                haldeplass: bussLegs[0]?.fromPlace?.name || null
             });
         }
     }
@@ -4884,7 +4995,8 @@ function analysertransportTurneRetur(returBussReiser, returTogReiser, googleGang
                 avgang: togReise.startTime,
                 ankomst: togReise.endTime,
                 varigheit: Math.round(togReise.duration / 60),
-                reiseveg: byggReiseveg(togReise.legs)
+                reiseveg: byggReiseveg(togReise.legs),
+                stasjon: togLegs[0]?.fromPlace?.name || null
             });
         }
     }
@@ -4906,7 +5018,8 @@ function analysertransportTurneRetur(returBussReiser, returTogReiser, googleGang
                 avgang: bussReise.startTime,
                 ankomst: bussReise.endTime,
                 varigheit: Math.round(bussReise.duration / 60),
-                reiseveg: byggReiseveg(bussReise.legs)
+                reiseveg: byggReiseveg(bussReise.legs),
+                haldeplass: bussLegs[0]?.fromPlace?.name || null
             });
         }
     }
@@ -4951,6 +5064,126 @@ async function sokTurneRetur(sr, hending, sCoords, dCoords, maksGange, bufferMin
 
 // Formaterer detaljteksten for eit alternativ (delt mellom tur og retur i turnémodus).
 const TURNE_ALT_IKON = { gange: '🚶', tog: '🚂', buss: '🚌', bestillerbuss: '🚐' };
+
+// Escapar tekst for trygg bruk som HTML-attributt (data-tooltip, data-tekst)
+// og som synleg tekstinnhald — nødvendig sidan textToSchool/genererte tekstar
+// kan innehalde teikn (t.d. "&", '"') som elles ville brote ut av attributtet.
+function escHtmlAttr(s) {
+    return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+// Malar for automatisk generert transporttekst til portalen (lagt til
+// 12.08.2026, sjå CLAUDE.md "Generert tekst-kolonne"). FORSLAG TIL ORDLYD —
+// Eirik må lese gjennom og godkjenne formuleringane før dei vert brukt i
+// praksis. Samla her øvst i fila slik at dei er lette å justere utan å leite
+// gjennom rendringskoden i visTurneResultat().
+const TEKSTMALAR = {
+    bestillerbuss: (v) =>
+        `VY Turbuss frakter elevene fra skolen til ${v.stad} og tilbake etter besøket. ` +
+        `Avreise fra skolen kl. ${v.avgang}. Avreise fra ${v.stad} kl. ${v.retur}. ` +
+        `Vakttelefon Vy Buss er 91658600`,
+
+    buss: (v) => {
+        let t = `Elevene reiser kollektivt til ${v.stad}. Buss ${v.linje} fra ${v.haldeplass} kl. ${v.avgangstid}. ` +
+                `Beregnet reisetid ${v.N} minutter.`;
+        if (v.returSetning) t += ` ${v.returSetning}`;
+        t += ` RUFUS-billetter kan benyttes. Dette dekker DKS Asker`;
+        return t;
+    },
+
+    tog: (v) => {
+        let t = `Elevene reiser kollektivt til ${v.stad}. Tog fra ${v.stasjon} kl. ${v.avgangstid}. ` +
+                `Beregnet reisetid ${v.N} minutter.`;
+        if (v.returSetning) t += ` ${v.returSetning}`;
+        t += ` RUFUS-billetter kan benyttes. Dette dekker DKS Asker`;
+        return t;
+    },
+
+    gange: (v) => `Elevene går eller sykler til ${v.stad}.`
+};
+
+// Byggjer returklausulen for buss-/tog-malane basert på det FAKTISKE
+// retur-alternativet (kan avvike frå tur sin type — t.d. tur=buss, men ingen
+// direkte busslinje attende funne → retur=bestillerbuss). Returnerer ''
+// viss retursøket er hoppa over — MERK: malen skal då IKKJE nemne noko
+// returtidspunkt frå søk (per oppdrag 12.08.2026).
+function byggReturSetning(retur) {
+    if (!retur || retur.hoppaOver) return '';
+    const returAlt = (retur.alternativ || []).find(a => a.type === retur.valt);
+    if (!returAlt) return '';
+    const returtid = turneFormatTid(returAlt.avgang);
+    if (retur.valt === 'buss') {
+        return `Retur med buss ${returAlt.linje || '?'} fra ${returAlt.haldeplass || 'holdeplassen'} kl. ${returtid}.`;
+    }
+    if (retur.valt === 'tog') {
+        return `Retur med tog fra ${returAlt.stasjon || 'stasjonen'} kl. ${returtid}.`;
+    }
+    if (retur.valt === 'gange') {
+        return `Elevene går eller sykler tilbake til skolen.`;
+    }
+    if (retur.valt === 'bestillerbuss') {
+        return `Retur med bestillerbuss.`;
+    }
+    return '';
+}
+
+// Byggjer den automatisk genererte transportteksten for éin skulerad, klar
+// til å limast inn i portalen. TIDSREGLAR (per oppdrag 12.08.2026):
+//  - Bestillerbuss: avgang = arrangementstart MINUS 10 min buffer (rådgjevande
+//    køyreinstruks til sjåføren), retur = arrangementsslutt PRESIS, ingen buffer.
+//  - Buss/tog: brukar faktiske Entur-avgangstider direkte, ingen ekstra buffer
+//    (Entur-søket er alt målretta mot rett ankomsttid via arriveBy).
+function byggTransportTekst(hending, sr, valtType, valtAlt, varigheitMin) {
+    const stad = hending.location;
+
+    if (valtType === 'gange') {
+        return TEKSTMALAR.gange({ stad });
+    }
+
+    if (valtType === 'bestillerbuss') {
+        const startSek = hending.dateStart - 10 * 60;
+        const sluttSek = hending.dateEnd || (hending.dateStart + varigheitMin * 60);
+        const avgang = new Date(startSek * 1000).toLocaleTimeString('nb-NO', { hour: '2-digit', minute: '2-digit' });
+        const retur = new Date(sluttSek * 1000).toLocaleTimeString('nb-NO', { hour: '2-digit', minute: '2-digit' });
+        return TEKSTMALAR.bestillerbuss({ stad, avgang, retur });
+    }
+
+    if (valtType === 'buss' || valtType === 'tog') {
+        if (!valtAlt) return '';
+        const avgangstid = turneFormatTid(valtAlt.avgang);
+        const N = valtAlt.varigheit != null ? valtAlt.varigheit : '?';
+        const returSetning = byggReturSetning(sr.retur);
+        if (valtType === 'buss') {
+            return TEKSTMALAR.buss({ stad, linje: valtAlt.linje || '?', haldeplass: valtAlt.haldeplass || 'holdeplassen', avgangstid, N, returSetning });
+        }
+        return TEKSTMALAR.tog({ stad, stasjon: valtAlt.stasjon || 'stasjonen', avgangstid, N, returSetning });
+    }
+
+    return '';
+}
+
+// Kopierer den genererte teksten til utklippstavla og gir kort visuell
+// tilbakemelding på knappen (✓ i 1,5s).
+function kopierTransportTekst(btn) {
+    const tekst = btn.getAttribute('data-tekst') || '';
+    const utfør = () => {
+        const opphavleg = btn.textContent;
+        btn.classList.add('kopiert');
+        btn.textContent = '✓';
+        setTimeout(() => { btn.classList.remove('kopiert'); btn.textContent = opphavleg; }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(tekst).then(utfør).catch(err => {
+            console.error('Kunne ikkje kopiere til utklippstavla:', err);
+        });
+    } else {
+        console.error('Clipboard API ikkje tilgjengeleg');
+    }
+}
 
 // Kortar ned eit reiseveg-steg (frå byggReiseveg()) til kompakt form for
 // underlinja i rutenettet. "Gå 16 min til Hagaløkka" -> "gå 16",
@@ -5023,9 +5256,12 @@ function klassifiserPortalTekst(ba) {
 const PORTAL_MERKE_NAMN = { bestillerbuss: 'Bestillerbuss', kollektiv: 'Kollektiv/gange', ukjend: 'Sjå tekst' };
 const PORTAL_MERKE_KLASSE = { bestillerbuss: 'turne-portal-bestillerbuss', kollektiv: 'turne-portal-kollektiv', ukjend: 'turne-portal-ukjend' };
 
-// Bygg innhaldet i Portal-kolonnen: merkelapp + evt. tidspunkt, eller
+// Bygg innhaldet i Portaltekst-kolonnen: merkelapp + evt. tidspunkt, eller
 // draft-/feil-status. Full portaltekst (vakttelefon o.l.) ligg som tooltip
-// på merkelappen, ikkje som synleg tekst — sjå .turne-begrunnelse-tooltip.
+// på merkelappen (data-tooltip, sjå settOppFlytandeTooltip()), ikkje som
+// synleg tekst. RETTA 12.08.2026: tidspunkt vert no vist for ALLE
+// merkelapp-typar (ikkje berre bestillerbuss) når departureTime/returnTime
+// finst i rådata — feltet er ikkje avgrensa til bestillerbuss-avtalar.
 function byggPortalCelle(busStatus, ba) {
     if (busStatus === 'utilgjengeleg') {
         return `<span class="turne-portal-merke turne-portal-utilgjengeleg" title="Turnéen er truleg upublisert (draft)">Ikkje tilgjengeleg</span>`;
@@ -5038,31 +5274,29 @@ function byggPortalCelle(busStatus, ba) {
     const klass = klassifiserPortalTekst(ba);
     if (klass.type === 'ingen') return `<span class="turne-portal-tom">ingen transporttekst</span>`;
 
-    const merkeHtml = `<span class="turne-portal-merke ${PORTAL_MERKE_KLASSE[klass.type]}">${PORTAL_MERKE_NAMN[klass.type]}</span>`;
-    const tooltipHtml = klass.tekst
-        ? `<div class="turne-begrunnelse-tooltip turne-portal-tooltip">${klass.tekst}</div>`
-        : '';
-    const merkeMedTooltip = tooltipHtml
-        ? `<span class="turne-begrunnelse-wrapper">${merkeHtml}${tooltipHtml}</span>`
-        : merkeHtml;
+    const merkeHtml = klass.tekst
+        ? `<span class="turne-portal-merke ${PORTAL_MERKE_KLASSE[klass.type]}" data-tooltip="${escHtmlAttr(klass.tekst)}">${PORTAL_MERKE_NAMN[klass.type]}</span>`
+        : `<span class="turne-portal-merke ${PORTAL_MERKE_KLASSE[klass.type]}">${PORTAL_MERKE_NAMN[klass.type]}</span>`;
 
-    const tidHtml = (klass.type === 'bestillerbuss' && (ba.departureTime || ba.returnTime))
+    const tidHtml = (ba && (ba.departureTime || ba.returnTime))
         ? `<span class="turne-portal-tid">${ba.departureTime || '?'}–${ba.returnTime || '?'}</span>`
         : '';
 
-    return `${merkeMedTooltip}${tidHtml}`;
+    return `${merkeHtml}${tidHtml}`;
 }
 
 function visTurneResultat() {
     const liste = document.getElementById('turneResultatListe');
     liste.innerHTML = '';
 
+    const varigheitMin = parseInt(document.getElementById('turneVarigheitMin').value) || 45;
+
     // Kolonneoverskrifter éin gong øvst — RETTA 12.08.2026. Berre vist når det
     // faktisk finst skulerader å vise (elles ei overskrift over ingenting).
     if (turneResultat.some(hr => hr.skuleResultat.length > 0)) {
         const header = document.createElement('div');
         header.className = 'turne-kolonne-header';
-        header.innerHTML = `<div>Skule</div><div>Portal</div><div>Tur</div><div>Retur</div><div>Val</div>`;
+        header.innerHTML = `<div>Skule</div><div>Portaltekst</div><div>Tur</div><div>Retur</div><div>Velg transportmåte</div><div>Generert tekst</div>`;
         liste.appendChild(header);
     }
 
@@ -5102,17 +5336,21 @@ function visTurneResultat() {
             // Eksisterande bussavtale frå portalen (om stadfesta via get_calendar_events)
             const ba = (busStatus === 'bekrefta') ? (turneBusAvtalar[hending.id] || {})[sr.skuleId] : null;
 
-            // Knappar med hover-dropdown for tog/buss
+            // Knappar med hover-dropdown for tog/buss. RETTA 12.08.2026: berre
+            // ikon (ingen tekstetikett), full forklaring i "title"-attributtet
+            // (native title — klippast ikkje av "overflow:hidden" slik ein
+            // absolutt-posisjonert tooltip ville gjort).
             let knappar = '';
             for (const alt of (sr.alternativ || [])) {
                 const erValt = alt.type === valtType;
-                let label = '';
-                if (alt.type === 'gange') label = `🚶 Gange`;
-                else if (alt.type === 'tog') label = `🚂 Tog ${alt.linje || '?'}`;
-                else if (alt.type === 'buss') label = `🚌 Buss ${alt.linje || '?'}`;
-                else label = `🚐 Bestillerbuss`;
+                const ikon = TURNE_ALT_IKON[alt.type] || '?';
+                // Tittelen inneheld varigheit for alle typar (òg gange), henta
+                // frå SAME formatteringsfunksjon som Tur-/Retur-cella brukar —
+                // slik at ein kan samanlikne varigheit på tvers av alternativ
+                // utan å måtte klikke seg gjennom kvart eit (lagt til 12.08.2026).
+                const tittel = formaterAltDetaljar(alt).hovudlinje.replace(`${ikon} `, '');
 
-                const knappHtml = `<button onclick="settTurneOverstyring('${overstyringKey}', '${alt.type}')" class="${erValt ? 'aktiv-overstyring' : ''}">${label}</button>`;
+                const knappHtml = `<button onclick="settTurneOverstyring('${overstyringKey}', '${alt.type}')" class="${erValt ? 'aktiv-overstyring' : ''}" title="${escHtmlAttr(tittel)}">${ikon}</button>`;
 
                 const hasExtra = alt.type === 'buss' && alt.ekstraAvgangar && alt.ekstraAvgangar.length > 0;
                 if (hasExtra) {
@@ -5128,10 +5366,12 @@ function visTurneResultat() {
 
             // ✕-ikon med tooltip når ingen direkte kollektivrute er funne — bak
             // skulenamnet, slik at skulenamna står på same x-posisjon uavhengig
-            // av om ikonet vert vist.
+            // av om ikonet vert vist. Tooltip via data-tooltip (delt body-tooltip,
+            // sjå settOppFlytandeTooltip()) — RETTA 12.08.2026, tidlegare embedda
+            // .turne-begrunnelse-tooltip vart klipt av .turne-resultat-gruppe.
             const ingenIkonTekst = sr.begrunnelse || 'Ingen direkterute funne';
             const ingenIkon = sr.ingenDirekte
-                ? `<span class="turne-begrunnelse-wrapper" style="margin-left:5px;vertical-align:middle"><span class="ingen-direkte-ikon">✕</span><div class="turne-begrunnelse-tooltip">${ingenIkonTekst}</div></span>`
+                ? `<span class="ingen-direkte-ikon" style="margin-left:5px;vertical-align:middle" data-tooltip="${escHtmlAttr(ingenIkonTekst)}">✕</span>`
                 : '';
 
             // --- Skule-kolonne: namn (+ ✕-ikon) på éi linje, elevtal under ---
@@ -5142,11 +5382,12 @@ function visTurneResultat() {
                     ${elevtalDiv}
                 </div>`;
 
-            // --- Portal-kolonne: merkelapp (klassifisert textToSchool) + tidspunkt,
+            // --- Portaltekst-kolonne: merkelapp (klassifisert textToSchool) + tidspunkt,
             // eller draft-/feil-status. Full tekst ligg som tooltip på merkelappen.
             const portalCelle = `<div class="turne-col-portal">${byggPortalCelle(busStatus, ba)}</div>`;
 
-            // --- Tur-kolonne: hovudlinje (ikon+type/linje+totaltid) + underlinje (kortform reiseveg) ---
+            // --- Tur-kolonne: hovudlinje (ikon+type/linje+totaltid) + underlinje
+            // (kortform reiseveg). Tooltip via data-tooltip, same grunngjeving som ✕-ikonet over.
             let turHovud, turUnder;
             if (sr.feil) {
                 turHovud = `⚠️ ${sr.feil}`;
@@ -5157,15 +5398,14 @@ function visTurneResultat() {
                 turUnder = linjer.underlinje;
             }
             const turCelle = `
-                <div class="turne-col-tur${sr.begrunnelse ? ' turne-begrunnelse-wrapper' : ''}">
+                <div class="turne-col-tur"${sr.begrunnelse ? ` data-tooltip="${escHtmlAttr(sr.begrunnelse)}"` : ''}>
                     <div class="turne-linje-hoved">${turHovud}</div>
                     ${turUnder ? `<div class="turne-linje-under">${turUnder}</div>` : ''}
-                    ${sr.begrunnelse ? `<div class="turne-begrunnelse-tooltip turne-portal-tooltip">${sr.begrunnelse}</div>` : ''}
                 </div>`;
 
             // --- Retur-kolonne — sjå sokTurneRetur() for regelen som avgjer om
             // retur vart søkt eller hoppa over. Kortare tekst ved hoppaOver sidan
-            // tidspunkta alt står i Portal-kolonnen.
+            // tidspunkta alt står i Portaltekst-kolonnen.
             let returCelle = `<div class="turne-col-retur"></div>`;
             if (sr.retur) {
                 if (sr.retur.hoppaOver) {
@@ -5182,8 +5422,20 @@ function visTurneResultat() {
                 }
             }
 
-            // --- Val-kolonne: knappane for å overstyre transporttype ---
-            const valCelle = `<div class="turne-alternativ-knappar">${knappar}</div>`;
+            // --- Velg transportmåte-kolonne: ikon-knappane for å overstyre transporttype ---
+            const valCelle = `<div class="turne-val-ikon-knappar">${knappar}</div>`;
+
+            // --- Generert tekst-kolonne: automatisk generert portaltekst for
+            // det VALDE alternativet, med kopier-knapp. Regenererer kvar gong
+            // visTurneResultat() køyrer, altså òg ved overstyring av valt type
+            // (settTurneOverstyring() kallar visTurneResultat() på nytt).
+            const genertTekst = byggTransportTekst(hending, sr, valtType, valtAlt, varigheitMin);
+            const tekstCelle = genertTekst
+                ? `<div class="turne-col-tekst">
+                        <div class="turne-generert-tekst" data-tooltip="${escHtmlAttr(genertTekst)}">${escHtmlAttr(genertTekst)}</div>
+                        <button class="turne-kopier-btn" data-tekst="${escHtmlAttr(genertTekst)}" onclick="kopierTransportTekst(this)" title="Kopier tekst til utklippstavla">📋</button>
+                   </div>`
+                : `<div class="turne-col-tekst"></div>`;
 
             html += `
                 <div class="turne-skule-rad">
@@ -5192,6 +5444,7 @@ function visTurneResultat() {
                     ${turCelle}
                     ${returCelle}
                     ${valCelle}
+                    ${tekstCelle}
                 </div>`;
         }
 
