@@ -1328,10 +1328,12 @@
           <div class="steg-tittel">Turné</div>
         </div>
         <div class="input-row">
-          <div class="input-group" style="flex:2; min-width:240px">
-            <label>Turné-ID</label>
-            <input type="number" id="turneId" placeholder="t.d. 17202" style="width:100%">
-            <span style="font-size:12px;color:#999">Turné-ID finn du i URL-en i DKS-portalen: /tour/&lt;ID&gt;</span>
+          <div class="input-group" style="flex:2; min-width:280px">
+            <label>Vel produksjon <span id="turneLastStatus" style="font-weight:normal;color:#999;font-size:12px"></span></label>
+            <input type="text" id="turneSok" placeholder="Søk på produksjonsnamn…" oninput="filtrerProduksjonar(this.value)" style="margin-bottom:4px;width:100%">
+            <select id="turneVelg" onchange="velgProduksjon(this.value)" style="width:100%">
+              <option value="">Lastar produksjonar…</option>
+            </select>
           </div>
           <div class="input-group" style="max-width:200px">
             <label>Maks gangavstand (m)</label>
@@ -1346,7 +1348,7 @@
             <input type="number" id="turneVarigheitMin" value="45" min="0" step="5">
           </div>
         </div>
-        <button class="nav-btn primary" onclick="hentTurne()" style="margin-top:10px">Hent turné</button>
+        <button class="nav-btn primary" onclick="hentTurne()" style="margin-top:10px">Hent transport for vald produksjon</button>
         <p id="turneStatus" style="color:#666;font-size:13px;margin-top:8px"></p>
       </div>
 
@@ -1943,9 +1945,19 @@ let turneHendingar = [];
 let turneResultat = [];
 let turneOverstyring = {};
 let turneBusAvtalar = {}; // { eventId: { schoolId: {departureTime, returnTime, textToSchool} } } — aldri i localStorage
-let turneBussdataStatus = {}; // { eventId: 'bekrefta' | 'utilgjengeleg' | 'feil' } — sjå hentBussavtalarForTurne()
+let turneBussdataStatus = {}; // { eventId: 'bekrefta' | 'utilgjengeleg' | 'feil' } — sett direkte frå dks_turne_data.json, sjå hentTurne()
 let valdeEvents = {}; // { eventId: true } — kva arrangement som er avkryssa for payload. Aldri i localStorage.
 let genererteEvents = {}; // { eventId: true } — arrangement som er tekne med i eit generert payload denne økta.
+
+// Nedlasta turnédata (dks_turne_data.json, same-origin — RETTA 12.08.2026, sjå
+// CLAUDE.md "Oppgåve C". Ingen findByTourId/get_calendar_events-kall frå
+// nettlesaren lenger — data er henta på førehand av hent_dks_data.ps1 på
+// kommune-PC-en, ingen CORS/IP-blokkering råkar denne lesinga.
+let turneDataLasta = false;
+let alleTurneEvents = [];
+let turneDataHentetTidspunkt = null;
+let produksjonListe = []; // [{id, name, antalArrangement, datoFra, datoTil, events[]}]
+let valtProduksjon = null;
 
 const CORS_PROXY = 'https://corsproxy.io/?';
 
@@ -4416,6 +4428,10 @@ function byttModus(mode) {
     document.getElementById('turneModusContainer').style.display = mode === 'turne' ? '' : 'none';
     document.getElementById('btnManuelt').classList.toggle('aktiv', mode === 'manuelt');
     document.getElementById('btnTurne').classList.toggle('aktiv', mode === 'turne');
+    if (mode === 'turne' && !turneDataLasta) {
+        turneDataLasta = true;
+        lastTurneData();
+    }
 }
 
 // Hent skular frå event: prøv schools-dict, så participants som fallback
@@ -4436,33 +4452,119 @@ function skuleFraEvent(e) {
     return [];
 }
 
-async function hentAlleTurneArrangement(tourId, statusEl) {
-    const baseUrl = `https://portal.denkulturelleskolesekken.no/public/events/findByTourId?tourId=${tourId}`;
-    if (statusEl) statusEl.textContent = 'Hentar turné frå portalen...';
-    let allEvents = [];
-    let page = 1;
-    while (true) {
-        const resp = await corsHent(`${baseUrl}&page=${page}`);
+// Les dks_turne_data.json same-origin (skriven av hent_dks_data.ps1 på kommune-PC-en,
+// sjå CLAUDE.md "Oppgåve C"). Ingen portalkall frå nettlesaren i det heile — data er
+// henta på førehand, difor ingen CORS-/IP-blokkering å handtere her.
+async function lastTurneData() {
+    const statusEl = document.getElementById('turneLastStatus');
+    statusEl.textContent = '(lastar…)';
+    try {
+        const resp = await fetch('dks_turne_data.json');
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        const batch = await resp.json();
-        if (!Array.isArray(batch) || batch.length === 0) break;
-        allEvents = allEvents.concat(batch);
-        if (statusEl) statusEl.textContent = `Hentar turné... (${allEvents.length} arrangement)`;
-        if (batch.length < 15) break;
-        page++;
+        const data = await resp.json();
+        alleTurneEvents = data.events || [];
+        turneDataHentetTidspunkt = data.hentTidspunkt || null;
+        produksjonListe = byggProduksjonListe(alleTurneEvents);
+        fyllProduksjonDropdown(produksjonListe);
+        const alderTekst = turneDataHentetTidspunkt ? `, henta ${formaterDataAlder(turneDataHentetTidspunkt)}` : '';
+        statusEl.textContent = `(${produksjonListe.length} produksjonar${alderTekst})`;
+    } catch (err) {
+        statusEl.textContent = '';
+        document.getElementById('turneVelg').innerHTML = '<option value="">Kunne ikkje laste dks_turne_data.json</option>';
+        document.getElementById('turneStatus').textContent = `Feil ved lasting av turnédata: ${err.message}`;
+        console.error(err);
     }
-    return allEvents;
+}
+
+// Grupperer arrangement på production.id (get_calendar_events har ikkje noko
+// tour-felt — stadfesta 12.08.2026, sjå CLAUDE.md). Éin produksjon kan i
+// prinsippet ha fleire turnéar over tid, men datagrunnlaget er avgrensa til
+// gjeldande skuleår, så production.id er ein trygg nøkkel her.
+function byggProduksjonListe(events) {
+    const map = {};
+    for (const ev of events) {
+        const prod = ev.production;
+        if (!prod || !prod.id) continue;
+        if (!map[prod.id]) {
+            map[prod.id] = { id: prod.id, name: prod.name || `Produksjon ${prod.id}`, events: [] };
+        }
+        map[prod.id].events.push(ev);
+    }
+    const liste = Object.values(map).map(p => {
+        const datoar = p.events.map(e => e.dateStart).filter(Boolean).sort((a, b) => a - b);
+        return {
+            id: p.id,
+            name: p.name,
+            antalArrangement: p.events.length,
+            datoFra: datoar[0] || null,
+            datoTil: datoar[datoar.length - 1] || null,
+            events: p.events
+        };
+    });
+    liste.sort((a, b) => (a.datoFra || 0) - (b.datoFra || 0));
+    return liste;
+}
+
+// Byggjer dd.MM. manuelt i staden for toLocaleDateString({day:'2-digit'}) —
+// nullutfylling av 2-digit er upåliteleg på tvers av nettlesar-/Node-ICU-versjonar
+// for nb-NO-lokalet (stadfesta 12.08.2026: gav "3.9." i staden for "03.09.").
+function formaterKortDato(dato) {
+    const dd = String(dato.getDate()).padStart(2, '0');
+    const mm = String(dato.getMonth() + 1).padStart(2, '0');
+    return `${dd}.${mm}`;
+}
+
+function formaterProduksjonLabel(p) {
+    const datoTekst = p.datoFra
+        ? `${formaterKortDato(turneParseDate(p.datoFra))}–${formaterKortDato(turneParseDate(p.datoTil))}`
+        : 'ukjend dato';
+    return `${p.name} · ${datoTekst} · ${p.antalArrangement} arrangement`;
+}
+
+function fyllProduksjonDropdown(liste) {
+    const velg = document.getElementById('turneVelg');
+    velg.innerHTML = '<option value="">– Vel produksjon –</option>';
+    for (const p of liste) {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = formaterProduksjonLabel(p);
+        velg.appendChild(opt);
+    }
+}
+
+function filtrerProduksjonar(q) {
+    const q2 = q.trim().toLowerCase();
+    const filtrert = q2 ? produksjonListe.filter(p => p.name.toLowerCase().includes(q2)) : produksjonListe;
+    fyllProduksjonDropdown(filtrert);
+    const statusEl = document.getElementById('turneLastStatus');
+    statusEl.textContent = q2
+        ? `(${filtrert.length} av ${produksjonListe.length})`
+        : `(${produksjonListe.length} produksjonar)`;
+}
+
+function velgProduksjon(id) {
+    valtProduksjon = id ? (produksjonListe.find(p => String(p.id) === String(id)) || null) : null;
+}
+
+// Formaterer eit ISO-tidsstempel som "for N min/timar/dagar sidan".
+function formaterDataAlder(isoTidspunkt) {
+    const da = new Date(isoTidspunkt);
+    const minutt = Math.round((Date.now() - da.getTime()) / 60000);
+    if (minutt < 1) return 'no nettopp';
+    if (minutt < 60) return `for ${minutt} min sidan`;
+    const timar = Math.round(minutt / 60);
+    if (timar < 24) return `for ${timar} t sidan`;
+    const dagar = Math.round(timar / 24);
+    return `for ${dagar} d sidan`;
 }
 
 async function hentTurne() {
-    const tourId = document.getElementById('turneId').value.trim();
-    if (!tourId) {
-        document.getElementById('turneStatus').textContent = 'Skriv inn turné-ID';
+    if (!valtProduksjon) {
+        document.getElementById('turneStatus').textContent = 'Vel ein produksjon frå lista';
         return;
     }
 
     const turneStatusEl = document.getElementById('turneStatus');
-    turneStatusEl.textContent = 'Hentar turné frå portalen...';
     turneHendingar = [];
     turneResultat = [];
     turneOverstyring = {};
@@ -4479,15 +4581,16 @@ async function hentTurne() {
     document.getElementById('turnePayload').style.display = 'none';
 
     try {
-        const events = await hentAlleTurneArrangement(tourId, turneStatusEl);
+        const events = valtProduksjon.events;
 
-        if (!Array.isArray(events) || events.length === 0) {
-            turneStatusEl.textContent = 'Fann ingen arrangement. Sjekk turné-ID-en.';
+        if (!events || events.length === 0) {
+            turneStatusEl.textContent = 'Fann ingen arrangement for denne produksjonen.';
             return;
         }
 
         const now = new Date();
         turneHendingar = events
+            .slice()
             .sort((a, b) => turneParseDate(a.dateStart) - turneParseDate(b.dateStart))
             .map(e => {
                 let dCoords = null;
@@ -4507,6 +4610,16 @@ async function hentTurne() {
                     const n = rg.numberOfStudents;
                     if (sid && n) elevtalPerSkule[sid] = (elevtalPerSkule[sid] || 0) + n;
                 }
+                // busAppointments ligg alt i det nedlasta datasettet — ingen live
+                // portalkall nødvendig. Status er alltid 'bekrefta' sidan dataen
+                // kjem direkte frå get_calendar_events (autoritativ kjelde).
+                turneBussdataStatus[e.id] = 'bekrefta';
+                for (const ba of (e.busAppointments || [])) {
+                    for (const sid of (ba.schoolIds || [])) {
+                        if (!turneBusAvtalar[e.id]) turneBusAvtalar[e.id] = {};
+                        turneBusAvtalar[e.id][sid] = { departureTime: ba.departureTime, returnTime: ba.returnTime, textToSchool: ba.textToSchool };
+                    }
+                }
                 return {
                     id: e.id,
                     dateStart: e.dateStart,
@@ -4523,7 +4636,7 @@ async function hentTurne() {
         const harNokonSkular = turneHendingar.some(h => h.schools.length > 0);
 
         if (!harNokonSkular) {
-            turneStatusEl.textContent = `Fann ${totalt} arrangement, men ingen har tildelte skular enno. Turnéen er truleg upublisert (draft). Bussavtalar og skuletildelingar er ikkje synlege i det offentlege API-et.`;
+            turneStatusEl.textContent = `Fann ${totalt} arrangement, men ingen har tildelte skular enno. Produksjonen er truleg upublisert (draft). Bussavtalar og skuletildelingar er ikkje synlege i det offentlege API-et.`;
             turneResultat = turneHendingar.map(h => ({ hending: h, skuleResultat: [] }));
             visTurneResultat();
             document.getElementById('turneResultatSeksjon').style.display = '';
@@ -4542,119 +4655,14 @@ async function hentTurne() {
     }
 }
 
-// Kalender-scope for get_calendar_events — filtrerer på KVEN SOM EIG produksjonen,
-// ikkje kva skule arrangementet fysisk er på. Asker-skular kan ha arrangement frå
-// turnéar eigd av andre branchOffice (t.d. Akershus fylkeskommune) — legg til fleire
-// scope her viss fleire eigarar dukkar opp (sjå CLAUDE.md, kartlagt 11.08.2026).
-const WP_SCOPES = [
-    'https://www.denkulturelleskolesekken.no/asker',
-    'https://www.denkulturelleskolesekken.no/akershus',
-];
-
-// get_calendar_events sender INGEN Access-Control-Allow-Origin-header
-// (stadfesta 11.08.2026 — OPTIONS-preflight svarar med allow-methods/allow-headers,
-// men ingen allow-origin). Difor blokkerer nettlesaren ALLTID eit direkte
-// fetch()-kall til dette endepunktet, uansett origin. Direktekallet under er difor
-// forventa å feile i nettlesar — corsproxy.io-fallbacken er det som faktisk fungerer.
-// allorigins.win/raw er UTELATT sidan han berre støttar GET, ikkje POST.
-async function fetchPostViaCorsProxy(url, body) {
-    const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
-    let sisteErr;
-    for (const forsøkUrl of [url, proxyUrl]) {
-        try {
-            const resp = await fetch(forsøkUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
-            });
-            if (resp.ok) return resp;
-            sisteErr = new Error(`HTTP ${resp.status} frå ${forsøkUrl}`);
-        } catch (e) {
-            sisteErr = e;
-        }
-    }
-    throw sisteErr || new Error('Direktekall og corsproxy.io feila begge');
-}
-
-// Hentar busAppointments for gitte skule-ID-ar frå get_calendar_events (offentleg,
-// ingen KTSESSION). Eitt kall PER SCOPE (ikkje per skule) — alle skule-ID-ane i
-// turnéen sendast i eitt schoolIds-array per scope. Sjå fetchPostViaCorsProxy()
-// for kvifor eit rått fetch() ikkje held her.
-// Returnerer:
-//   foundEventIds — Set av event-ID-ar som dukka opp i minst eitt scope
-//   busAvtalar    — { eventId: { schoolId: {departureTime, returnTime, textToSchool} } }
-//   scopeFeil     — liste av scope som feila (nettverksfeil e.l.)
-//   alleFeila     — true viss ALLE scope feila (vi veit då ingenting)
-async function hentBussavtalarForTurne(skuleIdar) {
-    const resultat = await Promise.all(WP_SCOPES.map(async scope => {
-        try {
-            const resp = await fetchPostViaCorsProxy(
-                'https://portal.denkulturelleskolesekken.no/api/wordpress/productions/get_calendar_events',
-                {
-                    view: 'calendar', sort: 'date', academicYearId: '',
-                    openAllEvents: false, datePeriods: [], includeEvents: true,
-                    hideUnspecifiedLocationName: true, includeSchoolDetails: true,
-                    wordpressHomeUrl: scope,
-                    schoolIds: skuleIdar,
-                    skip: 0, limit: 1000
-                }
-            );
-            const data = await resp.json();
-            return { scope, ok: true, events: data.events || [] };
-        } catch (err) {
-            console.error(`get_calendar_events feila for scope ${scope}:`, err);
-            return { scope, ok: false, events: [] };
-        }
-    }));
-
-    const foundEventIds = new Set();
-    const busAvtalar = {};
-    for (const r of resultat) {
-        for (const ev of r.events) {
-            foundEventIds.add(ev.id);
-            for (const ba of (ev.busAppointments || [])) {
-                for (const sid of (ba.schoolIds || [])) {
-                    if (!busAvtalar[ev.id]) busAvtalar[ev.id] = {};
-                    busAvtalar[ev.id][sid] = { departureTime: ba.departureTime, returnTime: ba.returnTime, textToSchool: ba.textToSchool };
-                }
-            }
-        }
-    }
-    const scopeFeil = resultat.filter(r => !r.ok).map(r => r.scope);
-    const alleFeila = resultat.every(r => !r.ok);
-    return { foundEventIds, busAvtalar, scopeFeil, alleFeila };
-}
-
 async function sokTransportForAlleTurneHendingar() {
     const turneStatusEl = document.getElementById('turneStatus');
     const maksGange = parseInt(document.getElementById('turneMaksGange').value) || 2000;
     const bufferMin = parseInt(document.getElementById('turneBufferMin').value) || 10;
     const varigheitMin = parseInt(document.getElementById('turneVarigheitMin').value) || 45;
     turneResultat = [];
-    turneBusAvtalar = {};
-    turneBussdataStatus = {};
-
-    const skuleIdarForBuss = [...new Set(turneHendingar.flatMap(h => h.schools.map(s => s.id)))];
-    if (skuleIdarForBuss.length > 0) {
-        turneStatusEl.textContent = 'Hentar bussavtalar...';
-        const { foundEventIds, busAvtalar, scopeFeil, alleFeila } = await hentBussavtalarForTurne(skuleIdarForBuss);
-        turneBusAvtalar = busAvtalar;
-        for (const h of turneHendingar) {
-            if (h.schools.length === 0) continue; // ingen skule tildelt — ingen bussdata mogleg uansett
-            if (alleFeila) {
-                turneBussdataStatus[h.id] = 'feil';
-            } else if (foundEventIds.has(h.id)) {
-                turneBussdataStatus[h.id] = 'bekrefta';
-            } else {
-                turneBussdataStatus[h.id] = 'utilgjengeleg';
-                const datoStr = turneParseDate(h.dateStart).toLocaleDateString('nb-NO');
-                console.warn(`Ingen WP-treff for eventId ${h.id} (${datoStr}, ${h.location}) — moglegvis eigd av eit branchOffice utanfor WP_SCOPES`);
-            }
-        }
-        if (scopeFeil.length > 0) {
-            console.warn(`get_calendar_events feila for scope: ${scopeFeil.join(', ')} — held fram med resterande scope.`);
-        }
-    }
+    // turneBusAvtalar/turneBussdataStatus er alt sett i hentTurne() — dei kjem
+    // direkte frå det nedlasta datasettet, ingen live portalkall her lenger.
 
     for (let hi = 0; hi < turneHendingar.length; hi++) {
         const hending = turneHendingar[hi];
@@ -5213,12 +5221,12 @@ function settTurneOverstyring(key, type) {
 }
 
 function genererTurnePayload() {
-    const tourId = document.getElementById('turneId').value.trim();
-
     const payload = {
-        tourId: parseInt(tourId),
+        productionId: valtProduksjon ? valtProduksjon.id : null,
+        productionName: valtProduksjon ? valtProduksjon.name : null,
+        turneDataHentetTidspunkt: turneDataHentetTidspunkt,
         generert: new Date().toISOString(),
-        _instruks: "Les work_bench/get_events for tourId FØR save_events. Slå saman med eksisterande busAppointments — utelatne avtalar vert sletta. Arrangement med bussdataStatus != 'bekrefta' må sjekkast manuelt før skriving.",
+        _instruks: "Denne appen kjenner ikkje tourId (get_calendar_events har ikkje eit tour-felt — stadfesta 12.08.2026). Finn tourId via portalen (Produksjon → Turnéar) eller GraphQL branchOffice(id:16){productionGroups{tours{id}}} filtrert på production.id FØR save_events, og les work_bench/get_events for den turnéen. Slå saman med eksisterande busAppointments — utelatne avtalar vert sletta. Arrangement med bussdataStatus != 'bekrefta' må sjekkast manuelt før skriving.",
         events: turneResultat
             .filter(hr => !hr.hending.erFortidig && hr.skuleResultat.length > 0 && valdeEvents[hr.hending.id])
             .map(hr => {

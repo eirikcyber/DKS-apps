@@ -373,7 +373,7 @@ const TABS = {
     cacheKey: 'dks_program_v6',
     dataFile: 'dks_program_data_grunnskule.json',
     vgsFilter: null,
-    rawEvents: null, currentEvents: [], fetchedAt: null,
+    rawEvents: null, currentEvents: [], fetchedAt: null, hentTidspunkt: null,
     activeFilters: new Set(), isFetching: false,
   },
   vgs: {
@@ -387,7 +387,7 @@ const TABS = {
       'holmen videregående skole',
       'røyken videregående skole',
     ],
-    rawEvents: null, currentEvents: [], fetchedAt: null,
+    rawEvents: null, currentEvents: [], fetchedAt: null, hentTidspunkt: null,
     activeFilters: new Set(), isFetching: false,
   },
 };
@@ -482,8 +482,8 @@ function makeICSHref(ev) {
 
 // ── Cache ─────────────────────────────────────────────────────────
 
-function saveCache(tab, events) {
-  try { localStorage.setItem(tab.cacheKey, JSON.stringify({ts: Date.now(), events})); } catch(_) {}
+function saveCache(tab, events, hentTidspunkt) {
+  try { localStorage.setItem(tab.cacheKey, JSON.stringify({ts: Date.now(), hentTidspunkt, events})); } catch(_) {}
 }
 
 function loadCache(tab, allowStale = false) {
@@ -698,10 +698,18 @@ function renderView() {
   el('events-container').innerHTML = renderGroups(groupByDate(evs));
 }
 
-function renderEvents(tab, rawEvents, fetchedAt, isStale = false) {
+// fetchedAt = når NETTLESAREN henta/cacha dette (styrer MAX_AGE-sjekken for
+// om cache skal reknast som fersk nok til å bruke utan nettverkskall).
+// hentTidspunkt = når DATAA faktisk vart henta frå portalen av
+// hent_dks_data.ps1 (RETTA 12.08.2026) — det er DENNE som skal visast til
+// brukaren. Tidlegare synte appen fetchedAt (filalder), som gjorde at sju
+// vekers gamle data (workflowen fekk 403 utan å feile synleg) såg ferske ut
+// berre fordi nettlesaren nyleg hadde lese den gamle fila på nytt.
+function renderEvents(tab, rawEvents, fetchedAt, isStale = false, hentTidspunkt = null) {
   tab.rawEvents = rawEvents;
   tab.currentEvents = filterEvents(rawEvents, tab);
   tab.fetchedAt = fetchedAt;
+  tab.hentTidspunkt = hentTidspunkt || fetchedAt;
 
   // Only update DOM if this tab is active
   if (tab !== TABS[activeTab]) return;
@@ -712,10 +720,10 @@ function renderEvents(tab, rawEvents, fetchedAt, isStale = false) {
   const fraDato = new Date().toLocaleDateString('nb-NO', {day:'numeric', month:'long'});
   const tilDato = new Date(getSkuleaarSlutt() * 1000).toLocaleDateString('nb-NO', {day:'numeric', month:'long', year:'numeric'});
   el('dato-info-wrap').innerHTML =
-    `<div class="dato-info">Skuleår ${getSkuleaar()} · ${fraDato} – ${tilDato} · ${tab.currentEvents.length} arrangement · oppdatert ${fmtRelative(fetchedAt)}</div>`;
+    `<div class="dato-info">Skuleår ${getSkuleaar()} · ${fraDato} – ${tilDato} · ${tab.currentEvents.length} arrangement · data henta ${fmtRelative(tab.hentTidspunkt)}</div>`;
 
   el('offline-banner').classList.toggle('vis', isStale);
-  if (isStale) el('cache-age-txt').textContent = fmtRelative(fetchedAt);
+  if (isStale) el('cache-age-txt').textContent = fmtRelative(tab.hentTidspunkt);
 
   showScreen('events');
 }
@@ -727,8 +735,12 @@ async function fetchAllEvents(tab) {
   if (!r.ok) throw new Error(`HTTP ${r.status}`);
   const d = await r.json();
   const allEvents = d.events || [];
+  // hentTidspunkt vert sett av hent_dks_data.ps1 når dataa faktisk vart henta
+  // frå portalen (RETTA 12.08.2026) — fell tilbake til "no" for gamle filer
+  // som manglar feltet, i staden for å krasje.
+  const hentTidspunkt = d.hentTidspunkt ? new Date(d.hentTidspunkt).getTime() : Date.now();
 
-  return allEvents.map(ev => {
+  const events = allEvents.map(ev => {
     const studentsPerSchool   = {};
     const cancelledSchools    = {};
     const avdelingerPerSchool = {};
@@ -757,6 +769,8 @@ async function fetchAllEvents(tab) {
                   .map(s => s.name),
     };
   });
+
+  return { events, hentTidspunkt };
 }
 
 // ── Tabb-navigasjon ───────────────────────────────────────────────
@@ -785,11 +799,11 @@ async function loadData(force = false) {
 
   if (!force) {
     if (tab.rawEvents !== null && tab.fetchedAt && Date.now() - tab.fetchedAt <= MAX_AGE) {
-      renderEvents(tab, tab.rawEvents, tab.fetchedAt);
+      renderEvents(tab, tab.rawEvents, tab.fetchedAt, false, tab.hentTidspunkt);
       return;
     }
     const cached = loadCache(tab);
-    if (cached) { renderEvents(tab, cached.events, cached.ts); return; }
+    if (cached) { renderEvents(tab, cached.events, cached.ts, false, cached.hentTidspunkt); return; }
   }
 
   tab.isFetching = true;
@@ -797,23 +811,23 @@ async function loadData(force = false) {
   el('header-status').textContent = 'Hentar arrangement…';
 
   const staleData = tab.rawEvents !== null
-    ? {events: tab.rawEvents, ts: tab.fetchedAt || 0}
+    ? {events: tab.rawEvents, ts: tab.fetchedAt || 0, hentTidspunkt: tab.hentTidspunkt}
     : loadCache(tab, true);
 
   if (staleData) {
-    renderEvents(tab, staleData.events, staleData.ts, Date.now() - staleData.ts > MAX_AGE);
+    renderEvents(tab, staleData.events, staleData.ts, Date.now() - staleData.ts > MAX_AGE, staleData.hentTidspunkt);
   } else {
     showScreen('loading');
   }
 
   try {
-    const events = await fetchAllEvents(tab);
-    saveCache(tab, events);
-    renderEvents(tab, events, Date.now());
+    const { events, hentTidspunkt } = await fetchAllEvents(tab);
+    saveCache(tab, events, hentTidspunkt);
+    renderEvents(tab, events, Date.now(), false, hentTidspunkt);
   } catch(err) {
     const s = loadCache(tab, true);
-    if (s) renderEvents(tab, s.events, s.ts, true);
-    else if (tab.rawEvents !== null) renderEvents(tab, tab.rawEvents, tab.fetchedAt, true);
+    if (s) renderEvents(tab, s.events, s.ts, true, s.hentTidspunkt);
+    else if (tab.rawEvents !== null) renderEvents(tab, tab.rawEvents, tab.fetchedAt, true, tab.hentTidspunkt);
     else {
       el('feil-tekst').innerHTML = `Klarte ikkje hente data. Sjekk at du er tilkopla internett og prøv igjen.<br><br><small style="opacity:0.6;font-size:11px">${escHtml(err.message || String(err))}</small>`;
       showScreen('error');
