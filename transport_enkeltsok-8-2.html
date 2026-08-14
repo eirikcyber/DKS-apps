@@ -2277,6 +2277,8 @@ async function finnReise(from, to, arriveBy, mode) {
                     mode
                     duration
                     distance
+                    expectedStartTime
+                    expectedEndTime
                     fromPlace { name }
                     toPlace { name }
                     line { publicCode name }
@@ -2284,7 +2286,7 @@ async function finnReise(from, to, arriveBy, mode) {
             }
         }
     }`;
-    
+
     console.log(`Entur søk (${mode}):`, { from, to, arriveBy });
     
     // Prøv direkte først, så med proxy
@@ -2376,6 +2378,8 @@ async function finnReiseRetur(from, to, departBy, mode) {
                     mode
                     duration
                     distance
+                    expectedStartTime
+                    expectedEndTime
                     fromPlace { name }
                     toPlace { name }
                     line { publicCode name }
@@ -2383,7 +2387,7 @@ async function finnReiseRetur(from, to, departBy, mode) {
             }
         }
     }`;
-    
+
     const attempts = [
         { 
             url: url, 
@@ -2811,6 +2815,30 @@ function byggReiseveg(legs) {
         }
         if (tekst) steg.push(tekst);
     }
+    return steg;
+}
+
+// Byggjer reisesteg MED klokkeslett, brukt i turnémodus sitt rutenett
+// (Tur-/Retur-kolonnen) — lagt til 14.08.2026 sidan "gå 13 → L1 → gå 17" ikkje
+// seier noko om NÅR reisa faktisk går. Kvart steg vert "{avgangstid} {label}"
+// (label = "gå" for gangetappar, linjekode for buss/tog), pluss eit avsluttande
+// "{ankomsttid} framme" bygd frå expectedEndTime på siste etappe. Brukar
+// FAKTISKE Entur-tider (expectedStartTime/expectedEndTime per etappe), ikkje
+// utrekna tider. Åtskilt frå byggReiseveg() (som manuelt søk framleis brukar)
+// sidan formatet er heilt ulikt (tidslinje vs. skildrande tekst).
+function byggStegMedTid(legs) {
+    if (!legs || legs.length === 0) return [];
+    const steg = [];
+    for (const leg of legs) {
+        let label = '';
+        if (leg.mode === 'foot') label = 'gå';
+        else if (leg.mode === 'bus' || leg.mode === 'coach') label = leg.line?.publicCode || 'buss';
+        else if (leg.mode === 'rail') label = leg.line?.publicCode || 'tog';
+        else continue;
+        steg.push(`${turneFormatTid(leg.expectedStartTime)} ${label}`);
+    }
+    const sisteLeg = legs[legs.length - 1];
+    if (sisteLeg) steg.push(`${turneFormatTid(sisteLeg.expectedEndTime)} framme`);
     return steg;
 }
 
@@ -4904,7 +4932,7 @@ function analysertransportTurne(skule, bussReiser, togReiser, googleGange, googl
                 avgang: togReise.startTime,
                 ankomst: togReise.endTime,
                 varigheit: Math.round(togReise.duration / 60),
-                reiseveg: byggReiseveg(togReise.legs),
+                stegMedTid: byggStegMedTid(togReise.legs),
                 stasjon: togLegs[0]?.fromPlace?.name || null
             });
         }
@@ -4936,7 +4964,7 @@ function analysertransportTurne(skule, bussReiser, togReiser, googleGange, googl
                 avgang: bussReise.startTime,
                 ankomst: bussReise.endTime,
                 varigheit: Math.round(bussReise.duration / 60),
-                reiseveg: byggReiseveg(bussReise.legs),
+                stegMedTid: byggStegMedTid(bussReise.legs),
                 ekstraAvgangar,
                 haldeplass: bussLegs[0]?.fromPlace?.name || null
             });
@@ -4995,7 +5023,7 @@ function analysertransportTurneRetur(returBussReiser, returTogReiser, googleGang
                 avgang: togReise.startTime,
                 ankomst: togReise.endTime,
                 varigheit: Math.round(togReise.duration / 60),
-                reiseveg: byggReiseveg(togReise.legs),
+                stegMedTid: byggStegMedTid(togReise.legs),
                 stasjon: togLegs[0]?.fromPlace?.name || null
             });
         }
@@ -5018,7 +5046,7 @@ function analysertransportTurneRetur(returBussReiser, returTogReiser, googleGang
                 avgang: bussReise.startTime,
                 ankomst: bussReise.endTime,
                 varigheit: Math.round(bussReise.duration / 60),
-                reiseveg: byggReiseveg(bussReise.legs),
+                stegMedTid: byggStegMedTid(bussReise.legs),
                 haldeplass: bussLegs[0]?.fromPlace?.name || null
             });
         }
@@ -5185,21 +5213,14 @@ function kopierTransportTekst(btn) {
     }
 }
 
-// Kortar ned eit reiseveg-steg (frå byggReiseveg()) til kompakt form for
-// underlinja i rutenettet. "Gå 16 min til Hagaløkka" -> "gå 16",
-// "Buss 280 frå Skolen" -> "280", "Tog R10 frå Stasjonen" -> "R10".
-function kortFormSteg(steg) {
-    let m = steg.match(/^Gå (\d+) min/);
-    if (m) return `gå ${m[1]}`;
-    m = steg.match(/^(?:Buss|Tog) (\S+)/);
-    if (m) return m[1];
-    return steg;
-}
-
 // Formaterer eit alternativ til hovudlinje (ikon + type/linje + totaltid) og
-// underlinje (kortform reiseveg) for rutenett-cellene Tur/Retur i
-// visTurneResultat(). RETTA 11.08.2026 — returnerte tidlegare éin samla
-// tekststreng, no {hovudlinje, underlinje} for den nye rutenett-layouten.
+// underlinje for rutenett-cellene Tur/Retur i visTurneResultat(). RETTA
+// 11.08.2026 — returnerte tidlegare éin samla tekststreng, no
+// {hovudlinje, underlinje}. RETTA 14.08.2026 — underlinja for tog/buss viste
+// berre "gå 13 → L1 → gå 17" (kompakt reiseveg utan klokkeslett), som ikkje
+// seier noko om NÅR reisa faktisk går. Viser no klokkeslett per steg
+// (stegMedTid, sjå byggStegMedTid()): "08:12 gå → 08:25 L1 → 08:42 gå →
+// 08:59 framme".
 function formaterAltDetaljar(alt) {
     if (!alt) return { hovudlinje: '', underlinje: '' };
     const ikon = TURNE_ALT_IKON[alt.type] || '';
@@ -5213,8 +5234,8 @@ function formaterAltDetaljar(alt) {
         // inkluderer gangetappane til/frå stoppestad — ikkje berre sjølve køyretida.
         const totalTekst = (alt.varigheit != null) ? ` · ${alt.varigheit} min` : '';
         const hovudlinje = `${ikon} ${typeNamn} ${alt.linje || '?'}${totalTekst}`;
-        const underlinje = (alt.reiseveg && alt.reiseveg.length > 0)
-            ? alt.reiseveg.map(kortFormSteg).join(' → ')
+        const underlinje = (alt.stegMedTid && alt.stegMedTid.length > 0)
+            ? alt.stegMedTid.join(' → ')
             : `${turneFormatTid(alt.avgang)} → ${turneFormatTid(alt.ankomst)}`;
         return { hovudlinje, underlinje };
     }
