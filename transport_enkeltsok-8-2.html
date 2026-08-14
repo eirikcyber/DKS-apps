@@ -5106,19 +5106,20 @@ async function sokTransportForAlleTurneHendingar() {
 function analysertransportTurne(skule, bussReiser, togReiser, googleGange, googleKøyring, maksGange) {
     const alternativ = [];
 
-    // Gange — Google WALKING (med haversine-fallback)
+    // Gange — Google WALKING (med haversine-fallback). RETTA 14.08.2026:
+    // tid/tidTekst fjerna heilt frå datamodellen (ikkje berre frå visinga) —
+    // gange/sykling har eit anna og meir variabelt tempo enn bilkøyring
+    // (t.d. ein skuleklasse i flokk), så Google sitt gange-tidsestimat er
+    // misvisande presist. Berre avstand er pålieleg nok til å visast.
     if (googleGange && googleGange.avstand <= maksGange) {
         alternativ.push({
             type: 'gange',
             avstand: googleGange.avstand,
-            tid: googleGange.tid,
-            avstandTekst: googleGange.avstandTekst || `${(googleGange.avstand/1000).toFixed(1)} km`,
-            tidTekst: googleGange.tidTekst || `${googleGange.tid} min`
+            avstandTekst: googleGange.avstandTekst || `${(googleGange.avstand/1000).toFixed(1)} km`
         });
         // Sykler — lagt til 14.08.2026. Ikkje eige søk/rute — deler gangeavstanden
         // (appen har ingen ekte sykkelruting), berre eit alternativt val-ikon med
-        // AVSTAND som hovudtal i staden for varigheit (sjå formaterAltDetaljar()),
-        // sidan avstand er det som avgjer om sykkel er aktuelt. Pusha RETT ETTER
+        // AVSTAND som hovudtal (sjå formaterAltDetaljar()). Pusha RETT ETTER
         // gange, altså aldri alternativ[0] — påverkar ikkje auto-valet under.
         alternativ.push({
             type: 'sykler',
@@ -5213,9 +5214,7 @@ function analysertransportTurneRetur(returBussReiser, returTogReiser, googleGang
         alternativ.push({
             type: 'gange',
             avstand: googleGange.avstand,
-            tid: googleGange.tid,
-            avstandTekst: googleGange.avstandTekst || `${(googleGange.avstand/1000).toFixed(1)} km`,
-            tidTekst: googleGange.tidTekst || `${googleGange.tid} min`
+            avstandTekst: googleGange.avstandTekst || `${(googleGange.avstand/1000).toFixed(1)} km`
         });
         // Sykler — sjå grunngjeving i analysertransportTurne() over.
         alternativ.push({
@@ -5288,7 +5287,19 @@ function analysertransportTurneRetur(returBussReiser, returTogReiser, googleGang
 // ikkje henta på nytt.
 async function sokTurneRetur(sr, hending, sCoords, dCoords, maksGange, bufferMin, varigheitMin, googleGange, googleKøyring) {
     if (sr.valt === 'bestillerbuss' || sr.valt === 'gange') {
-        return { tid: null, alternativ: [], valt: sr.valt, hoppaOver: true };
+        // RETTA 14.08.2026: bygde tidlegare alternativ:[] her, som låste
+        // retur heilt til auto-valet frå tur — Eirik melde at han då ikkje
+        // kunne velje noko anna for retur i det heile når gange vart tilrådd
+        // for turen. gange/sykler/bestillerbuss krev ikkje noko ekstra søk
+        // (googleGange/googleKøyring er alt henta for turen, og retur-avstanden
+        // er den same), så dei kan byggjast utan kostnad. Ekte kollektivsøk
+        // (Entur) for retur skjer framleis BERRE når tur sjølv var buss/tog —
+        // sjå greina under — for å ikkje doble talet på Entur-kall for kvart
+        // arrangement. hoppaOver er framleis true (ingen Entur-søk vart gjort);
+        // brukast m.a. av byggReturSetning() for å ikkje fabrikere eit
+        // "søkt retur"-tidspunkt i buss/tog-genererte tekstar.
+        const { alternativ, valt } = analysertransportTurneRetur(null, null, googleGange, googleKøyring, maksGange);
+        return { tid: null, alternativ, valt, hoppaOver: true };
     }
 
     const sluttSekund = hending.dateEnd || (hending.dateStart + varigheitMin * 60);
@@ -5443,12 +5454,17 @@ function formaterAltDetaljar(alt) {
     const ikon = TURNE_ALT_IKON[alt.type] || '';
 
     if (alt.type === 'gange') {
-        return { hovudlinje: `${ikon} Gange${alt.tidTekst ? ' · ' + alt.tidTekst : ''}`, underlinje: alt.avstandTekst || '' };
+        // RETTA 14.08.2026: viste tidlegare varigheit (Google sitt
+        // gangeestimat). Eirik peika på at gange/sykling har eit heilt anna
+        // og meir variabelt tempo enn bilkøyring (t.d. ein skuleklasse i
+        // flokk), så eit Google-estimert minuttal er misvisande presist —
+        // avstand er det einaste talet som er pålieleg nok til å visast.
+        return { hovudlinje: `${ikon} Gange${alt.avstandTekst ? ' · ' + alt.avstandTekst : ''}`, underlinje: '' };
     }
     if (alt.type === 'sykler') {
-        // Avstand som hovudtal (ikkje varigheit) — sjå grunngjeving i
-        // analysertransportTurne(): appen har ingen ekte sykkelruting/-tid,
-        // og avstand er det som faktisk avgjer om sykkel er eit reelt val.
+        // Avstand som hovudtal (ikkje varigheit) — same grunngjeving som
+        // gange rett over: appen har ingen ekte sykkelruting/-tid, og
+        // avstand er det som faktisk avgjer om sykkel er eit reelt val.
         return { hovudlinje: `${ikon} Sykler${alt.avstandTekst ? ' · ' + alt.avstandTekst : ''}`, underlinje: '' };
     }
     if (alt.type === 'tog' || alt.type === 'buss') {
@@ -5614,15 +5630,18 @@ function visTurneResultat() {
             // 14.08.2026) — tur og retur kan ha ulik transportmåte (t.d. buss
             // ut, gange attende), difor får dei kvar sin overstyringsnøkkel og
             // vert rendra INNI høvesvis Tur- og Retur-cella, ikkje i ein delt
-            // "Velg transportmåte"-kolonne lenger. Retur har berre knappar når
-            // retursøket faktisk vart gjort (sr.retur.alternativ finst) — er
-            // tur gange/bestillerbuss vart retur aldri søkt, og då finst det
-            // ikkje noko å velje mellom.
+            // "Velg transportmåte"-kolonne lenger. RETTA 14.08.2026: nøkkelen
+            // for "har retur knappar?" er no OM DET FINST NOKO Å VELJE MELLOM
+            // (sr.retur.alternativ.length > 0), ikkje sr.retur.hoppaOver —
+            // sokTurneRetur() byggjer no gange/sykler/bestillerbuss-alternativ
+            // sjølv når tur var gange/bestillerbuss (ingen live-søk nødvendig
+            // for desse), så det finst nesten alltid noko å velje mellom no.
             const turKnappar = byggAltKnappar(sr.alternativ, valtType, overstyringKey, 'settTurneOverstyring');
-            const returValtType = (sr.retur && !sr.retur.hoppaOver)
+            const returHarAlternativ = !!(sr.retur && sr.retur.alternativ && sr.retur.alternativ.length > 0);
+            const returValtType = returHarAlternativ
                 ? (turneOverstyringRetur[overstyringKey] || sr.retur.valt)
                 : null;
-            const returKnappar = (sr.retur && !sr.retur.hoppaOver)
+            const returKnappar = returHarAlternativ
                 ? byggAltKnappar(sr.retur.alternativ, returValtType, overstyringKey, 'settTurneOverstyringRetur')
                 : '';
 
@@ -5666,13 +5685,14 @@ function visTurneResultat() {
                     ${turKnappar ? `<div class="turne-val-ikon-knappar">${turKnappar}</div>` : ''}
                 </div>`;
 
-            // --- Retur-kolonne — sjå sokTurneRetur() for regelen som avgjer om
-            // retur vart søkt eller hoppa over. Kortare tekst ved hoppaOver sidan
-            // tidspunkta alt står i Portaltekst-kolonnen (og ingen knappar, sidan
-            // det då ikkje finst noko alternativ å velje mellom — sjå over).
+            // --- Retur-kolonne — RETTA 14.08.2026: viser no knappar kvar gong
+            // sr.retur.alternativ har noko i seg, uavhengig av hoppaOver (sjå
+            // sokTurneRetur()). Dimma tekst-utan-knappar-fallbacken gjeld no
+            // berre dei sjeldne tilfella utan NOKO alternativ i det heile
+            // (t.d. fortidige arrangement eller manglande koordinatar).
             let returCelle = `<div class="turne-col-retur"></div>`;
             if (sr.retur) {
-                if (sr.retur.hoppaOver) {
+                if (!returHarAlternativ) {
                     const tekst = sr.retur.valt === 'gange' ? 'Gange' : 'Bestillerbuss';
                     returCelle = `<div class="turne-col-retur turne-retur-dimma"><div class="turne-linje-hoved">${tekst}</div></div>`;
                 } else {
@@ -5799,7 +5819,9 @@ function genererTurnePayload() {
                         const valtAlt = (sr.alternativ || []).find(a => a.type === valtType) || { type: 'bestillerbuss' };
                         // Retur kan no vere overstyrt UAVHENGIG av tur (sjå turneOverstyringRetur,
                         // lagt til 14.08.2026) — bruk overstyrt type viss sett, elles auto-valet.
-                        const returValtType = (sr.retur && !sr.retur.hoppaOver)
+                        // RETTA same dag: nøkkel er om alternativ finst (ikkje hoppaOver), same
+                        // grunngjeving som i visTurneResultat().
+                        const returValtType = (sr.retur && sr.retur.alternativ && sr.retur.alternativ.length > 0)
                             ? (turneOverstyringRetur[overstyringKey] || sr.retur.valt)
                             : (sr.retur ? sr.retur.valt : null);
                         const returValtAlt = sr.retur ? (sr.retur.alternativ || []).find(a => a.type === returValtType) : null;
