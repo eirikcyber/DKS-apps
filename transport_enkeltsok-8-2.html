@@ -5115,6 +5115,16 @@ function analysertransportTurne(skule, bussReiser, togReiser, googleGange, googl
             avstandTekst: googleGange.avstandTekst || `${(googleGange.avstand/1000).toFixed(1)} km`,
             tidTekst: googleGange.tidTekst || `${googleGange.tid} min`
         });
+        // Sykler — lagt til 14.08.2026. Ikkje eige søk/rute — deler gangeavstanden
+        // (appen har ingen ekte sykkelruting), berre eit alternativt val-ikon med
+        // AVSTAND som hovudtal i staden for varigheit (sjå formaterAltDetaljar()),
+        // sidan avstand er det som avgjer om sykkel er aktuelt. Pusha RETT ETTER
+        // gange, altså aldri alternativ[0] — påverkar ikkje auto-valet under.
+        alternativ.push({
+            type: 'sykler',
+            avstand: googleGange.avstand,
+            avstandTekst: googleGange.avstandTekst || `${(googleGange.avstand/1000).toFixed(1)} km`
+        });
     }
 
     // Direktetog — reiseveg-detaljar, ingen hover (tog har fast rutetabell)
@@ -5207,6 +5217,12 @@ function analysertransportTurneRetur(returBussReiser, returTogReiser, googleGang
             avstandTekst: googleGange.avstandTekst || `${(googleGange.avstand/1000).toFixed(1)} km`,
             tidTekst: googleGange.tidTekst || `${googleGange.tid} min`
         });
+        // Sykler — sjå grunngjeving i analysertransportTurne() over.
+        alternativ.push({
+            type: 'sykler',
+            avstand: googleGange.avstand,
+            avstandTekst: googleGange.avstandTekst || `${(googleGange.avstand/1000).toFixed(1)} km`
+        });
     }
 
     if (returTogReiser && returTogReiser.length > 0) {
@@ -5288,7 +5304,7 @@ async function sokTurneRetur(sr, hending, sCoords, dCoords, maksGange, bufferMin
 }
 
 // Formaterer detaljteksten for eit alternativ (delt mellom tur og retur i turnémodus).
-const TURNE_ALT_IKON = { gange: '🚶', tog: '🚂', buss: '🚌', bestillerbuss: '🚐' };
+const TURNE_ALT_IKON = { gange: '🚶', sykler: '🚴', tog: '🚂', buss: '🚌', bestillerbuss: '🚐' };
 
 // Escapar tekst for trygg bruk som HTML-attributt (data-tooltip, data-tekst)
 // og som synleg tekstinnhald — nødvendig sidan textToSchool/genererte tekstar
@@ -5365,7 +5381,11 @@ function byggReturSetning(retur) {
 function byggTransportTekst(hending, sr, valtType, valtAlt, varigheitMin) {
     const stad = hending.location;
 
-    if (valtType === 'gange') {
+    if (valtType === 'gange' || valtType === 'sykler') {
+        // Same mal for begge — "Elevene går eller sykler til {stad}." er
+        // alt den etablerte fraseringa i portalen (stadfesta i historiske
+        // arrangementkommentarar), uavhengig av kva for eit av dei to
+        // ikona som vart valt.
         return TEKSTMALAR.gange({ stad });
     }
 
@@ -5424,6 +5444,12 @@ function formaterAltDetaljar(alt) {
 
     if (alt.type === 'gange') {
         return { hovudlinje: `${ikon} Gange${alt.tidTekst ? ' · ' + alt.tidTekst : ''}`, underlinje: alt.avstandTekst || '' };
+    }
+    if (alt.type === 'sykler') {
+        // Avstand som hovudtal (ikkje varigheit) — sjå grunngjeving i
+        // analysertransportTurne(): appen har ingen ekte sykkelruting/-tid,
+        // og avstand er det som faktisk avgjer om sykkel er eit reelt val.
+        return { hovudlinje: `${ikon} Sykler${alt.avstandTekst ? ' · ' + alt.avstandTekst : ''}`, underlinje: '' };
     }
     if (alt.type === 'tog' || alt.type === 'buss') {
         const typeNamn = alt.type === 'tog' ? 'Tog' : 'Buss';
