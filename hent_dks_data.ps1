@@ -108,8 +108,54 @@ try {
     if ($LASTEXITCODE -ne 0) {
         git commit -m "Oppdater DKS-programdata $dato"
         if ($LASTEXITCODE -ne 0) { throw "git commit feila" }
-        git push
-        if ($LASTEXITCODE -ne 0) { throw "git push feila (moglegvis auth-problem i ikkje-interaktiv sesjon - sjekk credential-cache/PAT)" }
+
+        # Remote kan ha fått nye commits sidan sist (t.d. frå Mac-en) - pull
+        # --rebase FØR push, elles vert push avvist med "rejected (fetch
+        # first)" (stadfesta 14.08.2026). Konflikt vert fanga eksplisitt og
+        # rebasen vert avbrote, slik at repoet ikkje vert ståande halvvegs i
+        # ein rebase på ein ubemanna kommune-PC.
+        #
+        # MERK om $ErrorActionPreference='Stop' (sett øvst i fila) + "2>&1":
+        # git skriv det meste av statusteksten sin (t.d. "From github.com...")
+        # til stderr, ikkje fordi det er ein feil. Med EAP=Stop kan PowerShell
+        # tolke slike stderr-linjer frå eit nativt program som ein terminerande
+        # feil FØR $LASTEXITCODE i det heile vert sjekka. Difor: skru EAP til
+        # 'Continue' berre rundt desse to kalla, les $LASTEXITCODE med det
+        # same, og set EAP tilbake til 'Stop' igjen etterpå.
+        $prevEAP = $ErrorActionPreference
+        $ErrorActionPreference = 'Continue'
+        $pullOutput = git pull --rebase origin main 2>&1
+        $pullExit = $LASTEXITCODE
+        $ErrorActionPreference = $prevEAP
+
+        if ($pullExit -ne 0) {
+            $pullText = ($pullOutput | Out-String)
+            if ($pullText -match 'CONFLICT' -or $pullText -match 'could not apply') {
+                git rebase --abort 2>&1 | Out-Null
+                throw "git pull --rebase gav konflikt - avbrote (rebase --abort). Data ER henta og commita lokalt, men IKKJE pusha. Løys konflikten manuelt og push derifrå. Detaljar: $pullText"
+            }
+            if ($pullText -match 'Authentication failed' -or $pullText -match 'Permission denied' -or $pullText -match 'could not read Username' -or $pullText -match 'fatal: unable to access' -or $pullText -match 'fatal: could not read') {
+                throw "git pull --rebase feila - autentiseringsproblem (sjekk credential-cache/PAT). Detaljar: $pullText"
+            }
+            throw "git pull --rebase feila av ukjend grunn. Detaljar: $pullText"
+        }
+
+        $prevEAP = $ErrorActionPreference
+        $ErrorActionPreference = 'Continue'
+        $pushOutput = git push 2>&1
+        $pushExit = $LASTEXITCODE
+        $ErrorActionPreference = $prevEAP
+
+        if ($pushExit -ne 0) {
+            $pushText = ($pushOutput | Out-String)
+            if ($pushText -match '\[rejected\]' -or $pushText -match 'fetch first' -or $pushText -match 'non-fast-forward') {
+                throw "git push vart avvist sjølv etter pull --rebase - truleg eit nytt race mot ein annan push same augneblink. Prøv å køyre skriptet på nytt. Detaljar: $pushText"
+            }
+            if ($pushText -match 'Authentication failed' -or $pushText -match 'Permission denied' -or $pushText -match 'could not read Username' -or $pushText -match 'fatal: unable to access' -or $pushText -match 'fatal: could not read') {
+                throw "git push feila - autentiseringsproblem (sjekk credential-cache/PAT). Detaljar: $pushText"
+            }
+            throw "git push feila av ukjend grunn. Detaljar: $pushText"
+        }
         Write-Host "Push ferdig."
     } else {
         Write-Host "Ingen endringar sidan sist."
