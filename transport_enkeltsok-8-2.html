@@ -977,12 +977,15 @@
             font-weight: 600;
             font-size: 15px;
         }
-        /* Rutenett med faste kolonnar: Skule | Portal | Tur | Retur | Val
-           (RETTA 11.08.2026 — erstattar tidlegare flex-rad der skulenamn og
-           tur-detaljar vandra ut av linje avhengig av innhald). */
+        /* Rutenett med faste kolonnar: Skule | Portaltekst | Tur | Retur |
+           Generert tekst (RETTA 11.08.2026 — erstattar tidlegare flex-rad der
+           skulenamn og tur-detaljar vandra ut av linje avhengig av innhald).
+           RETTA 14.08.2026: eiga "Velg transportmåte"-kolonne fjerna — knappane
+           for å overstyre transportmåte ligg no INNI Tur-/Retur-cella, kvar
+           med sin eigen overstyringsnøkkel (turneOverstyring/turneOverstyringRetur). */
         .turne-skule-rad {
             display: grid;
-            grid-template-columns: 180px 150px minmax(140px,1fr) minmax(120px,1fr) 90px minmax(170px,1.3fr);
+            grid-template-columns: 180px 150px minmax(170px,1fr) minmax(150px,1fr) minmax(190px,1.3fr);
             gap: 12px;
             align-items: start;
             padding: 12px 15px;
@@ -1012,7 +1015,7 @@
            kolonnebreidder som .turne-skule-rad, så alt står i linje nedover. */
         .turne-kolonne-header {
             display: grid;
-            grid-template-columns: 180px 150px minmax(140px,1fr) minmax(120px,1fr) 90px minmax(170px,1.3fr);
+            grid-template-columns: 180px 150px minmax(170px,1fr) minmax(150px,1fr) minmax(190px,1.3fr);
             gap: 12px;
             padding: 8px 15px;
             font-size: 11px;
@@ -1089,7 +1092,7 @@
         }
         .turne-kopier-btn:hover { background: #f0f4ff; border-color: #667eea; }
         .turne-kopier-btn.kopiert { background: #c6f6d5; border-color: #48bb78; }
-        .turne-val-ikon-knappar { display: flex; gap: 6px; flex-wrap: wrap; }
+        .turne-val-ikon-knappar { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
         .turne-val-ikon-knappar button {
             width: 30px; height: 30px; font-size: 15px;
             border: 1px solid #d1d5db; border-radius: 4px; background: white;
@@ -1975,6 +1978,10 @@ let aktivModus = 'manuelt';
 let turneHendingar = [];
 let turneResultat = [];
 let turneOverstyring = {};
+// Overstyring for RETUR, åtskilt frå turneOverstyring (lagt til 14.08.2026) —
+// tur og retur kan bruke ulik transportmåte (t.d. buss ut, gange attende),
+// så dei må kunne overstyrast uavhengig av kvarandre.
+let turneOverstyringRetur = {};
 let turneBusAvtalar = {}; // { eventId: { schoolId: {departureTime, returnTime, textToSchool} } } — aldri i localStorage
 let turneBussdataStatus = {}; // { eventId: 'bekrefta' | 'utilgjengeleg' | 'feil' } — sett direkte frå dks_turne_data.json, sjå hentTurne()
 let valdeEvents = {}; // { eventId: true } — kva arrangement som er avkryssa for payload. Aldri i localStorage.
@@ -4694,6 +4701,7 @@ async function hentTurne() {
     turneHendingar = [];
     turneResultat = [];
     turneOverstyring = {};
+    turneOverstyringRetur = {};
     turneBusAvtalar = {};
     turneBussdataStatus = {};
     valdeEvents = {};
@@ -5246,6 +5254,36 @@ function formaterAltDetaljar(alt) {
     return { hovudlinje: '', underlinje: '' };
 }
 
+// Byggjer ikon-knapparaden for å overstyre transportmåte — delt mellom Tur-
+// og Retur-kolonnen (lagt til 14.08.2026, sjå CLAUDE.md "Uavhengig overstyring
+// av tur/retur"). Tur og retur kan ha ulik transportmåte (t.d. buss ut,
+// gange attende), difor tek funksjonen inn KVA settFunksjon-namn som skal
+// kallast (settTurneOverstyring for tur, settTurneOverstyringRetur for
+// retur) i staden for å hardkode han. Held fram med å bruke title-attributt
+// (ikkje data-tooltip) — sjå grunngjeving i formaterAltDetaljar()-kallet.
+function byggAltKnappar(alternativ, valtType, overstyringKey, settFunksjonNamn) {
+    let knappar = '';
+    for (const alt of (alternativ || [])) {
+        const erValt = alt.type === valtType;
+        const ikon = TURNE_ALT_IKON[alt.type] || '?';
+        const tittel = formaterAltDetaljar(alt).hovudlinje.replace(`${ikon} `, '');
+
+        const knappHtml = `<button onclick="${settFunksjonNamn}('${overstyringKey}', '${alt.type}')" class="${erValt ? 'aktiv-overstyring' : ''}" title="${escHtmlAttr(tittel)}">${ikon}</button>`;
+
+        const hasExtra = alt.type === 'buss' && alt.ekstraAvgangar && alt.ekstraAvgangar.length > 0;
+        if (hasExtra) {
+            let dropRows = `<div class="turne-dropdown-rad aktiv-dropdown">avgang ${turneFormatTid(alt.avgang)} → ${turneFormatTid(alt.ankomst)} (${alt.varigheit} min)</div>`;
+            for (const ekstra of alt.ekstraAvgangar) {
+                dropRows += `<div class="turne-dropdown-rad">avgang ${turneFormatTid(ekstra.avgang)} → ${turneFormatTid(ekstra.ankomst)} (${ekstra.varigheit} min)</div>`;
+            }
+            knappar += `<div class="turne-alt-wrapper">${knappHtml}<div class="turne-extra-dropdown">${dropRows}</div></div>`;
+        } else {
+            knappar += knappHtml;
+        }
+    }
+    return knappar;
+}
+
 // Stikkord for å klassifisere textToSchool frå portalen til ei kort
 // merkelapp i Portal-kolonnen. Lett å utvide når nye formuleringar dukkar
 // opp (sjå console.warn i klassifiserPortalTekst() under).
@@ -5317,7 +5355,7 @@ function visTurneResultat() {
     if (turneResultat.some(hr => hr.skuleResultat.length > 0)) {
         const header = document.createElement('div');
         header.className = 'turne-kolonne-header';
-        header.innerHTML = `<div>Skule</div><div>Portaltekst</div><div>Tur</div><div>Retur</div><div>Velg transportmåte</div><div>Generert tekst</div>`;
+        header.innerHTML = `<div>Skule</div><div>Portaltekst</div><div>Tur</div><div>Retur</div><div>Generert tekst</div>`;
         liste.appendChild(header);
     }
 
@@ -5357,33 +5395,21 @@ function visTurneResultat() {
             // Eksisterande bussavtale frå portalen (om stadfesta via get_calendar_events)
             const ba = (busStatus === 'bekrefta') ? (turneBusAvtalar[hending.id] || {})[sr.skuleId] : null;
 
-            // Knappar med hover-dropdown for tog/buss. RETTA 12.08.2026: berre
-            // ikon (ingen tekstetikett), full forklaring i "title"-attributtet
-            // (native title — klippast ikkje av "overflow:hidden" slik ein
-            // absolutt-posisjonert tooltip ville gjort).
-            let knappar = '';
-            for (const alt of (sr.alternativ || [])) {
-                const erValt = alt.type === valtType;
-                const ikon = TURNE_ALT_IKON[alt.type] || '?';
-                // Tittelen inneheld varigheit for alle typar (òg gange), henta
-                // frå SAME formatteringsfunksjon som Tur-/Retur-cella brukar —
-                // slik at ein kan samanlikne varigheit på tvers av alternativ
-                // utan å måtte klikke seg gjennom kvart eit (lagt til 12.08.2026).
-                const tittel = formaterAltDetaljar(alt).hovudlinje.replace(`${ikon} `, '');
-
-                const knappHtml = `<button onclick="settTurneOverstyring('${overstyringKey}', '${alt.type}')" class="${erValt ? 'aktiv-overstyring' : ''}" title="${escHtmlAttr(tittel)}">${ikon}</button>`;
-
-                const hasExtra = alt.type === 'buss' && alt.ekstraAvgangar && alt.ekstraAvgangar.length > 0;
-                if (hasExtra) {
-                    let dropRows = `<div class="turne-dropdown-rad aktiv-dropdown">avgang ${turneFormatTid(alt.avgang)} → ${turneFormatTid(alt.ankomst)} (${alt.varigheit} min)</div>`;
-                    for (const ekstra of alt.ekstraAvgangar) {
-                        dropRows += `<div class="turne-dropdown-rad">avgang ${turneFormatTid(ekstra.avgang)} → ${turneFormatTid(ekstra.ankomst)} (${ekstra.varigheit} min)</div>`;
-                    }
-                    knappar += `<div class="turne-alt-wrapper">${knappHtml}<div class="turne-extra-dropdown">${dropRows}</div></div>`;
-                } else {
-                    knappar += knappHtml;
-                }
-            }
+            // Knapparadene for tur og retur er no ÅTSKILDE (lagt til
+            // 14.08.2026) — tur og retur kan ha ulik transportmåte (t.d. buss
+            // ut, gange attende), difor får dei kvar sin overstyringsnøkkel og
+            // vert rendra INNI høvesvis Tur- og Retur-cella, ikkje i ein delt
+            // "Velg transportmåte"-kolonne lenger. Retur har berre knappar når
+            // retursøket faktisk vart gjort (sr.retur.alternativ finst) — er
+            // tur gange/bestillerbuss vart retur aldri søkt, og då finst det
+            // ikkje noko å velje mellom.
+            const turKnappar = byggAltKnappar(sr.alternativ, valtType, overstyringKey, 'settTurneOverstyring');
+            const returValtType = (sr.retur && !sr.retur.hoppaOver)
+                ? (turneOverstyringRetur[overstyringKey] || sr.retur.valt)
+                : null;
+            const returKnappar = (sr.retur && !sr.retur.hoppaOver)
+                ? byggAltKnappar(sr.retur.alternativ, returValtType, overstyringKey, 'settTurneOverstyringRetur')
+                : '';
 
             // ✕-ikon med tooltip når ingen direkte kollektivrute er funne — bak
             // skulenamnet, slik at skulenamna står på same x-posisjon uavhengig
@@ -5422,29 +5448,29 @@ function visTurneResultat() {
                 <div class="turne-col-tur"${sr.begrunnelse ? ` data-tooltip="${escHtmlAttr(sr.begrunnelse)}"` : ''}>
                     <div class="turne-linje-hoved">${turHovud}</div>
                     ${turUnder ? `<div class="turne-linje-under">${turUnder}</div>` : ''}
+                    ${turKnappar ? `<div class="turne-val-ikon-knappar">${turKnappar}</div>` : ''}
                 </div>`;
 
             // --- Retur-kolonne — sjå sokTurneRetur() for regelen som avgjer om
             // retur vart søkt eller hoppa over. Kortare tekst ved hoppaOver sidan
-            // tidspunkta alt står i Portaltekst-kolonnen.
+            // tidspunkta alt står i Portaltekst-kolonnen (og ingen knappar, sidan
+            // det då ikkje finst noko alternativ å velje mellom — sjå over).
             let returCelle = `<div class="turne-col-retur"></div>`;
             if (sr.retur) {
                 if (sr.retur.hoppaOver) {
                     const tekst = sr.retur.valt === 'gange' ? 'Gange' : 'Bestillerbuss';
                     returCelle = `<div class="turne-col-retur turne-retur-dimma"><div class="turne-linje-hoved">${tekst}</div></div>`;
                 } else {
-                    const returValtAlt = (sr.retur.alternativ || []).find(a => a.type === sr.retur.valt);
+                    const returValtAlt = (sr.retur.alternativ || []).find(a => a.type === returValtType);
                     const linjer = formaterAltDetaljar(returValtAlt);
                     returCelle = `
                         <div class="turne-col-retur">
                             <div class="turne-linje-hoved">${linjer.hovudlinje}</div>
                             ${linjer.underlinje ? `<div class="turne-linje-under">${linjer.underlinje}</div>` : ''}
+                            ${returKnappar ? `<div class="turne-val-ikon-knappar">${returKnappar}</div>` : ''}
                         </div>`;
                 }
             }
-
-            // --- Velg transportmåte-kolonne: ikon-knappane for å overstyre transporttype ---
-            const valCelle = `<div class="turne-val-ikon-knappar">${knappar}</div>`;
 
             // --- Generert tekst-kolonne: automatisk generert portaltekst for
             // det VALDE alternativet, med kopier-knapp. Regenererer kvar gong
@@ -5464,7 +5490,6 @@ function visTurneResultat() {
                     ${portalCelle}
                     ${turCelle}
                     ${returCelle}
-                    ${valCelle}
                     ${tekstCelle}
                 </div>`;
         }
@@ -5527,6 +5552,15 @@ function settTurneOverstyring(key, type) {
     visTurneResultat();
 }
 
+function settTurneOverstyringRetur(key, type) {
+    if (turneOverstyringRetur[key] === type) {
+        delete turneOverstyringRetur[key]; // Klikk same knapp igjen → revert til auto
+    } else {
+        turneOverstyringRetur[key] = type;
+    }
+    visTurneResultat();
+}
+
 function genererTurnePayload() {
     const payload = {
         productionId: valtProduksjon ? valtProduksjon.id : null,
@@ -5548,7 +5582,12 @@ function genererTurnePayload() {
                         const overstyringKey = `${hending.id}_${sr.skuleId}`;
                         const valtType = turneOverstyring[overstyringKey] || sr.valt;
                         const valtAlt = (sr.alternativ || []).find(a => a.type === valtType) || { type: 'bestillerbuss' };
-                        const returValtAlt = sr.retur ? (sr.retur.alternativ || []).find(a => a.type === sr.retur.valt) : null;
+                        // Retur kan no vere overstyrt UAVHENGIG av tur (sjå turneOverstyringRetur,
+                        // lagt til 14.08.2026) — bruk overstyrt type viss sett, elles auto-valet.
+                        const returValtType = (sr.retur && !sr.retur.hoppaOver)
+                            ? (turneOverstyringRetur[overstyringKey] || sr.retur.valt)
+                            : (sr.retur ? sr.retur.valt : null);
+                        const returValtAlt = sr.retur ? (sr.retur.alternativ || []).find(a => a.type === returValtType) : null;
                         const returErKollektiv = returValtAlt && (returValtAlt.type === 'buss' || returValtAlt.type === 'tog');
                         return {
                             schoolId: sr.skuleId,
@@ -5556,7 +5595,7 @@ function genererTurnePayload() {
                             transport: valtAlt.type,
                             linje: (valtAlt.type === 'buss' || valtAlt.type === 'tog') ? (valtAlt.linje || null) : null,
                             departureTime: (valtAlt.type === 'buss' || valtAlt.type === 'tog') ? turneFormatTid(valtAlt.avgang) : null,
-                            returTransport: sr.retur ? sr.retur.valt : null,
+                            returTransport: returValtType,
                             returLinje: returErKollektiv ? (returValtAlt.linje || null) : null,
                             returTime: returErKollektiv ? turneFormatTid(returValtAlt.avgang) : null
                         };
