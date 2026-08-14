@@ -5278,26 +5278,24 @@ function analysertransportTurneRetur(returBussReiser, returTogReiser, googleGang
 }
 
 // Avgjer om retur skal søkjast for turnémodus, og gjer sjølve søket.
-// REGEL (sjå CLAUDE.md, seksjon "Retursøk i turnémodus"):
-//   tur = bestillerbuss → ingen kollektivsøk, bussen ventar/hentar
-//   tur = gange         → retur = gange, ingen søk
-//   tur = buss/tog      → søk retur (destinasjon → skule) med finnReiseRetur()
+// REGEL (sjå CLAUDE.md, seksjon "Retursøk i turnémodus"), RETTA 14.08.2026:
+//   tur = bestillerbuss → ingen kollektivsøk, bussen ventar/hentar. Gange/
+//                          sykler/bestillerbuss er likevel val (ingen ekstra
+//                          søk nødvendig, avstanden er alt kjend).
+//   tur = gange          → søk retur likevel (destinasjon → skule) med
+//                          finnReiseRetur() — at gange var beste val PÅ TUR
+//                          (t.d. avstand under maksGange) tyder ikkje at
+//                          gange er beste val RETUR òg (t.d. mørkt/regn seinare
+//                          på dagen, eller berre at rutebuss/tog faktisk passar
+//                          betre attende). Spurt eksplisitt av Eirik 14.08.2026
+//                          — tidlegare vart retur ALDRI søkt kollektivt når
+//                          tur var gange, sjølv om det var enkelt å spørje om.
+//   tur = buss/tog       → søk retur, som før.
 // Tidspunkt: hending.dateEnd + buffer, eller dateStart + varigheit viss dateEnd manglar.
 // googleGange/googleKøyring vert attbrukt frå tur-søket (same avstand uansett retning) —
 // ikkje henta på nytt.
 async function sokTurneRetur(sr, hending, sCoords, dCoords, maksGange, bufferMin, varigheitMin, googleGange, googleKøyring) {
-    if (sr.valt === 'bestillerbuss' || sr.valt === 'gange') {
-        // RETTA 14.08.2026: bygde tidlegare alternativ:[] her, som låste
-        // retur heilt til auto-valet frå tur — Eirik melde at han då ikkje
-        // kunne velje noko anna for retur i det heile når gange vart tilrådd
-        // for turen. gange/sykler/bestillerbuss krev ikkje noko ekstra søk
-        // (googleGange/googleKøyring er alt henta for turen, og retur-avstanden
-        // er den same), så dei kan byggjast utan kostnad. Ekte kollektivsøk
-        // (Entur) for retur skjer framleis BERRE når tur sjølv var buss/tog —
-        // sjå greina under — for å ikkje doble talet på Entur-kall for kvart
-        // arrangement. hoppaOver er framleis true (ingen Entur-søk vart gjort);
-        // brukast m.a. av byggReturSetning() for å ikkje fabrikere eit
-        // "søkt retur"-tidspunkt i buss/tog-genererte tekstar.
+    if (sr.valt === 'bestillerbuss') {
         const { alternativ, valt } = analysertransportTurneRetur(null, null, googleGange, googleKøyring, maksGange);
         return { tid: null, alternativ, valt, hoppaOver: true };
     }
