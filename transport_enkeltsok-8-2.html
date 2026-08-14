@@ -1461,7 +1461,7 @@
         </div>
         <p style="color:#666;font-size:13px;margin:0 0 12px">
           Kva transportløysing fekk ein skule sist same produksjon var på
-          turné? Arrangement UTAN bussavtale er òg med, med tom
+          turné? Arrangement UTAN registrert transport er òg med, med tom
           transportkolonne — det er like nyttig å vite at ein skule gjekk
           eller tok rutebuss som at dei fekk bestillerbuss.
         </p>
@@ -4782,7 +4782,7 @@ function renderHistorikk() {
                 <div>${escHtmlAttr(r.productionName || '')}</div>
                 <div>${escHtmlAttr(r.departureTime || '–')}</div>
                 <div>${escHtmlAttr(r.returnTime || '–')}</div>
-                <div${harTransport ? '' : ' class="historikk-tom"'}>${harTransport ? escHtmlAttr(r.textToSchool || '') : 'ingen bussavtale registrert'}</div>
+                <div${harTransport ? '' : ' class="historikk-tom"'}>${harTransport ? escHtmlAttr(r.textToSchool || '') : 'ingen transportinfo registrert'}</div>
             </div>`;
     }
     liste.innerHTML = html;
