@@ -1102,6 +1102,45 @@
         .turne-val-ikon-knappar button.aktiv-overstyring {
             background: #667eea; color: white; border-color: #667eea;
         }
+
+        /* Historikk-fana (lagt til 14.08.2026) — flat tabell, sortert på skule.
+           Same rutenett-mønster som .turne-skule-rad/.turne-kolonne-header. */
+        #historikkResultatListe {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .historikk-header, .historikk-rad {
+            display: grid;
+            grid-template-columns: 180px 95px 90px minmax(160px,1fr) 75px 75px minmax(200px,1.5fr);
+            gap: 12px;
+        }
+        .historikk-header {
+            padding: 8px 15px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            color: #718096;
+            background: #f7fafc;
+            border-bottom: 2px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+        .historikk-rad {
+            align-items: start;
+            padding: 10px 15px;
+            border-bottom: 1px solid #f3f4f6;
+            background: white;
+            font-size: 13px;
+        }
+        .historikk-rad:last-child { border-bottom: none; }
+        .historikk-tom { color: #9ca3af; font-style: italic; }
+        @media (max-width: 900px) {
+            .historikk-header { display: none; }
+            .historikk-rad { grid-template-columns: 1fr; gap: 4px; }
+        }
     </style>
 </head>
 <body>
@@ -1119,6 +1158,7 @@
     <div style="display:flex; gap:0; margin-bottom:20px; border-radius:8px; overflow:hidden; border:2px solid #667eea; width:fit-content;">
       <button id="btnManuelt" onclick="byttModus('manuelt')" class="modus-btn aktiv">Manuelt søk</button>
       <button id="btnTurne" onclick="byttModus('turne')" class="modus-btn">Turnésøk</button>
+      <button id="btnHistorikk" onclick="byttModus('historikk')" class="modus-btn">Historikk</button>
     </div>
 
     <div id="manueltSokContainer">
@@ -1409,6 +1449,43 @@
           <button class="sok-btn" id="genererPayloadBtn" onclick="genererTurnePayload()" disabled>Generer payload (0 av 0 arrangement)</button>
           <textarea id="turnePayload" style="display:none;width:100%;margin-top:15px;height:400px;font-family:monospace;font-size:12px;border:1px solid #ddd;border-radius:8px;padding:12px" readonly></textarea>
         </div>
+      </div>
+    </div>
+
+    <!-- HISTORIKK-MODUS (lagt til 14.08.2026) -->
+    <div id="historikkModusContainer" style="display:none;">
+      <div class="steg" id="stegH1">
+        <div class="steg-header">
+          <div class="steg-nummer">1</div>
+          <div class="steg-tittel">Historikk — skule/produksjon</div>
+        </div>
+        <p style="color:#666;font-size:13px;margin:0 0 12px">
+          Kva transportløysing fekk ein skule sist same produksjon var på
+          turné? Arrangement UTAN bussavtale er òg med, med tom
+          transportkolonne — det er like nyttig å vite at ein skule gjekk
+          eller tok rutebuss som at dei fekk bestillerbuss.
+        </p>
+        <div class="input-row">
+          <div class="input-group" style="flex:1;min-width:220px">
+            <label>Skule</label>
+            <input type="text" id="historikkSkuleInput" list="historikkSkuleListe" placeholder="Søk på skulenamn…" oninput="renderHistorikk()">
+            <datalist id="historikkSkuleListe"></datalist>
+          </div>
+          <div class="input-group" style="flex:1;min-width:220px">
+            <label>Produksjon</label>
+            <input type="text" id="historikkProduksjonInput" list="historikkProduksjonListe" placeholder="Søk på produksjonsnamn…" oninput="renderHistorikk()">
+            <datalist id="historikkProduksjonListe"></datalist>
+          </div>
+          <div class="input-group" style="max-width:140px;justify-content:flex-end">
+            <label>&nbsp;</label>
+            <button class="nav-btn secondary" onclick="tommHistorikkFilter()">Nullstill filter</button>
+          </div>
+        </div>
+        <p id="historikkStatus" style="color:#666;font-size:13px;margin-top:8px"></p>
+      </div>
+
+      <div id="historikkResultatSeksjon" style="display:none">
+        <div id="historikkResultatListe"></div>
       </div>
     </div>
 
@@ -1996,6 +2073,12 @@ let alleTurneEvents = [];
 let turneDataHentetTidspunkt = null;
 let produksjonListe = []; // [{id, name, antalArrangement, datoFra, datoTil, events[]}]
 let valtProduksjon = null;
+
+// Historikk-modus (lagt til 14.08.2026) — nedlasta dks_historikk_transport.json,
+// same-origin, ingen portalkall. Éin rad per skule per historisk arrangement,
+// sjå ~/claude/dks_hent_historikk_transport.py for korleis fila vart bygd.
+let historikkDataLasta = false;
+let historikkRader = []; // [{skuleaar, tourId, productionName, eventId, dateStart, dateEnd, location, schoolId, schoolName, departureTime, returnTime, textToSchool}]
 
 const CORS_PROXY = 'https://corsproxy.io/?';
 
@@ -4549,11 +4632,17 @@ function byttModus(mode) {
     aktivModus = mode;
     document.getElementById('manueltSokContainer').style.display = mode === 'manuelt' ? '' : 'none';
     document.getElementById('turneModusContainer').style.display = mode === 'turne' ? '' : 'none';
+    document.getElementById('historikkModusContainer').style.display = mode === 'historikk' ? '' : 'none';
     document.getElementById('btnManuelt').classList.toggle('aktiv', mode === 'manuelt');
     document.getElementById('btnTurne').classList.toggle('aktiv', mode === 'turne');
+    document.getElementById('btnHistorikk').classList.toggle('aktiv', mode === 'historikk');
     if (mode === 'turne' && !turneDataLasta) {
         turneDataLasta = true;
         lastTurneData();
+    }
+    if (mode === 'historikk' && !historikkDataLasta) {
+        historikkDataLasta = true;
+        lastHistorikkData();
     }
 }
 
@@ -4597,6 +4686,106 @@ async function lastTurneData() {
         document.getElementById('turneStatus').textContent = `Feil ved lasting av turnédata: ${err.message}`;
         console.error(err);
     }
+}
+
+// ========== HISTORIKK-MODUS (lagt til 14.08.2026) ==========
+
+async function lastHistorikkData() {
+    const statusEl = document.getElementById('historikkStatus');
+    statusEl.textContent = 'Lastar historikk…';
+    try {
+        const resp = await fetch('dks_historikk_transport.json');
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+        historikkRader = data.rader || [];
+
+        const skular = [...new Set(historikkRader.map(r => r.schoolName).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'nb'));
+        const produksjonar = [...new Set(historikkRader.map(r => r.productionName).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'nb'));
+        document.getElementById('historikkSkuleListe').innerHTML = skular.map(s => `<option value="${escHtmlAttr(s)}">`).join('');
+        document.getElementById('historikkProduksjonListe').innerHTML = produksjonar.map(p => `<option value="${escHtmlAttr(p)}">`).join('');
+
+        const skuleaarTekst = (data.skuleaarHenta || []).join(', ');
+        statusEl.textContent = `${historikkRader.length} arrangement (${skular.length} skular, ${produksjonar.length} produksjonar) frå skuleåra ${skuleaarTekst}.`;
+        document.getElementById('historikkResultatSeksjon').style.display = '';
+        renderHistorikk();
+    } catch (err) {
+        statusEl.textContent = `Feil ved lasting av dks_historikk_transport.json: ${err.message}`;
+        console.error(err);
+    }
+}
+
+function tommHistorikkFilter() {
+    document.getElementById('historikkSkuleInput').value = '';
+    document.getElementById('historikkProduksjonInput').value = '';
+    renderHistorikk();
+}
+
+// Manuell dd.MM.YYYY-formatering — same grunngjeving som formaterKortDato():
+// toLocaleDateString sin 2-digit-nullutfylling er upåliteleg på tvers av
+// nettlesar-/Node-ICU-versjonar (stadfesta 12.08.2026).
+function historikkFormatDato(isoStr) {
+    if (!isoStr) return '';
+    const d = new Date(isoStr);
+    if (isNaN(d.getTime())) return '';
+    const dd = String(d.getDate()).padStart(2, '0');
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    return `${dd}.${mm}.${d.getFullYear()}`;
+}
+
+// Filtrerer på skule OG/ELLER produksjon (fritekst, matchar delstreng —
+// datalist tvingar ikkje eksakt val), sorterer alfabetisk på skule (norsk
+// sortering), deretter kronologisk innanfor same skule. RETTA-merknad:
+// arrangement UTAN bussavtale skal framleis visast (tomme transportfelt) —
+// filtrer ALDRI vekk rader basert på om departureTime/textToSchool finst,
+// berre på skule-/produksjonstekst. Sjå CLAUDE.md-grunngjevinga i
+// dks_hent_historikk_transport.py for kvifor dette er heile poenget med fana.
+function renderHistorikk() {
+    const skuleQ = document.getElementById('historikkSkuleInput').value.trim().toLowerCase();
+    const produksjonQ = document.getElementById('historikkProduksjonInput').value.trim().toLowerCase();
+
+    const filtrert = historikkRader.filter(r => {
+        const skuleOk = !skuleQ || (r.schoolName || '').toLowerCase().includes(skuleQ);
+        const produksjonOk = !produksjonQ || (r.productionName || '').toLowerCase().includes(produksjonQ);
+        return skuleOk && produksjonOk;
+    });
+
+    filtrert.sort((a, b) => {
+        const skuleCmp = (a.schoolName || '').localeCompare(b.schoolName || '', 'nb');
+        if (skuleCmp !== 0) return skuleCmp;
+        return (a.dateStart || '').localeCompare(b.dateStart || '');
+    });
+
+    const liste = document.getElementById('historikkResultatListe');
+    const statusEl = document.getElementById('historikkStatus');
+    const grunnTekst = statusEl.textContent.split(' — ')[0];
+    statusEl.textContent = (skuleQ || produksjonQ)
+        ? `${grunnTekst} — viser ${filtrert.length} av ${historikkRader.length} arrangement`
+        : grunnTekst;
+
+    if (filtrert.length === 0) {
+        liste.innerHTML = `<p style="color:#9ca3af;font-style:italic;padding:12px">Ingen arrangement matchar filteret.</p>`;
+        return;
+    }
+
+    let html = `
+        <div class="historikk-header">
+            <div>Skule</div><div>Dato</div><div>Skuleår</div><div>Produksjon</div>
+            <div>Avgang</div><div>Retur</div><div>Transporttekst</div>
+        </div>`;
+    for (const r of filtrert) {
+        const harTransport = !!(r.departureTime || r.returnTime || r.textToSchool);
+        html += `
+            <div class="historikk-rad">
+                <div>${escHtmlAttr(r.schoolName || '')}</div>
+                <div>${historikkFormatDato(r.dateStart)}</div>
+                <div>${escHtmlAttr(r.skuleaar || '')}</div>
+                <div>${escHtmlAttr(r.productionName || '')}</div>
+                <div>${escHtmlAttr(r.departureTime || '–')}</div>
+                <div>${escHtmlAttr(r.returnTime || '–')}</div>
+                <div${harTransport ? '' : ' class="historikk-tom"'}>${harTransport ? escHtmlAttr(r.textToSchool || '') : 'ingen bussavtale registrert'}</div>
+            </div>`;
+    }
+    liste.innerHTML = html;
 }
 
 // Grupperer arrangement på production.id (get_calendar_events har ikkje noko
