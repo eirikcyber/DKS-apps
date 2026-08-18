@@ -1607,6 +1607,19 @@ const kjendeDestinasjonar = {
     'asker museet': { lat: 59.85315620655891, lon: 10.45577507676024 }
 };
 
+// Skular med eit kjent knutepunkt (stasjon e.l.) dei kan gå til for å nå ei
+// rutebuss-/toglinje som ikkje går direkte forbi skulen sjølv (lagt til
+// 18.08.2026 — sjå CLAUDE.md "Knutepunkt-søk"). Manuelt kartlagt, ikkje
+// automatisk utleia — Entur sin eigen tilkomst-gangeradius er kortare enn
+// mange skular sin faktiske (overkommelege) gangeavstand til næraste
+// knutepunkt, og "næraste stoppestad" er ikkje det same som "næraste NYTTIGE
+// stoppestad" (stadfesta for Heggedal skole: 9 bussstopp ligg nærare enn
+// Heggedal stasjon, ingen av dei går direkte nokon stad). Utvid lista etter
+// kvart som fleire tilfelle vert oppdaga.
+const SKULE_KNUTEPUNKT = {
+    'Heggedal skole': { namn: 'Heggedal stasjon', lat: 59.787039, lon: 10.43103 }
+};
+
 // ========== STATISK AVSTANDSTABELL — generert 2.3.2026 ==========
 // Nøkkel: gmap_MODE_fraLat.toFixed(3)_fraLon.toFixed(3)_tilLat.toFixed(3)_tilLon.toFixed(3)
 const STATISK_AVSTAND = {
@@ -2520,6 +2533,68 @@ async function finnReiseRetur(from, to, departBy, mode) {
     return null;
 }
 
+// ========== KNUTEPUNKT-SØK (lagt til 18.08.2026) ==========
+// Søkjer eit ekstra buss/tog-alternativ VIA eit kjent knutepunkt (t.d. ein
+// stasjon skulen kan gå til, sjølv om han ligg utanfor Entur sin eigen
+// tilkomst-gangeradius frå skulekoordinatane direkte). Sjå SKULE_KNUTEPUNKT
+// og CLAUDE.md "Knutepunkt-søk" for grunngjeving/døme (Heggedal skole).
+// Delt mellom manuelt søk og turnémodus. erTur=true søkjer skule→knutepunkt
+// →destinasjon (arriveBy), erTur=false søkjer destinasjon→knutepunkt→skule
+// (departBy, retur). Returnerer null viss skulen ikkje har noko knutepunkt
+// oppført, gangeavstanden til knutepunktet er over maksGange, eller det
+// ikkje finst nokon DIREKTE (transferfri) kollektivrute derifrå.
+async function sokViaKnutepunkt(skuleNamn, skuleCoords, destCoords, tidspunkt, erTur, maksGange) {
+    const knute = SKULE_KNUTEPUNKT[skuleNamn];
+    if (!knute) return null;
+    const knuteCoords = { lat: knute.lat, lon: knute.lon };
+
+    const gangeTilKnute = await hentGoogleAvstand(skuleCoords, knuteCoords, 'WALKING');
+    if (!gangeTilKnute || gangeTilKnute.avstand > maksGange) return null;
+
+    const [bussReiser, togReiser] = erTur
+        ? await Promise.all([
+            finnReise(knuteCoords, destCoords, tidspunkt, 'bus'),
+            finnReise(knuteCoords, destCoords, tidspunkt, 'rail')
+        ])
+        : await Promise.all([
+            finnReiseRetur(destCoords, knuteCoords, tidspunkt, 'bus'),
+            finnReiseRetur(destCoords, knuteCoords, tidspunkt, 'rail')
+        ]);
+
+    function besteDirekte(reiser) {
+        if (!reiser || reiser.length === 0) return null;
+        const direkte = reiser.filter(r => telKollektivLegs(r.legs) === 1);
+        if (direkte.length === 0) return null;
+        return [...direkte].sort((a, b) => a.duration - b.duration)[0];
+    }
+
+    const togReise = besteDirekte(togReiser);
+    const bussReise = besteDirekte(bussReiser);
+    // Same prioritet som elles i appen: tog framfor buss.
+    const erTog = !!togReise;
+    const valtReise = togReise || bussReise;
+    if (!valtReise) return null;
+
+    const kollektivLegs = valtReise.legs.filter(l => l.mode === 'bus' || l.mode === 'coach' || l.mode === 'rail');
+
+    return {
+        type: 'knutepunkt',
+        mode: erTog ? 'tog' : 'buss',
+        knutepunktNamn: knute.namn,
+        linje: kollektivLegs.map(l => l.line && l.line.publicCode).filter(Boolean).join(' → '),
+        avgang: valtReise.startTime,
+        ankomst: valtReise.endTime,
+        varigheit: Math.round(valtReise.duration / 60),
+        stegMedTid: byggStegMedTid(valtReise.legs),
+        gangeTilKnutepunkt: {
+            avstand: gangeTilKnute.avstand,
+            avstandTekst: gangeTilKnute.avstandTekst || `${(gangeTilKnute.avstand / 1000).toFixed(1)} km`,
+            tid: gangeTilKnute.tid,
+            tidTekst: gangeTilKnute.tidTekst || `${gangeTilKnute.tid} min`
+        }
+    };
+}
+
 // ========== BEREKN GANGAVSTAND (fallback) ==========
 function beregnAvstandLuftlinje(from, to) {
     const R = 6371000; // meter
@@ -2689,11 +2764,12 @@ async function startSok() {
     // alt det som avgjer gange-avstand/-tid, Entur sitt gangetripp vart aldri brukt
     // til noko anna enn avgang/ankomst-visning (harmonisert med turnémodus, som
     // aldri gjorde dette søket).
-    const [bussReiser, togReiser, googleGange, googleKøyring] = await Promise.all([
+    const [bussReiser, togReiser, googleGange, googleKøyring, knutepunktAlt] = await Promise.all([
         finnReise(skuleCoords, destCoords, arriveBy, 'bus'),
         finnReise(skuleCoords, destCoords, arriveBy, 'rail'),
         hentGoogleAvstand(skuleCoords, destCoords, 'WALKING'),
-        hentGoogleAvstand(skuleCoords, destCoords, 'DRIVING')
+        hentGoogleAvstand(skuleCoords, destCoords, 'DRIVING'),
+        sokViaKnutepunkt(valtSkule, skuleCoords, destCoords, arriveBy, true, maksGange)
     ]);
 
     // Hjelpefunksjon: finn direkterute (berre 1 kollektiv-leg)
@@ -2809,6 +2885,31 @@ async function startSok() {
         skuleResultat.alternativ.push(togAlt);
     }
     
+    // Knutepunkt — ekstra alternativ for skular med eit kjent knutepunkt dei
+    // kan gå til (sjå SKULE_KNUTEPUNKT/sokViaKnutepunkt(), lagt til
+    // 18.08.2026). Tilpassa til manuelt søk sin alt-form (ikon/namn/reiseveg
+    // som tekstlinjer) — sokViaKnutepunkt() returnerer den delte turné-forma.
+    let knutepunktAltFormatert = null;
+    if (knutepunktAlt) {
+        const typeNamn = knutepunktAlt.mode === 'tog' ? 'Tog' : 'Buss';
+        knutepunktAltFormatert = {
+            type: 'knutepunkt',
+            ikon: '🚏',
+            namn: typeNamn,
+            linje: knutepunktAlt.linje,
+            knutepunktNamn: knutepunktAlt.knutepunktNamn,
+            avgang: knutepunktAlt.avgang,
+            ankomst: knutepunktAlt.ankomst,
+            varigheit: knutepunktAlt.varigheit,
+            aktuelt: true,
+            reiseveg: [
+                `Gå ${knutepunktAlt.gangeTilKnutepunkt.avstandTekst} til ${knutepunktAlt.knutepunktNamn} (${knutepunktAlt.gangeTilKnutepunkt.tidTekst})`,
+                `${typeNamn} ${knutepunktAlt.linje || '?'} frå ${knutepunktAlt.knutepunktNamn}`
+            ]
+        };
+        skuleResultat.alternativ.push(knutepunktAltFormatert);
+    }
+
     // Bestillerbuss - bruk Google Maps køyretid
     const bestillerbussAlt = {
         type: 'bestillerbuss',
@@ -2820,9 +2921,10 @@ async function startSok() {
         reiseveg: [`Bestillerbuss frå ${valtSkule} til destinasjon - ${googleKøyring.avstandTekst || ((googleKøyring.avstand/1000).toFixed(1) + ' km')} (${googleKøyring.tidTekst || googleKøyring.tid + ' min'})`]
     };
     skuleResultat.alternativ.push(bestillerbussAlt);
-    
+
     // Finn beste alternativ
-    // Prioritet: 1. Gange (viss under maks), 2. Tog (direktetog), 3. Direktebuss, 4. Bestillerbuss
+    // Prioritet: 1. Gange (viss under maks), 2. Tog (direktetog), 3. Direktebuss,
+    // 4. Knutepunkt (buss/tog via kjent knutepunkt), 5. Bestillerbuss
     // ALDRI vel rutebuss med bytte automatisk
     const aktuelle = skuleResultat.alternativ.filter(a => a.aktuelt);
 
@@ -2830,10 +2932,10 @@ async function startSok() {
     const gangeAltFunne = aktuelle.find(a => a.type === 'gange' && a.aktuelt);
     const togAltFunne = aktuelle.find(a => a.type === 'tog' && (a.bytter === 0 || a.bytter === undefined));
     const direktebussAltFunne = aktuelle.find(a => a.type === 'buss' && (a.bytter === 0 || a.bytter === undefined));
-    
+
     // Prioritert rekkefølge (ALDRI rutebuss med bytte)
     let valtAlternativ = null;
-    
+
     // 1. Gange viss under maks avstand
     if (gangeAltFunne && gangeAltFunne.aktuelt) {
         valtAlternativ = gangeAltFunne;
@@ -2846,9 +2948,13 @@ async function startSok() {
     else if (direktebussAltFunne) {
         valtAlternativ = direktebussAltFunne;
     }
-    // 4. Ingen kollektiv utan bytte - bruk bestillerbuss
+    // 4. Knutepunkt (berre viss verken tog/buss direkte frå skulen fanst)
+    else if (knutepunktAltFormatert) {
+        valtAlternativ = knutepunktAltFormatert;
+    }
+    // 5. Ingen kollektiv i det heile - bruk bestillerbuss
     // (rutebuss med bytte blir ALDRI valt automatisk)
-    
+
     // RETTA 11.08.2026: 30-minuttsregelen er fjerna (harmonisert med turnémodus,
     // som aldri hadde han). Rein prioritet: gange > direktetog > direktebuss >
     // bestillerbuss — ingen automatisk bestillerbuss-overstyring basert på tid.
@@ -2947,6 +3053,11 @@ function byggValtBegrunnelse(valtType, valtAlt, harDirekteBuss, harDirekteTog, b
         return `Direktetog funne: linje ${valtAlt?.linje || '?'}`;
     } else if (valtType === 'buss') {
         return `Direktebuss funne: linje ${valtAlt?.linje || '?'}`;
+    } else if (valtType === 'knutepunkt') {
+        // Sjå SKULE_KNUTEPUNKT/sokViaKnutepunkt(), lagt til 18.08.2026 —
+        // ingen direkterute frå skulen sjølv, men eit kjent knutepunkt
+        // (t.d. ein stasjon) er overkommeleg å gå til.
+        return `Ingen direkterute frå skulen, men linje ${valtAlt?.linje || '?'} via ${valtAlt?.knutepunktNamn || 'knutepunkt'} (gå dit)`;
     }
     // bestillerbuss — kvifor ingen kollektiv?
     const grunnar = [];
@@ -3672,11 +3783,12 @@ async function sokAlleSkular(type) {
 
 async function sokTransportForSkule(skuleNamn, skuleCoords, destCoords, arriveBy, maksGange, trinnData) {
     // Søk parallelt. RETTA 11.08.2026: Entur foot-søk fjerna, sjå startSok() for grunngjeving.
-    const [bussReiser, togReiser, googleGange, googleKøyring] = await Promise.all([
+    const [bussReiser, togReiser, googleGange, googleKøyring, knutepunktAlt] = await Promise.all([
         finnReise(skuleCoords, destCoords, arriveBy, 'bus'),
         finnReise(skuleCoords, destCoords, arriveBy, 'rail'),
         hentGoogleAvstand(skuleCoords, destCoords, 'WALKING'),
-        hentGoogleAvstand(skuleCoords, destCoords, 'DRIVING')
+        hentGoogleAvstand(skuleCoords, destCoords, 'DRIVING'),
+        sokViaKnutepunkt(skuleNamn, skuleCoords, destCoords, arriveBy, true, maksGange)
     ]);
     
     // Hent elevtal
@@ -3780,6 +3892,28 @@ async function sokTransportForSkule(skuleNamn, skuleCoords, destCoords, arriveBy
         skuleResultat.alternativ.push(togAlt);
     }
     
+    // Knutepunkt — sjå grunngjeving i startSok().
+    let knutepunktAltFormatert = null;
+    if (knutepunktAlt) {
+        const typeNamn = knutepunktAlt.mode === 'tog' ? 'Tog' : 'Buss';
+        knutepunktAltFormatert = {
+            type: 'knutepunkt',
+            ikon: '🚏',
+            namn: typeNamn,
+            linje: knutepunktAlt.linje,
+            knutepunktNamn: knutepunktAlt.knutepunktNamn,
+            avgang: knutepunktAlt.avgang,
+            ankomst: knutepunktAlt.ankomst,
+            varigheit: knutepunktAlt.varigheit,
+            aktuelt: true,
+            reiseveg: [
+                `Gå ${knutepunktAlt.gangeTilKnutepunkt.avstandTekst} til ${knutepunktAlt.knutepunktNamn} (${knutepunktAlt.gangeTilKnutepunkt.tidTekst})`,
+                `${typeNamn} ${knutepunktAlt.linje || '?'} frå ${knutepunktAlt.knutepunktNamn}`
+            ]
+        };
+        skuleResultat.alternativ.push(knutepunktAltFormatert);
+    }
+
     // Bestillerbuss
     const bestillerbussAlt = {
         type: 'bestillerbuss',
@@ -3791,9 +3925,10 @@ async function sokTransportForSkule(skuleNamn, skuleCoords, destCoords, arriveBy
         reiseveg: [`${googleKøyring.avstandTekst || ((googleKøyring.avstand/1000).toFixed(1) + ' km')} (${googleKøyring.tidTekst || googleKøyring.tid + ' min'})`]
     };
     skuleResultat.alternativ.push(bestillerbussAlt);
-    
+
     // Finn beste alternativ
-    // Prioritet: 1. Gange (viss under maks), 2. Tog (direktetog), 3. Direktebuss, 4. Bestillerbuss
+    // Prioritet: 1. Gange (viss under maks), 2. Tog (direktetog), 3. Direktebuss,
+    // 4. Knutepunkt (buss/tog via kjent knutepunkt), 5. Bestillerbuss
     // ALDRI vel rutebuss med bytte automatisk
     const aktuelle = skuleResultat.alternativ.filter(a => a.aktuelt);
 
@@ -3801,10 +3936,10 @@ async function sokTransportForSkule(skuleNamn, skuleCoords, destCoords, arriveBy
     const gangeAltFunne = aktuelle.find(a => a.type === 'gange' && a.aktuelt);
     const togAltFunne = aktuelle.find(a => a.type === 'tog' && (a.bytter === 0 || a.bytter === undefined));
     const direktebussAltFunne = aktuelle.find(a => a.type === 'buss' && (a.bytter === 0 || a.bytter === undefined));
-    
+
     // Prioritert rekkefølge (ALDRI rutebuss med bytte)
     let valtAlternativ = null;
-    
+
     // 1. Gange viss under maks avstand
     if (gangeAltFunne && gangeAltFunne.aktuelt) {
         valtAlternativ = gangeAltFunne;
@@ -3817,9 +3952,13 @@ async function sokTransportForSkule(skuleNamn, skuleCoords, destCoords, arriveBy
     else if (direktebussAltFunne) {
         valtAlternativ = direktebussAltFunne;
     }
-    // 4. Ingen kollektiv utan bytte - bruk bestillerbuss
+    // 4. Knutepunkt (berre viss verken tog/buss direkte frå skulen fanst)
+    else if (knutepunktAltFormatert) {
+        valtAlternativ = knutepunktAltFormatert;
+    }
+    // 5. Ingen kollektiv i det heile - bruk bestillerbuss
     // (rutebuss med bytte blir ALDRI valt automatisk)
-    
+
     // RETTA 11.08.2026: 30-minuttsregelen er fjerna (harmonisert med turnémodus,
     // som aldri hadde han). Rein prioritet: gange > direktetog > direktebuss >
     // bestillerbuss — ingen automatisk bestillerbuss-overstyring basert på tid.
@@ -3846,9 +3985,10 @@ async function sokTransportForSkule(skuleNamn, skuleCoords, destCoords, arriveBy
         const departBy = byggArriveByISO(dato, returtid);
         
         // Søk retur (destinasjon -> skule, departureTime)
-        const [returBuss, returTog] = await Promise.all([
+        const [returBuss, returTog, knutepunktAltRetur] = await Promise.all([
             finnReiseRetur(destCoords, skuleCoords, departBy, 'bus'),
-            finnReiseRetur(destCoords, skuleCoords, departBy, 'rail')
+            finnReiseRetur(destCoords, skuleCoords, departBy, 'rail'),
+            sokViaKnutepunkt(skuleNamn, skuleCoords, destCoords, departBy, false, maksGange)
         ]);
         
         skuleResultat.retur = {
@@ -3913,6 +4053,27 @@ async function sokTransportForSkule(skuleNamn, skuleCoords, destCoords, arriveBy
             });
         }
         
+        // Retur knutepunkt — sjå grunngjeving i startSok().
+        let returKnutepunktAlt = null;
+        if (knutepunktAltRetur) {
+            const typeNamn = knutepunktAltRetur.mode === 'tog' ? 'Tog' : 'Buss';
+            returKnutepunktAlt = {
+                type: 'knutepunkt',
+                ikon: '🚏',
+                namn: typeNamn,
+                linje: knutepunktAltRetur.linje,
+                knutepunktNamn: knutepunktAltRetur.knutepunktNamn,
+                avgang: knutepunktAltRetur.avgang,
+                ankomst: knutepunktAltRetur.ankomst,
+                varigheit: knutepunktAltRetur.varigheit,
+                reiseveg: [
+                    `${typeNamn} ${knutepunktAltRetur.linje || '?'} til ${knutepunktAltRetur.knutepunktNamn}`,
+                    `Gå ${knutepunktAltRetur.gangeTilKnutepunkt.avstandTekst} frå ${knutepunktAltRetur.knutepunktNamn} (${knutepunktAltRetur.gangeTilKnutepunkt.tidTekst})`
+                ]
+            };
+            skuleResultat.retur.alternativ.push(returKnutepunktAlt);
+        }
+
         // Retur bestillerbuss
         skuleResultat.retur.alternativ.push({
             type: 'bestillerbuss',
@@ -3921,20 +4082,22 @@ async function sokTransportForSkule(skuleNamn, skuleCoords, destCoords, arriveBy
             varigheit: googleKøyring.tid,
             reiseveg: [`${googleKøyring.avstandTekst || ((googleKøyring.avstand/1000).toFixed(1) + ' km')}`]
         });
-        
+
         // Marker beste retur (same logikk som tur)
         const returAktuelle = skuleResultat.retur.alternativ;
         const returGangeAlt = returAktuelle.find(a => a.type === 'gange' && a.aktuelt);
         const returTogAlt = returAktuelle.find(a => a.type === 'tog' && (a.bytter === 0 || a.bytter === undefined));
         const returBussAlt = returAktuelle.find(a => a.type === 'buss' && (a.bytter === 0 || a.bytter === undefined));
         const returBestillerbuss = returAktuelle.find(a => a.type === 'bestillerbuss');
-        
+
         if (returGangeAlt?.aktuelt) {
             returGangeAlt.beste = true;
         } else if (returTogAlt) {
             returTogAlt.beste = true;
         } else if (returBussAlt) {
             returBussAlt.beste = true;
+        } else if (returKnutepunktAlt) {
+            returKnutepunktAlt.beste = true;
         } else if (returBestillerbuss) {
             returBestillerbuss.beste = true;
         }
@@ -5083,16 +5246,17 @@ async function sokTransportForAlleTurneHendingar() {
                 continue;
             }
 
-            const [bussReiser, togReiser, googleGange, googleKøyring] = await Promise.all([
+            const [bussReiser, togReiser, googleGange, googleKøyring, knutepunktAlt] = await Promise.all([
                 finnReise(sCoords, dCoords, arriveBy, 'bus'),
                 finnReise(sCoords, dCoords, arriveBy, 'rail'),
                 hentGoogleAvstand(sCoords, dCoords, 'WALKING'),
-                hentGoogleAvstand(sCoords, dCoords, 'DRIVING')
+                hentGoogleAvstand(sCoords, dCoords, 'DRIVING'),
+                sokViaKnutepunkt(skule.name, sCoords, dCoords, arriveBy, true, maksGange)
             ]);
 
-            const sr = analysertransportTurne(skule, bussReiser, togReiser, googleGange, googleKøyring, maksGange);
+            const sr = analysertransportTurne(skule, bussReiser, togReiser, googleGange, googleKøyring, maksGange, knutepunktAlt);
             sr.elevtal = (hending.elevtalPerSkule || {})[skule.id] || null;
-            sr.retur = await sokTurneRetur(sr, hending, sCoords, dCoords, maksGange, bufferMin, varigheitMin, googleGange, googleKøyring);
+            sr.retur = await sokTurneRetur(sr, hending, sCoords, dCoords, maksGange, bufferMin, varigheitMin, googleGange, googleKøyring, skule.name);
             hendingResultat.skuleResultat.push(sr);
         }
 
@@ -5103,7 +5267,7 @@ async function sokTransportForAlleTurneHendingar() {
     turneStatusEl.textContent = `Ferdig! ${turneHendingar.length} arrangement behandla.`;
 }
 
-function analysertransportTurne(skule, bussReiser, togReiser, googleGange, googleKøyring, maksGange) {
+function analysertransportTurne(skule, bussReiser, togReiser, googleGange, googleKøyring, maksGange, knutepunktAlt) {
     const alternativ = [];
 
     // Gange — Google WALKING (med haversine-fallback). RETTA 14.08.2026:
@@ -5179,6 +5343,15 @@ function analysertransportTurne(skule, bussReiser, togReiser, googleGange, googl
         }
     }
 
+    // Knutepunkt — ekstra alternativ for skular med eit kjent knutepunkt dei
+    // kan gå til (sjå SKULE_KNUTEPUNKT/sokViaKnutepunkt(), lagt til
+    // 18.08.2026). Pusha ETTER buss, FØR bestillerbuss — vert difor berre
+    // auto-valt når verken gange/tog/buss frå skulen sjølv fann noko, men er
+    // alltid tilgjengeleg som manuelt val elles.
+    if (knutepunktAlt) {
+        alternativ.push(knutepunktAlt);
+    }
+
     // Bestillerbuss med køyretid frå Google DRIVING
     alternativ.push({
         type: 'bestillerbuss',
@@ -5188,7 +5361,7 @@ function analysertransportTurne(skule, bussReiser, togReiser, googleGange, googl
         tidTekst: googleKøyring ? (googleKøyring.tidTekst || `${googleKøyring.tid} min`) : null
     });
 
-    // Auto-vel beste etter prioritet: gange > tog > buss > bestillerbuss
+    // Auto-vel beste etter prioritet: gange > tog > buss > knutepunkt > bestillerbuss
     const valt = alternativ[0].type;
 
     // Bygg begrunnelse for kvifor dette alternativet vart tilrådd
@@ -5207,7 +5380,7 @@ function analysertransportTurne(skule, bussReiser, togReiser, googleGange, googl
 // tur (gange > direktetog > direktebuss > bestillerbuss), men enklare — ingen
 // begrunnelse/ingenDirekte-felt, sidan retur berre er interessant når han faktisk
 // vart søkt (sjå sokTurneRetur() for kva som hoppar over søket heilt).
-function analysertransportTurneRetur(returBussReiser, returTogReiser, googleGange, googleKøyring, maksGange) {
+function analysertransportTurneRetur(returBussReiser, returTogReiser, googleGange, googleKøyring, maksGange, knutepunktAlt) {
     const alternativ = [];
 
     if (googleGange && googleGange.avstand <= maksGange) {
@@ -5264,6 +5437,11 @@ function analysertransportTurneRetur(returBussReiser, returTogReiser, googleGang
         }
     }
 
+    // Knutepunkt — sjå grunngjeving i analysertransportTurne() over.
+    if (knutepunktAlt) {
+        alternativ.push(knutepunktAlt);
+    }
+
     alternativ.push({
         type: 'bestillerbuss',
         avstand: googleKøyring ? googleKøyring.avstand : null,
@@ -5272,7 +5450,7 @@ function analysertransportTurneRetur(returBussReiser, returTogReiser, googleGang
         tidTekst: googleKøyring ? (googleKøyring.tidTekst || `${googleKøyring.tid} min`) : null
     });
 
-    // Auto-vel beste etter prioritet: gange > tog > buss > bestillerbuss
+    // Auto-vel beste etter prioritet: gange > tog > buss > knutepunkt > bestillerbuss
     const valt = alternativ[0].type;
     return { alternativ, valt };
 }
@@ -5294,7 +5472,7 @@ function analysertransportTurneRetur(returBussReiser, returTogReiser, googleGang
 // Tidspunkt: hending.dateEnd + buffer, eller dateStart + varigheit viss dateEnd manglar.
 // googleGange/googleKøyring vert attbrukt frå tur-søket (same avstand uansett retning) —
 // ikkje henta på nytt.
-async function sokTurneRetur(sr, hending, sCoords, dCoords, maksGange, bufferMin, varigheitMin, googleGange, googleKøyring) {
+async function sokTurneRetur(sr, hending, sCoords, dCoords, maksGange, bufferMin, varigheitMin, googleGange, googleKøyring, skuleNamn) {
     if (sr.valt === 'bestillerbuss') {
         const { alternativ, valt } = analysertransportTurneRetur(null, null, googleGange, googleKøyring, maksGange);
         return { tid: null, alternativ, valt, hoppaOver: true };
@@ -5303,17 +5481,18 @@ async function sokTurneRetur(sr, hending, sCoords, dCoords, maksGange, bufferMin
     const sluttSekund = hending.dateEnd || (hending.dateStart + varigheitMin * 60);
     const departBy = new Date((sluttSekund + bufferMin * 60) * 1000).toISOString();
 
-    const [returBuss, returTog] = await Promise.all([
+    const [returBuss, returTog, knutepunktAltRetur] = await Promise.all([
         finnReiseRetur(dCoords, sCoords, departBy, 'bus'),
-        finnReiseRetur(dCoords, sCoords, departBy, 'rail')
+        finnReiseRetur(dCoords, sCoords, departBy, 'rail'),
+        sokViaKnutepunkt(skuleNamn, sCoords, dCoords, departBy, false, maksGange)
     ]);
 
-    const { alternativ, valt } = analysertransportTurneRetur(returBuss, returTog, googleGange, googleKøyring, maksGange);
+    const { alternativ, valt } = analysertransportTurneRetur(returBuss, returTog, googleGange, googleKøyring, maksGange, knutepunktAltRetur);
     return { tid: departBy, alternativ, valt, hoppaOver: false };
 }
 
 // Formaterer detaljteksten for eit alternativ (delt mellom tur og retur i turnémodus).
-const TURNE_ALT_IKON = { gange: '🚶', sykler: '🚴', tog: '🚂', buss: '🚌', bestillerbuss: '🚐' };
+const TURNE_ALT_IKON = { gange: '🚶', sykler: '🚴', tog: '🚂', buss: '🚌', bestillerbuss: '🚐', knutepunkt: '🚏' };
 
 // Escapar tekst for trygg bruk som HTML-attributt (data-tooltip, data-tekst)
 // og som synleg tekstinnhald — nødvendig sidan textToSchool/genererte tekstar
@@ -5353,7 +5532,18 @@ const TEKSTMALAR = {
         return t;
     },
 
-    gange: (v) => `Elevene går eller sykler til ${v.stad}.`
+    gange: (v) => `Elevene går eller sykler til ${v.stad}.`,
+
+    // Lagt til 18.08.2026 saman med knutepunkt-søket (sjå SKULE_KNUTEPUNKT) —
+    // FORSLAG TIL ORDLYD, ikkje godkjent av Eirik enno, same status som dei
+    // andre malane.
+    knutepunkt: (v) => {
+        let t = `Elevene går ${v.gangeAvstand} til ${v.knutepunktNamn} og reiser videre med ${v.modeTekst} ${v.linje} til ${v.stad}. ` +
+                `Beregnet reisetid ${v.N} minutter.`;
+        if (v.returSetning) t += ` ${v.returSetning}`;
+        t += ` RUFUS-billetter kan benyttes. Dette dekker DKS Asker`;
+        return t;
+    }
 };
 
 // Byggjer returklausulen for buss-/tog-malane basert på det FAKTISKE
@@ -5377,6 +5567,10 @@ function byggReturSetning(retur) {
     }
     if (retur.valt === 'bestillerbuss') {
         return `Retur med bestillerbuss.`;
+    }
+    if (retur.valt === 'knutepunkt') {
+        const modeTekst = returAlt.mode === 'tog' ? 'tog' : 'buss';
+        return `Retur med ${modeTekst} ${returAlt.linje || '?'} fra ${returAlt.knutepunktNamn || 'knutepunktet'} kl. ${returtid} (elevene går dit).`;
     }
     return '';
 }
@@ -5415,6 +5609,22 @@ function byggTransportTekst(hending, sr, valtType, valtAlt, varigheitMin) {
             return TEKSTMALAR.buss({ stad, linje: valtAlt.linje || '?', haldeplass: valtAlt.haldeplass || 'holdeplassen', avgangstid, N, returSetning });
         }
         return TEKSTMALAR.tog({ stad, stasjon: valtAlt.stasjon || 'stasjonen', avgangstid, N, returSetning });
+    }
+
+    if (valtType === 'knutepunkt') {
+        if (!valtAlt) return '';
+        const avgangstid = turneFormatTid(valtAlt.avgang);
+        const N = valtAlt.varigheit != null ? valtAlt.varigheit : '?';
+        const modeTekst = valtAlt.mode === 'tog' ? 'tog' : 'buss';
+        const returSetning = byggReturSetning(sr.retur);
+        return TEKSTMALAR.knutepunkt({
+            stad,
+            knutepunktNamn: valtAlt.knutepunktNamn,
+            gangeAvstand: valtAlt.gangeTilKnutepunkt ? valtAlt.gangeTilKnutepunkt.avstandTekst : '',
+            modeTekst,
+            linje: valtAlt.linje || '?',
+            avgangstid, N, returSetning
+        });
     }
 
     return '';
@@ -5479,6 +5689,19 @@ function formaterAltDetaljar(alt) {
     if (alt.type === 'bestillerbuss') {
         const tidTekst = alt.tidTekst || (alt.tid != null ? `${alt.tid} min` : '');
         return { hovudlinje: `${ikon} Bestillerbuss${tidTekst ? ' · ' + tidTekst : ''}`, underlinje: alt.avstandTekst || '' };
+    }
+    if (alt.type === 'knutepunkt') {
+        // Ekstra alternativ via eit kjent knutepunkt (sjå SKULE_KNUTEPUNKT/
+        // sokViaKnutepunkt(), lagt til 18.08.2026) — same hovudlinje-oppbygging
+        // som tog/buss, men med "via <knutepunkt>" og gangeetappen til
+        // knutepunktet lagt til fremst i underlinja.
+        const typeNamn = alt.mode === 'tog' ? 'Tog' : 'Buss';
+        const totalTekst = (alt.varigheit != null) ? ` · ${alt.varigheit} min` : '';
+        const hovudlinje = `${ikon} ${typeNamn} ${alt.linje || '?'} via ${alt.knutepunktNamn}${totalTekst}`;
+        const underlinjeDeler = [];
+        if (alt.gangeTilKnutepunkt) underlinjeDeler.push(`Gå ${alt.gangeTilKnutepunkt.avstandTekst} til ${alt.knutepunktNamn}`);
+        if (alt.stegMedTid && alt.stegMedTid.length > 0) underlinjeDeler.push(alt.stegMedTid.join(' → '));
+        return { hovudlinje, underlinje: underlinjeDeler.join(' · ') };
     }
     return { hovudlinje: '', underlinje: '' };
 }
