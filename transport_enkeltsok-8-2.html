@@ -1112,7 +1112,7 @@
         }
         .historikk-header, .historikk-rad {
             display: grid;
-            grid-template-columns: 180px 95px 90px minmax(160px,1fr) 75px 75px minmax(200px,1.5fr);
+            grid-template-columns: 170px 90px 85px minmax(150px,1fr) 70px 70px minmax(170px,1.2fr) minmax(170px,1.2fr);
             gap: 12px;
         }
         .historikk-header {
@@ -4930,13 +4930,28 @@ function renderHistorikk() {
         return;
     }
 
+    // RETTA 18.08.2026: merknadTilSkole (portalen sitt "merknad til skole"-felt,
+    // GraphQL commentForParticipants) er ei EIGA kolonne, ikkje slått saman med
+    // transportteksten frå bussavtalen (textToSchool) — dei to er ulike kjelder,
+    // og ei bussavtale kan ha tomme/manglande textToSchool sjølv om det finst
+    // ein fyldig merknad (stadfesta mot turné 17767). Sjå CLAUDE.md.
     let html = `
         <div class="historikk-header">
             <div>Skule</div><div>Dato</div><div>Skuleår</div><div>Produksjon</div>
-            <div>Avgang</div><div>Retur</div><div>Transporttekst</div>
+            <div>Avgang</div><div>Retur</div><div>Transporttekst</div><div>Merknad til skole</div>
         </div>`;
     for (const r of filtrert) {
         const harTransport = !!(r.departureTime || r.returnTime || r.textToSchool);
+        const harTekst = !!r.textToSchool;
+        const harMerknad = !!r.merknadTilSkole;
+        // Transporttekst-kolonnen: vis sjølve teksten viss ho finst. Finst
+        // avgang/retur-tider men INGEN tekst (busAppointment med tom
+        // textToSchool — stadfesta reelt tilfelle mot turné 17767), vis "–"
+        // (tidene står alt i Avgang/Retur-kolonnane) i staden for eit tomt
+        // felt som kan sjå ut som ein feil. Berre heilt utan noko transport
+        // i det heile viser "ingen transportinfo registrert".
+        const transportTekstInnhald = harTekst ? escHtmlAttr(r.textToSchool)
+            : (harTransport ? '–' : 'ingen transportinfo registrert');
         html += `
             <div class="historikk-rad">
                 <div>${escHtmlAttr(r.schoolName || '')}</div>
@@ -4945,7 +4960,8 @@ function renderHistorikk() {
                 <div>${escHtmlAttr(r.productionName || '')}</div>
                 <div>${escHtmlAttr(r.departureTime || '–')}</div>
                 <div>${escHtmlAttr(r.returnTime || '–')}</div>
-                <div${harTransport ? '' : ' class="historikk-tom"'}>${harTransport ? escHtmlAttr(r.textToSchool || '') : 'ingen transportinfo registrert'}</div>
+                <div${harTekst ? '' : ' class="historikk-tom"'}>${transportTekstInnhald}</div>
+                <div${harMerknad ? '' : ' class="historikk-tom"'}>${harMerknad ? escHtmlAttr(r.merknadTilSkole) : '–'}</div>
             </div>`;
     }
     liste.innerHTML = html;
