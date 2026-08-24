@@ -5,8 +5,8 @@
                    {
                        "id":  559201,
                        "status":  "scheduled",
-                       "dateStart":  1787554980,
-                       "dateEnd":  1787571180,
+                       "dateStart":  1787554800,
+                       "dateEnd":  1787571000,
                        "commentForParticipants":  "",
                        "location":  {
                                         "name":  "Asker museum – Asker museum",
@@ -1252,7 +1252,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  106,
+                       "numberOfStudents":  103,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "4091":  {
@@ -1298,7 +1298,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  25,
+                                                "numberOfStudents":  22,
                                                 "registrationGroup":  {
                                                                           "name":  "8a",
                                                                           "schoolId":  4091
@@ -1501,7 +1501,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  127,
+                       "numberOfStudents":  111,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "4091":  {
@@ -1523,7 +1523,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  26,
+                                                "numberOfStudents":  21,
                                                 "registrationGroup":  {
                                                                           "name":  "8c",
                                                                           "schoolId":  4091
@@ -1531,7 +1531,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  26,
+                                                "numberOfStudents":  25,
                                                 "registrationGroup":  {
                                                                           "name":  "9c",
                                                                           "schoolId":  4091
@@ -1539,7 +1539,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  25,
+                                                "numberOfStudents":  21,
                                                 "registrationGroup":  {
                                                                           "name":  "8b",
                                                                           "schoolId":  4091
@@ -1555,7 +1555,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  25,
+                                                "numberOfStudents":  19,
                                                 "registrationGroup":  {
                                                                           "name":  "9a",
                                                                           "schoolId":  4091
@@ -1657,9 +1657,9 @@
                                                    "schoolIds":  [
                                                                      3382
                                                                  ],
-                                                   "departureTime":  null,
-                                                   "returnTime":  null,
-                                                   "textToSchool":  "Elevene sykler/går eller tar kollektivt til Asker museum. Ved kollektivtransport, kan RUFUS-billetter benyttes. Dette dekker DKS Asker, men må bestilles i forkant av skolene. Se e-post med ordrenummer for bestilling. "
+                                                   "departureTime":  "08:40",
+                                                   "returnTime":  "13:30",
+                                                   "textToSchool":  "VY Turbuss frakter elevene fra skolen til Asker museum og tilbake etter besøket. Vakttelefon Vy Buss er 91658600"
                                                }
                                            ],
                        "participants":  [
@@ -1745,7 +1745,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  114,
+                       "numberOfStudents":  115,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3383":  {
@@ -1818,7 +1818,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  27,
+                                                "numberOfStudents":  28,
                                                 "registrationGroup":  {
                                                                           "name":  "9A",
                                                                           "schoolId":  3383
@@ -1958,9 +1958,9 @@
                                                    "schoolIds":  [
                                                                      3384
                                                                  ],
-                                                   "departureTime":  "08:40",
-                                                   "returnTime":  "13:30",
-                                                   "textToSchool":  "VY Turbuss frakter elevene fra skole til Asker museum og tilbake etter besøket. Se gjeldende tidspunkter for avreise fra skole og avreise fra Asker museum . Vakttelefon Vy Buss er 91658600"
+                                                   "departureTime":  null,
+                                                   "returnTime":  null,
+                                                   "textToSchool":  "Elevene sykler til Asker museum"
                                                }
                                            ],
                        "participants":  [
@@ -2038,7 +2038,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  120,
+                       "numberOfStudents":  103,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "4164":  {
@@ -2159,7 +2159,7 @@
                                                                       }
                                             },
                                             {
-                                                "status":  "allocated",
+                                                "status":  "canceled_by_school",
                                                 "numberOfStudents":  17,
                                                 "registrationGroup":  {
                                                                           "name":  "VKK 9-10 trinn",
@@ -2974,6 +2974,138 @@
                        "schoolEventParticipantStatus":  null
                    },
                    {
+                       "id":  541969,
+                       "status":  "scheduled",
+                       "dateStart":  1788418500,
+                       "dateEnd":  1788420600,
+                       "commentForParticipants":  "",
+                       "location":  {
+                                        "name":  "Blakstad skole – Gymsal",
+                                        "address":  {
+                                                        "formatted":  "Gudolf Blakstads Vei 67, Asker 1386",
+                                                        "coordinate":  {
+                                                                           "lat":  59.812852935839,
+                                                                           "lng":  10.455710990723
+                                                                       }
+                                                    },
+                                        "phoneNumber":  "+4766786810"
+                                    },
+                       "numberOfStudents":  80,
+                       "numberOfTeachers":  0,
+                       "schools":  {
+                                       "3381":  {
+                                                    "name":  "Blakstad skole",
+                                                    "id":  3381,
+                                                    "address":  "Gudolf Blakstads Vei 67, Asker 1386",
+                                                    "phone":  "+47 66 78 68 10",
+                                                    "contactPersons":  [
+                                                                           "LOTTE HANSEN, +47 41 68 28 11, lotte.hansen@asker.kommune.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Asker kommune",
+                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
+                                                }
+                                   },
+                       "branchOfficeName":  "Asker kommune",
+                       "busAppointments":  [
+
+                                           ],
+                       "participants":  [
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  26,
+                                                "registrationGroup":  {
+                                                                          "name":  "1A",
+                                                                          "schoolId":  3381
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  28,
+                                                "registrationGroup":  {
+                                                                          "name":  "2A",
+                                                                          "schoolId":  3381
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  26,
+                                                "registrationGroup":  {
+                                                                          "name":  "1B",
+                                                                          "schoolId":  3381
+                                                                      }
+                                            }
+                                        ],
+                       "production":  {
+                                          "id":  24433,
+                                          "name":  "Kvitebjørn Kong Valemon (1.-2. trinn)",
+                                          "subtitle":  "",
+                                          "groupName":  "Thea Borring Lande produksjoner",
+                                          "descriptionShort":  "\u0026quot;Kvitebj\u0026oslash;rn kong Valemon\u0026quot; er fortellerteater med skuespiller Thea Borring Lande, noen rekvisitter i en kurv og en liten sekk. Enkle hverdagsgjenstander f\u0026aring;r nytt liv som magiske redskape i denne fine forestillingen for de yngste.\n\nI forestillingen f\u0026aring;r barna blant annet l\u0026aelig;re en reiseregle, som de er med p\u0026aring; \u0026aring; framsi flere ganger. N\u0026aring;r anledningen byr seg f\u0026aring;r de ogs\u0026aring; hjelpe Kongsdattera p\u0026aring; ferden, gjennom enkle, morsomme bevegelser, eller gjennom fantasien.\n\nHandlingen drives fram i et nakent og fleksibelt format. Virkemidler er for eksempel spr\u0026aring;klige, tematiske, brudd i form med bl.a. publikumskontakt og involvering, og bevisst bruk av dynamikk i tempo, volum og emosjonell val\u0026oslash;r.\n",
+                                          "yearLevelMinimum":  1,
+                                          "yearLevelMaximum":  2,
+                                          "culturalExpressions":  [
+                                                                      {
+                                                                          "id":  2,
+                                                                          "name":  "Scenekunst",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Scenekunst",
+                                                                                                        "nn":  "Scenekunst",
+                                                                                                        "en":  "Performing arts"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "scenekunst",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/scenekunst-i-dks/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      },
+                                                                      {
+                                                                          "id":  5,
+                                                                          "name":  "Kulturarv",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Kulturarv",
+                                                                                                        "nn":  "Kulturarv",
+                                                                                                        "en":  "Cultural heritage"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "kulturarv",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/kulturarv-i-dks/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      },
+                                                                      {
+                                                                          "id":  4,
+                                                                          "name":  "Litteratur",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Litteratur",
+                                                                                                        "nn":  "Litteratur",
+                                                                                                        "en":  "Literature"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "litteratur",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      }
+                                                                  ],
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933461%3Fsubpath%3Da4c6ed72-8945-412b-8cd1-88bb6abb2012.jpg\u0026filetoken=8560f08cae3dd59881c6cf6094f93be8\u0026productionId=24433\u0026attachmentId=189853\u0026preview",
+                                          "branchOffice":  "Asker kommune",
+                                          "academicYears":  [
+                                                                {
+                                                                    "id":  10,
+                                                                    "name":  "2026/2027"
+                                                                }
+                                                            ],
+                                          "isRegistrationOffer":  false,
+                                          "events":  [
+
+                                                     ]
+                                      },
+                       "schoolEventParticipantStatus":  null
+                   },
+                   {
                        "id":  559204,
                        "status":  "scheduled",
                        "dateStart":  1788418800,
@@ -3036,7 +3168,7 @@
                                                    "schoolIds":  [
                                                                      4089
                                                                  ],
-                                                   "departureTime":  "08:15",
+                                                   "departureTime":  "08:10",
                                                    "returnTime":  "13:30",
                                                    "textToSchool":  "VY Turbuss frakter elevene fra skole til Asker museum og tilbake etter besøket. Se gjeldende tidspunkter for avreise fra skole og avreise fra Asker museum . Vakttelefon Vy Buss er 91658600"
                                                },
@@ -3045,7 +3177,7 @@
                                                    "schoolIds":  [
                                                                      4159
                                                                  ],
-                                                   "departureTime":  "08:30",
+                                                   "departureTime":  "08:25",
                                                    "returnTime":  "13:30",
                                                    "textToSchool":  "VY Turbuss frakter elevene fra skole til Asker museum og tilbake etter besøket. Se gjeldende tidspunkter for avreise fra skole og avreise fra Asker museum . Vakttelefon Vy Buss er 91658600"
                                                },
@@ -3054,7 +3186,7 @@
                                                    "schoolIds":  [
                                                                      4193
                                                                  ],
-                                                   "departureTime":  "08:20",
+                                                   "departureTime":  "08:15",
                                                    "returnTime":  "13:30",
                                                    "textToSchool":  "VY Turbuss frakter elevene fra skole til Asker museum og tilbake etter besøket. Se gjeldende tidspunkter for avreise fra skole og avreise fra Asker museum . Vakttelefon Vy Buss er 91658600"
                                                }
@@ -3348,7 +3480,7 @@
                                                    "schoolIds":  [
                                                                      4166
                                                                  ],
-                                                   "departureTime":  "09:00",
+                                                   "departureTime":  "09:05",
                                                    "returnTime":  "13:30",
                                                    "textToSchool":  "VY Turbuss frakter elevene fra skole til Dikemark og tilbake etter besøket. Se gjeldende tidspunkter for avreise fra skole og avreise fra Dikemark. Vakttelefon Vy Buss er 91658600"
                                                },
@@ -3491,7 +3623,7 @@
                                                     },
                                         "phoneNumber":  "+4766715050"
                                     },
-                       "numberOfStudents":  92,
+                       "numberOfStudents":  90,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3385":  {
@@ -3521,7 +3653,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  23,
+                                                "numberOfStudents":  22,
                                                 "registrationGroup":  {
                                                                           "name":  "2A",
                                                                           "schoolId":  3385
@@ -3537,142 +3669,10 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  23,
+                                                "numberOfStudents":  22,
                                                 "registrationGroup":  {
                                                                           "name":  "2B",
                                                                           "schoolId":  3385
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  24433,
-                                          "name":  "Kvitebjørn Kong Valemon (1.-2. trinn)",
-                                          "subtitle":  "",
-                                          "groupName":  "Thea Borring Lande produksjoner",
-                                          "descriptionShort":  "\u0026quot;Kvitebj\u0026oslash;rn kong Valemon\u0026quot; er fortellerteater med skuespiller Thea Borring Lande, noen rekvisitter i en kurv og en liten sekk. Enkle hverdagsgjenstander f\u0026aring;r nytt liv som magiske redskape i denne fine forestillingen for de yngste.\n\nI forestillingen f\u0026aring;r barna blant annet l\u0026aelig;re en reiseregle, som de er med p\u0026aring; \u0026aring; framsi flere ganger. N\u0026aring;r anledningen byr seg f\u0026aring;r de ogs\u0026aring; hjelpe Kongsdattera p\u0026aring; ferden, gjennom enkle, morsomme bevegelser, eller gjennom fantasien.\n\nHandlingen drives fram i et nakent og fleksibelt format. Virkemidler er for eksempel spr\u0026aring;klige, tematiske, brudd i form med bl.a. publikumskontakt og involvering, og bevisst bruk av dynamikk i tempo, volum og emosjonell val\u0026oslash;r.\n",
-                                          "yearLevelMinimum":  1,
-                                          "yearLevelMaximum":  2,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  2,
-                                                                          "name":  "Scenekunst",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Scenekunst",
-                                                                                                        "nn":  "Scenekunst",
-                                                                                                        "en":  "Performing arts"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "scenekunst",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/scenekunst-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      },
-                                                                      {
-                                                                          "id":  5,
-                                                                          "name":  "Kulturarv",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Kulturarv",
-                                                                                                        "nn":  "Kulturarv",
-                                                                                                        "en":  "Cultural heritage"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "kulturarv",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/kulturarv-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      },
-                                                                      {
-                                                                          "id":  4,
-                                                                          "name":  "Litteratur",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Litteratur",
-                                                                                                        "nn":  "Litteratur",
-                                                                                                        "en":  "Literature"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "litteratur",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933461%3Fsubpath%3Da4c6ed72-8945-412b-8cd1-88bb6abb2012.jpg\u0026filetoken=8560f08cae3dd59881c6cf6094f93be8\u0026productionId=24433\u0026attachmentId=189853\u0026preview",
-                                          "branchOffice":  "Asker kommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  541969,
-                       "status":  "scheduled",
-                       "dateStart":  1788429900,
-                       "dateEnd":  1788432000,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Blakstad skole – Gymsal",
-                                        "address":  {
-                                                        "formatted":  "Gudolf Blakstads Vei 67, Asker 1386",
-                                                        "coordinate":  {
-                                                                           "lat":  59.812852935839,
-                                                                           "lng":  10.455710990723
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4766786810"
-                                    },
-                       "numberOfStudents":  80,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "3381":  {
-                                                    "name":  "Blakstad skole",
-                                                    "id":  3381,
-                                                    "address":  "Gudolf Blakstads Vei 67, Asker 1386",
-                                                    "phone":  "+47 66 78 68 10",
-                                                    "contactPersons":  [
-                                                                           "LOTTE HANSEN, +47 41 68 28 11, lotte.hansen@asker.kommune.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                }
-                                   },
-                       "branchOfficeName":  "Asker kommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  26,
-                                                "registrationGroup":  {
-                                                                          "name":  "1A",
-                                                                          "schoolId":  3381
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  28,
-                                                "registrationGroup":  {
-                                                                          "name":  "2A",
-                                                                          "schoolId":  3381
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  26,
-                                                "registrationGroup":  {
-                                                                          "name":  "1B",
-                                                                          "schoolId":  3381
                                                                       }
                                             }
                                         ],
@@ -3788,7 +3788,7 @@
                                                                  ],
                                                    "departureTime":  null,
                                                    "returnTime":  null,
-                                                   "textToSchool":  "Elevene sykler/går eller tar kollektivt til Asker museum. Ved kollektivtransport, kan RUFUS-billetter benyttes. Dette dekker DKS Asker, men må bestilles i forkant av skolene. Se e-post med ordrenummer for bestilling. "
+                                                   "textToSchool":  "Elevene går eller sykler til Asker museum"
                                                }
                                            ],
                        "participants":  [
@@ -4471,7 +4471,7 @@
                                                                  ],
                                                    "departureTime":  null,
                                                    "returnTime":  null,
-                                                   "textToSchool":  "Elevene sykler/går eller tar kollektivt til Asker museum. Ved kollektivtransport, kan RUFUS-billetter benyttes. Dette dekker DKS Asker, men må bestilles i forkant av skolene. Se e-post med ordrenummer for bestilling. "
+                                                   "textToSchool":  "Elevene sykler/går til Asker museum. "
                                                }
                                            ],
                        "participants":  [
@@ -4615,7 +4615,7 @@
                                                    "schoolIds":  [
                                                                      4166
                                                                  ],
-                                                   "departureTime":  "09:00",
+                                                   "departureTime":  "09:05",
                                                    "returnTime":  "13:30",
                                                    "textToSchool":  "VY Turbuss frakter elevene fra skole til Dikemark og tilbake etter besøket. Se gjeldende tidspunkter for avreise fra skole og avreise fra Dikemark. Vakttelefon Vy Buss er 91658600"
                                                },
@@ -4974,7 +4974,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  46,
+                       "numberOfStudents":  45,
                        "numberOfTeachers":  4,
                        "schools":  {
                                        "3385":  {
@@ -4998,13 +4998,13 @@
                                                                  ],
                                                    "departureTime":  null,
                                                    "returnTime":  null,
-                                                   "textToSchool":  "Elevene sykler/går eller tar kollektivt til Asker museum. Ved kollektivtransport, kan RUFUS-billetter benyttes. Dette dekker DKS Asker, men må bestilles i forkant av skolene. Se e-post med ordrenummer for bestilling. "
+                                                   "textToSchool":  "Elevene sykler/går til Asker museum. "
                                                }
                                            ],
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  25,
+                                                "numberOfStudents":  24,
                                                 "registrationGroup":  {
                                                                           "name":  "4A",
                                                                           "schoolId":  3385
@@ -5076,7 +5076,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  101,
+                       "numberOfStudents":  94,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3388":  {
@@ -5155,7 +5155,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  26,
+                                                "numberOfStudents":  25,
                                                 "registrationGroup":  {
                                                                           "name":  "9c",
                                                                           "schoolId":  4091
@@ -5163,7 +5163,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  25,
+                                                "numberOfStudents":  19,
                                                 "registrationGroup":  {
                                                                           "name":  "9a",
                                                                           "schoolId":  4091
@@ -5302,7 +5302,16 @@
                                                                  ],
                                                    "departureTime":  null,
                                                    "returnTime":  null,
-                                                   "textToSchool":  "Elevene sykler/går eller tar kollektivt til Asker museum. Ved kollektivtransport, kan RUFUS-billetter benyttes. Dette dekker DKS Asker, men må bestilles i forkant av skolene. Se e-post med ordrenummer for bestilling. "
+                                                   "textToSchool":  "Elevene tar kollektivt til Asker museum. Ved kollektivtransport, kan RUFUS-billetter benyttes. Dette dekker DKS Asker, men må bestilles i forkant av skolene. Se e-post med ordrenummer for bestilling. "
+                                               },
+                                               {
+                                                   "id":  11123,
+                                                   "schoolIds":  [
+                                                                     3638
+                                                                 ],
+                                                   "departureTime":  null,
+                                                   "returnTime":  null,
+                                                   "textToSchool":  "Elevene sykler/går til Asker museum"
                                                }
                                            ],
                        "participants":  [
@@ -5753,7 +5762,7 @@
                                                                  ],
                                                    "departureTime":  null,
                                                    "returnTime":  null,
-                                                   "textToSchool":  "Elevene sykler/går eller tar kollektivt til Asker museum. Ved kollektivtransport, kan RUFUS-billetter benyttes. Dette dekker DKS Asker, men må bestilles i forkant av skolene. Se e-post med ordrenummer for bestilling. "
+                                                   "textToSchool":  "Elevene tar kollektivt til Asker museum. Ved kollektivtransport, kan RUFUS-billetter benyttes. Dette dekker DKS Asker, men må bestilles i forkant av skolene. Se e-post med ordrenummer for bestilling. "
                                                }
                                            ],
                        "participants":  [
@@ -5952,7 +5961,7 @@
                                                    "schoolIds":  [
                                                                      4166
                                                                  ],
-                                                   "departureTime":  "09:00",
+                                                   "departureTime":  "09:05",
                                                    "returnTime":  "13:30",
                                                    "textToSchool":  "VY Turbuss frakter elevene fra skole til Dikemark og tilbake etter besøket. Se gjeldende tidspunkter for avreise fra skole og avreise fra Dikemark. Vakttelefon Vy Buss er 91658600"
                                                },
@@ -6197,7 +6206,7 @@
                                                                  ],
                                                    "departureTime":  null,
                                                    "returnTime":  null,
-                                                   "textToSchool":  "Elevene sykler/går eller tar kollektivt til Dikemark. Ved kollektivtransport, kan RUFUS-billetter benyttes. Dette dekker DKS Asker, men må bestilles i forkant av skolene. Se e-post med ordrenummer for bestilling. "
+                                                   "textToSchool":  "levene går eller sykler til Asker museum."
                                                }
                                            ],
                        "participants":  [
@@ -7598,7 +7607,7 @@
                        "schoolEventParticipantStatus":  null
                    },
                    {
-                       "id":  505686,
+                       "id":  505688,
                        "status":  "scheduled",
                        "dateStart":  1789551000,
                        "dateEnd":  1789556400,
@@ -7614,16 +7623,17 @@
                                                     },
                                         "phoneNumber":  "+4741234150"
                                     },
-                       "numberOfStudents":  23,
+                       "numberOfStudents":  15,
                        "numberOfTeachers":  0,
                        "schools":  {
-                                       "3381":  {
-                                                    "name":  "Blakstad skole",
-                                                    "id":  3381,
-                                                    "address":  "Gudolf Blakstads Vei 67, Asker 1386",
-                                                    "phone":  "+47 66 78 68 10",
+                                       "3382":  {
+                                                    "name":  "Bondi skole",
+                                                    "id":  3382,
+                                                    "address":  "Eddas Vei 3, Asker 1386",
+                                                    "phone":  "+47 66 76 19 20",
                                                     "contactPersons":  [
-                                                                           "LOTTE HANSEN, +47 41 68 28 11, lotte.hansen@asker.kommune.no"
+                                                                           "Heidi Åsmul, +47 66 76 19 20, heidi.asmul@asker.kommune.no",
+                                                                           "Karianne Mayer, +47 91 59 43 53, karianne.mayer@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -7636,10 +7646,10 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  23,
+                                                "numberOfStudents":  15,
                                                 "registrationGroup":  {
-                                                                          "name":  "6A",
-                                                                          "schoolId":  3381
+                                                                          "name":  "6C",
+                                                                          "schoolId":  3382
                                                                       }
                                             }
                                         ],
@@ -7827,8 +7837,8 @@
                                                    "schoolIds":  [
                                                                      4160
                                                                  ],
-                                                   "departureTime":  "08:45",
-                                                   "returnTime":  "13:45",
+                                                   "departureTime":  "08:30",
+                                                   "returnTime":  "13:30",
                                                    "textToSchool":  "VY Turbuss frakter elevene fra skole til Asker museum og tilbake etter besøket. Se gjeldende tidspunkter for avreise fra skole og avreise fra Asker museum . Vakttelefon Vy Buss er 91658600"
                                                }
                                            ],
@@ -8109,7 +8119,7 @@
                        "schoolEventParticipantStatus":  null
                    },
                    {
-                       "id":  505688,
+                       "id":  505686,
                        "status":  "scheduled",
                        "dateStart":  1789637400,
                        "dateEnd":  1789642800,
@@ -8125,17 +8135,16 @@
                                                     },
                                         "phoneNumber":  "+4741234150"
                                     },
-                       "numberOfStudents":  15,
+                       "numberOfStudents":  23,
                        "numberOfTeachers":  0,
                        "schools":  {
-                                       "3382":  {
-                                                    "name":  "Bondi skole",
-                                                    "id":  3382,
-                                                    "address":  "Eddas Vei 3, Asker 1386",
-                                                    "phone":  "+47 66 76 19 20",
+                                       "3381":  {
+                                                    "name":  "Blakstad skole",
+                                                    "id":  3381,
+                                                    "address":  "Gudolf Blakstads Vei 67, Asker 1386",
+                                                    "phone":  "+47 66 78 68 10",
                                                     "contactPersons":  [
-                                                                           "Heidi Åsmul, +47 66 76 19 20, heidi.asmul@asker.kommune.no",
-                                                                           "Karianne Mayer, +47 91 59 43 53, karianne.mayer@asker.kommune.no"
+                                                                           "LOTTE HANSEN, +47 41 68 28 11, lotte.hansen@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -8148,10 +8157,10 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  15,
+                                                "numberOfStudents":  23,
                                                 "registrationGroup":  {
-                                                                          "name":  "6C",
-                                                                          "schoolId":  3382
+                                                                          "name":  "6A",
+                                                                          "schoolId":  3381
                                                                       }
                                             }
                                         ],
@@ -9653,7 +9662,7 @@
                                                     },
                                         "phoneNumber":  "+4795705984"
                                     },
-                       "numberOfStudents":  26,
+                       "numberOfStudents":  22,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3382":  {
@@ -9664,17 +9673,6 @@
                                                     "contactPersons":  [
                                                                            "Heidi Åsmul, +47 66 76 19 20, heidi.asmul@asker.kommune.no",
                                                                            "Karianne Mayer, +47 91 59 43 53, karianne.mayer@asker.kommune.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                },
-                                       "3380":  {
-                                                    "name":  "Billingstad skole",
-                                                    "id":  3380,
-                                                    "address":  "Billingstadveien 58, Billingstad 1396",
-                                                    "phone":  "+47 66 71 53 00",
-                                                    "contactPersons":  [
-                                                                           "Caroline Halnes, +47 92 64 17 94, caroline.blutecher.halnes@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -9725,14 +9723,6 @@
                                                 "registrationGroup":  {
                                                                           "name":  "6A",
                                                                           "schoolId":  3382
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  4,
-                                                "registrationGroup":  {
-                                                                          "name":  "7A",
-                                                                          "schoolId":  3380
                                                                       }
                                             },
                                             {
@@ -10859,7 +10849,7 @@
                                                     },
                                         "phoneNumber":  "+4795705984"
                                     },
-                       "numberOfStudents":  23,
+                       "numberOfStudents":  27,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3403":  {
@@ -10880,6 +10870,17 @@
                                                     "phone":  "+47 66 71 51 00",
                                                     "contactPersons":  [
                                                                            "Kristin K. Dyrhaug, +47 90 11 86 97, kdyrhaug@asker.kommune.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Asker kommune",
+                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
+                                                },
+                                       "3380":  {
+                                                    "name":  "Billingstad skole",
+                                                    "id":  3380,
+                                                    "address":  "Billingstadveien 58, Billingstad 1396",
+                                                    "phone":  "+47 66 71 53 00",
+                                                    "contactPersons":  [
+                                                                           "Caroline Halnes, +47 92 64 17 94, caroline.blutecher.halnes@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -10934,6 +10935,14 @@
                                                 "registrationGroup":  {
                                                                           "name":  "6A",
                                                                           "schoolId":  3402
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  4,
+                                                "registrationGroup":  {
+                                                                          "name":  "7A",
+                                                                          "schoolId":  3380
                                                                       }
                                             },
                                             {
@@ -13034,7 +13043,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  26,
+                       "numberOfStudents":  25,
                        "numberOfTeachers":  2,
                        "schools":  {
                                        "3383":  {
@@ -13056,7 +13065,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  28,
+                                                "numberOfStudents":  27,
                                                 "registrationGroup":  {
                                                                           "name":  "10D",
                                                                           "schoolId":  3383
@@ -13120,7 +13129,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  6,
+                       "numberOfStudents":  5,
                        "numberOfTeachers":  2,
                        "schools":  {
                                        "3383":  {
@@ -13142,7 +13151,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  8,
+                                                "numberOfStudents":  7,
                                                 "registrationGroup":  {
                                                                           "name":  "10VKK",
                                                                           "schoolId":  3383
@@ -13712,7 +13721,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  28,
+                       "numberOfStudents":  25,
                        "numberOfTeachers":  2,
                        "schools":  {
                                        "3383":  {
@@ -13734,7 +13743,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  30,
+                                                "numberOfStudents":  27,
                                                 "registrationGroup":  {
                                                                           "name":  "10C",
                                                                           "schoolId":  3383
@@ -14726,7 +14735,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  26,
+                       "numberOfStudents":  25,
                        "numberOfTeachers":  2,
                        "schools":  {
                                        "3383":  {
@@ -14748,7 +14757,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  28,
+                                                "numberOfStudents":  27,
                                                 "registrationGroup":  {
                                                                           "name":  "10A",
                                                                           "schoolId":  3383
@@ -17509,7 +17518,7 @@
                                                     },
                                         "phoneNumber":  "+4741234150"
                                     },
-                       "numberOfStudents":  27,
+                       "numberOfStudents":  28,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3385":  {
@@ -17531,7 +17540,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  27,
+                                                "numberOfStudents":  28,
                                                 "registrationGroup":  {
                                                                           "name":  "6B",
                                                                           "schoolId":  3385
@@ -17933,7 +17942,7 @@
                                                     },
                                         "phoneNumber":  "+4741234150"
                                     },
-                       "numberOfStudents":  27,
+                       "numberOfStudents":  28,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3385":  {
@@ -17955,7 +17964,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  27,
+                                                "numberOfStudents":  28,
                                                 "registrationGroup":  {
                                                                           "name":  "6A",
                                                                           "schoolId":  3385
@@ -18383,7 +18392,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  113,
+                       "numberOfStudents":  112,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3402":  {
@@ -18469,7 +18478,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  23,
+                                                "numberOfStudents":  22,
                                                 "registrationGroup":  {
                                                                           "name":  "5A",
                                                                           "schoolId":  3385
@@ -24366,7 +24375,7 @@
                                                     },
                                         "phoneNumber":  "+4766715050"
                                     },
-                       "numberOfStudents":  23,
+                       "numberOfStudents":  20,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3385":  {
@@ -24388,7 +24397,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  23,
+                                                "numberOfStudents":  20,
                                                 "registrationGroup":  {
                                                                           "name":  "3A",
                                                                           "schoolId":  3385
@@ -27643,8 +27652,8 @@
                    {
                        "id":  559371,
                        "status":  "scheduled",
-                       "dateStart":  1793610000,
-                       "dateEnd":  1793612700,
+                       "dateStart":  1793610900,
+                       "dateEnd":  1793613600,
                        "commentForParticipants":  "",
                        "location":  {
                                         "name":  "Spikkestad ungdomsskole – Aula",
@@ -28736,7 +28745,7 @@
                                                     },
                                         "phoneNumber":  "+4766754808"
                                     },
-                       "numberOfStudents":  111,
+                       "numberOfStudents":  116,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3383":  {
@@ -28758,7 +28767,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  27,
+                                                "numberOfStudents":  29,
                                                 "registrationGroup":  {
                                                                           "name":  "8A",
                                                                           "schoolId":  3383
@@ -28766,7 +28775,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  27,
+                                                "numberOfStudents":  30,
                                                 "registrationGroup":  {
                                                                           "name":  "8B",
                                                                           "schoolId":  3383
@@ -28774,7 +28783,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  29,
+                                                "numberOfStudents":  28,
                                                 "registrationGroup":  {
                                                                           "name":  "8C",
                                                                           "schoolId":  3383
@@ -28782,7 +28791,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  28,
+                                                "numberOfStudents":  29,
                                                 "registrationGroup":  {
                                                                           "name":  "8D",
                                                                           "schoolId":  3383
@@ -29119,7 +29128,7 @@
                                                     },
                                         "phoneNumber":  "+4766754808"
                                     },
-                       "numberOfStudents":  128,
+                       "numberOfStudents":  129,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3383":  {
@@ -29141,7 +29150,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  27,
+                                                "numberOfStudents":  28,
                                                 "registrationGroup":  {
                                                                           "name":  "9A",
                                                                           "schoolId":  3383
@@ -29346,7 +29355,7 @@
                                                     },
                                         "phoneNumber":  "+4766754808"
                                     },
-                       "numberOfStudents":  130,
+                       "numberOfStudents":  124,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3383":  {
@@ -29368,7 +29377,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  26,
+                                                "numberOfStudents":  25,
                                                 "registrationGroup":  {
                                                                           "name":  "10A",
                                                                           "schoolId":  3383
@@ -29384,7 +29393,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  28,
+                                                "numberOfStudents":  25,
                                                 "registrationGroup":  {
                                                                           "name":  "10C",
                                                                           "schoolId":  3383
@@ -29392,7 +29401,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  26,
+                                                "numberOfStudents":  25,
                                                 "registrationGroup":  {
                                                                           "name":  "10D",
                                                                           "schoolId":  3383
@@ -29400,7 +29409,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  6,
+                                                "numberOfStudents":  5,
                                                 "registrationGroup":  {
                                                                           "name":  "10VKK",
                                                                           "schoolId":  3383
@@ -29795,7 +29804,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  50,
+                       "numberOfStudents":  43,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "4091":  {
@@ -29817,7 +29826,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  25,
+                                                "numberOfStudents":  21,
                                                 "registrationGroup":  {
                                                                           "name":  "8b",
                                                                           "schoolId":  4091
@@ -29825,7 +29834,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  25,
+                                                "numberOfStudents":  22,
                                                 "registrationGroup":  {
                                                                           "name":  "8a",
                                                                           "schoolId":  4091
@@ -30243,7 +30252,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  46,
+                       "numberOfStudents":  41,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "4193":  {
@@ -30284,7 +30293,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  26,
+                                                "numberOfStudents":  21,
                                                 "registrationGroup":  {
                                                                           "name":  "8c",
                                                                           "schoolId":  4091
@@ -33101,8 +33110,8 @@
                    {
                        "id":  483449,
                        "status":  "scheduled",
-                       "dateStart":  1794569700,
-                       "dateEnd":  1794572400,
+                       "dateStart":  1794567300,
+                       "dateEnd":  1794570000,
                        "commentForParticipants":  "",
                        "location":  {
                                         "name":  "Spikkestad ungdomsskole – Aula",
@@ -33242,8 +33251,8 @@
                    {
                        "id":  483448,
                        "status":  "scheduled",
-                       "dateStart":  1794573900,
-                       "dateEnd":  1794576600,
+                       "dateStart":  1794571200,
+                       "dateEnd":  1794573900,
                        "commentForParticipants":  "",
                        "location":  {
                                         "name":  "Spikkestad ungdomsskole – Aula",
@@ -39193,7 +39202,7 @@
                                                     },
                                         "phoneNumber":  "+4766715050"
                                     },
-                       "numberOfStudents":  92,
+                       "numberOfStudents":  90,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3385":  {
@@ -39223,7 +39232,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  23,
+                                                "numberOfStudents":  22,
                                                 "registrationGroup":  {
                                                                           "name":  "2A",
                                                                           "schoolId":  3385
@@ -39239,7 +39248,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  23,
+                                                "numberOfStudents":  22,
                                                 "registrationGroup":  {
                                                                           "name":  "2B",
                                                                           "schoolId":  3385
@@ -39333,7 +39342,7 @@
                                                     },
                                         "phoneNumber":  "+4766715050"
                                     },
-                       "numberOfStudents":  92,
+                       "numberOfStudents":  88,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3385":  {
@@ -39355,7 +39364,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  23,
+                                                "numberOfStudents":  22,
                                                 "registrationGroup":  {
                                                                           "name":  "4A",
                                                                           "schoolId":  3385
@@ -39371,7 +39380,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  23,
+                                                "numberOfStudents":  20,
                                                 "registrationGroup":  {
                                                                           "name":  "3A",
                                                                           "schoolId":  3385
@@ -43183,7 +43192,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  54,
+                       "numberOfStudents":  59,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3383":  {
@@ -43205,7 +43214,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  27,
+                                                "numberOfStudents":  29,
                                                 "registrationGroup":  {
                                                                           "name":  "8A",
                                                                           "schoolId":  3383
@@ -43213,7 +43222,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  27,
+                                                "numberOfStudents":  30,
                                                 "registrationGroup":  {
                                                                           "name":  "8B",
                                                                           "schoolId":  3383
@@ -43299,7 +43308,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  29,
+                                                "numberOfStudents":  28,
                                                 "registrationGroup":  {
                                                                           "name":  "8C",
                                                                           "schoolId":  3383
@@ -43307,7 +43316,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  28,
+                                                "numberOfStudents":  29,
                                                 "registrationGroup":  {
                                                                           "name":  "8D",
                                                                           "schoolId":  3383
@@ -45735,7 +45744,7 @@
                                                     },
                                         "phoneNumber":  "+4766715050"
                                     },
-                       "numberOfStudents":  115,
+                       "numberOfStudents":  113,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3385":  {
@@ -45773,7 +45782,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  23,
+                                                "numberOfStudents":  22,
                                                 "registrationGroup":  {
                                                                           "name":  "4A",
                                                                           "schoolId":  3385
@@ -45789,7 +45798,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  23,
+                                                "numberOfStudents":  22,
                                                 "registrationGroup":  {
                                                                           "name":  "2B",
                                                                           "schoolId":  3385
@@ -45980,7 +45989,7 @@
                                                     },
                                         "phoneNumber":  "+4766715050"
                                     },
-                       "numberOfStudents":  119,
+                       "numberOfStudents":  117,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3385":  {
@@ -46010,7 +46019,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  27,
+                                                "numberOfStudents":  28,
                                                 "registrationGroup":  {
                                                                           "name":  "6A",
                                                                           "schoolId":  3385
@@ -46026,7 +46035,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  23,
+                                                "numberOfStudents":  20,
                                                 "registrationGroup":  {
                                                                           "name":  "3A",
                                                                           "schoolId":  3385
@@ -46113,7 +46122,7 @@
                                                     },
                                         "phoneNumber":  "+4766715050"
                                     },
-                       "numberOfStudents":  96,
+                       "numberOfStudents":  95,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3385":  {
@@ -46135,7 +46144,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  27,
+                                                "numberOfStudents":  28,
                                                 "registrationGroup":  {
                                                                           "name":  "6B",
                                                                           "schoolId":  3385
@@ -46143,7 +46152,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  23,
+                                                "numberOfStudents":  22,
                                                 "registrationGroup":  {
                                                                           "name":  "5A",
                                                                           "schoolId":  3385
@@ -46159,7 +46168,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  23,
+                                                "numberOfStudents":  22,
                                                 "registrationGroup":  {
                                                                           "name":  "2A",
                                                                           "schoolId":  3385
@@ -47026,7 +47035,7 @@
                                                     },
                                         "phoneNumber":  "+4766715400"
                                     },
-                       "numberOfStudents":  27,
+                       "numberOfStudents":  29,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3383":  {
@@ -47048,7 +47057,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  27,
+                                                "numberOfStudents":  29,
                                                 "registrationGroup":  {
                                                                           "name":  "8A",
                                                                           "schoolId":  3383
@@ -47311,7 +47320,7 @@
                                                     },
                                         "phoneNumber":  "+4766715400"
                                     },
-                       "numberOfStudents":  27,
+                       "numberOfStudents":  30,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3383":  {
@@ -47333,7 +47342,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  27,
+                                                "numberOfStudents":  30,
                                                 "registrationGroup":  {
                                                                           "name":  "8B",
                                                                           "schoolId":  3383
@@ -47675,7 +47684,7 @@
                                                     },
                                         "phoneNumber":  "+4766715400"
                                     },
-                       "numberOfStudents":  29,
+                       "numberOfStudents":  28,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3383":  {
@@ -47697,7 +47706,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  29,
+                                                "numberOfStudents":  28,
                                                 "registrationGroup":  {
                                                                           "name":  "8C",
                                                                           "schoolId":  3383
@@ -47761,7 +47770,7 @@
                                                     },
                                         "phoneNumber":  "+4766715400"
                                     },
-                       "numberOfStudents":  28,
+                       "numberOfStudents":  29,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3383":  {
@@ -47783,7 +47792,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  28,
+                                                "numberOfStudents":  29,
                                                 "registrationGroup":  {
                                                                           "name":  "8D",
                                                                           "schoolId":  3383
@@ -51352,7 +51361,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  26,
+                       "numberOfStudents":  25,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3383":  {
@@ -51374,7 +51383,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  26,
+                                                "numberOfStudents":  25,
                                                 "registrationGroup":  {
                                                                           "name":  "10A",
                                                                           "schoolId":  3383
@@ -51814,7 +51823,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  28,
+                       "numberOfStudents":  25,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3383":  {
@@ -51836,7 +51845,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  28,
+                                                "numberOfStudents":  25,
                                                 "registrationGroup":  {
                                                                           "name":  "10C",
                                                                           "schoolId":  3383
@@ -52072,7 +52081,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  26,
+                       "numberOfStudents":  25,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3383":  {
@@ -52094,7 +52103,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  26,
+                                                "numberOfStudents":  25,
                                                 "registrationGroup":  {
                                                                           "name":  "10D",
                                                                           "schoolId":  3383
@@ -54488,7 +54497,7 @@
                                                     },
                                         "phoneNumber":  "+4732278170"
                                     },
-                       "numberOfStudents":  25,
+                       "numberOfStudents":  22,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "4091":  {
@@ -54510,7 +54519,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  25,
+                                                "numberOfStudents":  22,
                                                 "registrationGroup":  {
                                                                           "name":  "8a",
                                                                           "schoolId":  4091
@@ -54826,7 +54835,7 @@
                                                     },
                                         "phoneNumber":  "+4732278170"
                                     },
-                       "numberOfStudents":  25,
+                       "numberOfStudents":  21,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "4091":  {
@@ -54848,7 +54857,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  25,
+                                                "numberOfStudents":  21,
                                                 "registrationGroup":  {
                                                                           "name":  "8b",
                                                                           "schoolId":  4091
@@ -55180,7 +55189,7 @@
                                                     },
                                         "phoneNumber":  "+4732278170"
                                     },
-                       "numberOfStudents":  26,
+                       "numberOfStudents":  21,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "4091":  {
@@ -55202,7 +55211,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  26,
+                                                "numberOfStudents":  21,
                                                 "registrationGroup":  {
                                                                           "name":  "8c",
                                                                           "schoolId":  4091
@@ -56993,7 +57002,7 @@
                                                     },
                                         "phoneNumber":  "+4766715050"
                                     },
-                       "numberOfStudents":  92,
+                       "numberOfStudents":  88,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3385":  {
@@ -57015,7 +57024,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  23,
+                                                "numberOfStudents":  22,
                                                 "registrationGroup":  {
                                                                           "name":  "4A",
                                                                           "schoolId":  3385
@@ -57031,7 +57040,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  23,
+                                                "numberOfStudents":  20,
                                                 "registrationGroup":  {
                                                                           "name":  "3A",
                                                                           "schoolId":  3385
@@ -68221,7 +68230,7 @@
                                                     },
                                         "phoneNumber":  "+4766715050"
                                     },
-                       "numberOfStudents":  23,
+                       "numberOfStudents":  22,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3385":  {
@@ -68243,7 +68252,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  23,
+                                                "numberOfStudents":  22,
                                                 "registrationGroup":  {
                                                                           "name":  "5A",
                                                                           "schoolId":  3385
@@ -78112,7 +78121,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  160,
+                       "numberOfStudents":  154,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3383":  {
@@ -78156,7 +78165,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  27,
+                                                "numberOfStudents":  28,
                                                 "registrationGroup":  {
                                                                           "name":  "9A",
                                                                           "schoolId":  3383
@@ -78172,7 +78181,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  26,
+                                                "numberOfStudents":  25,
                                                 "registrationGroup":  {
                                                                           "name":  "9c",
                                                                           "schoolId":  4091
@@ -78188,7 +78197,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  25,
+                                                "numberOfStudents":  19,
                                                 "registrationGroup":  {
                                                                           "name":  "9a",
                                                                           "schoolId":  4091
@@ -80758,6 +80767,100 @@
                        "schoolEventParticipantStatus":  null
                    },
                    {
+                       "id":  559225,
+                       "status":  "scheduled",
+                       "dateStart":  1809586800,
+                       "dateEnd":  1809603000,
+                       "commentForParticipants":  "",
+                       "location":  {
+                                        "name":  "Asker museum – Asker museum",
+                                        "address":  {
+                                                        "formatted":  " Otto Valstads vei 19 , Hvalstad  1395",
+                                                        "coordinate":  {
+                                                                           "lat":  59.8531293,
+                                                                           "lng":  10.4554268
+                                                                       }
+                                                    },
+                                        "phoneNumber":  null
+                                    },
+                       "numberOfStudents":  43,
+                       "numberOfTeachers":  4,
+                       "schools":  {
+                                       "3402":  {
+                                                    "name":  "Vardåsen skole",
+                                                    "id":  3402,
+                                                    "address":  "Slottsberget 1, Asker 1385",
+                                                    "phone":  "+47 66 71 51 00",
+                                                    "contactPersons":  [
+                                                                           "Kristin K. Dyrhaug, +47 90 11 86 97, kdyrhaug@asker.kommune.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Asker kommune",
+                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
+                                                }
+                                   },
+                       "branchOfficeName":  "Asker kommune",
+                       "busAppointments":  [
+
+                                           ],
+                       "participants":  [
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  24,
+                                                "registrationGroup":  {
+                                                                          "name":  "4A",
+                                                                          "schoolId":  3402
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  23,
+                                                "registrationGroup":  {
+                                                                          "name":  "4B",
+                                                                          "schoolId":  3402
+                                                                      }
+                                            }
+                                        ],
+                       "production":  {
+                                          "id":  25156,
+                                          "name":  "Arbeid og lek i bygda for 100 år siden (4. trinn)",
+                                          "subtitle":  "Aktivitetsdag på Asker museum ",
+                                          "groupName":  "",
+                                          "descriptionShort":  "Arbeid og lek i bygda er et\u0026nbsp;undervisningsopplegg utviklet av Asker museum\u0026nbsp;for 4.trinn, og inneb\u0026aelig;rer en full skoledag p\u0026aring; Asker Museum hvor elevene l\u0026aelig;rer om livet \u0026laquo;i gamle dager\u0026raquo; gjennom praktiske \u0026oslash;velser. De f\u0026aring;r blant annet pr\u0026oslash;ve karding av ull, spinning av tr\u0026aring;d, veving av filleryer, lompebaking og spikking av pil og bue.\u0026nbsp;Programmet er knyttet opp mot kompetansem\u0026aring;l i fagene Kunst og h\u0026aring;ndverk og Samfunnsfag (se l\u0026aelig;rerveiledning). Arrangeres i samarbeid med Den kulturelle skolesekken (DKS) i Asker.\u0026nbsp;\n",
+                                          "yearLevelMinimum":  4,
+                                          "yearLevelMaximum":  4,
+                                          "culturalExpressions":  [
+                                                                      {
+                                                                          "id":  5,
+                                                                          "name":  "Kulturarv",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Kulturarv",
+                                                                                                        "nn":  "Kulturarv",
+                                                                                                        "en":  "Cultural heritage"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "kulturarv",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/kulturarv-i-dks/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      }
+                                                                  ],
+                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/80b05ee0cad9651e85ae40c7d29ba4a0.jpg",
+                                          "branchOffice":  "Asker kommune",
+                                          "academicYears":  [
+                                                                {
+                                                                    "id":  10,
+                                                                    "name":  "2026/2027"
+                                                                }
+                                                            ],
+                                          "isRegistrationOffer":  false,
+                                          "events":  [
+
+                                                     ]
+                                      },
+                       "schoolEventParticipantStatus":  null
+                   },
+                   {
                        "id":  559223,
                        "status":  "scheduled",
                        "dateStart":  1809932400,
@@ -81156,100 +81259,6 @@
                                                 "registrationGroup":  {
                                                                           "name":  "4",
                                                                           "schoolId":  4158
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  25156,
-                                          "name":  "Arbeid og lek i bygda for 100 år siden (4. trinn)",
-                                          "subtitle":  "Aktivitetsdag på Asker museum ",
-                                          "groupName":  "",
-                                          "descriptionShort":  "Arbeid og lek i bygda er et\u0026nbsp;undervisningsopplegg utviklet av Asker museum\u0026nbsp;for 4.trinn, og inneb\u0026aelig;rer en full skoledag p\u0026aring; Asker Museum hvor elevene l\u0026aelig;rer om livet \u0026laquo;i gamle dager\u0026raquo; gjennom praktiske \u0026oslash;velser. De f\u0026aring;r blant annet pr\u0026oslash;ve karding av ull, spinning av tr\u0026aring;d, veving av filleryer, lompebaking og spikking av pil og bue.\u0026nbsp;Programmet er knyttet opp mot kompetansem\u0026aring;l i fagene Kunst og h\u0026aring;ndverk og Samfunnsfag (se l\u0026aelig;rerveiledning). Arrangeres i samarbeid med Den kulturelle skolesekken (DKS) i Asker.\u0026nbsp;\n",
-                                          "yearLevelMinimum":  4,
-                                          "yearLevelMaximum":  4,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  5,
-                                                                          "name":  "Kulturarv",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Kulturarv",
-                                                                                                        "nn":  "Kulturarv",
-                                                                                                        "en":  "Cultural heritage"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "kulturarv",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/kulturarv-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/80b05ee0cad9651e85ae40c7d29ba4a0.jpg",
-                                          "branchOffice":  "Asker kommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  559225,
-                       "status":  "scheduled",
-                       "dateStart":  1810278000,
-                       "dateEnd":  1810294200,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Asker museum – Asker museum",
-                                        "address":  {
-                                                        "formatted":  " Otto Valstads vei 19 , Hvalstad  1395",
-                                                        "coordinate":  {
-                                                                           "lat":  59.8531293,
-                                                                           "lng":  10.4554268
-                                                                       }
-                                                    },
-                                        "phoneNumber":  null
-                                    },
-                       "numberOfStudents":  43,
-                       "numberOfTeachers":  4,
-                       "schools":  {
-                                       "3402":  {
-                                                    "name":  "Vardåsen skole",
-                                                    "id":  3402,
-                                                    "address":  "Slottsberget 1, Asker 1385",
-                                                    "phone":  "+47 66 71 51 00",
-                                                    "contactPersons":  [
-                                                                           "Kristin K. Dyrhaug, +47 90 11 86 97, kdyrhaug@asker.kommune.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                }
-                                   },
-                       "branchOfficeName":  "Asker kommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  24,
-                                                "registrationGroup":  {
-                                                                          "name":  "4A",
-                                                                          "schoolId":  3402
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  23,
-                                                "registrationGroup":  {
-                                                                          "name":  "4B",
-                                                                          "schoolId":  3402
                                                                       }
                                             }
                                         ],
@@ -81812,5 +81821,5 @@
                ],
     "hasMore":  false,
     "loaded":  2000,
-    "hentTidspunkt":  "2026-08-14T10:26:04Z"
+    "hentTidspunkt":  "2026-08-24T06:47:49Z"
 }
