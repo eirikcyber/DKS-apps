@@ -1,113 +1,7 @@
 ﻿{
-    "total":  742,
-    "count":  742,
+    "total":  741,
+    "count":  741,
     "events":  [
-                   {
-                       "id":  559201,
-                       "status":  "scheduled",
-                       "dateStart":  1787554800,
-                       "dateEnd":  1787571000,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Asker museum – Asker museum",
-                                        "address":  {
-                                                        "formatted":  " Otto Valstads vei 19 , Hvalstad  1395",
-                                                        "coordinate":  {
-                                                                           "lat":  59.8531293,
-                                                                           "lng":  10.4554268
-                                                                       }
-                                                    },
-                                        "phoneNumber":  null
-                                    },
-                       "numberOfStudents":  55,
-                       "numberOfTeachers":  4,
-                       "schools":  {
-                                       "3379":  {
-                                                    "name":  "Arnestad skole",
-                                                    "id":  3379,
-                                                    "address":  "Håkavikveien 49, Vollen 1390",
-                                                    "phone":  "+47 48 24 24 13",
-                                                    "contactPersons":  [
-                                                                           "Eva Øverås (tilrettelagt), +47 98 01 82 20, eva.overas@asker.kommune.no",
-                                                                           "Nina Eylertsen, +47 98 42 16 87, nina.eylertsen@asker.kommune.no",
-                                                                           "Cecilie Bjørnstad, +47 97 19 30 13, cecilie.bjornstad@asker.kommune.no",
-                                                                           "Signe Myskja, +47 97 00 83 72, signe.langballe.myskja@asker.kommune.no",
-                                                                           "Anders Njåtun, +47 48 13 46 04, anders.njatun@asker.kommune.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                }
-                                   },
-                       "branchOfficeName":  "Asker kommune",
-                       "busAppointments":  [
-                                               {
-                                                   "id":  11026,
-                                                   "schoolIds":  [
-                                                                     3379
-                                                                 ],
-                                                   "departureTime":  "08:35",
-                                                   "returnTime":  "13:30",
-                                                   "textToSchool":  "VY Turbuss frakter elevene fra skole til Asker museum og tilbake etter besøket. Se gjeldende tidspunkter for avreise fra skole og avreise fra Asker museum . Vakttelefon Vy Buss er 91658600"
-                                               }
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "4A",
-                                                                          "schoolId":  3379
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  29,
-                                                "registrationGroup":  {
-                                                                          "name":  "4B",
-                                                                          "schoolId":  3379
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  25156,
-                                          "name":  "Arbeid og lek i bygda for 100 år siden (4. trinn)",
-                                          "subtitle":  "Aktivitetsdag på Asker museum ",
-                                          "groupName":  "",
-                                          "descriptionShort":  "Arbeid og lek i bygda er et\u0026nbsp;undervisningsopplegg utviklet av Asker museum\u0026nbsp;for 4.trinn, og inneb\u0026aelig;rer en full skoledag p\u0026aring; Asker Museum hvor elevene l\u0026aelig;rer om livet \u0026laquo;i gamle dager\u0026raquo; gjennom praktiske \u0026oslash;velser. De f\u0026aring;r blant annet pr\u0026oslash;ve karding av ull, spinning av tr\u0026aring;d, veving av filleryer, lompebaking og spikking av pil og bue.\u0026nbsp;Programmet er knyttet opp mot kompetansem\u0026aring;l i fagene Kunst og h\u0026aring;ndverk og Samfunnsfag (se l\u0026aelig;rerveiledning). Arrangeres i samarbeid med Den kulturelle skolesekken (DKS) i Asker.\u0026nbsp;\n",
-                                          "yearLevelMinimum":  4,
-                                          "yearLevelMaximum":  4,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  5,
-                                                                          "name":  "Kulturarv",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Kulturarv",
-                                                                                                        "nn":  "Kulturarv",
-                                                                                                        "en":  "Cultural heritage"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "kulturarv",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/kulturarv-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/80b05ee0cad9651e85ae40c7d29ba4a0.jpg",
-                                          "branchOffice":  "Asker kommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
                    {
                        "id":  559202,
                        "status":  "scheduled",
@@ -81821,5 +81715,5 @@
                ],
     "hasMore":  false,
     "loaded":  2000,
-    "hentTidspunkt":  "2026-08-24T06:47:41Z"
+    "hentTidspunkt":  "2026-08-25T06:43:04Z"
 }
