@@ -5555,7 +5555,7 @@ const TEKSTMALAR = {
 
     buss: (v) => {
         let t = `Elevene reiser kollektivt til ${v.stad}. Buss ${v.linje} fra ${v.haldeplass} kl. ${v.avgangstid}. ` +
-                `Beregnet reisetid ${v.N} minutter.`;
+                `Beregnet ankomsttid ${v.ankomsttid}.`;
         if (v.returSetning) t += ` ${v.returSetning}`;
         t += ` RUFUS-billetter kan benyttes. Dette dekker DKS Asker`;
         return t;
@@ -5563,7 +5563,7 @@ const TEKSTMALAR = {
 
     tog: (v) => {
         let t = `Elevene reiser kollektivt til ${v.stad}. Tog fra ${v.stasjon} kl. ${v.avgangstid}. ` +
-                `Beregnet reisetid ${v.N} minutter.`;
+                `Beregnet ankomsttid ${v.ankomsttid}.`;
         if (v.returSetning) t += ` ${v.returSetning}`;
         t += ` RUFUS-billetter kan benyttes. Dette dekker DKS Asker`;
         return t;
@@ -5576,12 +5576,25 @@ const TEKSTMALAR = {
     // andre malane.
     knutepunkt: (v) => {
         let t = `Elevene går ${v.gangeAvstand} til ${v.knutepunktNamn} og reiser videre med ${v.modeTekst} ${v.linje} til ${v.stad}. ` +
-                `Beregnet reisetid ${v.N} minutter.`;
+                `Beregnet ankomsttid ${v.ankomsttid}.`;
         if (v.returSetning) t += ` ${v.returSetning}`;
         t += ` RUFUS-billetter kan benyttes. Dette dekker DKS Asker`;
         return t;
     }
 };
+
+// Portalen lagrar arena UNDER ein kunstinstitusjon — location.name kjem difor
+// alltid som "{institusjon} – {arena}" (t.d. "Kunsthall Dikemark – Kunsthall
+// Dikemark", "Det Norske Teatret – Scene 3"). I den genererte teksten er
+// berre institusjonsnamnet interessant (skule/buss treng ikkje vite kva
+// scene/rom) — lagt til 01.09.2026 etter Eirik sitt eksempel. Tek alltid
+// berre delen FØR skiljeteiknet, uavhengig av om det som følgjer er ein
+// duplikat (Kunsthall Dikemark) eller eit ekte underrom (Scene 3).
+function forenklaStad(rawStad) {
+    if (!rawStad) return rawStad;
+    const idx = rawStad.indexOf(' – ');
+    return idx === -1 ? rawStad : rawStad.substring(0, idx);
+}
 
 // Byggjer returklausulen for buss-/tog-malane basert på det FAKTISKE
 // retur-alternativet (kan avvike frå tur sin type — t.d. tur=buss, men ingen
@@ -5619,7 +5632,7 @@ function byggReturSetning(retur) {
 //  - Buss/tog: brukar faktiske Entur-avgangstider direkte, ingen ekstra buffer
 //    (Entur-søket er alt målretta mot rett ankomsttid via arriveBy).
 function byggTransportTekst(hending, sr, valtType, valtAlt) {
-    const stad = hending.location;
+    const stad = forenklaStad(hending.location);
 
     if (valtType === 'gange' || valtType === 'sykler') {
         // Same mal for begge — "Elevene går eller sykler til {stad}." er
@@ -5636,18 +5649,23 @@ function byggTransportTekst(hending, sr, valtType, valtAlt) {
     if (valtType === 'buss' || valtType === 'tog') {
         if (!valtAlt) return '';
         const avgangstid = turneFormatTid(valtAlt.avgang);
-        const N = valtAlt.varigheit != null ? valtAlt.varigheit : '?';
+        // Ankomsttid i staden for reisetid i minutt (RETTA 01.09.2026) —
+        // "Beregnet reisetid" tok berre omsyn til sjølve kollektivreisa, og
+        // las difor lett feil hos den som skulle bruke teksten (t.d.
+        // manglar tid brukt på å gå til stoppestad før avgang). Ei
+        // klokkeslett for faktisk ankomst er utvetydig.
+        const ankomsttid = turneFormatTid(valtAlt.ankomst);
         const returSetning = byggReturSetning(sr.retur);
         if (valtType === 'buss') {
-            return TEKSTMALAR.buss({ stad, linje: valtAlt.linje || '?', haldeplass: valtAlt.haldeplass || 'holdeplassen', avgangstid, N, returSetning });
+            return TEKSTMALAR.buss({ stad, linje: valtAlt.linje || '?', haldeplass: valtAlt.haldeplass || 'holdeplassen', avgangstid, ankomsttid, returSetning });
         }
-        return TEKSTMALAR.tog({ stad, stasjon: valtAlt.stasjon || 'stasjonen', avgangstid, N, returSetning });
+        return TEKSTMALAR.tog({ stad, stasjon: valtAlt.stasjon || 'stasjonen', avgangstid, ankomsttid, returSetning });
     }
 
     if (valtType === 'knutepunkt') {
         if (!valtAlt) return '';
         const avgangstid = turneFormatTid(valtAlt.avgang);
-        const N = valtAlt.varigheit != null ? valtAlt.varigheit : '?';
+        const ankomsttid = turneFormatTid(valtAlt.ankomst);
         const modeTekst = valtAlt.mode === 'tog' ? 'tog' : 'buss';
         const returSetning = byggReturSetning(sr.retur);
         return TEKSTMALAR.knutepunkt({
@@ -5656,7 +5674,7 @@ function byggTransportTekst(hending, sr, valtType, valtAlt) {
             gangeAvstand: valtAlt.gangeTilKnutepunkt ? valtAlt.gangeTilKnutepunkt.avstandTekst : '',
             modeTekst,
             linje: valtAlt.linje || '?',
-            avgangstid, N, returSetning
+            avgangstid, ankomsttid, returSetning
         });
     }
 
