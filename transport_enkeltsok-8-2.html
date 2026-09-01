@@ -5590,10 +5590,24 @@ const TEKSTMALAR = {
 // scene/rom) — lagt til 01.09.2026 etter Eirik sitt eksempel. Tek alltid
 // berre delen FØR skiljeteiknet, uavhengig av om det som følgjer er ein
 // duplikat (Kunsthall Dikemark) eller eit ekte underrom (Scene 3).
+//
+// UNNTAK: nokre "institusjonar" er i røynda ei samleteneste med FLEIRE
+// ULIKE FYSISKE ADRESSER under same namn — "arena"-delen er då ikkje eit
+// rom i same bygg, men sjølve staden som skil dei frå kvarandre. Stripping
+// ville her gjort teksten misvisande, ikkje berre kortare. Kartlagt
+// 01.09.2026 mot heile location.name-lista i dks_turne_data.json:
+// "Askerbibliotekene – Asker bibliotek" / "Askerbibliotekene – Sætre
+// bibliotek" er dei einaste to slike tilfella (Asker og Sætre er ulike
+// stader i kommunen). Legg til fleire namn her viss nye tilfelle dukkar opp.
+const STAD_UNNTAK_BEHALD_FULL = new Set(['Askerbibliotekene']);
+
 function forenklaStad(rawStad) {
     if (!rawStad) return rawStad;
     const idx = rawStad.indexOf(' – ');
-    return idx === -1 ? rawStad : rawStad.substring(0, idx);
+    if (idx === -1) return rawStad;
+    const institusjon = rawStad.substring(0, idx);
+    if (STAD_UNNTAK_BEHALD_FULL.has(institusjon)) return rawStad;
+    return institusjon;
 }
 
 // Byggjer returklausulen for buss-/tog-malane basert på det FAKTISKE
