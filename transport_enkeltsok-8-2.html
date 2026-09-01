@@ -6197,6 +6197,16 @@ function genererTurnePayload() {
                         const autoRetur = returErKollektiv
                             ? turneFormatTid(returValtAlt.avgang)
                             : (returValtType === 'bestillerbuss' ? beregnBestillerbussRetur(hending, varigheitMin) : null);
+                        // Same tekst som "Generert tekst"-kolonna viser i UI-et — teke
+                        // med i payloaden (lagt til 01.09.2026) slik at skrivescriptet kan
+                        // fylle textToSchool. VIKTIG (per oppdrag same dag): departureTime/
+                        // returTime i portalen representerer ei BESTILT buss — for
+                        // kollektivt/gange (der elevane reiser sjølve, ikkje DKS-bestilt
+                        // transport) skal berre teksten skrivast, ALDRI strukturerte tider.
+                        // Skrivescriptet (dks_send_transport.py) handhevar dette basert på
+                        // `transport`-feltet, ikkje appen — men teksten sjølv er nøytral
+                        // informasjon uansett type.
+                        const generertTekst = byggTransportTekst(hending, sr, valtType, valtAlt) || null;
                         return {
                             schoolId: sr.skuleId,
                             name: sr.skule,
@@ -6205,7 +6215,8 @@ function genererTurnePayload() {
                             departureTime: manuellTid.tur || autoAvgang,
                             returTransport: returValtType,
                             returLinje: returErKollektiv ? (returValtAlt.linje || null) : null,
-                            returTime: manuellTid.retur || autoRetur
+                            returTime: manuellTid.retur || autoRetur,
+                            generertTekst
                         };
                     })
                 };
