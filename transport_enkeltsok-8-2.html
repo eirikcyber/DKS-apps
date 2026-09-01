@@ -1035,6 +1035,18 @@
         }
         .turne-col-tur, .turne-col-retur { font-size: 13px; }
         .turne-col-retur.turne-retur-dimma { opacity: 0.55; font-style: italic; }
+        /* Manuelt Tur-/Retur-klokkeslett (lagt til 01.09.2026) — fritt tidsfelt
+           for direkte utfylling av departureTime/returnTime, uavhengig av
+           kva transportmåte som er (auto)valt. */
+        .turne-manuell-tid {
+            display: flex; align-items: center; gap: 5px; margin-top: 6px;
+        }
+        .turne-manuell-tid label {
+            font-size: 10px; color: #a0aec0; text-transform: uppercase; letter-spacing: 0.03em;
+        }
+        .turne-manuell-tid input[type="time"] {
+            font-size: 12px; padding: 2px 4px; border: 1px solid #e2e8f0; border-radius: 4px; width: 90px;
+        }
         .turne-linje-hoved { font-weight: 500; }
         .turne-linje-under { font-size: 11px; color: #888; margin-top: 2px; }
         .turne-alt-wrapper { position: relative; display: inline-block; }
@@ -2074,6 +2086,15 @@ let turneOverstyring = {};
 let turneOverstyringRetur = {};
 let turneBusAvtalar = {}; // { eventId: { schoolId: {departureTime, returnTime, textToSchool} } } — aldri i localStorage
 let turneBussdataStatus = {}; // { eventId: 'bekrefta' | 'utilgjengeleg' | 'feil' } — sett direkte frå dks_turne_data.json, sjå hentTurne()
+// Manuelt innskrivne klokkeslett for Tur/Retur (lagt til 01.09.2026, sjå
+// CLAUDE.md "Manuell Tur-/Retur-tid") — desse svarar til departureTime/
+// returnTime-felta i portalen (busAppointment "TUR"/"RETUR"). Fylte inn av
+// brukaren fordi den automatiske utrekninga for bestillerbuss (avgang =
+// arrangementstart minus fast 10 min buffer) ikkje tek omsyn til faktisk
+// køyretid, og kan difor gi ei avreisetid som er for sein. Nøkkel
+// `${eventId}_${skuleId}`, verdi `{tur: 'HH:MM', retur: 'HH:MM'}` (tom
+// streng = ikkje utfylt). Aldri i localStorage.
+let turneManuellTid = {};
 let valdeEvents = {}; // { eventId: true } — kva arrangement som er avkryssa for payload. Aldri i localStorage.
 let genererteEvents = {}; // { eventId: true } — arrangement som er tekne med i eit generert payload denne økta.
 
@@ -5072,6 +5093,7 @@ async function hentTurne() {
     turneOverstyringRetur = {};
     turneBusAvtalar = {};
     turneBussdataStatus = {};
+    turneManuellTid = {};
     valdeEvents = {};
     genererteEvents = {};
     // Slett gammal DRIVING-cache (fallback-fart kan ha vore feil)
@@ -5528,8 +5550,7 @@ function escHtmlAttr(s) {
 // gjennom rendringskoden i visTurneResultat().
 const TEKSTMALAR = {
     bestillerbuss: (v) =>
-        `VY Turbuss frakter elevene fra skolen til ${v.stad} og tilbake etter besøket. ` +
-        `Avreise fra skolen kl. ${v.avgang}. Avreise fra ${v.stad} kl. ${v.retur}. ` +
+        `VY Turbuss frakter elevene fra skolen og tilbake etter besøket. ` +
         `Vakttelefon Vy Buss er 91658600`,
 
     buss: (v) => {
@@ -5597,7 +5618,7 @@ function byggReturSetning(retur) {
 //    køyreinstruks til sjåføren), retur = arrangementsslutt PRESIS, ingen buffer.
 //  - Buss/tog: brukar faktiske Entur-avgangstider direkte, ingen ekstra buffer
 //    (Entur-søket er alt målretta mot rett ankomsttid via arriveBy).
-function byggTransportTekst(hending, sr, valtType, valtAlt, varigheitMin) {
+function byggTransportTekst(hending, sr, valtType, valtAlt) {
     const stad = hending.location;
 
     if (valtType === 'gange' || valtType === 'sykler') {
@@ -5609,11 +5630,7 @@ function byggTransportTekst(hending, sr, valtType, valtAlt, varigheitMin) {
     }
 
     if (valtType === 'bestillerbuss') {
-        const startSek = hending.dateStart - 10 * 60;
-        const sluttSek = hending.dateEnd || (hending.dateStart + varigheitMin * 60);
-        const avgang = new Date(startSek * 1000).toLocaleTimeString('nb-NO', { hour: '2-digit', minute: '2-digit' });
-        const retur = new Date(sluttSek * 1000).toLocaleTimeString('nb-NO', { hour: '2-digit', minute: '2-digit' });
-        return TEKSTMALAR.bestillerbuss({ stad, avgang, retur });
+        return TEKSTMALAR.bestillerbuss();
     }
 
     if (valtType === 'buss' || valtType === 'tog') {
@@ -5904,6 +5921,22 @@ function visTurneResultat() {
             // eller draft-/feil-status. Full tekst ligg som tooltip på merkelappen.
             const portalCelle = `<div class="turne-col-portal">${byggPortalCelle(busStatus, ba)}</div>`;
 
+            // --- Manuelt Tur-/Retur-klokkeslett (lagt til 01.09.2026, sjå
+            // turneManuellTid over) — fritt tidsfelt uavhengig av kva
+            // transportmåte som er (auto)valt, for direkte utfylling av
+            // departureTime/returnTime når den automatiske utrekninga ikkje
+            // stemmer (t.d. bestillerbuss-avgang som ikkje tek omsyn til
+            // faktisk køyretid).
+            const manuellTid = turneManuellTid[overstyringKey] || { tur: '', retur: '' };
+            const manuellTurHtml = `<div class="turne-manuell-tid">
+                    <label>Tur</label>
+                    <input type="time" value="${escHtmlAttr(manuellTid.tur)}" title="Skriv inn faktisk avreisetid (departureTime i portalen)" onchange="settTurneManuellTid(${hending.id}, ${sr.skuleId}, 'tur', this.value)">
+                </div>`;
+            const manuellReturHtml = `<div class="turne-manuell-tid">
+                    <label>Retur</label>
+                    <input type="time" value="${escHtmlAttr(manuellTid.retur)}" title="Skriv inn faktisk returtid (returnTime i portalen)" onchange="settTurneManuellTid(${hending.id}, ${sr.skuleId}, 'retur', this.value)">
+                </div>`;
+
             // --- Tur-kolonne: hovudlinje (ikon+type/linje+totaltid) + underlinje
             // (kortform reiseveg). Tooltip via data-tooltip, same grunngjeving som ✕-ikonet over.
             let turHovud, turUnder;
@@ -5920,6 +5953,7 @@ function visTurneResultat() {
                     <div class="turne-linje-hoved">${turHovud}</div>
                     ${turUnder ? `<div class="turne-linje-under">${turUnder}</div>` : ''}
                     ${turKnappar ? `<div class="turne-val-ikon-knappar">${turKnappar}</div>` : ''}
+                    ${manuellTurHtml}
                 </div>`;
 
             // --- Retur-kolonne — RETTA 14.08.2026: viser no knappar kvar gong
@@ -5927,11 +5961,11 @@ function visTurneResultat() {
             // sokTurneRetur()). Dimma tekst-utan-knappar-fallbacken gjeld no
             // berre dei sjeldne tilfella utan NOKO alternativ i det heile
             // (t.d. fortidige arrangement eller manglande koordinatar).
-            let returCelle = `<div class="turne-col-retur"></div>`;
+            let returCelle = `<div class="turne-col-retur">${manuellReturHtml}</div>`;
             if (sr.retur) {
                 if (!returHarAlternativ) {
                     const tekst = sr.retur.valt === 'gange' ? 'Gange' : 'Bestillerbuss';
-                    returCelle = `<div class="turne-col-retur turne-retur-dimma"><div class="turne-linje-hoved">${tekst}</div></div>`;
+                    returCelle = `<div class="turne-col-retur turne-retur-dimma"><div class="turne-linje-hoved">${tekst}</div>${manuellReturHtml}</div>`;
                 } else {
                     const returValtAlt = (sr.retur.alternativ || []).find(a => a.type === returValtType);
                     const linjer = formaterAltDetaljar(returValtAlt);
@@ -5940,6 +5974,7 @@ function visTurneResultat() {
                             <div class="turne-linje-hoved">${linjer.hovudlinje}</div>
                             ${linjer.underlinje ? `<div class="turne-linje-under">${linjer.underlinje}</div>` : ''}
                             ${returKnappar ? `<div class="turne-val-ikon-knappar">${returKnappar}</div>` : ''}
+                            ${manuellReturHtml}
                         </div>`;
                 }
             }
@@ -5948,7 +5983,7 @@ function visTurneResultat() {
             // det VALDE alternativet, med kopier-knapp. Regenererer kvar gong
             // visTurneResultat() køyrer, altså òg ved overstyring av valt type
             // (settTurneOverstyring() kallar visTurneResultat() på nytt).
-            const genertTekst = byggTransportTekst(hending, sr, valtType, valtAlt, varigheitMin);
+            const genertTekst = byggTransportTekst(hending, sr, valtType, valtAlt);
             const tekstCelle = genertTekst
                 ? `<div class="turne-col-tekst">
                         <div class="turne-generert-tekst" data-tooltip="${escHtmlAttr(genertTekst)}">${escHtmlAttr(genertTekst)}</div>
@@ -6033,6 +6068,16 @@ function settTurneOverstyringRetur(key, type) {
     visTurneResultat();
 }
 
+// Lagrar eit manuelt innskrive Tur- eller Retur-klokkeslett (sjå
+// turneManuellTid over) — feltet svarar til `felt` = 'tur' eller 'retur'.
+// Ingen re-render nødvendig (input-verdien står alt i feltet sjølv);
+// verdien vert lesen av genererTurnePayload() ved payload-generering.
+function settTurneManuellTid(eventId, skuleId, felt, verdi) {
+    const key = `${eventId}_${skuleId}`;
+    if (!turneManuellTid[key]) turneManuellTid[key] = { tur: '', retur: '' };
+    turneManuellTid[key][felt] = verdi;
+}
+
 function genererTurnePayload() {
     const payload = {
         productionId: valtProduksjon ? valtProduksjon.id : null,
@@ -6063,15 +6108,22 @@ function genererTurnePayload() {
                             : (sr.retur ? sr.retur.valt : null);
                         const returValtAlt = sr.retur ? (sr.retur.alternativ || []).find(a => a.type === returValtType) : null;
                         const returErKollektiv = returValtAlt && (returValtAlt.type === 'buss' || returValtAlt.type === 'tog');
+                        // Manuelt innskrive Tur-/Retur-tid (sjå turneManuellTid over) VINN
+                        // alltid over det automatisk utrekna/funne tidspunktet når det er
+                        // fylt ut — særleg viktig for bestillerbuss, som elles aldri får
+                        // ei departureTime/returnTime i payloaden i det heile.
+                        const manuellTid = turneManuellTid[overstyringKey] || {};
+                        const autoAvgang = (valtAlt.type === 'buss' || valtAlt.type === 'tog') ? turneFormatTid(valtAlt.avgang) : null;
+                        const autoRetur = returErKollektiv ? turneFormatTid(returValtAlt.avgang) : null;
                         return {
                             schoolId: sr.skuleId,
                             name: sr.skule,
                             transport: valtAlt.type,
                             linje: (valtAlt.type === 'buss' || valtAlt.type === 'tog') ? (valtAlt.linje || null) : null,
-                            departureTime: (valtAlt.type === 'buss' || valtAlt.type === 'tog') ? turneFormatTid(valtAlt.avgang) : null,
+                            departureTime: manuellTid.tur || autoAvgang,
                             returTransport: returValtType,
                             returLinje: returErKollektiv ? (returValtAlt.linje || null) : null,
-                            returTime: returErKollektiv ? turneFormatTid(returValtAlt.avgang) : null
+                            returTime: manuellTid.retur || autoRetur
                         };
                     })
                 };
