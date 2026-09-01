@@ -49833,7 +49833,7 @@
                                                     "phone":  "+47 32 27 81 70",
                                                     "contactPersons":  [
                                                                            "Hilde Solum, +47 91 53 70 44, hilde.solum@asker.kommune.no",
-                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@modum.kommune.no"
+                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -49920,7 +49920,7 @@
                                                     "phone":  "+47 32 27 81 70",
                                                     "contactPersons":  [
                                                                            "Hilde Solum, +47 91 53 70 44, hilde.solum@asker.kommune.no",
-                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@modum.kommune.no"
+                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -50007,7 +50007,7 @@
                                                     "phone":  "+47 32 27 81 70",
                                                     "contactPersons":  [
                                                                            "Hilde Solum, +47 91 53 70 44, hilde.solum@asker.kommune.no",
-                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@modum.kommune.no"
+                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -64275,7 +64275,7 @@
                                                     "phone":  "+47 32 27 81 70",
                                                     "contactPersons":  [
                                                                            "Hilde Solum, +47 91 53 70 44, hilde.solum@asker.kommune.no",
-                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@modum.kommune.no"
+                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -69107,5 +69107,5 @@
                ],
     "hasMore":  false,
     "loaded":  2000,
-    "hentTidspunkt":  "2026-09-01T10:32:03Z"
+    "hentTidspunkt":  "2026-09-01T11:47:41Z"
 }

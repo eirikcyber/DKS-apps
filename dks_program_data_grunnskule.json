@@ -2213,7 +2213,7 @@
                                                     "phone":  "+47 32 27 81 70",
                                                     "contactPersons":  [
                                                                            "Hilde Solum, +47 91 53 70 44, hilde.solum@asker.kommune.no",
-                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@modum.kommune.no"
+                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -3181,7 +3181,7 @@
                                                     "phone":  "+47 32 27 81 70",
                                                     "contactPersons":  [
                                                                            "Hilde Solum, +47 91 53 70 44, hilde.solum@asker.kommune.no",
-                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@modum.kommune.no"
+                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -3496,7 +3496,7 @@
                                                    "schoolIds":  [
                                                                      3392
                                                                  ],
-                                                   "departureTime":  "09:10",
+                                                   "departureTime":  "09:05",
                                                    "returnTime":  "11:05",
                                                    "textToSchool":  "VY Turbuss frakter elevene fra skolen til Kunsthall Dikemark. Vakttelefon Vy Buss er 91658600"
                                                }
@@ -3762,7 +3762,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11307,
+                                                   "schoolIds":  [
+                                                                     3392
+                                                                 ],
+                                                   "departureTime":  "11:05",
+                                                   "returnTime":  "13:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -3950,7 +3958,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11308,
+                                                   "schoolIds":  [
+                                                                     3403
+                                                                 ],
+                                                   "departureTime":  "09:10",
+                                                   "returnTime":  "11:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -4206,7 +4222,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11309,
+                                                   "schoolIds":  [
+                                                                     3403
+                                                                 ],
+                                                   "departureTime":  "11:10",
+                                                   "returnTime":  "13:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -4406,7 +4430,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11310,
+                                                   "schoolIds":  [
+                                                                     3379
+                                                                 ],
+                                                   "departureTime":  "09:05",
+                                                   "returnTime":  "11:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -4508,7 +4540,7 @@
                                                     "phone":  "+47 32 27 81 70",
                                                     "contactPersons":  [
                                                                            "Hilde Solum, +47 91 53 70 44, hilde.solum@asker.kommune.no",
-                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@modum.kommune.no"
+                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -4745,7 +4777,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11311,
+                                                   "schoolIds":  [
+                                                                     3379
+                                                                 ],
+                                                   "departureTime":  "11:05",
+                                                   "returnTime":  "13:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -5140,7 +5180,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11312,
+                                                   "schoolIds":  [
+                                                                     3379
+                                                                 ],
+                                                   "departureTime":  "09:05",
+                                                   "returnTime":  "11:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -5332,7 +5380,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11313,
+                                                   "schoolIds":  [
+                                                                     3380
+                                                                 ],
+                                                   "departureTime":  "11:05",
+                                                   "returnTime":  "13:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -5523,7 +5579,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11314,
+                                                   "schoolIds":  [
+                                                                     3380
+                                                                 ],
+                                                   "departureTime":  "09:05",
+                                                   "returnTime":  "11:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -5735,7 +5799,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11315,
+                                                   "schoolIds":  [
+                                                                     3382
+                                                                 ],
+                                                   "departureTime":  "11:10",
+                                                   "returnTime":  "13:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -6036,7 +6108,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11316,
+                                                   "schoolIds":  [
+                                                                     3381
+                                                                 ],
+                                                   "departureTime":  "09:10",
+                                                   "returnTime":  "11:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -6246,7 +6326,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11317,
+                                                   "schoolIds":  [
+                                                                     3381
+                                                                 ],
+                                                   "departureTime":  "11:10",
+                                                   "returnTime":  "13:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -6543,7 +6631,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11318,
+                                                   "schoolIds":  [
+                                                                     3382
+                                                                 ],
+                                                   "departureTime":  "09:10",
+                                                   "returnTime":  "11:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -6724,7 +6820,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11319,
+                                                   "schoolIds":  [
+                                                                     3382
+                                                                 ],
+                                                   "departureTime":  "11:10",
+                                                   "returnTime":  "13:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -7530,7 +7634,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11320,
+                                                   "schoolIds":  [
+                                                                     3638
+                                                                 ],
+                                                   "departureTime":  "09:05",
+                                                   "returnTime":  "11:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -9935,7 +10047,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11321,
+                                                   "schoolIds":  [
+                                                                     3393
+                                                                 ],
+                                                   "departureTime":  "09:05",
+                                                   "returnTime":  "11:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -10221,7 +10341,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11322,
+                                                   "schoolIds":  [
+                                                                     3393
+                                                                 ],
+                                                   "departureTime":  "11:05",
+                                                   "returnTime":  "13:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -10528,7 +10656,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11323,
+                                                   "schoolIds":  [
+                                                                     3393
+                                                                 ],
+                                                   "departureTime":  "09:05",
+                                                   "returnTime":  "11:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -10702,7 +10838,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11324,
+                                                   "schoolIds":  [
+                                                                     4158
+                                                                 ],
+                                                   "departureTime":  "10:55",
+                                                   "returnTime":  "13:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -10982,7 +11126,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11325,
+                                                   "schoolIds":  [
+                                                                     4168
+                                                                 ],
+                                                   "departureTime":  "09:05",
+                                                   "returnTime":  "11:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -11068,7 +11220,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11326,
+                                                   "schoolIds":  [
+                                                                     4168
+                                                                 ],
+                                                   "departureTime":  "11:05",
+                                                   "returnTime":  "13:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -11641,7 +11801,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11327,
+                                                   "schoolIds":  [
+                                                                     3387
+                                                                 ],
+                                                   "departureTime":  "11:05",
+                                                   "returnTime":  "13:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -12185,7 +12353,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11328,
+                                                   "schoolIds":  [
+                                                                     3387
+                                                                 ],
+                                                   "departureTime":  "09:05",
+                                                   "returnTime":  "11:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -12655,7 +12831,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11329,
+                                                   "schoolIds":  [
+                                                                     3396
+                                                                 ],
+                                                   "departureTime":  "11:15",
+                                                   "returnTime":  "13:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -13001,7 +13185,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  61,
+                       "numberOfStudents":  51,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "7780":  {
@@ -13042,7 +13226,7 @@
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  36,
+                                                "numberOfStudents":  26,
                                                 "registrationGroup":  {
                                                                           "name":  "3-6 år",
                                                                           "schoolId":  7779
@@ -13472,7 +13656,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11330,
+                                                   "schoolIds":  [
+                                                                     3389
+                                                                 ],
+                                                   "departureTime":  "09:10",
+                                                   "returnTime":  "11:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -13805,7 +13997,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11331,
+                                                   "schoolIds":  [
+                                                                     3389
+                                                                 ],
+                                                   "departureTime":  "11:10",
+                                                   "returnTime":  "13:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -14212,7 +14412,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11332,
+                                                   "schoolIds":  [
+                                                                     3389
+                                                                 ],
+                                                   "departureTime":  "09:10",
+                                                   "returnTime":  "11:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -15944,7 +16152,7 @@
                                                     "phone":  "+47 32 27 81 70",
                                                     "contactPersons":  [
                                                                            "Hilde Solum, +47 91 53 70 44, hilde.solum@asker.kommune.no",
-                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@modum.kommune.no"
+                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -17393,7 +17601,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11333,
+                                                   "schoolIds":  [
+                                                                     3645
+                                                                 ],
+                                                   "departureTime":  "11:10",
+                                                   "returnTime":  "13:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -27909,7 +28125,7 @@
                                                     "phone":  "+47 32 27 81 70",
                                                     "contactPersons":  [
                                                                            "Hilde Solum, +47 91 53 70 44, hilde.solum@asker.kommune.no",
-                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@modum.kommune.no"
+                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -28369,7 +28585,7 @@
                                                     "phone":  "+47 32 27 81 70",
                                                     "contactPersons":  [
                                                                            "Hilde Solum, +47 91 53 70 44, hilde.solum@asker.kommune.no",
-                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@modum.kommune.no"
+                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -52604,7 +52820,7 @@
                                                     "phone":  "+47 32 27 81 70",
                                                     "contactPersons":  [
                                                                            "Hilde Solum, +47 91 53 70 44, hilde.solum@asker.kommune.no",
-                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@modum.kommune.no"
+                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -52943,7 +53159,7 @@
                                                     "phone":  "+47 32 27 81 70",
                                                     "contactPersons":  [
                                                                            "Hilde Solum, +47 91 53 70 44, hilde.solum@asker.kommune.no",
-                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@modum.kommune.no"
+                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -53298,7 +53514,7 @@
                                                     "phone":  "+47 32 27 81 70",
                                                     "contactPersons":  [
                                                                            "Hilde Solum, +47 91 53 70 44, hilde.solum@asker.kommune.no",
-                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@modum.kommune.no"
+                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -76242,7 +76458,7 @@
                                                     "phone":  "+47 32 27 81 70",
                                                     "contactPersons":  [
                                                                            "Hilde Solum, +47 91 53 70 44, hilde.solum@asker.kommune.no",
-                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@modum.kommune.no"
+                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -79430,7 +79646,7 @@
                                                     "phone":  "+47 32 27 81 70",
                                                     "contactPersons":  [
                                                                            "Hilde Solum, +47 91 53 70 44, hilde.solum@asker.kommune.no",
-                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@modum.kommune.no"
+                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -79517,7 +79733,7 @@
                                                     "phone":  "+47 32 27 81 70",
                                                     "contactPersons":  [
                                                                            "Hilde Solum, +47 91 53 70 44, hilde.solum@asker.kommune.no",
-                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@modum.kommune.no"
+                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -79604,7 +79820,7 @@
                                                     "phone":  "+47 32 27 81 70",
                                                     "contactPersons":  [
                                                                            "Hilde Solum, +47 91 53 70 44, hilde.solum@asker.kommune.no",
-                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@modum.kommune.no"
+                                                                           "Henrik Skifjeld Eliassen, +47 93 08 22 27, henrik.skifjeld.eliassen@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -79925,5 +80141,5 @@
                ],
     "hasMore":  false,
     "loaded":  2000,
-    "hentTidspunkt":  "2026-09-01T10:31:56Z"
+    "hentTidspunkt":  "2026-09-01T11:47:36Z"
 }
