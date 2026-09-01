@@ -7140,7 +7140,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11339,
+                                                   "schoolIds":  [
+                                                                     3384
+                                                                 ],
+                                                   "departureTime":  "09:14",
+                                                   "returnTime":  "11:17",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -7452,7 +7460,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11340,
+                                                   "schoolIds":  [
+                                                                     3384
+                                                                 ],
+                                                   "departureTime":  "11:14",
+                                                   "returnTime":  "13:17",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -13116,7 +13132,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11341,
+                                                   "schoolIds":  [
+                                                                     3402
+                                                                 ],
+                                                   "departureTime":  "09:21",
+                                                   "returnTime":  "11:17",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -13307,7 +13331,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11342,
+                                                   "schoolIds":  [
+                                                                     3402
+                                                                 ],
+                                                   "departureTime":  "11:21",
+                                                   "returnTime":  "13:17",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -14911,7 +14943,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11343,
+                                                   "schoolIds":  [
+                                                                     3390
+                                                                 ],
+                                                   "departureTime":  "11:10",
+                                                   "returnTime":  "13:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -15258,7 +15298,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11344,
+                                                   "schoolIds":  [
+                                                                     3390
+                                                                 ],
+                                                   "departureTime":  "09:10",
+                                                   "returnTime":  "11:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -15578,7 +15626,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11345,
+                                                   "schoolIds":  [
+                                                                     3390
+                                                                 ],
+                                                   "departureTime":  "11:10",
+                                                   "returnTime":  "13:05",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -15837,7 +15893,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11346,
+                                                   "schoolIds":  [
+                                                                     3385
+                                                                 ],
+                                                   "departureTime":  "09:10",
+                                                   "returnTime":  "11:17",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -16262,7 +16326,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11347,
+                                                   "schoolIds":  [
+                                                                     3385
+                                                                 ],
+                                                   "departureTime":  "11:10",
+                                                   "returnTime":  "13:17",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -16540,7 +16612,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11348,
+                                                   "schoolIds":  [
+                                                                     3642
+                                                                 ],
+                                                   "departureTime":  "09:15",
+                                                   "returnTime":  "11:17",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -16784,7 +16864,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11349,
+                                                   "schoolIds":  [
+                                                                     3642
+                                                                 ],
+                                                   "departureTime":  "11:15",
+                                                   "returnTime":  "13:17",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -17235,7 +17323,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11350,
+                                                   "schoolIds":  [
+                                                                     3642
+                                                                 ],
+                                                   "departureTime":  "09:15",
+                                                   "returnTime":  "11:17",
+                                                   "textToSchool":  null
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -80141,5 +80237,5 @@
                ],
     "hasMore":  false,
     "loaded":  2000,
-    "hentTidspunkt":  "2026-09-01T11:47:42Z"
+    "hentTidspunkt":  "2026-09-01T12:19:44Z"
 }
