@@ -7145,9 +7145,9 @@
                                                    "schoolIds":  [
                                                                      3384
                                                                  ],
-                                                   "departureTime":  "09:14",
-                                                   "returnTime":  "11:17",
-                                                   "textToSchool":  null
+                                                   "departureTime":  null,
+                                                   "returnTime":  null,
+                                                   "textToSchool":  "Elevene reiser kollektivt til Kunsthall Dikemark. Buss 280 fra Drengsrud skole kl. 09:14. Beregnet ankomsttid 09:29. Retur med buss 280 fra Dikemark kl. 11:17. RUFUS-billetter kan benyttes. Dette dekker DKS Asker"
                                                }
                                            ],
                        "participants":  [
@@ -7465,9 +7465,9 @@
                                                    "schoolIds":  [
                                                                      3384
                                                                  ],
-                                                   "departureTime":  "11:14",
-                                                   "returnTime":  "13:17",
-                                                   "textToSchool":  null
+                                                   "departureTime":  null,
+                                                   "returnTime":  null,
+                                                   "textToSchool":  "Elevene reiser kollektivt til Kunsthall Dikemark. Buss 280 fra Drengsrud skole kl. 11:14. Beregnet ankomsttid 11:29. Retur med buss 280 fra Dikemark kl. 13:17. RUFUS-billetter kan benyttes. Dette dekker DKS Asker"
                                                }
                                            ],
                        "participants":  [
@@ -9921,7 +9921,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  58,
+                       "numberOfStudents":  77,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "7814":  {
@@ -9942,6 +9942,17 @@
                                                     "phone":  "+47 97 58 97 08",
                                                     "contactPersons":  [
                                                                            "Elin Evensen, +47 99 57 28 79, elin.evensen@asker.kommune.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Asker kommune",
+                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
+                                                },
+                                       "7815":  {
+                                                    "name":  "Midtbygda Kanvas-Barnehage",
+                                                    "id":  7815,
+                                                    "address":  "Nils Slottos vei 5, Røyken  3440 ",
+                                                    "phone":  "+47 31 28 56 20",
+                                                    "contactPersons":  [
+                                                                           "Monica Gundhus, +47 40 63 05 23, monica.gundhus@kanvas.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -9977,6 +9988,14 @@
                                                 "registrationGroup":  {
                                                                           "name":  "3-6 år",
                                                                           "schoolId":  7811
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  19,
+                                                "registrationGroup":  {
+                                                                          "name":  "3-6 år",
+                                                                          "schoolId":  7815
                                                                       }
                                             },
                                             {
@@ -10530,7 +10549,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  75,
+                       "numberOfStudents":  56,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "7835":  {
@@ -10551,17 +10570,6 @@
                                                     "phone":  "+47 31 29 14 00",
                                                     "contactPersons":  [
                                                                            "Sindre Andreas Borgund, +47 47 24 62 82, sindre.borgund@kanvas.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                },
-                                       "7815":  {
-                                                    "name":  "Midtbygda Kanvas-Barnehage",
-                                                    "id":  7815,
-                                                    "address":  "Nils Slottos vei 5, Røyken  3440 ",
-                                                    "phone":  "+47 31 28 56 20",
-                                                    "contactPersons":  [
-                                                                           "Monica Gundhus, +47 40 63 05 23, monica.gundhus@kanvas.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -10586,14 +10594,6 @@
                                                 "registrationGroup":  {
                                                                           "name":  "3-6 år",
                                                                           "schoolId":  7812
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  19,
-                                                "registrationGroup":  {
-                                                                          "name":  "3-6 år",
-                                                                          "schoolId":  7815
                                                                       }
                                             }
                                         ],
@@ -11502,7 +11502,15 @@
                                    },
                        "branchOfficeName":  "Asker kommune",
                        "busAppointments":  [
-
+                                               {
+                                                   "id":  11351,
+                                                   "schoolIds":  [
+                                                                     3398
+                                                                 ],
+                                                   "departureTime":  null,
+                                                   "returnTime":  null,
+                                                   "textToSchool":  "Elevene går eller sykler til Kunsthall Dikemark."
+                                               }
                                            ],
                        "participants":  [
                                             {
@@ -13137,9 +13145,9 @@
                                                    "schoolIds":  [
                                                                      3402
                                                                  ],
-                                                   "departureTime":  "09:21",
-                                                   "returnTime":  "11:17",
-                                                   "textToSchool":  null
+                                                   "departureTime":  null,
+                                                   "returnTime":  null,
+                                                   "textToSchool":  "Elevene reiser kollektivt til Kunsthall Dikemark. Buss 280 fra Sportstuen kl. 09:21. Beregnet ankomsttid 09:29. Retur med buss 280 fra Dikemark kl. 11:17. RUFUS-billetter kan benyttes. Dette dekker DKS Asker"
                                                }
                                            ],
                        "participants":  [
@@ -13336,9 +13344,9 @@
                                                    "schoolIds":  [
                                                                      3402
                                                                  ],
-                                                   "departureTime":  "11:21",
-                                                   "returnTime":  "13:17",
-                                                   "textToSchool":  null
+                                                   "departureTime":  null,
+                                                   "returnTime":  null,
+                                                   "textToSchool":  "Elevene reiser kollektivt til Kunsthall Dikemark. Buss 280 fra Sportstuen kl. 11:21. Beregnet ankomsttid 11:29. Retur med buss 280 fra Dikemark kl. 13:17. RUFUS-billetter kan benyttes. Dette dekker DKS Asker"
                                                }
                                            ],
                        "participants":  [
@@ -14950,7 +14958,7 @@
                                                                  ],
                                                    "departureTime":  "11:10",
                                                    "returnTime":  "13:05",
-                                                   "textToSchool":  null
+                                                   "textToSchool":  "VY Turbuss frakter elevene fra skolen og tilbake etter besøket. Vakttelefon Vy Buss er 91658600"
                                                }
                                            ],
                        "participants":  [
@@ -15305,7 +15313,7 @@
                                                                  ],
                                                    "departureTime":  "09:10",
                                                    "returnTime":  "11:05",
-                                                   "textToSchool":  null
+                                                   "textToSchool":  "VY Turbuss frakter elevene fra skolen og tilbake etter besøket. Vakttelefon Vy Buss er 91658600"
                                                }
                                            ],
                        "participants":  [
@@ -15633,7 +15641,7 @@
                                                                  ],
                                                    "departureTime":  "11:10",
                                                    "returnTime":  "13:05",
-                                                   "textToSchool":  null
+                                                   "textToSchool":  "VY Turbuss frakter elevene fra skolen og tilbake etter besøket. Vakttelefon Vy Buss er 91658600"
                                                }
                                            ],
                        "participants":  [
@@ -15898,9 +15906,9 @@
                                                    "schoolIds":  [
                                                                      3385
                                                                  ],
-                                                   "departureTime":  "09:10",
-                                                   "returnTime":  "11:17",
-                                                   "textToSchool":  null
+                                                   "departureTime":  null,
+                                                   "returnTime":  null,
+                                                   "textToSchool":  "Elevene reiser kollektivt til Kunsthall Dikemark. Buss 280 fra Oreholtet kl. 09:10. Beregnet ankomsttid 09:29. Retur med buss 280 fra Dikemark kl. 11:17. RUFUS-billetter kan benyttes. Dette dekker DKS Asker"
                                                }
                                            ],
                        "participants":  [
@@ -16331,9 +16339,9 @@
                                                    "schoolIds":  [
                                                                      3385
                                                                  ],
-                                                   "departureTime":  "11:10",
-                                                   "returnTime":  "13:17",
-                                                   "textToSchool":  null
+                                                   "departureTime":  null,
+                                                   "returnTime":  null,
+                                                   "textToSchool":  "Elevene reiser kollektivt til Kunsthall Dikemark. Buss 280 fra Oreholtet kl. 11:10. Beregnet ankomsttid 11:29. Retur med buss 280 fra Dikemark kl. 13:17. RUFUS-billetter kan benyttes. Dette dekker DKS Asker"
                                                }
                                            ],
                        "participants":  [
@@ -16617,9 +16625,9 @@
                                                    "schoolIds":  [
                                                                      3642
                                                                  ],
-                                                   "departureTime":  "09:15",
-                                                   "returnTime":  "11:17",
-                                                   "textToSchool":  null
+                                                   "departureTime":  null,
+                                                   "returnTime":  null,
+                                                   "textToSchool":  "Elevene reiser kollektivt til Kunsthall Dikemark. Buss 280 fra Oreholtet kl. 09:15. Beregnet ankomsttid 09:29. Retur med buss 280 fra Dikemark kl. 11:17. RUFUS-billetter kan benyttes. Dette dekker DKS Asker"
                                                }
                                            ],
                        "participants":  [
@@ -16869,9 +16877,9 @@
                                                    "schoolIds":  [
                                                                      3642
                                                                  ],
-                                                   "departureTime":  "11:15",
-                                                   "returnTime":  "13:17",
-                                                   "textToSchool":  null
+                                                   "departureTime":  null,
+                                                   "returnTime":  null,
+                                                   "textToSchool":  "Elevene reiser kollektivt til Kunsthall Dikemark. Buss 280 fra Oreholtet kl. 11:15. Beregnet ankomsttid 11:29. Retur med buss 280 fra Dikemark kl. 13:17. RUFUS-billetter kan benyttes. Dette dekker DKS Asker"
                                                }
                                            ],
                        "participants":  [
@@ -17328,9 +17336,9 @@
                                                    "schoolIds":  [
                                                                      3642
                                                                  ],
-                                                   "departureTime":  "09:15",
-                                                   "returnTime":  "11:17",
-                                                   "textToSchool":  null
+                                                   "departureTime":  null,
+                                                   "returnTime":  null,
+                                                   "textToSchool":  "Elevene reiser kollektivt til Kunsthall Dikemark. Buss 280 fra Oreholtet kl. 09:15. Beregnet ankomsttid 09:29. Retur med buss 280 fra Dikemark kl. 11:17. RUFUS-billetter kan benyttes. Dette dekker DKS Asker"
                                                }
                                            ],
                        "participants":  [
@@ -23324,7 +23332,7 @@
                                                     },
                                         "phoneNumber":  "+4795705984"
                                     },
-                       "numberOfStudents":  94,
+                       "numberOfStudents":  106,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "7831":  {
@@ -23357,7 +23365,7 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  62,
+                                                "numberOfStudents":  74,
                                                 "registrationGroup":  {
                                                                           "name":  "3-6 år",
                                                                           "schoolId":  7831
@@ -80237,5 +80245,5 @@
                ],
     "hasMore":  false,
     "loaded":  2000,
-    "hentTidspunkt":  "2026-09-01T12:19:37Z"
+    "hentTidspunkt":  "2026-09-01T12:39:49Z"
 }
