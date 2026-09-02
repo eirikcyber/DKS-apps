@@ -7811,142 +7811,6 @@
                        "schoolEventParticipantStatus":  null
                    },
                    {
-                       "id":  544897,
-                       "status":  "canceled_by_administrator",
-                       "dateStart":  1791961200,
-                       "dateEnd":  1791969300,
-                       "commentForParticipants":  "\u003cp\u003eKinoen kan ikke ta imot den 14. oktober. Jobber med \u0026aring; finne alternativ dato i januar.\u003c/p\u003e\n\n\u003cp\u003e\u0026nbsp;\u003c/p\u003e\n\n\u003cp\u003eSkolen velger selv hvilke elever som skal delta. Det er 180 seter i salen, ta h\u0026oslash;yde for dette i forhold til l\u0026aelig;rere som ogs\u0026aring; blir med.\u003c/p\u003e\n",
-                       "location":  {
-                                        "name":  "Asker kino – Sal 1",
-                                        "address":  {
-                                                        "formatted":  "Strøket 15A, Asker 1383",
-                                                        "coordinate":  {
-                                                                           "lat":  59.836257,
-                                                                           "lng":  10.4333825
-                                                                       }
-                                                    },
-                                        "phoneNumber":  null
-                                    },
-                       "numberOfStudents":  163,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "6378":  {
-                                                    "name":  "Asker videregående skole",
-                                                    "id":  6378,
-                                                    "address":  "Fredtunveien 81, ASKER 1386",
-                                                    "phone":  "+47 66 90 72 40",
-                                                    "contactPersons":  [
-                                                                           "Mona Steffens (tilrettelagt), +47 41 22 09 67, monast@afk.no",
-                                                                           "Joanna Kud, +47 40 83 00 60, joannaku@afk.no",
-                                                                           "Anders Grønning (hovedkulturkontakt - ordinær), +47 94 18 38 66, andersgr@afk.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  1,
-                                                "registrationGroup":  {
-                                                                          "name":  "2IDU",
-                                                                          "schoolId":  6378
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  27,
-                                                "registrationGroup":  {
-                                                                          "name":  "2STA",
-                                                                          "schoolId":  6378
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  28,
-                                                "registrationGroup":  {
-                                                                          "name":  "2STB",
-                                                                          "schoolId":  6378
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  27,
-                                                "registrationGroup":  {
-                                                                          "name":  "2STC",
-                                                                          "schoolId":  6378
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  26,
-                                                "registrationGroup":  {
-                                                                          "name":  "1STD",
-                                                                          "schoolId":  6378
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  26,
-                                                "registrationGroup":  {
-                                                                          "name":  "1STE",
-                                                                          "schoolId":  6378
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  28,
-                                                "registrationGroup":  {
-                                                                          "name":  "1STF",
-                                                                          "schoolId":  6378
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  23397,
-                                          "name":  "Min første kjærlighet - VGS",
-                                          "subtitle":  "Kinofilm om Ella som bruker rullestol (uke 42\u002643)",
-                                          "groupName":  "Mari Storstein og Marie Flaatten",
-                                          "descriptionShort":  "\u0026laquo;Min f\u0026oslash;rste kj\u0026aelig;rlighet\u0026raquo; handler om flinke Ella (19) som bruker rullestol. Hun starter p\u0026aring; h\u0026oslash;gskolen p\u0026aring; Lillehammer og finner en kj\u0026aelig;reste blant studentene. Men fra \u0026aring; ha brukerstyrt personlig assistansehjelp hjemme, blir Ella n\u0026aring; plassert p\u0026aring; institusjon av kommunen. Hun sjonglerer forelesninger, fester og forelskelsen med de rigide reglene p\u0026aring; institusjonen, mens hun venter p\u0026aring; at klagen p\u0026aring; vedtaket til kommunen skal g\u0026aring; gjennom.\u0026nbsp;\n\n\n\n\n\nFilmen er basert p\u0026aring; sanne hendelser, og elevene m\u0026oslash;ter regiss\u0026oslash;r Mari Storstein og hovedrolleinnehaver Marie Flaatten, som begge er rullestolbrukere. Dette gir filmen et unikt perspektiv.\n",
-                                          "yearLevelMinimum":  11,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  3,
-                                                                          "name":  "Film",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Film",
-                                                                                                        "nn":  "Film",
-                                                                                                        "en":  "Film"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "film",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/film-i-den-kulturelle-skolesekken/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/d4f2f3d53b2e1ac532025bfd2fc1982b.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
                        "id":  532317,
                        "status":  "scheduled",
                        "dateStart":  1791964800,
@@ -8325,158 +8189,6 @@
                                                                       }
                                                                   ],
                                           "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/021b9b495886f5a50a45b354349a9c88.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  541583,
-                       "status":  "canceled_by_administrator",
-                       "dateStart":  1791972000,
-                       "dateEnd":  1791980100,
-                       "commentForParticipants":  "\u003cp\u003eKinoen kan ikke ta imot den 14. oktober. Jobber med \u0026aring; finne alternativ dato i januar.\u003c/p\u003e\n\n\u003cp\u003e\u0026nbsp;\u003c/p\u003e\n\n\u003cp\u003eSkolen velger selv hvilke elever som skal delta. Det er 180 seter i salen, ta h\u0026oslash;yde for dette i forhold til l\u0026aelig;rere som ogs\u0026aring; blir med.\u003c/p\u003e\n",
-                       "location":  {
-                                        "name":  "Asker kino – Sal 1",
-                                        "address":  {
-                                                        "formatted":  "Strøket 15A, Asker 1383",
-                                                        "coordinate":  {
-                                                                           "lat":  59.836257,
-                                                                           "lng":  10.4333825
-                                                                       }
-                                                    },
-                                        "phoneNumber":  null
-                                    },
-                       "numberOfStudents":  180,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "6378":  {
-                                                    "name":  "Asker videregående skole",
-                                                    "id":  6378,
-                                                    "address":  "Fredtunveien 81, ASKER 1386",
-                                                    "phone":  "+47 66 90 72 40",
-                                                    "contactPersons":  [
-                                                                           "Mona Steffens (tilrettelagt), +47 41 22 09 67, monast@afk.no",
-                                                                           "Joanna Kud, +47 40 83 00 60, joannaku@afk.no",
-                                                                           "Anders Grønning (hovedkulturkontakt - ordinær), +47 94 18 38 66, andersgr@afk.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  27,
-                                                "registrationGroup":  {
-                                                                          "name":  "2IDA",
-                                                                          "schoolId":  6378
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  7,
-                                                "registrationGroup":  {
-                                                                          "name":  "2STU",
-                                                                          "schoolId":  6378
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "1IDA",
-                                                                          "schoolId":  6378
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "1IDB",
-                                                                          "schoolId":  6378
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  3,
-                                                "registrationGroup":  {
-                                                                          "name":  "1SSTA",
-                                                                          "schoolId":  6378
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  27,
-                                                "registrationGroup":  {
-                                                                          "name":  "1STA",
-                                                                          "schoolId":  6378
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  27,
-                                                "registrationGroup":  {
-                                                                          "name":  "1STB",
-                                                                          "schoolId":  6378
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  27,
-                                                "registrationGroup":  {
-                                                                          "name":  "1STC",
-                                                                          "schoolId":  6378
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  2,
-                                                "registrationGroup":  {
-                                                                          "name":  "2SSTA",
-                                                                          "schoolId":  6378
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  23397,
-                                          "name":  "Min første kjærlighet - VGS",
-                                          "subtitle":  "Kinofilm om Ella som bruker rullestol (uke 42\u002643)",
-                                          "groupName":  "Mari Storstein og Marie Flaatten",
-                                          "descriptionShort":  "\u0026laquo;Min f\u0026oslash;rste kj\u0026aelig;rlighet\u0026raquo; handler om flinke Ella (19) som bruker rullestol. Hun starter p\u0026aring; h\u0026oslash;gskolen p\u0026aring; Lillehammer og finner en kj\u0026aelig;reste blant studentene. Men fra \u0026aring; ha brukerstyrt personlig assistansehjelp hjemme, blir Ella n\u0026aring; plassert p\u0026aring; institusjon av kommunen. Hun sjonglerer forelesninger, fester og forelskelsen med de rigide reglene p\u0026aring; institusjonen, mens hun venter p\u0026aring; at klagen p\u0026aring; vedtaket til kommunen skal g\u0026aring; gjennom.\u0026nbsp;\n\n\n\n\n\nFilmen er basert p\u0026aring; sanne hendelser, og elevene m\u0026oslash;ter regiss\u0026oslash;r Mari Storstein og hovedrolleinnehaver Marie Flaatten, som begge er rullestolbrukere. Dette gir filmen et unikt perspektiv.\n",
-                                          "yearLevelMinimum":  11,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  3,
-                                                                          "name":  "Film",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Film",
-                                                                                                        "nn":  "Film",
-                                                                                                        "en":  "Film"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "film",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/film-i-den-kulturelle-skolesekken/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/d4f2f3d53b2e1ac532025bfd2fc1982b.jpg",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -22708,7 +22420,7 @@
                    },
                    {
                        "id":  538714,
-                       "status":  "scheduled",
+                       "status":  "canceled_by_school",
                        "dateStart":  1793959200,
                        "dateEnd":  1793961000,
                        "commentForParticipants":  "",
@@ -23607,6 +23319,133 @@
                        "schoolEventParticipantStatus":  null
                    },
                    {
+                       "id":  547489,
+                       "status":  "scheduled",
+                       "dateStart":  1794218400,
+                       "dateEnd":  1794221700,
+                       "commentForParticipants":  "\u003cp\u003eOBS! Det er 180 seter i salen. Skolen bestemmer selv hvem som skal komme p\u0026aring; denne forestillingen.\u003c/p\u003e\n",
+                       "location":  {
+                                        "name":  "Lillestrøm kultursenter – Tellus",
+                                        "address":  {
+                                                        "formatted":  "Kirkegata 11, Lillestrøm 2000",
+                                                        "coordinate":  {
+                                                                           "lat":  59.9553983,
+                                                                           "lng":  11.0435307
+                                                                       }
+                                                    },
+                                        "phoneNumber":  "+4764845550"
+                                    },
+                       "numberOfStudents":  180,
+                       "numberOfTeachers":  0,
+                       "schools":  {
+                                       "6356":  {
+                                                    "name":  "Sørumsand videregående skole",
+                                                    "id":  6356,
+                                                    "address":  "Skriverveien 23, SØRUMSAND 1920",
+                                                    "phone":  "+47 63 86 76 00",
+                                                    "contactPersons":  [
+                                                                           "Nina Eidholm (tilrettelagt), +47 45 02 40 69, ninaeid@afk.no",
+                                                                           "Helle Andreassen (ny kulturkontakt), +47 98 47 49 08, helleand@afk.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Akershus fylkeskommune",
+                                                    "parentBranchOfficeName":  null
+                                                }
+                                   },
+                       "branchOfficeName":  "Akershus fylkeskommune",
+                       "busAppointments":  [
+
+                                           ],
+                       "participants":  [
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  30,
+                                                "registrationGroup":  {
+                                                                          "name":  "2STA",
+                                                                          "schoolId":  6356
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  30,
+                                                "registrationGroup":  {
+                                                                          "name":  "2STC",
+                                                                          "schoolId":  6356
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  30,
+                                                "registrationGroup":  {
+                                                                          "name":  "1MKA",
+                                                                          "schoolId":  6356
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  30,
+                                                "registrationGroup":  {
+                                                                          "name":  "1STA",
+                                                                          "schoolId":  6356
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  30,
+                                                "registrationGroup":  {
+                                                                          "name":  "1STB",
+                                                                          "schoolId":  6356
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  30,
+                                                "registrationGroup":  {
+                                                                          "name":  "1STC",
+                                                                          "schoolId":  6356
+                                                                      }
+                                            }
+                                        ],
+                       "production":  {
+                                          "id":  23685,
+                                          "name":  "Viggo Venneløs - VGS",
+                                          "subtitle":  "- et show fylt med absurde og komiske øyeblikk",
+                                          "groupName":  "Viggo Venn",
+                                          "descriptionShort":  "VIGGO VENNEL\u0026Oslash;S INVITERER TIL SHOW!\u0026nbsp;\u0026nbsp;\n\nEtter \u0026aring; ha erobret Storbritannia med sitt unike talent, er Viggo n\u0026aring; klar til \u0026aring; spre latter over hele Akershus.\n\nViggo er den grensesprengende klovnen som vant hjertene til millioner av seere verden over med sin uforglemmelige opptreden p\u0026aring; Britain\u0026#39;s Got Talent. Viggo har g\u0026aring;tt fra \u0026aring; v\u0026aelig;re en ukjent komiker til \u0026aring; vinne internasjonal anerkjennelse.\u0026nbsp;\n\nI denne forestillingen henger Viggo fra seg refleksvesten. Viggo Vennel\u0026oslash;s handler om et fjols, en fullstendig idiot som pr\u0026oslash;ver \u0026aring; f\u0026aring; seg venner. Etter en forrykende turne med et show under utvikling, gleder Viggo seg til \u0026aring; invitere elevene inn til det ferdige resultatet.\u0026nbsp;\n\nVelkommen til\u0026nbsp;\u0026quot;Viggo Vennel\u0026oslash;s\u0026quot;\u0026nbsp;i et Kulturhus denne gangen!\n\nGj\u0026oslash;r dere klare!\u0026nbsp;\u0026nbsp;\n\n\u0026nbsp;\n",
+                                          "yearLevelMinimum":  11,
+                                          "yearLevelMaximum":  13,
+                                          "culturalExpressions":  [
+                                                                      {
+                                                                          "id":  2,
+                                                                          "name":  "Scenekunst",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Scenekunst",
+                                                                                                        "nn":  "Scenekunst",
+                                                                                                        "en":  "Performing arts"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "scenekunst",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/scenekunst-i-dks/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      }
+                                                                  ],
+                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/2faa460871a1179b4ab1073a5dbc479a.jpg",
+                                          "branchOffice":  "Akershus fylkeskommune",
+                                          "academicYears":  [
+                                                                {
+                                                                    "id":  10,
+                                                                    "name":  "2026/2027"
+                                                                }
+                                                            ],
+                                          "isRegistrationOffer":  false,
+                                          "events":  [
+
+                                                     ]
+                                      },
+                       "schoolEventParticipantStatus":  null
+                   },
+                   {
                        "id":  532231,
                        "status":  "scheduled",
                        "dateStart":  1794222000,
@@ -23888,133 +23727,6 @@
                                                                       }
                                                                   ],
                                           "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/a93667143c28c5602abd3c9b5aaf058a.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  547489,
-                       "status":  "scheduled",
-                       "dateStart":  1794227400,
-                       "dateEnd":  1794230700,
-                       "commentForParticipants":  "\u003cp\u003eOBS! Det er 180 seter i salen. Skolen bestemmer selv hvem som skal komme p\u0026aring; denne forestillingen.\u003c/p\u003e\n",
-                       "location":  {
-                                        "name":  "Lillestrøm kultursenter – Tellus",
-                                        "address":  {
-                                                        "formatted":  "Kirkegata 11, Lillestrøm 2000",
-                                                        "coordinate":  {
-                                                                           "lat":  59.9553983,
-                                                                           "lng":  11.0435307
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4764845550"
-                                    },
-                       "numberOfStudents":  180,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "6356":  {
-                                                    "name":  "Sørumsand videregående skole",
-                                                    "id":  6356,
-                                                    "address":  "Skriverveien 23, SØRUMSAND 1920",
-                                                    "phone":  "+47 63 86 76 00",
-                                                    "contactPersons":  [
-                                                                           "Nina Eidholm (tilrettelagt), +47 45 02 40 69, ninaeid@afk.no",
-                                                                           "Helle Andreassen (ny kulturkontakt), +47 98 47 49 08, helleand@afk.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "2STA",
-                                                                          "schoolId":  6356
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "2STC",
-                                                                          "schoolId":  6356
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "1MKA",
-                                                                          "schoolId":  6356
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "1STA",
-                                                                          "schoolId":  6356
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "1STB",
-                                                                          "schoolId":  6356
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "1STC",
-                                                                          "schoolId":  6356
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  23685,
-                                          "name":  "Viggo Venneløs - VGS",
-                                          "subtitle":  "- et show fylt med absurde og komiske øyeblikk",
-                                          "groupName":  "Viggo Venn",
-                                          "descriptionShort":  "VIGGO VENNEL\u0026Oslash;S INVITERER TIL SHOW!\u0026nbsp;\u0026nbsp;\n\nEtter \u0026aring; ha erobret Storbritannia med sitt unike talent, er Viggo n\u0026aring; klar til \u0026aring; spre latter over hele Akershus.\n\nViggo er den grensesprengende klovnen som vant hjertene til millioner av seere verden over med sin uforglemmelige opptreden p\u0026aring; Britain\u0026#39;s Got Talent. Viggo har g\u0026aring;tt fra \u0026aring; v\u0026aelig;re en ukjent komiker til \u0026aring; vinne internasjonal anerkjennelse.\u0026nbsp;\n\nI denne forestillingen henger Viggo fra seg refleksvesten. Viggo Vennel\u0026oslash;s handler om et fjols, en fullstendig idiot som pr\u0026oslash;ver \u0026aring; f\u0026aring; seg venner. Etter en forrykende turne med et show under utvikling, gleder Viggo seg til \u0026aring; invitere elevene inn til det ferdige resultatet.\u0026nbsp;\n\nVelkommen til\u0026nbsp;\u0026quot;Viggo Vennel\u0026oslash;s\u0026quot;\u0026nbsp;i et Kulturhus denne gangen!\n\nGj\u0026oslash;r dere klare!\u0026nbsp;\u0026nbsp;\n\n\u0026nbsp;\n",
-                                          "yearLevelMinimum":  11,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  2,
-                                                                          "name":  "Scenekunst",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Scenekunst",
-                                                                                                        "nn":  "Scenekunst",
-                                                                                                        "en":  "Performing arts"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "scenekunst",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/scenekunst-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/2faa460871a1179b4ab1073a5dbc479a.jpg",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -34378,8 +34090,8 @@
                    {
                        "id":  542035,
                        "status":  "scheduled",
-                       "dateStart":  1795604400,
-                       "dateEnd":  1795607100,
+                       "dateStart":  1795605300,
+                       "dateEnd":  1795608000,
                        "commentForParticipants":  "",
                        "location":  {
                                         "name":  "Eidsvoll videregående skole – Auditorium Aud 1 (126 seter)\t",
@@ -49894,6 +49606,142 @@
                        "schoolEventParticipantStatus":  null
                    },
                    {
+                       "id":  544897,
+                       "status":  "scheduled",
+                       "dateStart":  1801641600,
+                       "dateEnd":  1801649700,
+                       "commentForParticipants":  "\u003cp\u003eKinoen kan ikke ta imot den 14. oktober. Jobber med \u0026aring; finne alternativ dato i januar.\u003c/p\u003e\n\n\u003cp\u003e\u0026nbsp;\u003c/p\u003e\n\n\u003cp\u003eSkolen velger selv hvilke elever som skal delta. Det er 180 seter i salen, ta h\u0026oslash;yde for dette i forhold til l\u0026aelig;rere som ogs\u0026aring; blir med.\u003c/p\u003e\n",
+                       "location":  {
+                                        "name":  "Asker kino – Sal 1",
+                                        "address":  {
+                                                        "formatted":  "Strøket 15A, Asker 1383",
+                                                        "coordinate":  {
+                                                                           "lat":  59.836257,
+                                                                           "lng":  10.4333825
+                                                                       }
+                                                    },
+                                        "phoneNumber":  null
+                                    },
+                       "numberOfStudents":  163,
+                       "numberOfTeachers":  0,
+                       "schools":  {
+                                       "6378":  {
+                                                    "name":  "Asker videregående skole",
+                                                    "id":  6378,
+                                                    "address":  "Fredtunveien 81, ASKER 1386",
+                                                    "phone":  "+47 66 90 72 40",
+                                                    "contactPersons":  [
+                                                                           "Mona Steffens (tilrettelagt), +47 41 22 09 67, monast@afk.no",
+                                                                           "Joanna Kud, +47 40 83 00 60, joannaku@afk.no",
+                                                                           "Anders Grønning (hovedkulturkontakt - ordinær), +47 94 18 38 66, andersgr@afk.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Akershus fylkeskommune",
+                                                    "parentBranchOfficeName":  null
+                                                }
+                                   },
+                       "branchOfficeName":  "Akershus fylkeskommune",
+                       "busAppointments":  [
+
+                                           ],
+                       "participants":  [
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  1,
+                                                "registrationGroup":  {
+                                                                          "name":  "2IDU",
+                                                                          "schoolId":  6378
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  27,
+                                                "registrationGroup":  {
+                                                                          "name":  "2STA",
+                                                                          "schoolId":  6378
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  28,
+                                                "registrationGroup":  {
+                                                                          "name":  "2STB",
+                                                                          "schoolId":  6378
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  27,
+                                                "registrationGroup":  {
+                                                                          "name":  "2STC",
+                                                                          "schoolId":  6378
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  26,
+                                                "registrationGroup":  {
+                                                                          "name":  "1STD",
+                                                                          "schoolId":  6378
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  26,
+                                                "registrationGroup":  {
+                                                                          "name":  "1STE",
+                                                                          "schoolId":  6378
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  28,
+                                                "registrationGroup":  {
+                                                                          "name":  "1STF",
+                                                                          "schoolId":  6378
+                                                                      }
+                                            }
+                                        ],
+                       "production":  {
+                                          "id":  23397,
+                                          "name":  "Min første kjærlighet - VGS",
+                                          "subtitle":  "Kinofilm om Ella som bruker rullestol (uke 42\u002643)",
+                                          "groupName":  "Mari Storstein og Marie Flaatten",
+                                          "descriptionShort":  "\u0026laquo;Min f\u0026oslash;rste kj\u0026aelig;rlighet\u0026raquo; handler om flinke Ella (19) som bruker rullestol. Hun starter p\u0026aring; h\u0026oslash;gskolen p\u0026aring; Lillehammer og finner en kj\u0026aelig;reste blant studentene. Men fra \u0026aring; ha brukerstyrt personlig assistansehjelp hjemme, blir Ella n\u0026aring; plassert p\u0026aring; institusjon av kommunen. Hun sjonglerer forelesninger, fester og forelskelsen med de rigide reglene p\u0026aring; institusjonen, mens hun venter p\u0026aring; at klagen p\u0026aring; vedtaket til kommunen skal g\u0026aring; gjennom.\u0026nbsp;\n\n\n\n\n\nFilmen er basert p\u0026aring; sanne hendelser, og elevene m\u0026oslash;ter regiss\u0026oslash;r Mari Storstein og hovedrolleinnehaver Marie Flaatten, som begge er rullestolbrukere. Dette gir filmen et unikt perspektiv.\n",
+                                          "yearLevelMinimum":  11,
+                                          "yearLevelMaximum":  13,
+                                          "culturalExpressions":  [
+                                                                      {
+                                                                          "id":  3,
+                                                                          "name":  "Film",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Film",
+                                                                                                        "nn":  "Film",
+                                                                                                        "en":  "Film"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "film",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/film-i-den-kulturelle-skolesekken/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      }
+                                                                  ],
+                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/d4f2f3d53b2e1ac532025bfd2fc1982b.jpg",
+                                          "branchOffice":  "Akershus fylkeskommune",
+                                          "academicYears":  [
+                                                                {
+                                                                    "id":  10,
+                                                                    "name":  "2026/2027"
+                                                                }
+                                                            ],
+                                          "isRegistrationOffer":  false,
+                                          "events":  [
+
+                                                     ]
+                                      },
+                       "schoolEventParticipantStatus":  null
+                   },
+                   {
                        "id":  480459,
                        "status":  "scheduled",
                        "dateStart":  1801647000,
@@ -49967,6 +49815,158 @@
                                                                   ],
                                           "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/42992192095f311504cd68db9feac00c.jpg",
                                           "branchOffice":  "Asker kommune",
+                                          "academicYears":  [
+                                                                {
+                                                                    "id":  10,
+                                                                    "name":  "2026/2027"
+                                                                }
+                                                            ],
+                                          "isRegistrationOffer":  false,
+                                          "events":  [
+
+                                                     ]
+                                      },
+                       "schoolEventParticipantStatus":  null
+                   },
+                   {
+                       "id":  541583,
+                       "status":  "scheduled",
+                       "dateStart":  1801652400,
+                       "dateEnd":  1801660500,
+                       "commentForParticipants":  "\u003cp\u003eKinoen kan ikke ta imot den 14. oktober. Jobber med \u0026aring; finne alternativ dato i januar.\u003c/p\u003e\n\n\u003cp\u003e\u0026nbsp;\u003c/p\u003e\n\n\u003cp\u003eSkolen velger selv hvilke elever som skal delta. Det er 180 seter i salen, ta h\u0026oslash;yde for dette i forhold til l\u0026aelig;rere som ogs\u0026aring; blir med.\u003c/p\u003e\n",
+                       "location":  {
+                                        "name":  "Asker kino – Sal 1",
+                                        "address":  {
+                                                        "formatted":  "Strøket 15A, Asker 1383",
+                                                        "coordinate":  {
+                                                                           "lat":  59.836257,
+                                                                           "lng":  10.4333825
+                                                                       }
+                                                    },
+                                        "phoneNumber":  null
+                                    },
+                       "numberOfStudents":  180,
+                       "numberOfTeachers":  0,
+                       "schools":  {
+                                       "6378":  {
+                                                    "name":  "Asker videregående skole",
+                                                    "id":  6378,
+                                                    "address":  "Fredtunveien 81, ASKER 1386",
+                                                    "phone":  "+47 66 90 72 40",
+                                                    "contactPersons":  [
+                                                                           "Mona Steffens (tilrettelagt), +47 41 22 09 67, monast@afk.no",
+                                                                           "Joanna Kud, +47 40 83 00 60, joannaku@afk.no",
+                                                                           "Anders Grønning (hovedkulturkontakt - ordinær), +47 94 18 38 66, andersgr@afk.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Akershus fylkeskommune",
+                                                    "parentBranchOfficeName":  null
+                                                }
+                                   },
+                       "branchOfficeName":  "Akershus fylkeskommune",
+                       "busAppointments":  [
+
+                                           ],
+                       "participants":  [
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  27,
+                                                "registrationGroup":  {
+                                                                          "name":  "2IDA",
+                                                                          "schoolId":  6378
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  7,
+                                                "registrationGroup":  {
+                                                                          "name":  "2STU",
+                                                                          "schoolId":  6378
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  30,
+                                                "registrationGroup":  {
+                                                                          "name":  "1IDA",
+                                                                          "schoolId":  6378
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  30,
+                                                "registrationGroup":  {
+                                                                          "name":  "1IDB",
+                                                                          "schoolId":  6378
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  3,
+                                                "registrationGroup":  {
+                                                                          "name":  "1SSTA",
+                                                                          "schoolId":  6378
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  27,
+                                                "registrationGroup":  {
+                                                                          "name":  "1STA",
+                                                                          "schoolId":  6378
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  27,
+                                                "registrationGroup":  {
+                                                                          "name":  "1STB",
+                                                                          "schoolId":  6378
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  27,
+                                                "registrationGroup":  {
+                                                                          "name":  "1STC",
+                                                                          "schoolId":  6378
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  2,
+                                                "registrationGroup":  {
+                                                                          "name":  "2SSTA",
+                                                                          "schoolId":  6378
+                                                                      }
+                                            }
+                                        ],
+                       "production":  {
+                                          "id":  23397,
+                                          "name":  "Min første kjærlighet - VGS",
+                                          "subtitle":  "Kinofilm om Ella som bruker rullestol (uke 42\u002643)",
+                                          "groupName":  "Mari Storstein og Marie Flaatten",
+                                          "descriptionShort":  "\u0026laquo;Min f\u0026oslash;rste kj\u0026aelig;rlighet\u0026raquo; handler om flinke Ella (19) som bruker rullestol. Hun starter p\u0026aring; h\u0026oslash;gskolen p\u0026aring; Lillehammer og finner en kj\u0026aelig;reste blant studentene. Men fra \u0026aring; ha brukerstyrt personlig assistansehjelp hjemme, blir Ella n\u0026aring; plassert p\u0026aring; institusjon av kommunen. Hun sjonglerer forelesninger, fester og forelskelsen med de rigide reglene p\u0026aring; institusjonen, mens hun venter p\u0026aring; at klagen p\u0026aring; vedtaket til kommunen skal g\u0026aring; gjennom.\u0026nbsp;\n\n\n\n\n\nFilmen er basert p\u0026aring; sanne hendelser, og elevene m\u0026oslash;ter regiss\u0026oslash;r Mari Storstein og hovedrolleinnehaver Marie Flaatten, som begge er rullestolbrukere. Dette gir filmen et unikt perspektiv.\n",
+                                          "yearLevelMinimum":  11,
+                                          "yearLevelMaximum":  13,
+                                          "culturalExpressions":  [
+                                                                      {
+                                                                          "id":  3,
+                                                                          "name":  "Film",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Film",
+                                                                                                        "nn":  "Film",
+                                                                                                        "en":  "Film"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "film",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/film-i-den-kulturelle-skolesekken/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      }
+                                                                  ],
+                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/d4f2f3d53b2e1ac532025bfd2fc1982b.jpg",
+                                          "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
                                                                     "id":  10,
@@ -69107,5 +69107,5 @@
                ],
     "hasMore":  false,
     "loaded":  2000,
-    "hentTidspunkt":  "2026-09-01T12:52:09Z"
+    "hentTidspunkt":  "2026-09-02T08:15:33Z"
 }

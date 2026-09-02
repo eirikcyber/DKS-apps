@@ -1,621 +1,7 @@
 ﻿{
-    "total":  728,
-    "count":  728,
+    "total":  725,
+    "count":  725,
     "events":  [
-                   {
-                       "id":  559206,
-                       "status":  "scheduled",
-                       "dateStart":  1788246000,
-                       "dateEnd":  1788262200,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Asker museum – Asker museum",
-                                        "address":  {
-                                                        "formatted":  " Otto Valstads vei 19 , Hvalstad  1395",
-                                                        "coordinate":  {
-                                                                           "lat":  59.8531293,
-                                                                           "lng":  10.4554268
-                                                                       }
-                                                    },
-                                        "phoneNumber":  null
-                                    },
-                       "numberOfStudents":  0,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "3384":  {
-                                                    "name":  "Drengsrud skole",
-                                                    "id":  3384,
-                                                    "address":  "Gamle Drammensvei 318, Asker 1383",
-                                                    "phone":  "+47 66 71 27 00",
-                                                    "contactPersons":  [
-                                                                           "Thomas Rolland, +47 47 84 13 15, thomas.rolland@asker.kommune.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                }
-                                   },
-                       "branchOfficeName":  "Asker kommune",
-                       "busAppointments":  [
-                                               {
-                                                   "id":  11039,
-                                                   "schoolIds":  [
-                                                                     3384
-                                                                 ],
-                                                   "departureTime":  null,
-                                                   "returnTime":  null,
-                                                   "textToSchool":  "Elevene sykler til Asker museum"
-                                               }
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "canceled_by_administrator",
-                                                "numberOfStudents":  22,
-                                                "registrationGroup":  {
-                                                                          "name":  "4A",
-                                                                          "schoolId":  3384
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "canceled_by_administrator",
-                                                "numberOfStudents":  23,
-                                                "registrationGroup":  {
-                                                                          "name":  "4B",
-                                                                          "schoolId":  3384
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  25156,
-                                          "name":  "Arbeid og lek i bygda for 100 år siden (4. trinn)",
-                                          "subtitle":  "Aktivitetsdag på Asker museum ",
-                                          "groupName":  "",
-                                          "descriptionShort":  "Hvordan var det \u0026aring; v\u0026aelig;re barn i gamle dager?\n\nP\u0026aring; Asker museum skal dere f\u0026aring; v\u0026aelig;re med p\u0026aring; en hel skoledag der dere pr\u0026oslash;ver noen av tingene barn og voksne gjorde f\u0026oslash;r i tiden.\n\nDere f\u0026aring;r blant annet pr\u0026oslash;ve \u0026aring; lage tr\u0026aring;d av ull, veve filleryer, bake lomper og spikke pil og bue.\u0026nbsp;Her skal dere ikke bare h\u0026oslash;re om hvordan folk levde f\u0026oslash;r \u0026ndash; dere f\u0026aring;r pr\u0026oslash;ve det selv!\n\nOpplegget er laget av Asker museum i samarbeid med Den kulturelle skolesekken i Asker.\n",
-                                          "yearLevelMinimum":  4,
-                                          "yearLevelMaximum":  4,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  5,
-                                                                          "name":  "Kulturarv",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Kulturarv",
-                                                                                                        "nn":  "Kulturarv",
-                                                                                                        "en":  "Cultural heritage"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "kulturarv",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/kulturarv-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/80b05ee0cad9651e85ae40c7d29ba4a0.jpg",
-                                          "branchOffice":  "Asker kommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  550215,
-                       "status":  "scheduled",
-                       "dateStart":  1788247800,
-                       "dateEnd":  1788262200,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Legebygningen Sykehusveien 1, 1385 – Dikemark sykehusområde",
-                                        "address":  {
-                                                        "formatted":  "Sykehusveien 1, Asker 1385",
-                                                        "coordinate":  {
-                                                                           "lat":  59.8049472,
-                                                                           "lng":  10.3724647
-                                                                       }
-                                                    },
-                                        "phoneNumber":  null
-                                    },
-                       "numberOfStudents":  104,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "4164":  {
-                                                    "name":  "Slemmestad ungdomsskole",
-                                                    "id":  4164,
-                                                    "address":  "Skolebakken 7, Slemmestad 3470",
-                                                    "phone":  "+47 31 29 34 40",
-                                                    "contactPersons":  [
-                                                                           "Christine B. Sund, +47 47 08 77 09, christine.birgitte.sund@asker.kommune.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                },
-                                       "3388":  {
-                                                    "name":  "Hovedgården ungdomsskole",
-                                                    "id":  3388,
-                                                    "address":  "Heggedalsbakken 11, Heggedal 1389",
-                                                    "phone":  "+47 66 71 59 00",
-                                                    "contactPersons":  [
-                                                                           "Hanne Hellevik, +47 99 72 26 98, hanne.hellevik@asker.kommune.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                },
-                                       "4193":  {
-                                                    "name":  "Steinerskolen i Hurum",
-                                                    "id":  4193,
-                                                    "address":  "Åsheimveien 10, Klokkarstua 3490",
-                                                    "phone":  "+47 32 79 21 90",
-                                                    "contactPersons":  [
-                                                                           "Jeanette Ward, +47 94 42 17 43, jeanette.ward@steinerskolen.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                },
-                                       "3383":  {
-                                                    "name":  "Borgen ungdomsskole",
-                                                    "id":  3383,
-                                                    "address":  "Vardefaret 4, Borgen 1388",
-                                                    "phone":  "+47 66 71 54 00",
-                                                    "contactPersons":  [
-                                                                           "Anne-Marie Christophersen, +47 99 53 30 36, anne-marie.christophersen@asker.kommune.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                }
-                                   },
-                       "branchOfficeName":  "Asker kommune",
-                       "busAppointments":  [
-                                               {
-                                                   "id":  10603,
-                                                   "schoolIds":  [
-                                                                     4164
-                                                                 ],
-                                                   "departureTime":  "09:05",
-                                                   "returnTime":  "13:30",
-                                                   "textToSchool":  "VY Turbuss frakter elevene fra skole til Dikemark og tilbake etter besøket. Se gjeldende tidspunkter for avreise fra skole og avreise fra Dikemark. Vakttelefon Vy Buss er 91658600"
-                                               },
-                                               {
-                                                   "id":  10604,
-                                                   "schoolIds":  [
-                                                                     4193
-                                                                 ],
-                                                   "departureTime":  "08:50",
-                                                   "returnTime":  "13:30",
-                                                   "textToSchool":  "VY Turbuss frakter elevene fra skole til Dikemark og tilbake etter besøket. Se gjeldende tidspunkter for avreise fra skole og avreise fra Dikemark. Vakttelefon Vy Buss er 91658600"
-                                               },
-                                               {
-                                                   "id":  10620,
-                                                   "schoolIds":  [
-                                                                     3383
-                                                                 ],
-                                                   "departureTime":  null,
-                                                   "returnTime":  null,
-                                                   "textToSchool":  "Elevene sykler/går eller tar kollektivt til Dikemark. Ved kollektivtransport, kan RUFUS-billetter benyttes. Dette dekker DKS Asker"
-                                               },
-                                               {
-                                                   "id":  10621,
-                                                   "schoolIds":  [
-                                                                     3388
-                                                                 ],
-                                                   "departureTime":  null,
-                                                   "returnTime":  null,
-                                                   "textToSchool":  "Elevene sykler/går eller tar kollektivt til Dikemark. Ved kollektivtransport, kan RUFUS-billetter benyttes. Dette dekker DKS Asker"
-                                               }
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  28,
-                                                "registrationGroup":  {
-                                                                          "name":  "9A",
-                                                                          "schoolId":  4164
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  29,
-                                                "registrationGroup":  {
-                                                                          "name":  "9B",
-                                                                          "schoolId":  4164
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  26,
-                                                "registrationGroup":  {
-                                                                          "name":  "9A",
-                                                                          "schoolId":  3388
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  21,
-                                                "registrationGroup":  {
-                                                                          "name":  "9",
-                                                                          "schoolId":  4193
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "canceled_by_school",
-                                                "numberOfStudents":  17,
-                                                "registrationGroup":  {
-                                                                          "name":  "VKK 9-10 trinn",
-                                                                          "schoolId":  3383
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  24775,
-                                          "name":  "Dagstur til Dikemark (9. trinn)",
-                                          "subtitle":  "Teaterkompaniet NIE, Trafo kunsthall og Dikemark museum",
-                                          "groupName":  "",
-                                          "descriptionShort":  "Dagstur til Dikemark\n\nHva skjuler seg egentlig bak bygningene og historiene p\u0026aring; Dikemark?\n\nDikemark har v\u0026aelig;rt mange ting. Her har det v\u0026aelig;rt psykiatrisk sykehus og asylmottak, mennesker bor her i dag, og omr\u0026aring;det brukes av mange som tursted. De siste \u0026aring;rene har ogs\u0026aring; flere kunstnere flyttet inn og tatt i bruk bygningene.\n\nP\u0026aring; denne heldagsturen f\u0026aring;r dere utforske Dikemark fra flere sider.\n\nDere deles inn i grupper og bes\u0026oslash;ker fire ulike aktiviteter:\n\n\n\t\n\tomvisning p\u0026aring; Dikemark psykiatriske sykehusmuseum\n\t\n\t\n\tomvisning i en kunstutstilling\n\t\n\t\n\thistorisk vandring i omr\u0026aring;det\n\t\n\t\n\tforestillingen Now, We Are Here\n\t\n\n\nForestillingen er laget av Teater NIE og bygger p\u0026aring; historier fra Dikemark, b\u0026aring;de fra eldre og nyere tid.\n\nI l\u0026oslash;pet av dagen m\u0026oslash;ter dere kunst, teater og lokalhistorie p\u0026aring; samme sted. Kanskje f\u0026aring;r dere ogs\u0026aring; et litt annet bilde av Dikemark enn dere hadde fra f\u0026oslash;r.\n\nLunsj: kl. 11.00\u0026ndash;11.45. Husk matpakke.\n",
-                                          "yearLevelMinimum":  9,
-                                          "yearLevelMaximum":  9,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  2,
-                                                                          "name":  "Scenekunst",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Scenekunst",
-                                                                                                        "nn":  "Scenekunst",
-                                                                                                        "en":  "Performing arts"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "scenekunst",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/scenekunst-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      },
-                                                                      {
-                                                                          "id":  5,
-                                                                          "name":  "Kulturarv",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Kulturarv",
-                                                                                                        "nn":  "Kulturarv",
-                                                                                                        "en":  "Cultural heritage"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "kulturarv",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/kulturarv-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      },
-                                                                      {
-                                                                          "id":  6,
-                                                                          "name":  "Visuell kunst",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Visuell kunst",
-                                                                                                        "nn":  "Visuell kunst",
-                                                                                                        "en":  "Visual arts"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "visuell-kunst",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/visuell-kunst-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/ce6a295d926d1f9a929858b8a5947a94.jpg",
-                                          "branchOffice":  "Asker kommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  538217,
-                       "status":  "scheduled",
-                       "dateStart":  1788248700,
-                       "dateEnd":  1788250800,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Drengsrud skole – Gymsal",
-                                        "address":  {
-                                                        "formatted":  "Gamle Drammensvei 318, Asker 1383",
-                                                        "coordinate":  {
-                                                                           "lat":  59.829520722369,
-                                                                           "lng":  10.402866779299
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4766712700"
-                                    },
-                       "numberOfStudents":  100,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "3384":  {
-                                                    "name":  "Drengsrud skole",
-                                                    "id":  3384,
-                                                    "address":  "Gamle Drammensvei 318, Asker 1383",
-                                                    "phone":  "+47 66 71 27 00",
-                                                    "contactPersons":  [
-                                                                           "Thomas Rolland, +47 47 84 13 15, thomas.rolland@asker.kommune.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                }
-                                   },
-                       "branchOfficeName":  "Asker kommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  17,
-                                                "registrationGroup":  {
-                                                                          "name":  "1A",
-                                                                          "schoolId":  3384
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  17,
-                                                "registrationGroup":  {
-                                                                          "name":  "2A",
-                                                                          "schoolId":  3384
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  17,
-                                                "registrationGroup":  {
-                                                                          "name":  "1B",
-                                                                          "schoolId":  3384
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  17,
-                                                "registrationGroup":  {
-                                                                          "name":  "2B",
-                                                                          "schoolId":  3384
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  16,
-                                                "registrationGroup":  {
-                                                                          "name":  "1C",
-                                                                          "schoolId":  3384
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  16,
-                                                "registrationGroup":  {
-                                                                          "name":  "2C",
-                                                                          "schoolId":  3384
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  24433,
-                                          "name":  "Kvitebjørn Kong Valemon (1.-2. trinn)",
-                                          "subtitle":  "",
-                                          "groupName":  "Thea Borring Lande produksjoner",
-                                          "descriptionShort":  "Bli med inn i et eventyr med konger, prinsesser, magi \u0026ndash; og en hvit bj\u0026oslash;rn!\n\nSkuespiller Thea Borring Lande forteller eventyret om Kvitebj\u0026oslash;rn kong Valemon. Hun har med seg en kurv, en liten sekk og noen helt vanlige ting som plutselig kan bli til noe magisk.\n\nDere f\u0026aring;r v\u0026aelig;re med p\u0026aring; reisen! Sammen l\u0026aelig;rer dere en liten regle, hjelper Kongsdattera videre og bruker b\u0026aring;de kroppen og fantasien underveis.\n\nHer kan nesten hva som helst skje \u0026ndash; for i eventyrenes verden kan en vanlig ting bli til noe helt annet.\n\nGj\u0026oslash;r dere klare for en morsom, spennende og magisk forestilling!\n",
-                                          "yearLevelMinimum":  1,
-                                          "yearLevelMaximum":  2,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  2,
-                                                                          "name":  "Scenekunst",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Scenekunst",
-                                                                                                        "nn":  "Scenekunst",
-                                                                                                        "en":  "Performing arts"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "scenekunst",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/scenekunst-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      },
-                                                                      {
-                                                                          "id":  5,
-                                                                          "name":  "Kulturarv",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Kulturarv",
-                                                                                                        "nn":  "Kulturarv",
-                                                                                                        "en":  "Cultural heritage"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "kulturarv",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/kulturarv-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      },
-                                                                      {
-                                                                          "id":  4,
-                                                                          "name":  "Litteratur",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Litteratur",
-                                                                                                        "nn":  "Litteratur",
-                                                                                                        "en":  "Literature"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "litteratur",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933461%3Fsubpath%3Da4c6ed72-8945-412b-8cd1-88bb6abb2012.jpg\u0026filetoken=8560f08cae3dd59881c6cf6094f93be8\u0026productionId=24433\u0026attachmentId=189853\u0026preview",
-                                          "branchOffice":  "Asker kommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  541970,
-                       "status":  "scheduled",
-                       "dateStart":  1788255000,
-                       "dateEnd":  1788257100,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Vardåsen skole – Gymsal",
-                                        "address":  {
-                                                        "formatted":  "Slottsberget 1, Asker 1385",
-                                                        "coordinate":  {
-                                                                           "lat":  59.819986475189,
-                                                                           "lng":  10.381314551438
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4766715100"
-                                    },
-                       "numberOfStudents":  75,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "3402":  {
-                                                    "name":  "Vardåsen skole",
-                                                    "id":  3402,
-                                                    "address":  "Slottsberget 1, Asker 1385",
-                                                    "phone":  "+47 66 71 51 00",
-                                                    "contactPersons":  [
-                                                                           "Kristin K. Dyrhaug, +47 90 11 86 97, kdyrhaug@asker.kommune.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                }
-                                   },
-                       "branchOfficeName":  "Asker kommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  18,
-                                                "registrationGroup":  {
-                                                                          "name":  "1A",
-                                                                          "schoolId":  3402
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  19,
-                                                "registrationGroup":  {
-                                                                          "name":  "2A",
-                                                                          "schoolId":  3402
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  18,
-                                                "registrationGroup":  {
-                                                                          "name":  "1B",
-                                                                          "schoolId":  3402
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  20,
-                                                "registrationGroup":  {
-                                                                          "name":  "2B",
-                                                                          "schoolId":  3402
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  24433,
-                                          "name":  "Kvitebjørn Kong Valemon (1.-2. trinn)",
-                                          "subtitle":  "",
-                                          "groupName":  "Thea Borring Lande produksjoner",
-                                          "descriptionShort":  "Bli med inn i et eventyr med konger, prinsesser, magi \u0026ndash; og en hvit bj\u0026oslash;rn!\n\nSkuespiller Thea Borring Lande forteller eventyret om Kvitebj\u0026oslash;rn kong Valemon. Hun har med seg en kurv, en liten sekk og noen helt vanlige ting som plutselig kan bli til noe magisk.\n\nDere f\u0026aring;r v\u0026aelig;re med p\u0026aring; reisen! Sammen l\u0026aelig;rer dere en liten regle, hjelper Kongsdattera videre og bruker b\u0026aring;de kroppen og fantasien underveis.\n\nHer kan nesten hva som helst skje \u0026ndash; for i eventyrenes verden kan en vanlig ting bli til noe helt annet.\n\nGj\u0026oslash;r dere klare for en morsom, spennende og magisk forestilling!\n",
-                                          "yearLevelMinimum":  1,
-                                          "yearLevelMaximum":  2,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  2,
-                                                                          "name":  "Scenekunst",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Scenekunst",
-                                                                                                        "nn":  "Scenekunst",
-                                                                                                        "en":  "Performing arts"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "scenekunst",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/scenekunst-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      },
-                                                                      {
-                                                                          "id":  5,
-                                                                          "name":  "Kulturarv",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Kulturarv",
-                                                                                                        "nn":  "Kulturarv",
-                                                                                                        "en":  "Cultural heritage"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "kulturarv",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/kulturarv-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      },
-                                                                      {
-                                                                          "id":  4,
-                                                                          "name":  "Litteratur",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Litteratur",
-                                                                                                        "nn":  "Litteratur",
-                                                                                                        "en":  "Literature"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "litteratur",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933461%3Fsubpath%3Da4c6ed72-8945-412b-8cd1-88bb6abb2012.jpg\u0026filetoken=8560f08cae3dd59881c6cf6094f93be8\u0026productionId=24433\u0026attachmentId=189853\u0026preview",
-                                          "branchOffice":  "Asker kommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
                    {
                        "id":  538219,
                        "status":  "scheduled",
@@ -2181,7 +1567,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  114,
+                       "numberOfStudents":  124,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "4164":  {
@@ -2286,7 +1672,23 @@
                                                 "status":  "allocated",
                                                 "numberOfStudents":  5,
                                                 "registrationGroup":  {
+                                                                          "name":  "VKK 8",
+                                                                          "schoolId":  4164
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  5,
+                                                "registrationGroup":  {
                                                                           "name":  "VKK 9",
+                                                                          "schoolId":  4164
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  5,
+                                                "registrationGroup":  {
+                                                                          "name":  "VKK 10",
                                                                           "schoolId":  4164
                                                                       }
                                             }
@@ -5531,6 +4933,108 @@
                                                                       }
                                                                   ],
                                           "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/da3c68b310e5b374244d9518a0fc4d4e.jpg",
+                                          "branchOffice":  "Asker kommune",
+                                          "academicYears":  [
+                                                                {
+                                                                    "id":  10,
+                                                                    "name":  "2026/2027"
+                                                                }
+                                                            ],
+                                          "isRegistrationOffer":  false,
+                                          "events":  [
+
+                                                     ]
+                                      },
+                       "schoolEventParticipantStatus":  null
+                   },
+                   {
+                       "id":  559206,
+                       "status":  "scheduled",
+                       "dateStart":  1789542000,
+                       "dateEnd":  1789558200,
+                       "commentForParticipants":  "",
+                       "location":  {
+                                        "name":  "Asker museum – Asker museum",
+                                        "address":  {
+                                                        "formatted":  " Otto Valstads vei 19 , Hvalstad  1395",
+                                                        "coordinate":  {
+                                                                           "lat":  59.8531293,
+                                                                           "lng":  10.4554268
+                                                                       }
+                                                    },
+                                        "phoneNumber":  null
+                                    },
+                       "numberOfStudents":  0,
+                       "numberOfTeachers":  0,
+                       "schools":  {
+                                       "3384":  {
+                                                    "name":  "Drengsrud skole",
+                                                    "id":  3384,
+                                                    "address":  "Gamle Drammensvei 318, Asker 1383",
+                                                    "phone":  "+47 66 71 27 00",
+                                                    "contactPersons":  [
+                                                                           "Thomas Rolland, +47 47 84 13 15, thomas.rolland@asker.kommune.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Asker kommune",
+                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
+                                                }
+                                   },
+                       "branchOfficeName":  "Asker kommune",
+                       "busAppointments":  [
+                                               {
+                                                   "id":  11039,
+                                                   "schoolIds":  [
+                                                                     3384
+                                                                 ],
+                                                   "departureTime":  null,
+                                                   "returnTime":  null,
+                                                   "textToSchool":  "Elevene sykler til Asker museum"
+                                               }
+                                           ],
+                       "participants":  [
+                                            {
+                                                "status":  "canceled_by_administrator",
+                                                "numberOfStudents":  22,
+                                                "registrationGroup":  {
+                                                                          "name":  "4A",
+                                                                          "schoolId":  3384
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "canceled_by_administrator",
+                                                "numberOfStudents":  23,
+                                                "registrationGroup":  {
+                                                                          "name":  "4B",
+                                                                          "schoolId":  3384
+                                                                      }
+                                            }
+                                        ],
+                       "production":  {
+                                          "id":  25156,
+                                          "name":  "Arbeid og lek i bygda for 100 år siden (4. trinn)",
+                                          "subtitle":  "Aktivitetsdag på Asker museum ",
+                                          "groupName":  "",
+                                          "descriptionShort":  "Hvordan var det \u0026aring; v\u0026aelig;re barn i gamle dager?\n\nP\u0026aring; Asker museum skal dere f\u0026aring; v\u0026aelig;re med p\u0026aring; en hel skoledag der dere pr\u0026oslash;ver noen av tingene barn og voksne gjorde f\u0026oslash;r i tiden.\n\nDere f\u0026aring;r blant annet pr\u0026oslash;ve \u0026aring; lage tr\u0026aring;d av ull, veve filleryer, bake lomper og spikke pil og bue.\u0026nbsp;Her skal dere ikke bare h\u0026oslash;re om hvordan folk levde f\u0026oslash;r \u0026ndash; dere f\u0026aring;r pr\u0026oslash;ve det selv!\n\nOpplegget er laget av Asker museum i samarbeid med Den kulturelle skolesekken i Asker.\n",
+                                          "yearLevelMinimum":  4,
+                                          "yearLevelMaximum":  4,
+                                          "culturalExpressions":  [
+                                                                      {
+                                                                          "id":  5,
+                                                                          "name":  "Kulturarv",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Kulturarv",
+                                                                                                        "nn":  "Kulturarv",
+                                                                                                        "en":  "Cultural heritage"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "kulturarv",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/kulturarv-i-dks/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      }
+                                                                  ],
+                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/80b05ee0cad9651e85ae40c7d29ba4a0.jpg",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -80245,5 +79749,5 @@
                ],
     "hasMore":  false,
     "loaded":  2000,
-    "hentTidspunkt":  "2026-09-01T12:52:03Z"
+    "hentTidspunkt":  "2026-09-02T08:15:27Z"
 }
