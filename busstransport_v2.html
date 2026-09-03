@@ -369,7 +369,7 @@ function similarity(a, b) {
 // LOGGING
 // ============================================================
 const logBox = document.getElementById('logBox');
-const BUILD_VERSION = '2026-09-03 06:58 UTC';
+const BUILD_VERSION = '2026-09-03 07:04 UTC';
 
 function log(type, msg) {
   logBox.classList.add('visible');
@@ -721,14 +721,33 @@ def parse_bekreftelse(data):
             return False
         return s[2]=='.' and s[5]=='.' and s[:2].isdigit() and s[3:5].isdigit() and s[6:].isdigit()
     dato_items = [it for it in items if 115<=it['x']<=125 and er_dato(it['raw'])]
+    dato_items.sort(key=lambda i: (i['page'], -i['y']))
     print('BEKR dato items:', len(dato_items))
-    for dato_it in dato_items:
+    # Typisk radhøgd (median avstand mellom dato-linjer på same side) - brukt
+    # som fallback-grense for siste rad på kvar side, der det ikkje finst
+    # noka neste rad å avgrense mot (elles blør henta tekst inn i botntekst/
+    # footer på sida, stadfesta bug).
+    _gaps = [dato_items[i]['y'] - dato_items[i+1]['y']
+             for i in range(len(dato_items)-1)
+             if dato_items[i]['page'] == dato_items[i+1]['page']]
+    _gaps.sort()
+    typisk_radhoegd = _gaps[len(_gaps)//2] if _gaps else 40
+    for idx, dato_it in enumerate(dato_items):
         page, y_dato = dato_it['page'], dato_it['y']
         dato_raw = dato_it['raw'].strip()
         dato = dato_raw[:6] + dato_raw[-2:]  # normaliser til DD.MM.YY
         y_tid = y_dato - 11
+        # Nedre grense for denne rada: opp til (men IKKJE inkludert) neste
+        # rad si dato-linje. Utan denne grensa kan fleirlinja Beskrivelse-/
+        # Fra-tekst "blø" inn i neste rad når radavstanden er tett (stadfesta
+        # bug: gav samanblanda skulenamn på nokre produksjonar).
+        y_floor = y_dato - typisk_radhoegd
+        if idx + 1 < len(dato_items) and dato_items[idx+1]['page'] == page:
+            y_floor = dato_items[idx+1]['y']
         def get(x_min, x_max, y, tol=4):
             return [it for it in items if it['page']==page and x_min<=it['x']<=x_max and abs(it['y']-y)<=tol]
+        def get_in_row(x_min, x_max):
+            return [it for it in items if it['page']==page and x_min<=it['x']<=x_max and y_floor<it['y']<=y_dato]
         # Avgang og slutt
         avg = get(115, 130, y_tid)
         avgang = avg[0]['raw'] if avg else ''
@@ -740,20 +759,13 @@ def parse_bekreftelse(data):
         for it in ant:
             m = re.match(r'^(\\d+)$', it['raw'])
             if m: elever = int(m.group(1)); break
-        # Beskrivelse: x=257, y_dato og y_tid (og ev. y_tid-11 for trelinjerader)
-        besk_parts = []
-        for y_check in [y_dato, y_tid]:
-            b = get(255, 295, y_check)
-            besk_parts += [it['raw'] for it in sorted(b, key=lambda i: -i['y'])]
-        b3 = [it for it in items if it['page']==page and it['x']==257 and y_tid-16<=it['y']<y_tid-4]
-        besk_parts += [it['raw'] for it in sorted(b3, key=lambda i: -i['y'])]
-        besktext = ' '.join(besk_parts).strip()
-        # Fra: x=77
-        fra_parts = []
-        for y_check in [y_dato, y_tid, y_tid-11]:
-            f = get(75, 115, y_check)
-            fra_parts += [it['raw'] for it in sorted(f, key=lambda i: -i['y'])]
-        fra_text = ' '.join(fra_parts).lower()
+        # Beskrivelse: x=255-295, alle linjer innanfor rada sin y-sone
+        # (handterer 2- og 3-linjers ombrekking likt, uavhengig av radavstand)
+        besk_items = get_in_row(255, 295)
+        besktext = ' '.join(it['raw'] for it in sorted(besk_items, key=lambda i: -i['y'])).strip()
+        # Fra: x=75-115, same radbegrensa henting
+        fra_items = get_in_row(75, 115)
+        fra_text = ' '.join(it['raw'] for it in sorted(fra_items, key=lambda i: -i['y'])).lower()
         # Minibuss og retning
         minibuss = bool(re.search(r'\\*minibuss\\*', besktext, re.I))
         besk_clean = re.sub(r'\\*minibuss\\*\\s*', '', besktext, flags=re.I).strip()
@@ -763,7 +775,10 @@ def parse_bekreftelse(data):
         # mellom produksjonar (t.d. "Det Norske Teatret", "Kunsthall
         # Dikemark") - identifiser difor skulesida via SCHOOL-nøkkelorda
         # (same mønster som parse_bestilling), ikkje eit hardkoda arenanamn.
-        delparts = re.split(r'\\s*[-\u2013]\\s*', besk_clean, maxsplit=1)
+        # \\s+ (IKKJE \\s*) på begge sider av skiljeteiknet - skil "Fra - Til"
+        # frå ein bindestrek INNI eit skulenamn utan mellomrom (t.d.
+        # "Mellom-Nes skole"), som elles vart feilaktig delt opp der.
+        delparts = re.split(r'\\s+[-\u2013]\\s+', besk_clean, maxsplit=1)
         if len(delparts) == 2:
             venstre, hoyre = delparts[0].strip(), delparts[1].strip()
             v_er_skole = bool(SCHOOL.search(venstre))
