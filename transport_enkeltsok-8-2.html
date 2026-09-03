@@ -5940,32 +5940,37 @@ function turneFormatKlokke(sekund) {
 }
 
 // Rundar ei oppgitt køyretid (minutt) opp til næraste 5-minuttssteg SLIK AT
-// bufferen (resultatet minus rå køyretid) alltid er minst 5 minutt — aldri
-// berre næraste 5-multiplum av køyretida sjølv, sidan det kan gi 0 minutts
-// margin (t.d. 20 min køyretid ville elles runda til nøyaktig 20). Lagt til
-// 01.09.2026 etter Eirik sitt eksempel: 17 min → 25 min, 20 min → 25 min
-// (Mellom-Nes/Kunsthall Dikemark, der den gamle faste 10-min-bufferen gav
-// ei avreisetid som var for sein).
-function rundBussbufferOpp(tidMin) {
-    return 5 * Math.ceil((tidMin + 5) / 5);
+// bufferen (resultatet minus rå køyretid) alltid er MINST bufferForMin
+// minutt — aldri berre næraste 5-multiplum av køyretida sjølv, sidan det
+// kan gi for lita margin (t.d. 20 min køyretid ville elles runda til
+// nøyaktig 20). RETTA 03.09.2026 — bufferForMin var tidlegare hardkoda til
+// 5; kjem no frå "Buffer før start"-feltet i UI-et (same felt som styrer
+// arriveBy for kollektivsøket), slik at éin UI-innstilling gjeld for BÅDE
+// bestillerbuss og kollektivt. Standardverdien (5) er uendra, så gamle
+// eksempel held framleis: 17 min → 25 min, 20 min → 25 min (Mellom-Nes/
+// Kunsthall Dikemark).
+function rundBussbufferOpp(tidMin, bufferForMin) {
+    return 5 * Math.ceil((tidMin + bufferForMin) / 5);
 }
 
 // Utrekna standard avreisetid for bestillerbuss — arrangementstart minus
-// bufferen frå rundBussbufferOpp(). Returnerer '' viss køyretid er ukjend
+// bufferen frå rundBussbufferOpp(). Returnerer null viss køyretid er ukjend
 // (ingen Google-køyresøk gjennomført).
-function beregnBestillerbussAvgang(hending, tidMin) {
+function beregnBestillerbussAvgang(hending, tidMin, bufferForMin) {
     if (tidMin == null) return null;
-    const buffer = rundBussbufferOpp(tidMin);
+    const buffer = rundBussbufferOpp(tidMin, bufferForMin);
     return turneFormatKlokke(hending.dateStart - buffer * 60);
 }
 
 // Utrekna standard returtid for bestillerbuss — arrangementsslutt PLUSS
-// fast 5 min (per oppdrag 01.09.2026 — ingen avrunding, uavhengig av
-// køyretid). Fell tilbake på dateStart + varigheitMin viss dateEnd manglar,
-// same mønster som byggTransportTekst().
-function beregnBestillerbussRetur(hending, varigheitMin) {
+// bufferMin (ingen avrunding, uavhengig av køyretid). RETTA 03.09.2026 —
+// var tidlegare hardkoda til fast 5 min; kjem no frå "Buffer etter
+// slutt"-feltet i UI-et (same felt som styrer departBy for kollektivt
+// retur-søk). Fell tilbake på dateStart + varigheitMin viss dateEnd
+// manglar, same mønster som byggTransportTekst().
+function beregnBestillerbussRetur(hending, varigheitMin, bufferMin) {
     const sluttSek = hending.dateEnd || (hending.dateStart + varigheitMin * 60);
-    return turneFormatKlokke(sluttSek + 5 * 60);
+    return turneFormatKlokke(sluttSek + bufferMin * 60);
 }
 
 function visTurneResultat() {
@@ -5973,6 +5978,8 @@ function visTurneResultat() {
     liste.innerHTML = '';
 
     const varigheitMin = parseInt(document.getElementById('turneVarigheitMin').value) || 45;
+    const bufferForMin = parseInt(document.getElementById('turneBufferForMin').value) || 5;
+    const bufferMin = parseInt(document.getElementById('turneBufferMin').value) || 10;
 
     // Kolonneoverskrifter éin gong øvst — RETTA 12.08.2026. Berre vist når det
     // faktisk finst skulerader å vise (elles ei overskrift over ingenting).
@@ -6073,8 +6080,8 @@ function visTurneResultat() {
             // sjå genererTurnePayload() for tilsvarande fallback ved payload-bygging).
             const returTypeEffektiv = returHarAlternativ ? returValtType : (sr.retur ? sr.retur.valt : null);
             const manuellTid = turneManuellTid[overstyringKey] || { tur: '', retur: '' };
-            const turAutoVerdi = (valtType === 'bestillerbuss' && valtAlt) ? beregnBestillerbussAvgang(hending, valtAlt.tid) : '';
-            const returAutoVerdi = (returTypeEffektiv === 'bestillerbuss') ? beregnBestillerbussRetur(hending, varigheitMin) : '';
+            const turAutoVerdi = (valtType === 'bestillerbuss' && valtAlt) ? beregnBestillerbussAvgang(hending, valtAlt.tid, bufferForMin) : '';
+            const returAutoVerdi = (returTypeEffektiv === 'bestillerbuss') ? beregnBestillerbussRetur(hending, varigheitMin, bufferMin) : '';
             const manuellTurHtml = `<div class="turne-manuell-tid">
                     <label>Tur</label>
                     <input type="time" value="${escHtmlAttr(manuellTid.tur || turAutoVerdi)}" title="Avreisetid (departureTime i portalen) — førehandsutfylt for bestillerbuss, kan overstyrast" onchange="settTurneManuellTid(${hending.id}, ${sr.skuleId}, 'tur', this.value)">
@@ -6227,6 +6234,8 @@ function settTurneManuellTid(eventId, skuleId, felt, verdi) {
 
 function genererTurnePayload() {
     const varigheitMin = parseInt(document.getElementById('turneVarigheitMin').value) || 45;
+    const bufferForMin = parseInt(document.getElementById('turneBufferForMin').value) || 5;
+    const bufferMin = parseInt(document.getElementById('turneBufferMin').value) || 10;
     const payload = {
         productionId: valtProduksjon ? valtProduksjon.id : null,
         productionName: valtProduksjon ? valtProduksjon.name : null,
@@ -6266,10 +6275,10 @@ function genererTurnePayload() {
                         const manuellTid = turneManuellTid[overstyringKey] || {};
                         const autoAvgang = (valtAlt.type === 'buss' || valtAlt.type === 'tog')
                             ? turneFormatTid(valtAlt.avgang)
-                            : (valtAlt.type === 'bestillerbuss' ? beregnBestillerbussAvgang(hending, valtAlt.tid) : null);
+                            : (valtAlt.type === 'bestillerbuss' ? beregnBestillerbussAvgang(hending, valtAlt.tid, bufferForMin) : null);
                         const autoRetur = returErKollektiv
                             ? turneFormatTid(returValtAlt.avgang)
-                            : (returValtType === 'bestillerbuss' ? beregnBestillerbussRetur(hending, varigheitMin) : null);
+                            : (returValtType === 'bestillerbuss' ? beregnBestillerbussRetur(hending, varigheitMin, bufferMin) : null);
                         // Same tekst som "Generert tekst"-kolonna viser i UI-et — teke
                         // med i payloaden (lagt til 01.09.2026) slik at skrivescriptet kan
                         // fylle textToSchool. VIKTIG (per oppdrag same dag): departureTime/
