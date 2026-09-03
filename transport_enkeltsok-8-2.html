@@ -2609,6 +2609,7 @@ async function sokViaKnutepunkt(skuleNamn, skuleCoords, destCoords, tidspunkt, e
         linje: kollektivLegs.map(l => l.line && l.line.publicCode).filter(Boolean).join(' → '),
         avgang: kollektivAvgang(valtReise, ['bus', 'coach', 'rail']),
         ankomst: valtReise.endTime,
+        ankomstStasjon: kollektivAnkomst(valtReise, ['bus', 'coach', 'rail']),
         varigheit: Math.round(valtReise.duration / 60),
         stegMedTid: byggStegMedTid(valtReise.legs),
         gangeTilKnutepunkt: {
@@ -3050,6 +3051,17 @@ function byggReiseveg(legs) {
 function kollektivAvgang(reise, moduser) {
     const legs = (reise.legs || []).filter(l => moduser.includes(l.mode));
     return legs.length > 0 ? legs[0].expectedStartTime : reise.startTime;
+}
+
+// Same prinsipp som kollektivAvgang(), men for ANKOMST — expectedEndTime på
+// SISTE etappe av dei gitte modusane (t.d. når toget ankjem stasjonen),
+// ikkje reisa sitt endTime (som inkluderer ei evt. gangeetappe VIDARE frå
+// stasjonen til sjølve reisemålet). Lagt til 03.09.2026 etter ønske om at
+// "Beregnet ankomst" i den genererte teksten skal vise ankomst PÅ
+// STASJONEN/HALDEPLASSEN, ikkje ved reisemålet.
+function kollektivAnkomst(reise, moduser) {
+    const legs = (reise.legs || []).filter(l => moduser.includes(l.mode));
+    return legs.length > 0 ? legs[legs.length - 1].expectedEndTime : reise.endTime;
 }
 
 // Byggjer reisesteg MED klokkeslett, brukt i turnémodus sitt rutenett
@@ -5363,6 +5375,7 @@ function analysertransportTurne(skule, bussReiser, togReiser, googleGange, googl
                 linje: togLegs.map(l => l.line && l.line.publicCode).filter(Boolean).join(' → '),
                 avgang: kollektivAvgang(togReise, ['rail']),
                 ankomst: togReise.endTime,
+                ankomstStasjon: kollektivAnkomst(togReise, ['rail']),
                 varigheit: Math.round(togReise.duration / 60),
                 stegMedTid: byggStegMedTid(togReise.legs),
                 stasjon: togLegs[0]?.fromPlace?.name || null
@@ -5395,6 +5408,7 @@ function analysertransportTurne(skule, bussReiser, togReiser, googleGange, googl
                 linje: bussLegs.map(l => l.line && l.line.publicCode).filter(Boolean).join(' → '),
                 avgang: kollektivAvgang(bussReise, ['bus', 'coach']),
                 ankomst: bussReise.endTime,
+                ankomstStasjon: kollektivAnkomst(bussReise, ['bus', 'coach']),
                 varigheit: Math.round(bussReise.duration / 60),
                 stegMedTid: byggStegMedTid(bussReise.legs),
                 ekstraAvgangar,
@@ -5577,7 +5591,7 @@ const TEKSTMALAR = {
 
     buss: (v) => {
         let t = `Elevene reiser kollektivt til ${v.stad}. Buss ${v.linje} fra ${v.haldeplass} kl. ${v.avgangstid}. ` +
-                `Beregnet ankomsttid ${v.ankomsttid}.`;
+                `Beregnet ankomst på holdeplassen kl. ${v.ankomsttid}.`;
         if (v.returSetning) t += ` ${v.returSetning}`;
         t += ` RUFUS-billetter kan benyttes. Dette dekker DKS Asker`;
         return t;
@@ -5585,7 +5599,7 @@ const TEKSTMALAR = {
 
     tog: (v) => {
         let t = `Elevene reiser kollektivt til ${v.stad}. Tog fra ${v.stasjon} kl. ${v.avgangstid}. ` +
-                `Beregnet ankomsttid ${v.ankomsttid}.`;
+                `Beregnet ankomst på stasjonen kl. ${v.ankomsttid}.`;
         if (v.returSetning) t += ` ${v.returSetning}`;
         t += ` RUFUS-billetter kan benyttes. Dette dekker DKS Asker`;
         return t;
@@ -5597,8 +5611,9 @@ const TEKSTMALAR = {
     // FORSLAG TIL ORDLYD, ikkje godkjent av Eirik enno, same status som dei
     // andre malane.
     knutepunkt: (v) => {
+        const ankomstStad = v.modeTekst === 'tog' ? 'stasjonen' : 'holdeplassen';
         let t = `Elevene går ${v.gangeAvstand} til ${v.knutepunktNamn} og reiser videre med ${v.modeTekst} ${v.linje} til ${v.stad}. ` +
-                `Beregnet ankomsttid ${v.ankomsttid}.`;
+                `Beregnet ankomst på ${ankomstStad} kl. ${v.ankomsttid}.`;
         if (v.returSetning) t += ` ${v.returSetning}`;
         t += ` RUFUS-billetter kan benyttes. Dette dekker DKS Asker`;
         return t;
@@ -5689,8 +5704,13 @@ function byggTransportTekst(hending, sr, valtType, valtAlt) {
         // "Beregnet reisetid" tok berre omsyn til sjølve kollektivreisa, og
         // las difor lett feil hos den som skulle bruke teksten (t.d.
         // manglar tid brukt på å gå til stoppestad før avgang). Ei
-        // klokkeslett for faktisk ankomst er utvetydig.
-        const ankomsttid = turneFormatTid(valtAlt.ankomst);
+        // klokkeslett for faktisk ankomst er utvetydig. RETTA 03.09.2026:
+        // viser no ankomstStasjon (ankomst PÅ STASJONEN/HALDEPLASSEN, siste
+        // buss-/tog-etappe sin expectedEndTime) i staden for valtAlt.ankomst
+        // (som er heile reisa sitt sluttidspunkt — inkluderer ei evt.
+        // gangeetappe VIDARE frå stasjonen til sjølve reisemålet, per ønske
+        // om at "Beregnet ankomst" skal vise ankomst på stasjonen).
+        const ankomsttid = turneFormatTid(valtAlt.ankomstStasjon || valtAlt.ankomst);
         const returSetning = byggReturSetning(sr.retur);
         if (valtType === 'buss') {
             return TEKSTMALAR.buss({ stad, linje: valtAlt.linje || '?', haldeplass: valtAlt.haldeplass || 'holdeplassen', avgangstid, ankomsttid, returSetning });
@@ -5701,7 +5721,7 @@ function byggTransportTekst(hending, sr, valtType, valtAlt) {
     if (valtType === 'knutepunkt') {
         if (!valtAlt) return '';
         const avgangstid = turneFormatTid(valtAlt.avgang);
-        const ankomsttid = turneFormatTid(valtAlt.ankomst);
+        const ankomsttid = turneFormatTid(valtAlt.ankomstStasjon || valtAlt.ankomst);
         const modeTekst = valtAlt.mode === 'tog' ? 'tog' : 'buss';
         const returSetning = byggReturSetning(sr.retur);
         return TEKSTMALAR.knutepunkt({
