@@ -1,447 +1,7 @@
 ﻿{
-    "total":  725,
-    "count":  725,
+    "total":  722,
+    "count":  722,
     "events":  [
-                   {
-                       "id":  538219,
-                       "status":  "scheduled",
-                       "dateStart":  1788332400,
-                       "dateEnd":  1788334500,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Mellom-Nes skole – Gymsal",
-                                        "address":  {
-                                                        "formatted":  "Breivikveien 25, Nesbru 1394",
-                                                        "coordinate":  {
-                                                                           "lat":  59.866242280032,
-                                                                           "lng":  10.496780467834
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4797737735"
-                                    },
-                       "numberOfStudents":  111,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "3392":  {
-                                                    "name":  "Mellom-Nes skole",
-                                                    "id":  3392,
-                                                    "address":  "Breivikveien 25, Nesbru 1394",
-                                                    "phone":  "+47 97 73 77 35",
-                                                    "contactPersons":  [
-                                                                           "Kari Ruud, +47 97 73 77 35, kari.ruud@asker.kommune.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                }
-                                   },
-                       "branchOfficeName":  "Asker kommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  56,
-                                                "registrationGroup":  {
-                                                                          "name":  "1",
-                                                                          "schoolId":  3392
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  55,
-                                                "registrationGroup":  {
-                                                                          "name":  "2",
-                                                                          "schoolId":  3392
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  24433,
-                                          "name":  "Kvitebjørn Kong Valemon (1.-2. trinn)",
-                                          "subtitle":  "",
-                                          "groupName":  "Thea Borring Lande produksjoner",
-                                          "descriptionShort":  "Bli med inn i et eventyr med konger, prinsesser, magi \u0026ndash; og en hvit bj\u0026oslash;rn!\n\nSkuespiller Thea Borring Lande forteller eventyret om Kvitebj\u0026oslash;rn kong Valemon. Hun har med seg en kurv, en liten sekk og noen helt vanlige ting som plutselig kan bli til noe magisk.\n\nDere f\u0026aring;r v\u0026aelig;re med p\u0026aring; reisen! Sammen l\u0026aelig;rer dere en liten regle, hjelper Kongsdattera videre og bruker b\u0026aring;de kroppen og fantasien underveis.\n\nHer kan nesten hva som helst skje \u0026ndash; for i eventyrenes verden kan en vanlig ting bli til noe helt annet.\n\nGj\u0026oslash;r dere klare for en morsom, spennende og magisk forestilling!\n",
-                                          "yearLevelMinimum":  1,
-                                          "yearLevelMaximum":  2,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  2,
-                                                                          "name":  "Scenekunst",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Scenekunst",
-                                                                                                        "nn":  "Scenekunst",
-                                                                                                        "en":  "Performing arts"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "scenekunst",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/scenekunst-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      },
-                                                                      {
-                                                                          "id":  5,
-                                                                          "name":  "Kulturarv",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Kulturarv",
-                                                                                                        "nn":  "Kulturarv",
-                                                                                                        "en":  "Cultural heritage"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "kulturarv",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/kulturarv-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      },
-                                                                      {
-                                                                          "id":  4,
-                                                                          "name":  "Litteratur",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Litteratur",
-                                                                                                        "nn":  "Litteratur",
-                                                                                                        "en":  "Literature"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "litteratur",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933461%3Fsubpath%3Da4c6ed72-8945-412b-8cd1-88bb6abb2012.jpg\u0026filetoken=8560f08cae3dd59881c6cf6094f93be8\u0026productionId=24433\u0026attachmentId=189853\u0026preview",
-                                          "branchOffice":  "Asker kommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  550213,
-                       "status":  "scheduled",
-                       "dateStart":  1788334200,
-                       "dateEnd":  1788348600,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Legebygningen Sykehusveien 1, 1385 – Dikemark sykehusområde",
-                                        "address":  {
-                                                        "formatted":  "Sykehusveien 1, Asker 1385",
-                                                        "coordinate":  {
-                                                                           "lat":  59.8049472,
-                                                                           "lng":  10.3724647
-                                                                       }
-                                                    },
-                                        "phoneNumber":  null
-                                    },
-                       "numberOfStudents":  109,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "3404":  {
-                                                    "name":  "Vollen ungdomsskole",
-                                                    "id":  3404,
-                                                    "address":  "Håkavikveien 45, Vollen 1390",
-                                                    "phone":  "+47 66 71 52 50",
-                                                    "contactPersons":  [
-                                                                           "Mette Andersen, +47 91 75 87 22, mette.andersen@asker.kommune.no",
-                                                                           "Line Utengen, +47 90 68 52 33, line.stenrud.utengen@asker.kommune.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                },
-                                       "3383":  {
-                                                    "name":  "Borgen ungdomsskole",
-                                                    "id":  3383,
-                                                    "address":  "Vardefaret 4, Borgen 1388",
-                                                    "phone":  "+47 66 71 54 00",
-                                                    "contactPersons":  [
-                                                                           "Anne-Marie Christophersen, +47 99 53 30 36, anne-marie.christophersen@asker.kommune.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                },
-                                       "3395":  {
-                                                    "name":  "Risenga ungdomsskole",
-                                                    "id":  3395,
-                                                    "address":  " Brages vei 9, Asker 1387",
-                                                    "phone":  "+47 66 71 28 00",
-                                                    "contactPersons":  [
-                                                                           "Marianne Norheim, +47 90 69 53 73, marianne.enderle.norheim@asker.kommune.no",
-                                                                           "Line Nordvik, +47 90 84 04 39, line.nordvik@asker.kommune.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                }
-                                   },
-                       "branchOfficeName":  "Asker kommune",
-                       "busAppointments":  [
-                                               {
-                                                   "id":  10599,
-                                                   "schoolIds":  [
-                                                                     3395
-                                                                 ],
-                                                   "departureTime":  "09:10",
-                                                   "returnTime":  "13:30",
-                                                   "textToSchool":  "VY Turbuss frakter elevene fra skole til Dikemark og tilbake etter besøket. Se gjeldende tidspunkter for avreise fra skole og avreise fra Dikemark. Vakttelefon Vy Buss er 91658600"
-                                               },
-                                               {
-                                                   "id":  10600,
-                                                   "schoolIds":  [
-                                                                     3404
-                                                                 ],
-                                                   "departureTime":  "09:05",
-                                                   "returnTime":  "13:30",
-                                                   "textToSchool":  "VY Turbuss frakter elevene fra skole til Dikemark og tilbake etter besøket. Se gjeldende tidspunkter for avreise fra skole og avreise fra Dikemark. Vakttelefon Vy Buss er 91658600"
-                                               },
-                                               {
-                                                   "id":  10618,
-                                                   "schoolIds":  [
-                                                                     3383
-                                                                 ],
-                                                   "departureTime":  null,
-                                                   "returnTime":  null,
-                                                   "textToSchool":  "Elevene sykler/går eller tar kollektivt til Dikemark. Ved kollektivtransport, kan RUFUS-billetter benyttes. Dette dekker DKS Asker"
-                                               }
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  24,
-                                                "registrationGroup":  {
-                                                                          "name":  "9 sør",
-                                                                          "schoolId":  3404
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  29,
-                                                "registrationGroup":  {
-                                                                          "name":  "9C",
-                                                                          "schoolId":  3383
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  28,
-                                                "registrationGroup":  {
-                                                                          "name":  "9A",
-                                                                          "schoolId":  3395
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  28,
-                                                "registrationGroup":  {
-                                                                          "name":  "9D",
-                                                                          "schoolId":  3395
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  24775,
-                                          "name":  "Dagstur til Dikemark (9. trinn)",
-                                          "subtitle":  "Teaterkompaniet NIE, Trafo kunsthall og Dikemark museum",
-                                          "groupName":  "",
-                                          "descriptionShort":  "Dagstur til Dikemark\n\nHva skjuler seg egentlig bak bygningene og historiene p\u0026aring; Dikemark?\n\nDikemark har v\u0026aelig;rt mange ting. Her har det v\u0026aelig;rt psykiatrisk sykehus og asylmottak, mennesker bor her i dag, og omr\u0026aring;det brukes av mange som tursted. De siste \u0026aring;rene har ogs\u0026aring; flere kunstnere flyttet inn og tatt i bruk bygningene.\n\nP\u0026aring; denne heldagsturen f\u0026aring;r dere utforske Dikemark fra flere sider.\n\nDere deles inn i grupper og bes\u0026oslash;ker fire ulike aktiviteter:\n\n\n\t\n\tomvisning p\u0026aring; Dikemark psykiatriske sykehusmuseum\n\t\n\t\n\tomvisning i en kunstutstilling\n\t\n\t\n\thistorisk vandring i omr\u0026aring;det\n\t\n\t\n\tforestillingen Now, We Are Here\n\t\n\n\nForestillingen er laget av Teater NIE og bygger p\u0026aring; historier fra Dikemark, b\u0026aring;de fra eldre og nyere tid.\n\nI l\u0026oslash;pet av dagen m\u0026oslash;ter dere kunst, teater og lokalhistorie p\u0026aring; samme sted. Kanskje f\u0026aring;r dere ogs\u0026aring; et litt annet bilde av Dikemark enn dere hadde fra f\u0026oslash;r.\n\nLunsj: kl. 11.00\u0026ndash;11.45. Husk matpakke.\n",
-                                          "yearLevelMinimum":  9,
-                                          "yearLevelMaximum":  9,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  2,
-                                                                          "name":  "Scenekunst",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Scenekunst",
-                                                                                                        "nn":  "Scenekunst",
-                                                                                                        "en":  "Performing arts"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "scenekunst",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/scenekunst-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      },
-                                                                      {
-                                                                          "id":  5,
-                                                                          "name":  "Kulturarv",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Kulturarv",
-                                                                                                        "nn":  "Kulturarv",
-                                                                                                        "en":  "Cultural heritage"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "kulturarv",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/kulturarv-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      },
-                                                                      {
-                                                                          "id":  6,
-                                                                          "name":  "Visuell kunst",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Visuell kunst",
-                                                                                                        "nn":  "Visuell kunst",
-                                                                                                        "en":  "Visual arts"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "visuell-kunst",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/visuell-kunst-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/ce6a295d926d1f9a929858b8a5947a94.jpg",
-                                          "branchOffice":  "Asker kommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  541979,
-                       "status":  "scheduled",
-                       "dateStart":  1788338100,
-                       "dateEnd":  1788340200,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Steinerskolen i Asker – stor sal uten scene",
-                                        "address":  {
-                                                        "formatted":  "1.-4. klasse Nesbukta 17, 5.-10. klasse Nesvangen 10. Busser henter på Plantasjen Nesbru, Nesbru 1394",
-                                                        "coordinate":  {
-                                                                           "lat":  59.861349611031,
-                                                                           "lng":  10.495025009413
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4766852680"
-                                    },
-                       "numberOfStudents":  44,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "3638":  {
-                                                    "name":  "Steinerskolen i Asker",
-                                                    "id":  3638,
-                                                    "address":  "1.-4. klasse Nesbukta 17, 5.-10. klasse Nesvangen 10. Busser henter på Plantasjen Nesbru, Nesbru 1394",
-                                                    "phone":  "+47 66 85 26 80",
-                                                    "contactPersons":  [
-                                                                           "marianne  stai, +47 98 03 49 34, marianne.stai@askersteinerskole.no",
-                                                                           "DAVID WHYTE, +47 96 62 36 15, david.whyte@askersteinerskole.no",
-                                                                           "Anne-Mette Bøe, +47 90 66 73 87, anne.boe@askersteinerskole.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                }
-                                   },
-                       "branchOfficeName":  "Asker kommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  22,
-                                                "registrationGroup":  {
-                                                                          "name":  "1",
-                                                                          "schoolId":  3638
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  22,
-                                                "registrationGroup":  {
-                                                                          "name":  "2",
-                                                                          "schoolId":  3638
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  24433,
-                                          "name":  "Kvitebjørn Kong Valemon (1.-2. trinn)",
-                                          "subtitle":  "",
-                                          "groupName":  "Thea Borring Lande produksjoner",
-                                          "descriptionShort":  "Bli med inn i et eventyr med konger, prinsesser, magi \u0026ndash; og en hvit bj\u0026oslash;rn!\n\nSkuespiller Thea Borring Lande forteller eventyret om Kvitebj\u0026oslash;rn kong Valemon. Hun har med seg en kurv, en liten sekk og noen helt vanlige ting som plutselig kan bli til noe magisk.\n\nDere f\u0026aring;r v\u0026aelig;re med p\u0026aring; reisen! Sammen l\u0026aelig;rer dere en liten regle, hjelper Kongsdattera videre og bruker b\u0026aring;de kroppen og fantasien underveis.\n\nHer kan nesten hva som helst skje \u0026ndash; for i eventyrenes verden kan en vanlig ting bli til noe helt annet.\n\nGj\u0026oslash;r dere klare for en morsom, spennende og magisk forestilling!\n",
-                                          "yearLevelMinimum":  1,
-                                          "yearLevelMaximum":  2,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  2,
-                                                                          "name":  "Scenekunst",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Scenekunst",
-                                                                                                        "nn":  "Scenekunst",
-                                                                                                        "en":  "Performing arts"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "scenekunst",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/scenekunst-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      },
-                                                                      {
-                                                                          "id":  5,
-                                                                          "name":  "Kulturarv",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Kulturarv",
-                                                                                                        "nn":  "Kulturarv",
-                                                                                                        "en":  "Cultural heritage"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "kulturarv",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/kulturarv-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      },
-                                                                      {
-                                                                          "id":  4,
-                                                                          "name":  "Litteratur",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Litteratur",
-                                                                                                        "nn":  "Litteratur",
-                                                                                                        "en":  "Literature"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "litteratur",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933461%3Fsubpath%3Da4c6ed72-8945-412b-8cd1-88bb6abb2012.jpg\u0026filetoken=8560f08cae3dd59881c6cf6094f93be8\u0026productionId=24433\u0026attachmentId=189853\u0026preview",
-                                          "branchOffice":  "Asker kommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
                    {
                        "id":  541969,
                        "status":  "scheduled",
@@ -1335,7 +895,7 @@
                                                     },
                                         "phoneNumber":  null
                                     },
-                       "numberOfStudents":  33,
+                       "numberOfStudents":  27,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "4161":  {
@@ -1394,20 +954,7 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                },
-                                       "3393":  {
-                                                    "name":  "Nesøya skole",
-                                                    "id":  3393,
-                                                    "address":  "Tverråsen 4, Nesøya 1397",
-                                                    "phone":  "+47 45 73 26 53",
-                                                    "contactPersons":  [
-                                                                           "Kari Singsaas, +47 45 73 26 53, kari.singsaas@asker.kommune.no",
-                                                                           "Bjørn Erik Rannestad, +47 99 03 04 31, bjorn.erik.rannestad@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -1483,14 +1030,6 @@
                                                 "registrationGroup":  {
                                                                           "name":  "6A",
                                                                           "schoolId":  3389
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  6,
-                                                "registrationGroup":  {
-                                                                          "name":  "6A",
-                                                                          "schoolId":  3393
                                                                       }
                                             },
                                             {
@@ -1941,7 +1480,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -7388,7 +6926,7 @@
                                                     },
                                         "phoneNumber":  "+4795705984"
                                     },
-                       "numberOfStudents":  22,
+                       "numberOfStudents":  28,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3382":  {
@@ -7422,6 +6960,18 @@
                                                     "phone":  "+47 97 73 77 35",
                                                     "contactPersons":  [
                                                                            "Kari Ruud, +47 97 73 77 35, kari.ruud@asker.kommune.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Asker kommune",
+                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
+                                                },
+                                       "3393":  {
+                                                    "name":  "Nesøya skole",
+                                                    "id":  3393,
+                                                    "address":  "Tverråsen 4, Nesøya 1397",
+                                                    "phone":  "+47 45 73 26 53",
+                                                    "contactPersons":  [
+                                                                           "Kari Singsaas, +47 45 73 26 53, kari.singsaas@asker.kommune.no",
+                                                                           "Bjørn Erik Rannestad, +47 99 03 04 31, bjorn.erik.rannestad@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
                                                     "parentBranchOfficeName":  "Akershus fylkeskommune"
@@ -7465,6 +7015,14 @@
                                                 "registrationGroup":  {
                                                                           "name":  "6",
                                                                           "schoolId":  3392
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  6,
+                                                "registrationGroup":  {
+                                                                          "name":  "6A",
+                                                                          "schoolId":  3393
                                                                       }
                                             },
                                             {
@@ -11731,7 +11289,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -11968,7 +11525,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -13191,7 +12747,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -13532,7 +13087,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -13947,7 +13501,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -14208,7 +13761,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -25296,7 +24848,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -27425,7 +26976,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -27645,7 +27195,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -28094,7 +27643,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -38585,7 +38133,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -38970,7 +38517,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -39347,7 +38893,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -45139,7 +44684,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -45511,7 +45055,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -54167,7 +53710,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -54531,7 +54073,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -54690,7 +54231,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -64878,7 +64418,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -65068,7 +64607,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -65171,7 +64709,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -67314,7 +66851,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -79749,5 +79285,5 @@
                ],
     "hasMore":  false,
     "loaded":  2000,
-    "hentTidspunkt":  "2026-09-02T08:15:27Z"
+    "hentTidspunkt":  "2026-09-03T06:21:43Z"
 }

@@ -1,6 +1,6 @@
 ﻿{
-    "total":  593,
-    "count":  593,
+    "total":  597,
+    "count":  597,
     "events":  [
                    {
                        "id":  547484,
@@ -9762,6 +9762,117 @@
                        "schoolEventParticipantStatus":  null
                    },
                    {
+                       "id":  546111,
+                       "status":  "scheduled",
+                       "dateStart":  1792142400,
+                       "dateEnd":  1792145100,
+                       "commentForParticipants":  "",
+                       "location":  {
+                                        "name":  "Nesodden videregående skole – Auditoriet - 90",
+                                        "address":  {
+                                                        "formatted":  "Kjartan Veldes Vei 12, Nesodden 1459",
+                                                        "coordinate":  {
+                                                                           "lat":  59.839648236136,
+                                                                           "lng":  10.677877544315
+                                                                       }
+                                                    },
+                                        "phoneNumber":  "+4766964200"
+                                    },
+                       "numberOfStudents":  94,
+                       "numberOfTeachers":  0,
+                       "schools":  {
+                                       "3630":  {
+                                                    "name":  "Nesodden videregående skole",
+                                                    "id":  3630,
+                                                    "address":  "Kjartan Veldes Vei 12, Nesodden 1459",
+                                                    "phone":  "+47 66 96 42 00",
+                                                    "contactPersons":  [
+                                                                           "Kari Mariussen (tilrettelagt), +47 97 64 97 97, karimar@afk.no",
+                                                                           "Bjarte Bakken, +47 97 56 91 90, bjarteb@afk.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Akershus fylkeskommune",
+                                                    "parentBranchOfficeName":  null
+                                                }
+                                   },
+                       "branchOfficeName":  "Akershus fylkeskommune",
+                       "busAppointments":  [
+
+                                           ],
+                       "participants":  [
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  22,
+                                                "registrationGroup":  {
+                                                                          "name":  "2STA",
+                                                                          "schoolId":  3630
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  21,
+                                                "registrationGroup":  {
+                                                                          "name":  "2STB",
+                                                                          "schoolId":  3630
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  24,
+                                                "registrationGroup":  {
+                                                                          "name":  "2STC",
+                                                                          "schoolId":  3630
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  27,
+                                                "registrationGroup":  {
+                                                                          "name":  "2STD",
+                                                                          "schoolId":  3630
+                                                                      }
+                                            }
+                                        ],
+                       "production":  {
+                                          "id":  23051,
+                                          "name":  "Live Writing - VGS",
+                                          "subtitle":  "Forestilling",
+                                          "groupName":  "UNG TEKST Akershus ",
+                                          "descriptionShort":  "42, 43 og 44\n\nTekst-impro som skapes i \u0026oslash;yeblikket!\n\nTre unge dramatikere l\u0026oslash;ser korte og morsomme skriveoppgaver gitt av en konferansier, noen ganger med innspill fra elevene. Tekstene projiseres live og ledsages av improvisert musikk og videodesign.\u0026nbsp;\n\nLive\u0026nbsp;Writing\u0026nbsp;er leken og nyskapende litteraturformidling som minner om teatersport og impro. Elevene blir del av en engasjerende forestilling som er ny hver gang.\n",
+                                          "yearLevelMinimum":  11,
+                                          "yearLevelMaximum":  13,
+                                          "culturalExpressions":  [
+                                                                      {
+                                                                          "id":  4,
+                                                                          "name":  "Litteratur",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Litteratur",
+                                                                                                        "nn":  "Litteratur",
+                                                                                                        "en":  "Literature"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "litteratur",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      }
+                                                                  ],
+                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/021b9b495886f5a50a45b354349a9c88.jpg",
+                                          "branchOffice":  "Akershus fylkeskommune",
+                                          "academicYears":  [
+                                                                {
+                                                                    "id":  10,
+                                                                    "name":  "2026/2027"
+                                                                }
+                                                            ],
+                                          "isRegistrationOffer":  false,
+                                          "events":  [
+
+                                                     ]
+                                      },
+                       "schoolEventParticipantStatus":  null
+                   },
+                   {
                        "id":  532333,
                        "status":  "scheduled",
                        "dateStart":  1792143300,
@@ -9867,10 +9978,106 @@
                        "schoolEventParticipantStatus":  null
                    },
                    {
+                       "id":  566627,
+                       "status":  "scheduled",
+                       "dateStart":  1792144800,
+                       "dateEnd":  1792152900,
+                       "commentForParticipants":  "\u003cp\u003eSalen har 97 kinoseter, v\u0026aelig;r oppmerksom p\u0026aring; dette i forhold til hvor mange l\u0026aelig;rere som deltar. Skolen bestemmer selv hvilke elever/klasser som deltar p\u0026aring; denne visningen.\u003c/p\u003e\n",
+                       "location":  {
+                                        "name":  "Hoppensprett Akademiet VGS",
+                                        "address":  {
+                                                        "formatted":  "Industriveien 34, Jessheim 2069",
+                                                        "coordinate":  {
+                                                                           "lat":  60.1522849,
+                                                                           "lng":  11.1826983
+                                                                       }
+                                                    },
+                                        "phoneNumber":  null
+                                    },
+                       "numberOfStudents":  50,
+                       "numberOfTeachers":  0,
+                       "schools":  {
+                                       "7738":  {
+                                                    "name":  "Hoppensprett Akademiet VGS",
+                                                    "id":  7738,
+                                                    "address":  "Industriveien 34, Jessheim 2069",
+                                                    "phone":  null,
+                                                    "contactPersons":  [
+                                                                           "Jorun Wenger (rektor), jorun.wenger@hoppensprett.no",
+                                                                           "Bertha-Cecilie Øvergaard, +47 98 49 53 40, berthao@afk.no",
+                                                                           "Elin Normand (kulturkontakt), +47 90 77 61 76, elin.normand@hoppensprett.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Akershus fylkeskommune",
+                                                    "parentBranchOfficeName":  null
+                                                }
+                                   },
+                       "branchOfficeName":  "Akershus fylkeskommune",
+                       "busAppointments":  [
+
+                                           ],
+                       "participants":  [
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  25,
+                                                "registrationGroup":  {
+                                                                          "name":  "3STA",
+                                                                          "schoolId":  7738
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  25,
+                                                "registrationGroup":  {
+                                                                          "name":  "3STB",
+                                                                          "schoolId":  7738
+                                                                      }
+                                            }
+                                        ],
+                       "production":  {
+                                          "id":  23397,
+                                          "name":  "Min første kjærlighet - VGS",
+                                          "subtitle":  "Kinofilm om Ella som bruker rullestol (uke 42\u002643)",
+                                          "groupName":  "Mari Storstein og Marie Flaatten",
+                                          "descriptionShort":  "\u0026laquo;Min f\u0026oslash;rste kj\u0026aelig;rlighet\u0026raquo; handler om flinke Ella (19) som bruker rullestol. Hun starter p\u0026aring; h\u0026oslash;gskolen p\u0026aring; Lillehammer og finner en kj\u0026aelig;reste blant studentene. Men fra \u0026aring; ha brukerstyrt personlig assistansehjelp hjemme, blir Ella n\u0026aring; plassert p\u0026aring; institusjon av kommunen. Hun sjonglerer forelesninger, fester og forelskelsen med de rigide reglene p\u0026aring; institusjonen, mens hun venter p\u0026aring; at klagen p\u0026aring; vedtaket til kommunen skal g\u0026aring; gjennom.\u0026nbsp;\n\n\n\n\n\nFilmen er basert p\u0026aring; sanne hendelser, og elevene m\u0026oslash;ter regiss\u0026oslash;r Mari Storstein og hovedrolleinnehaver Marie Flaatten, som begge er rullestolbrukere. Dette gir filmen et unikt perspektiv.\n",
+                                          "yearLevelMinimum":  11,
+                                          "yearLevelMaximum":  13,
+                                          "culturalExpressions":  [
+                                                                      {
+                                                                          "id":  3,
+                                                                          "name":  "Film",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Film",
+                                                                                                        "nn":  "Film",
+                                                                                                        "en":  "Film"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "film",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/film-i-den-kulturelle-skolesekken/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      }
+                                                                  ],
+                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/d4f2f3d53b2e1ac532025bfd2fc1982b.jpg",
+                                          "branchOffice":  "Akershus fylkeskommune",
+                                          "academicYears":  [
+                                                                {
+                                                                    "id":  10,
+                                                                    "name":  "2026/2027"
+                                                                }
+                                                            ],
+                                          "isRegistrationOffer":  false,
+                                          "events":  [
+
+                                                     ]
+                                      },
+                       "schoolEventParticipantStatus":  null
+                   },
+                   {
                        "id":  546110,
                        "status":  "scheduled",
-                       "dateStart":  1792143900,
-                       "dateEnd":  1792146600,
+                       "dateStart":  1792146600,
+                       "dateEnd":  1792149300,
                        "commentForParticipants":  "",
                        "location":  {
                                         "name":  "Nesodden videregående skole – Auditoriet - 90",
@@ -9971,102 +10178,6 @@
                                                                       }
                                                                   ],
                                           "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/021b9b495886f5a50a45b354349a9c88.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  566627,
-                       "status":  "scheduled",
-                       "dateStart":  1792144800,
-                       "dateEnd":  1792152900,
-                       "commentForParticipants":  "\u003cp\u003eSalen har 97 kinoseter, v\u0026aelig;r oppmerksom p\u0026aring; dette i forhold til hvor mange l\u0026aelig;rere som deltar. Skolen bestemmer selv hvilke elever/klasser som deltar p\u0026aring; denne visningen.\u003c/p\u003e\n",
-                       "location":  {
-                                        "name":  "Hoppensprett Akademiet VGS",
-                                        "address":  {
-                                                        "formatted":  "Industriveien 34, Jessheim 2069",
-                                                        "coordinate":  {
-                                                                           "lat":  60.1522849,
-                                                                           "lng":  11.1826983
-                                                                       }
-                                                    },
-                                        "phoneNumber":  null
-                                    },
-                       "numberOfStudents":  50,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "7738":  {
-                                                    "name":  "Hoppensprett Akademiet VGS",
-                                                    "id":  7738,
-                                                    "address":  "Industriveien 34, Jessheim 2069",
-                                                    "phone":  null,
-                                                    "contactPersons":  [
-                                                                           "Jorun Wenger (rektor), jorun.wenger@hoppensprett.no",
-                                                                           "Bertha-Cecilie Øvergaard, +47 98 49 53 40, berthao@afk.no",
-                                                                           "Elin Normand (kulturkontakt), +47 90 77 61 76, elin.normand@hoppensprett.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  25,
-                                                "registrationGroup":  {
-                                                                          "name":  "3STA",
-                                                                          "schoolId":  7738
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  25,
-                                                "registrationGroup":  {
-                                                                          "name":  "3STB",
-                                                                          "schoolId":  7738
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  23397,
-                                          "name":  "Min første kjærlighet - VGS",
-                                          "subtitle":  "Kinofilm om Ella som bruker rullestol (uke 42\u002643)",
-                                          "groupName":  "Mari Storstein og Marie Flaatten",
-                                          "descriptionShort":  "\u0026laquo;Min f\u0026oslash;rste kj\u0026aelig;rlighet\u0026raquo; handler om flinke Ella (19) som bruker rullestol. Hun starter p\u0026aring; h\u0026oslash;gskolen p\u0026aring; Lillehammer og finner en kj\u0026aelig;reste blant studentene. Men fra \u0026aring; ha brukerstyrt personlig assistansehjelp hjemme, blir Ella n\u0026aring; plassert p\u0026aring; institusjon av kommunen. Hun sjonglerer forelesninger, fester og forelskelsen med de rigide reglene p\u0026aring; institusjonen, mens hun venter p\u0026aring; at klagen p\u0026aring; vedtaket til kommunen skal g\u0026aring; gjennom.\u0026nbsp;\n\n\n\n\n\nFilmen er basert p\u0026aring; sanne hendelser, og elevene m\u0026oslash;ter regiss\u0026oslash;r Mari Storstein og hovedrolleinnehaver Marie Flaatten, som begge er rullestolbrukere. Dette gir filmen et unikt perspektiv.\n",
-                                          "yearLevelMinimum":  11,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  3,
-                                                                          "name":  "Film",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Film",
-                                                                                                        "nn":  "Film",
-                                                                                                        "en":  "Film"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "film",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/film-i-den-kulturelle-skolesekken/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/d4f2f3d53b2e1ac532025bfd2fc1982b.jpg",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -10212,117 +10323,6 @@
                                                                       }
                                                                   ],
                                           "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/d4f2f3d53b2e1ac532025bfd2fc1982b.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  546111,
-                       "status":  "scheduled",
-                       "dateStart":  1792149900,
-                       "dateEnd":  1792152600,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Nesodden videregående skole – Auditoriet - 90",
-                                        "address":  {
-                                                        "formatted":  "Kjartan Veldes Vei 12, Nesodden 1459",
-                                                        "coordinate":  {
-                                                                           "lat":  59.839648236136,
-                                                                           "lng":  10.677877544315
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4766964200"
-                                    },
-                       "numberOfStudents":  94,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "3630":  {
-                                                    "name":  "Nesodden videregående skole",
-                                                    "id":  3630,
-                                                    "address":  "Kjartan Veldes Vei 12, Nesodden 1459",
-                                                    "phone":  "+47 66 96 42 00",
-                                                    "contactPersons":  [
-                                                                           "Kari Mariussen (tilrettelagt), +47 97 64 97 97, karimar@afk.no",
-                                                                           "Bjarte Bakken, +47 97 56 91 90, bjarteb@afk.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  22,
-                                                "registrationGroup":  {
-                                                                          "name":  "2STA",
-                                                                          "schoolId":  3630
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  21,
-                                                "registrationGroup":  {
-                                                                          "name":  "2STB",
-                                                                          "schoolId":  3630
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  24,
-                                                "registrationGroup":  {
-                                                                          "name":  "2STC",
-                                                                          "schoolId":  3630
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  27,
-                                                "registrationGroup":  {
-                                                                          "name":  "2STD",
-                                                                          "schoolId":  3630
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  23051,
-                                          "name":  "Live Writing - VGS",
-                                          "subtitle":  "Forestilling",
-                                          "groupName":  "UNG TEKST Akershus ",
-                                          "descriptionShort":  "42, 43 og 44\n\nTekst-impro som skapes i \u0026oslash;yeblikket!\n\nTre unge dramatikere l\u0026oslash;ser korte og morsomme skriveoppgaver gitt av en konferansier, noen ganger med innspill fra elevene. Tekstene projiseres live og ledsages av improvisert musikk og videodesign.\u0026nbsp;\n\nLive\u0026nbsp;Writing\u0026nbsp;er leken og nyskapende litteraturformidling som minner om teatersport og impro. Elevene blir del av en engasjerende forestilling som er ny hver gang.\n",
-                                          "yearLevelMinimum":  11,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  4,
-                                                                          "name":  "Litteratur",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Litteratur",
-                                                                                                        "nn":  "Litteratur",
-                                                                                                        "en":  "Literature"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "litteratur",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/021b9b495886f5a50a45b354349a9c88.jpg",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -22963,6 +22963,182 @@
                        "schoolEventParticipantStatus":  null
                    },
                    {
+                       "id":  567832,
+                       "status":  "scheduled",
+                       "dateStart":  1794211200,
+                       "dateEnd":  1794219300,
+                       "commentForParticipants":  "",
+                       "location":  {
+                                        "name":  "Odeon kino Sandvika – Odeon kino Sandvika",
+                                        "address":  {
+                                                        "formatted":  "Claude Monets alle 25, SANDVIKA 1338",
+                                                        "coordinate":  {
+                                                                           "lat":  59.8890961,
+                                                                           "lng":  10.5225058
+                                                                       }
+                                                    },
+                                        "phoneNumber":  "+4745863147"
+                                    },
+                       "numberOfStudents":  239,
+                       "numberOfTeachers":  0,
+                       "schools":  {
+                                       "6370":  {
+                                                    "name":  "Sandvika videregående skole",
+                                                    "id":  6370,
+                                                    "address":  "Elias Smiths Vei 15, SANDVIKA 1337",
+                                                    "phone":  "+47 92 83 41 03",
+                                                    "contactPersons":  [
+                                                                           "Kristin Berglid (kulturkontakt), +47 92 83 41 03, kristinber@afk.no",
+                                                                           "Heidi  Løvstad (tilrettelagt), +47 90 19 66 86, heidilo@afk.no",
+                                                                           "Håkon Korsvold, +47 99 01 91 43, hakonko@afk.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Akershus fylkeskommune",
+                                                    "parentBranchOfficeName":  null
+                                                }
+                                   },
+                       "branchOfficeName":  "Akershus fylkeskommune",
+                       "busAppointments":  [
+
+                                           ],
+                       "participants":  [
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  16,
+                                                "registrationGroup":  {
+                                                                          "name":  "1HEA",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  17,
+                                                "registrationGroup":  {
+                                                                          "name":  "1HEB",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  17,
+                                                "registrationGroup":  {
+                                                                          "name":  "1HEC",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  30,
+                                                "registrationGroup":  {
+                                                                          "name":  "1MKA",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  30,
+                                                "registrationGroup":  {
+                                                                          "name":  "1MKB",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  30,
+                                                "registrationGroup":  {
+                                                                          "name":  "1STA",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  29,
+                                                "registrationGroup":  {
+                                                                          "name":  "1STB",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  26,
+                                                "registrationGroup":  {
+                                                                          "name":  "1STC",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  32,
+                                                "registrationGroup":  {
+                                                                          "name":  "1STD",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  2,
+                                                "registrationGroup":  {
+                                                                          "name":  "AST1A",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  5,
+                                                "registrationGroup":  {
+                                                                          "name":  "AST1B",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  5,
+                                                "registrationGroup":  {
+                                                                          "name":  "AST1C",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            }
+                                        ],
+                       "production":  {
+                                          "id":  23436,
+                                          "name":  "Drapet på Benjamin Hermansen - VGS",
+                                          "subtitle":  "Kinofilm om utenforskap og ekstremisme (uke 10)",
+                                          "groupName":  "",
+                                          "descriptionShort":  "En vinternatt blir Benjamin (15) knivdrept av Joe Erling (19). Benjamin er m\u0026oslash;rkhudet, og Joe Erling har blitt en del av et nynazistisk milj\u0026oslash;. Drapet er rasistisk motivert.\n\nSpillefilmen skildrer tiden f\u0026oslash;r og etter drapet, sett gjennom Benjamin selv, moren hans og drapsmannen Joe Erling. Filmen handler om drapet p\u0026aring; Holmlia i 2001 og ber\u0026oslash;rer dagsaktuelle temaer som utenforskap og ekstremisme.\n\n\n\n\n\nFilmskaper Ingvild S\u0026oslash;derlind vokste selv opp p\u0026aring; Holmlia da drapet skjedde. Hun snakker med elevene om hvorfor tematikken er aktuell ogs\u0026aring; i dag, og om ytringsfrihet og grensen mellom diktning og historiske\u0026nbsp;fakta.\n",
+                                          "yearLevelMinimum":  11,
+                                          "yearLevelMaximum":  13,
+                                          "culturalExpressions":  [
+                                                                      {
+                                                                          "id":  3,
+                                                                          "name":  "Film",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Film",
+                                                                                                        "nn":  "Film",
+                                                                                                        "en":  "Film"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "film",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/film-i-den-kulturelle-skolesekken/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      }
+                                                                  ],
+                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/b2cbf12cd03a2c4721ffd25fbfa600ee.jpg",
+                                          "branchOffice":  "Akershus fylkeskommune",
+                                          "academicYears":  [
+                                                                {
+                                                                    "id":  10,
+                                                                    "name":  "2026/2027"
+                                                                }
+                                                            ],
+                                          "isRegistrationOffer":  false,
+                                          "events":  [
+
+                                                     ]
+                                      },
+                       "schoolEventParticipantStatus":  null
+                   },
+                   {
                        "id":  544864,
                        "status":  "scheduled",
                        "dateStart":  1794214800,
@@ -23637,6 +23813,174 @@
                        "schoolEventParticipantStatus":  null
                    },
                    {
+                       "id":  567833,
+                       "status":  "scheduled",
+                       "dateStart":  1794222000,
+                       "dateEnd":  1794230100,
+                       "commentForParticipants":  "",
+                       "location":  {
+                                        "name":  "Odeon kino Sandvika – Odeon kino Sandvika",
+                                        "address":  {
+                                                        "formatted":  "Claude Monets alle 25, SANDVIKA 1338",
+                                                        "coordinate":  {
+                                                                           "lat":  59.8890961,
+                                                                           "lng":  10.5225058
+                                                                       }
+                                                    },
+                                        "phoneNumber":  "+4745863147"
+                                    },
+                       "numberOfStudents":  222,
+                       "numberOfTeachers":  0,
+                       "schools":  {
+                                       "6370":  {
+                                                    "name":  "Sandvika videregående skole",
+                                                    "id":  6370,
+                                                    "address":  "Elias Smiths Vei 15, SANDVIKA 1337",
+                                                    "phone":  "+47 92 83 41 03",
+                                                    "contactPersons":  [
+                                                                           "Kristin Berglid (kulturkontakt), +47 92 83 41 03, kristinber@afk.no",
+                                                                           "Heidi  Løvstad (tilrettelagt), +47 90 19 66 86, heidilo@afk.no",
+                                                                           "Håkon Korsvold, +47 99 01 91 43, hakonko@afk.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Akershus fylkeskommune",
+                                                    "parentBranchOfficeName":  null
+                                                }
+                                   },
+                       "branchOfficeName":  "Akershus fylkeskommune",
+                       "busAppointments":  [
+
+                                           ],
+                       "participants":  [
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  29,
+                                                "registrationGroup":  {
+                                                                          "name":  "2STE",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  29,
+                                                "registrationGroup":  {
+                                                                          "name":  "2STF",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  30,
+                                                "registrationGroup":  {
+                                                                          "name":  "2STG",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  17,
+                                                "registrationGroup":  {
+                                                                          "name":  "1HED",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  28,
+                                                "registrationGroup":  {
+                                                                          "name":  "1STE",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  29,
+                                                "registrationGroup":  {
+                                                                          "name":  "1STF",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  30,
+                                                "registrationGroup":  {
+                                                                          "name":  "1STG",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  21,
+                                                "registrationGroup":  {
+                                                                          "name":  "1STS",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  3,
+                                                "registrationGroup":  {
+                                                                          "name":  "AST1D",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  3,
+                                                "registrationGroup":  {
+                                                                          "name":  "AST1E",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  3,
+                                                "registrationGroup":  {
+                                                                          "name":  "AST1F",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            }
+                                        ],
+                       "production":  {
+                                          "id":  23436,
+                                          "name":  "Drapet på Benjamin Hermansen - VGS",
+                                          "subtitle":  "Kinofilm om utenforskap og ekstremisme (uke 10)",
+                                          "groupName":  "",
+                                          "descriptionShort":  "En vinternatt blir Benjamin (15) knivdrept av Joe Erling (19). Benjamin er m\u0026oslash;rkhudet, og Joe Erling har blitt en del av et nynazistisk milj\u0026oslash;. Drapet er rasistisk motivert.\n\nSpillefilmen skildrer tiden f\u0026oslash;r og etter drapet, sett gjennom Benjamin selv, moren hans og drapsmannen Joe Erling. Filmen handler om drapet p\u0026aring; Holmlia i 2001 og ber\u0026oslash;rer dagsaktuelle temaer som utenforskap og ekstremisme.\n\n\n\n\n\nFilmskaper Ingvild S\u0026oslash;derlind vokste selv opp p\u0026aring; Holmlia da drapet skjedde. Hun snakker med elevene om hvorfor tematikken er aktuell ogs\u0026aring; i dag, og om ytringsfrihet og grensen mellom diktning og historiske\u0026nbsp;fakta.\n",
+                                          "yearLevelMinimum":  11,
+                                          "yearLevelMaximum":  13,
+                                          "culturalExpressions":  [
+                                                                      {
+                                                                          "id":  3,
+                                                                          "name":  "Film",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Film",
+                                                                                                        "nn":  "Film",
+                                                                                                        "en":  "Film"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "film",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/film-i-den-kulturelle-skolesekken/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      }
+                                                                  ],
+                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/b2cbf12cd03a2c4721ffd25fbfa600ee.jpg",
+                                          "branchOffice":  "Akershus fylkeskommune",
+                                          "academicYears":  [
+                                                                {
+                                                                    "id":  10,
+                                                                    "name":  "2026/2027"
+                                                                }
+                                                            ],
+                                          "isRegistrationOffer":  false,
+                                          "events":  [
+
+                                                     ]
+                                      },
+                       "schoolEventParticipantStatus":  null
+                   },
+                   {
                        "id":  542021,
                        "status":  "scheduled",
                        "dateStart":  1794222600,
@@ -24139,10 +24483,154 @@
                        "schoolEventParticipantStatus":  null
                    },
                    {
+                       "id":  567834,
+                       "status":  "scheduled",
+                       "dateStart":  1794297600,
+                       "dateEnd":  1794305700,
+                       "commentForParticipants":  "",
+                       "location":  {
+                                        "name":  "Odeon kino Sandvika – Odeon kino Sandvika",
+                                        "address":  {
+                                                        "formatted":  "Claude Monets alle 25, SANDVIKA 1338",
+                                                        "coordinate":  {
+                                                                           "lat":  59.8890961,
+                                                                           "lng":  10.5225058
+                                                                       }
+                                                    },
+                                        "phoneNumber":  "+4745863147"
+                                    },
+                       "numberOfStudents":  240,
+                       "numberOfTeachers":  0,
+                       "schools":  {
+                                       "6370":  {
+                                                    "name":  "Sandvika videregående skole",
+                                                    "id":  6370,
+                                                    "address":  "Elias Smiths Vei 15, SANDVIKA 1337",
+                                                    "phone":  "+47 92 83 41 03",
+                                                    "contactPersons":  [
+                                                                           "Kristin Berglid (kulturkontakt), +47 92 83 41 03, kristinber@afk.no",
+                                                                           "Heidi  Løvstad (tilrettelagt), +47 90 19 66 86, heidilo@afk.no",
+                                                                           "Håkon Korsvold, +47 99 01 91 43, hakonko@afk.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Akershus fylkeskommune",
+                                                    "parentBranchOfficeName":  null
+                                                }
+                                   },
+                       "branchOfficeName":  "Akershus fylkeskommune",
+                       "busAppointments":  [
+
+                                           ],
+                       "participants":  [
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  27,
+                                                "registrationGroup":  {
+                                                                          "name":  "3MKA",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  27,
+                                                "registrationGroup":  {
+                                                                          "name":  "3MKB",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  31,
+                                                "registrationGroup":  {
+                                                                          "name":  "3STA",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  31,
+                                                "registrationGroup":  {
+                                                                          "name":  "3STB",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  30,
+                                                "registrationGroup":  {
+                                                                          "name":  "3STC",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  31,
+                                                "registrationGroup":  {
+                                                                          "name":  "3STD",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  31,
+                                                "registrationGroup":  {
+                                                                          "name":  "3STE",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  32,
+                                                "registrationGroup":  {
+                                                                          "name":  "3STF",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            }
+                                        ],
+                       "production":  {
+                                          "id":  23436,
+                                          "name":  "Drapet på Benjamin Hermansen - VGS",
+                                          "subtitle":  "Kinofilm om utenforskap og ekstremisme (uke 10)",
+                                          "groupName":  "",
+                                          "descriptionShort":  "En vinternatt blir Benjamin (15) knivdrept av Joe Erling (19). Benjamin er m\u0026oslash;rkhudet, og Joe Erling har blitt en del av et nynazistisk milj\u0026oslash;. Drapet er rasistisk motivert.\n\nSpillefilmen skildrer tiden f\u0026oslash;r og etter drapet, sett gjennom Benjamin selv, moren hans og drapsmannen Joe Erling. Filmen handler om drapet p\u0026aring; Holmlia i 2001 og ber\u0026oslash;rer dagsaktuelle temaer som utenforskap og ekstremisme.\n\n\n\n\n\nFilmskaper Ingvild S\u0026oslash;derlind vokste selv opp p\u0026aring; Holmlia da drapet skjedde. Hun snakker med elevene om hvorfor tematikken er aktuell ogs\u0026aring; i dag, og om ytringsfrihet og grensen mellom diktning og historiske\u0026nbsp;fakta.\n",
+                                          "yearLevelMinimum":  11,
+                                          "yearLevelMaximum":  13,
+                                          "culturalExpressions":  [
+                                                                      {
+                                                                          "id":  3,
+                                                                          "name":  "Film",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Film",
+                                                                                                        "nn":  "Film",
+                                                                                                        "en":  "Film"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "film",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/film-i-den-kulturelle-skolesekken/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      }
+                                                                  ],
+                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/b2cbf12cd03a2c4721ffd25fbfa600ee.jpg",
+                                          "branchOffice":  "Akershus fylkeskommune",
+                                          "academicYears":  [
+                                                                {
+                                                                    "id":  10,
+                                                                    "name":  "2026/2027"
+                                                                }
+                                                            ],
+                                          "isRegistrationOffer":  false,
+                                          "events":  [
+
+                                                     ]
+                                      },
+                       "schoolEventParticipantStatus":  null
+                   },
+                   {
                        "id":  542022,
                        "status":  "scheduled",
-                       "dateStart":  1794300300,
-                       "dateEnd":  1794303000,
+                       "dateStart":  1794299700,
+                       "dateEnd":  1794302400,
                        "commentForParticipants":  "",
                        "location":  {
                                         "name":  "Nesodden videregående skole – Auditoriet - 90",
@@ -24368,6 +24856,101 @@
                        "schoolEventParticipantStatus":  null
                    },
                    {
+                       "id":  542023,
+                       "status":  "scheduled",
+                       "dateStart":  1794306000,
+                       "dateEnd":  1794308700,
+                       "commentForParticipants":  "",
+                       "location":  {
+                                        "name":  "Nesodden videregående skole – Auditoriet - 90",
+                                        "address":  {
+                                                        "formatted":  "Kjartan Veldes Vei 12, Nesodden 1459",
+                                                        "coordinate":  {
+                                                                           "lat":  59.839648236136,
+                                                                           "lng":  10.677877544315
+                                                                       }
+                                                    },
+                                        "phoneNumber":  "+4766964200"
+                                    },
+                       "numberOfStudents":  53,
+                       "numberOfTeachers":  0,
+                       "schools":  {
+                                       "3630":  {
+                                                    "name":  "Nesodden videregående skole",
+                                                    "id":  3630,
+                                                    "address":  "Kjartan Veldes Vei 12, Nesodden 1459",
+                                                    "phone":  "+47 66 96 42 00",
+                                                    "contactPersons":  [
+                                                                           "Kari Mariussen (tilrettelagt), +47 97 64 97 97, karimar@afk.no",
+                                                                           "Bjarte Bakken, +47 97 56 91 90, bjarteb@afk.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Akershus fylkeskommune",
+                                                    "parentBranchOfficeName":  null
+                                                }
+                                   },
+                       "branchOfficeName":  "Akershus fylkeskommune",
+                       "busAppointments":  [
+
+                                           ],
+                       "participants":  [
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  25,
+                                                "registrationGroup":  {
+                                                                          "name":  "3STC",
+                                                                          "schoolId":  3630
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  28,
+                                                "registrationGroup":  {
+                                                                          "name":  "3STD",
+                                                                          "schoolId":  3630
+                                                                      }
+                                            }
+                                        ],
+                       "production":  {
+                                          "id":  23050,
+                                          "name":  "Kunsten å forestille seg det umulige - VGS",
+                                          "subtitle":  "Forfattermøte",
+                                          "groupName":  "Bjørn Vatne",
+                                          "descriptionShort":  "Tilgjengelig for bestilling i uke 46 og 48.\u0026nbsp;\n\nScience\u0026nbsp;fiction‑litteraturen har alltid fungert som et speil for teknologisk utvikling.\u0026nbsp;Den har hjulpet oss med \u0026aring; tenke nytt om samtiden, og forberedt oss p\u0026aring; framtiden. Men hva n\u0026aring;? F\u0026oslash;rer utvikling av kunstig intelligens til at virkeligheten snart tar igjen fiksjonen?\u0026nbsp;\n\nForfatter Bj\u0026oslash;rn Vatne har skrevet dystopien \u0026ldquo;Nullingen av Paul Abel\u0026rdquo;. Den handler om en framtid der alle nordmenn er fysisk\u0026nbsp;tilkoblet\u0026nbsp;datanettverket\u0026nbsp;Sjalken\u0026nbsp;- et system som i feil hender kan bli et farlig maktmiddel.\u0026nbsp;Vatne tar elevene med inn i arbeidet med boka og oppdagelsen av at den framtiden han skrev om, kanskje alt er her.\u0026nbsp;\u0026nbsp;\n",
+                                          "yearLevelMinimum":  11,
+                                          "yearLevelMaximum":  13,
+                                          "culturalExpressions":  [
+                                                                      {
+                                                                          "id":  4,
+                                                                          "name":  "Litteratur",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Litteratur",
+                                                                                                        "nn":  "Litteratur",
+                                                                                                        "en":  "Literature"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "litteratur",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      }
+                                                                  ],
+                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/a93667143c28c5602abd3c9b5aaf058a.jpg",
+                                          "branchOffice":  "Akershus fylkeskommune",
+                                          "academicYears":  [
+                                                                {
+                                                                    "id":  10,
+                                                                    "name":  "2026/2027"
+                                                                }
+                                                            ],
+                                          "isRegistrationOffer":  false,
+                                          "events":  [
+
+                                                     ]
+                                      },
+                       "schoolEventParticipantStatus":  null
+                   },
+                   {
                        "id":  532232,
                        "status":  "scheduled",
                        "dateStart":  1794308400,
@@ -24537,6 +25120,94 @@
                                                                       }
                                                                   ],
                                           "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/dff3e40bb053a1eaf5f99a25761d0cec.jpg",
+                                          "branchOffice":  "Akershus fylkeskommune",
+                                          "academicYears":  [
+                                                                {
+                                                                    "id":  10,
+                                                                    "name":  "2026/2027"
+                                                                }
+                                                            ],
+                                          "isRegistrationOffer":  false,
+                                          "events":  [
+
+                                                     ]
+                                      },
+                       "schoolEventParticipantStatus":  null
+                   },
+                   {
+                       "id":  567835,
+                       "status":  "scheduled",
+                       "dateStart":  1794308400,
+                       "dateEnd":  1794316500,
+                       "commentForParticipants":  "",
+                       "location":  {
+                                        "name":  "Odeon kino Sandvika – Odeon kino Sandvika",
+                                        "address":  {
+                                                        "formatted":  "Claude Monets alle 25, SANDVIKA 1338",
+                                                        "coordinate":  {
+                                                                           "lat":  59.8890961,
+                                                                           "lng":  10.5225058
+                                                                       }
+                                                    },
+                                        "phoneNumber":  "+4745863147"
+                                    },
+                       "numberOfStudents":  31,
+                       "numberOfTeachers":  0,
+                       "schools":  {
+                                       "6370":  {
+                                                    "name":  "Sandvika videregående skole",
+                                                    "id":  6370,
+                                                    "address":  "Elias Smiths Vei 15, SANDVIKA 1337",
+                                                    "phone":  "+47 92 83 41 03",
+                                                    "contactPersons":  [
+                                                                           "Kristin Berglid (kulturkontakt), +47 92 83 41 03, kristinber@afk.no",
+                                                                           "Heidi  Løvstad (tilrettelagt), +47 90 19 66 86, heidilo@afk.no",
+                                                                           "Håkon Korsvold, +47 99 01 91 43, hakonko@afk.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Akershus fylkeskommune",
+                                                    "parentBranchOfficeName":  null
+                                                }
+                                   },
+                       "branchOfficeName":  "Akershus fylkeskommune",
+                       "busAppointments":  [
+
+                                           ],
+                       "participants":  [
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  31,
+                                                "registrationGroup":  {
+                                                                          "name":  "3STG",
+                                                                          "schoolId":  6370
+                                                                      }
+                                            }
+                                        ],
+                       "production":  {
+                                          "id":  23436,
+                                          "name":  "Drapet på Benjamin Hermansen - VGS",
+                                          "subtitle":  "Kinofilm om utenforskap og ekstremisme (uke 10)",
+                                          "groupName":  "",
+                                          "descriptionShort":  "En vinternatt blir Benjamin (15) knivdrept av Joe Erling (19). Benjamin er m\u0026oslash;rkhudet, og Joe Erling har blitt en del av et nynazistisk milj\u0026oslash;. Drapet er rasistisk motivert.\n\nSpillefilmen skildrer tiden f\u0026oslash;r og etter drapet, sett gjennom Benjamin selv, moren hans og drapsmannen Joe Erling. Filmen handler om drapet p\u0026aring; Holmlia i 2001 og ber\u0026oslash;rer dagsaktuelle temaer som utenforskap og ekstremisme.\n\n\n\n\n\nFilmskaper Ingvild S\u0026oslash;derlind vokste selv opp p\u0026aring; Holmlia da drapet skjedde. Hun snakker med elevene om hvorfor tematikken er aktuell ogs\u0026aring; i dag, og om ytringsfrihet og grensen mellom diktning og historiske\u0026nbsp;fakta.\n",
+                                          "yearLevelMinimum":  11,
+                                          "yearLevelMaximum":  13,
+                                          "culturalExpressions":  [
+                                                                      {
+                                                                          "id":  3,
+                                                                          "name":  "Film",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Film",
+                                                                                                        "nn":  "Film",
+                                                                                                        "en":  "Film"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "film",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/film-i-den-kulturelle-skolesekken/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      }
+                                                                  ],
+                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/b2cbf12cd03a2c4721ffd25fbfa600ee.jpg",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -24799,101 +25470,6 @@
                                                                   ],
                                           "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/42e6c6e5f06def2f9210c3759818eb43.jpg",
                                           "branchOffice":  "Asker kommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  542023,
-                       "status":  "scheduled",
-                       "dateStart":  1794310500,
-                       "dateEnd":  1794313200,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Nesodden videregående skole – Auditoriet - 90",
-                                        "address":  {
-                                                        "formatted":  "Kjartan Veldes Vei 12, Nesodden 1459",
-                                                        "coordinate":  {
-                                                                           "lat":  59.839648236136,
-                                                                           "lng":  10.677877544315
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4766964200"
-                                    },
-                       "numberOfStudents":  53,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "3630":  {
-                                                    "name":  "Nesodden videregående skole",
-                                                    "id":  3630,
-                                                    "address":  "Kjartan Veldes Vei 12, Nesodden 1459",
-                                                    "phone":  "+47 66 96 42 00",
-                                                    "contactPersons":  [
-                                                                           "Kari Mariussen (tilrettelagt), +47 97 64 97 97, karimar@afk.no",
-                                                                           "Bjarte Bakken, +47 97 56 91 90, bjarteb@afk.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  25,
-                                                "registrationGroup":  {
-                                                                          "name":  "3STC",
-                                                                          "schoolId":  3630
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  28,
-                                                "registrationGroup":  {
-                                                                          "name":  "3STD",
-                                                                          "schoolId":  3630
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  23050,
-                                          "name":  "Kunsten å forestille seg det umulige - VGS",
-                                          "subtitle":  "Forfattermøte",
-                                          "groupName":  "Bjørn Vatne",
-                                          "descriptionShort":  "Tilgjengelig for bestilling i uke 46 og 48.\u0026nbsp;\n\nScience\u0026nbsp;fiction‑litteraturen har alltid fungert som et speil for teknologisk utvikling.\u0026nbsp;Den har hjulpet oss med \u0026aring; tenke nytt om samtiden, og forberedt oss p\u0026aring; framtiden. Men hva n\u0026aring;? F\u0026oslash;rer utvikling av kunstig intelligens til at virkeligheten snart tar igjen fiksjonen?\u0026nbsp;\n\nForfatter Bj\u0026oslash;rn Vatne har skrevet dystopien \u0026ldquo;Nullingen av Paul Abel\u0026rdquo;. Den handler om en framtid der alle nordmenn er fysisk\u0026nbsp;tilkoblet\u0026nbsp;datanettverket\u0026nbsp;Sjalken\u0026nbsp;- et system som i feil hender kan bli et farlig maktmiddel.\u0026nbsp;Vatne tar elevene med inn i arbeidet med boka og oppdagelsen av at den framtiden han skrev om, kanskje alt er her.\u0026nbsp;\u0026nbsp;\n",
-                                          "yearLevelMinimum":  11,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  4,
-                                                                          "name":  "Litteratur",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Litteratur",
-                                                                                                        "nn":  "Litteratur",
-                                                                                                        "en":  "Literature"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "litteratur",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/a93667143c28c5602abd3c9b5aaf058a.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
                                                                     "id":  10,
@@ -34271,32 +34847,33 @@
                        "schoolEventParticipantStatus":  null
                    },
                    {
-                       "id":  544833,
-                       "status":  "canceled_by_school",
+                       "id":  567830,
+                       "status":  "scheduled",
                        "dateStart":  1795683600,
                        "dateEnd":  1795689000,
                        "commentForParticipants":  "",
                        "location":  {
-                                        "name":  "Valler videregående skole – Auditorium (100)",
+                                        "name":  "Nannestad videregående skole – Auditorium (120 seter)",
                                         "address":  {
-                                                        "formatted":  "Brynsveien 46, SANDVIKA 1338",
+                                                        "formatted":  "Smedstuvegen 2, NANNESTAD 2030",
                                                         "coordinate":  {
-                                                                           "lat":  59.901284624473,
-                                                                           "lng":  10.526955071526
+                                                                           "lat":  60.2199151549,
+                                                                           "lng":  11.020278786904
                                                                        }
                                                     },
-                                        "phoneNumber":  "+4767805750"
+                                        "phoneNumber":  "+4763996600"
                                     },
-                       "numberOfStudents":  53,
+                       "numberOfStudents":  143,
                        "numberOfTeachers":  0,
                        "schools":  {
-                                       "6363":  {
-                                                    "name":  "Valler videregående skole",
-                                                    "id":  6363,
-                                                    "address":  "Brynsveien 46, SANDVIKA 1338",
-                                                    "phone":  "+47 67 80 57 50",
+                                       "6375":  {
+                                                    "name":  "Nannestad videregående skole",
+                                                    "id":  6375,
+                                                    "address":  "Smedstuvegen 2, NANNESTAD 2030",
+                                                    "phone":  "+47 63 99 66 00",
                                                     "contactPersons":  [
-                                                                           "Heidi Heier Gudmundseth (kulturkontakt), +47 97 78 63 26, heidigud@afk.no"
+                                                                           "Cathrine Tangen (kulturkontakt), +47 93 40 84 77, cathrineta@afk.no",
+                                                                           "Kine Marie Kapaasen Madsen (kulturkontakt), +47 90 24 34 33, kinem@afk.no"
                                                                        ],
                                                     "branchOfficeName":  "Akershus fylkeskommune",
                                                     "parentBranchOfficeName":  null
@@ -34309,18 +34886,58 @@
                        "participants":  [
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  28,
+                                                "numberOfStudents":  30,
                                                 "registrationGroup":  {
-                                                                          "name":  "1STA",
-                                                                          "schoolId":  6363
+                                                                          "name":  "2MK",
+                                                                          "schoolId":  6375
                                                                       }
                                             },
                                             {
                                                 "status":  "allocated",
-                                                "numberOfStudents":  25,
+                                                "numberOfStudents":  15,
                                                 "registrationGroup":  {
-                                                                          "name":  "1STB",
-                                                                          "schoolId":  6363
+                                                                          "name":  "1IMA",
+                                                                          "schoolId":  6375
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  15,
+                                                "registrationGroup":  {
+                                                                          "name":  "1IMB",
+                                                                          "schoolId":  6375
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  30,
+                                                "registrationGroup":  {
+                                                                          "name":  "1MK",
+                                                                          "schoolId":  6375
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  8,
+                                                "registrationGroup":  {
+                                                                          "name":  "TIM1",
+                                                                          "schoolId":  6375
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  15,
+                                                "registrationGroup":  {
+                                                                          "name":  "2MP",
+                                                                          "schoolId":  6375
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  30,
+                                                "registrationGroup":  {
+                                                                          "name":  "3MK",
+                                                                          "schoolId":  6375
                                                                       }
                                             }
                                         ],
@@ -36347,6 +36964,116 @@
                        "schoolEventParticipantStatus":  null
                    },
                    {
+                       "id":  541864,
+                       "status":  "scheduled",
+                       "dateStart":  1796198400,
+                       "dateEnd":  1796202000,
+                       "commentForParticipants":  "",
+                       "location":  {
+                                        "name":  "Frogn videregående skole",
+                                        "address":  {
+                                                        "formatted":  "Holtbråtveien 51, DRØBAK 1449",
+                                                        "coordinate":  {
+                                                                           "lat":  59.692401949527,
+                                                                           "lng":  10.660596784576
+                                                                       }
+                                                    },
+                                        "phoneNumber":  "+4764937500"
+                                    },
+                       "numberOfStudents":  116,
+                       "numberOfTeachers":  0,
+                       "schools":  {
+                                       "6380":  {
+                                                    "name":  "Frogn videregående skole",
+                                                    "id":  6380,
+                                                    "address":  "Holtbråtveien 51, DRØBAK 1449",
+                                                    "phone":  "+47 64 93 75 00",
+                                                    "contactPersons":  [
+                                                                           "Erica Rae  Reagan-Harham, +47 40 45 61 02, ericar@afk.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Akershus fylkeskommune",
+                                                    "parentBranchOfficeName":  null
+                                                }
+                                   },
+                       "branchOfficeName":  "Akershus fylkeskommune",
+                       "busAppointments":  [
+
+                                           ],
+                       "participants":  [
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  31,
+                                                "registrationGroup":  {
+                                                                          "name":  "1BUS",
+                                                                          "schoolId":  6380
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  31,
+                                                "registrationGroup":  {
+                                                                          "name":  "1IDA",
+                                                                          "schoolId":  6380
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  25,
+                                                "registrationGroup":  {
+                                                                          "name":  "1SRA",
+                                                                          "schoolId":  6380
+                                                                      }
+                                            },
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  29,
+                                                "registrationGroup":  {
+                                                                          "name":  "1STB",
+                                                                          "schoolId":  6380
+                                                                      }
+                                            }
+                                        ],
+                       "production":  {
+                                          "id":  22248,
+                                          "name":  "Justismordets DNA - VGS",
+                                          "subtitle":  "Forfattermøte",
+                                          "groupName":  "Bjørn Olav Jahr ",
+                                          "descriptionShort":  "Tilgjengelig for bestilling h\u0026oslash;st 2026 og v\u0026aring;r 2027.\n\nB\u0026oslash;ker kan endre samfunnet!\u0026nbsp;\n\nGjennom\u0026nbsp;mange \u0026aring;rs\u0026nbsp;arbeid med b\u0026oslash;ker, TV‑produksjoner og podkaster\u0026nbsp;bidro\u0026nbsp;forfatter og journalist Bj\u0026oslash;rn Olav Jahr til at Birgitte Tengs\u0026#39; fetter ble renvasket for drapet p\u0026aring; sin kusine.\u0026nbsp;I tillegg\u0026nbsp;medvirket han\u0026nbsp;til\u0026nbsp;at Viggo Kristiansen slapp ut av fengsel etter 20 \u0026aring;rs urettmessig soning for drapene i Baneheia.\u0026nbsp;\u0026nbsp;\u0026nbsp;\n\u0026nbsp;\u0026nbsp;\u0026nbsp;\nJahr tar elevene med p\u0026aring; alle faser av et justismord.\u0026nbsp;Han\u0026nbsp;viser\u0026nbsp;hvordan\u0026nbsp;fordypning\u0026nbsp;i et\u0026nbsp;materiale\u0026nbsp;kan\u0026nbsp;utfordre og endre sannheter.\u0026nbsp;Ikke minst viser han\u0026nbsp;at kritisk\u0026nbsp;tenking\u0026nbsp;og evnen til \u0026aring; erkjenne feil\u0026nbsp;er\u0026nbsp;medisinen for \u0026aring; motvirke\u0026nbsp;noe av\u0026nbsp;det verste som kan ramme et menneske\u0026nbsp;- \u0026aring; bli\u0026nbsp;uskyldig\u0026nbsp;d\u0026oslash;mt.\u0026nbsp;\u0026nbsp;\n",
+                                          "yearLevelMinimum":  11,
+                                          "yearLevelMaximum":  13,
+                                          "culturalExpressions":  [
+                                                                      {
+                                                                          "id":  4,
+                                                                          "name":  "Litteratur",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Litteratur",
+                                                                                                        "nn":  "Litteratur",
+                                                                                                        "en":  "Literature"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "litteratur",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      }
+                                                                  ],
+                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/a815becf68ad2bb0270db3d51d586cd9.jpg",
+                                          "branchOffice":  "Akershus fylkeskommune",
+                                          "academicYears":  [
+                                                                {
+                                                                    "id":  10,
+                                                                    "name":  "2026/2027"
+                                                                }
+                                                            ],
+                                          "isRegistrationOffer":  false,
+                                          "events":  [
+
+                                                     ]
+                                      },
+                       "schoolEventParticipantStatus":  null
+                   },
+                   {
                        "id":  532253,
                        "status":  "scheduled",
                        "dateStart":  1796202000,
@@ -36505,116 +37232,6 @@
                                                                       }
                                                                   ],
                                           "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/a4f9b69dc839ce04ec43e76fcd7f3bca.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  541864,
-                       "status":  "scheduled",
-                       "dateStart":  1796202000,
-                       "dateEnd":  1796205600,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Frogn videregående skole",
-                                        "address":  {
-                                                        "formatted":  "Holtbråtveien 51, DRØBAK 1449",
-                                                        "coordinate":  {
-                                                                           "lat":  59.692401949527,
-                                                                           "lng":  10.660596784576
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4764937500"
-                                    },
-                       "numberOfStudents":  116,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "6380":  {
-                                                    "name":  "Frogn videregående skole",
-                                                    "id":  6380,
-                                                    "address":  "Holtbråtveien 51, DRØBAK 1449",
-                                                    "phone":  "+47 64 93 75 00",
-                                                    "contactPersons":  [
-                                                                           "Erica Rae  Reagan-Harham, +47 40 45 61 02, ericar@afk.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  31,
-                                                "registrationGroup":  {
-                                                                          "name":  "1BUS",
-                                                                          "schoolId":  6380
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  31,
-                                                "registrationGroup":  {
-                                                                          "name":  "1IDA",
-                                                                          "schoolId":  6380
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  25,
-                                                "registrationGroup":  {
-                                                                          "name":  "1SRA",
-                                                                          "schoolId":  6380
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  29,
-                                                "registrationGroup":  {
-                                                                          "name":  "1STB",
-                                                                          "schoolId":  6380
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  22248,
-                                          "name":  "Justismordets DNA - VGS",
-                                          "subtitle":  "Forfattermøte",
-                                          "groupName":  "Bjørn Olav Jahr ",
-                                          "descriptionShort":  "Tilgjengelig for bestilling h\u0026oslash;st 2026 og v\u0026aring;r 2027.\n\nB\u0026oslash;ker kan endre samfunnet!\u0026nbsp;\n\nGjennom\u0026nbsp;mange \u0026aring;rs\u0026nbsp;arbeid med b\u0026oslash;ker, TV‑produksjoner og podkaster\u0026nbsp;bidro\u0026nbsp;forfatter og journalist Bj\u0026oslash;rn Olav Jahr til at Birgitte Tengs\u0026#39; fetter ble renvasket for drapet p\u0026aring; sin kusine.\u0026nbsp;I tillegg\u0026nbsp;medvirket han\u0026nbsp;til\u0026nbsp;at Viggo Kristiansen slapp ut av fengsel etter 20 \u0026aring;rs urettmessig soning for drapene i Baneheia.\u0026nbsp;\u0026nbsp;\u0026nbsp;\n\u0026nbsp;\u0026nbsp;\u0026nbsp;\nJahr tar elevene med p\u0026aring; alle faser av et justismord.\u0026nbsp;Han\u0026nbsp;viser\u0026nbsp;hvordan\u0026nbsp;fordypning\u0026nbsp;i et\u0026nbsp;materiale\u0026nbsp;kan\u0026nbsp;utfordre og endre sannheter.\u0026nbsp;Ikke minst viser han\u0026nbsp;at kritisk\u0026nbsp;tenking\u0026nbsp;og evnen til \u0026aring; erkjenne feil\u0026nbsp;er\u0026nbsp;medisinen for \u0026aring; motvirke\u0026nbsp;noe av\u0026nbsp;det verste som kan ramme et menneske\u0026nbsp;- \u0026aring; bli\u0026nbsp;uskyldig\u0026nbsp;d\u0026oslash;mt.\u0026nbsp;\u0026nbsp;\n",
-                                          "yearLevelMinimum":  11,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  4,
-                                                                          "name":  "Litteratur",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Litteratur",
-                                                                                                        "nn":  "Litteratur",
-                                                                                                        "en":  "Literature"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "litteratur",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/a815becf68ad2bb0270db3d51d586cd9.jpg",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -61955,8 +62572,8 @@
                    {
                        "id":  541884,
                        "status":  "scheduled",
-                       "dateStart":  1805448900,
-                       "dateEnd":  1805452500,
+                       "dateStart":  1805451300,
+                       "dateEnd":  1805454900,
                        "commentForParticipants":  "",
                        "location":  {
                                         "name":  "Nesodden videregående skole – Auditoriet - 90",
@@ -65915,7 +66532,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -69035,7 +69651,6 @@
                                                     "phone":  "+47 66 71 54 50",
                                                     "contactPersons":  [
                                                                            "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
-                                                                           "Kristine Tokle Kleivenes, +47 92 20 85 86, kristine.tokle.kleivenes@asker.kommune.no",
                                                                            "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
                                                                        ],
                                                     "branchOfficeName":  "Asker kommune",
@@ -69107,5 +69722,5 @@
                ],
     "hasMore":  false,
     "loaded":  2000,
-    "hentTidspunkt":  "2026-09-02T08:15:33Z"
+    "hentTidspunkt":  "2026-09-03T06:21:51Z"
 }
