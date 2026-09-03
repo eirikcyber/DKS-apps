@@ -369,7 +369,7 @@ function similarity(a, b) {
 // LOGGING
 // ============================================================
 const logBox = document.getElementById('logBox');
-const BUILD_VERSION = '2026-09-03 06:42 UTC';
+const BUILD_VERSION = '2026-09-03 06:58 UTC';
 
 function log(type, msg) {
   logBox.classList.add('visible');
@@ -759,19 +759,27 @@ def parse_bekreftelse(data):
         besk_clean = re.sub(r'\\*minibuss\\*\\s*', '', besktext, flags=re.I).strip()
         skole = ''
         retning = ''
-        fwd = re.search(r'^(.+?)\\s*[-\u2013]\\s*Det\\s+Norske', besk_clean, re.I)
-        rev = re.search(r'Det\\s+Norske[^-\u2013]*[-\u2013]\\s*(.+)', besk_clean, re.I)
-        fra_er_arena = 'det norske' in fra_text
-        if fwd and not fra_er_arena:
-            skole = fwd.group(1).strip(); retning = 'TUR'
-        elif rev and fra_er_arena:
-            skole = rev.group(1).strip(); retning = 'RETUR'
-        elif fwd:
-            skole = fwd.group(1).strip()
-            retning = 'RETUR' if fra_er_arena else 'TUR'
-        elif rev:
-            skole = rev.group(1).strip()
-            retning = 'TUR' if not fra_er_arena else 'RETUR'
+        # Beskrivelse har forma "A - B" (Fra - Til). Arenanamnet varierer
+        # mellom produksjonar (t.d. "Det Norske Teatret", "Kunsthall
+        # Dikemark") - identifiser difor skulesida via SCHOOL-nøkkelorda
+        # (same mønster som parse_bestilling), ikkje eit hardkoda arenanamn.
+        delparts = re.split(r'\\s*[-\u2013]\\s*', besk_clean, maxsplit=1)
+        if len(delparts) == 2:
+            venstre, hoyre = delparts[0].strip(), delparts[1].strip()
+            v_er_skole = bool(SCHOOL.search(venstre))
+            h_er_skole = bool(SCHOOL.search(hoyre))
+            if v_er_skole and not h_er_skole:
+                skole, retning = venstre, 'TUR'
+            elif h_er_skole and not v_er_skole:
+                skole, retning = hoyre, 'RETUR'
+            elif v_er_skole and h_er_skole:
+                # Begge sider inneheld skuleord - bruk Fra-kolonna til å avgjere retning
+                if venstre.lower() in fra_text:
+                    skole, retning = venstre, 'TUR'
+                else:
+                    skole, retning = hoyre, 'RETUR'
+            else:
+                print('BEKR: fann ingen skule i beskrivelse:', besk_clean)
         if skole and dato and re.match(r'\\d{2}:\\d{2}', avgang):
             entries.append({'skole': skole, 'dato': dato, 'avgang': avgang,
                            'slutt': slutt, 'elever': elever, 'retning': retning, 'minibuss': minibuss})

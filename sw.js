@@ -34,24 +34,30 @@ self.addEventListener('fetch', e => {
   // manifest.json er unnateke — reelt statisk PWA-shell-asset.
   const isDataJSON = url.pathname.endsWith('.json') && !url.pathname.endsWith('manifest.json');
 
+  // res.clone() kastar "Response body is already used" viss kroppen alt er
+  // konsumert andre stader (t.d. sett i devtools/nettverkspanelet, eller ein
+  // duplisert fetch for same request) - dette skal ALDRI la sjølve sida få
+  // feil, berre droppe hurtiglagringa for det eine svaret.
+  function safeCache(req, res) {
+    if (!res.ok) return;
+    try {
+      const copy = res.clone();
+      caches.open(CACHE).then(c => c.put(req, copy));
+    } catch (err) { /* body alt konsumert - hopp over cache, server svaret uendra */ }
+  }
+
   if (isHTML || isDataJSON) {
     // Network-first: tving henting frå server (ikkje HTTP-cache)
     e.respondWith(
       fetch(new Request(e.request, {cache: 'reload'}))
-        .then(res => {
-          if (res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
-          return res;
-        })
+        .then(res => { safeCache(e.request, res); return res; })
         .catch(() => caches.match(e.request))
     );
   } else {
     // Cache-first for statiske assets (ikon, manifest)
     e.respondWith(
       caches.match(e.request).then(cached =>
-        cached || fetch(e.request).then(res => {
-          if (res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
-          return res;
-        })
+        cached || fetch(e.request).then(res => { safeCache(e.request, res); return res; })
       )
     );
   }
