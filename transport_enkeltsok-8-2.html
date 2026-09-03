@@ -5600,7 +5600,7 @@ const TEKSTMALAR = {
         let t = `Elevene reiser kollektivt til ${v.stad}. Forslag til reiserute: Buss ${v.linje} fra ${v.haldeplass} kl. ${v.avgangstid}. ` +
                 `Beregnet ankomst på holdeplassen kl. ${v.ankomsttid}.`;
         if (v.returSetning) t += ` ${v.returSetning}`;
-        t += ` RUFUS-billetter kan benyttes. Dette dekker DKS Asker`;
+        t += ` RUFUS-billetter kan benyttes. Dette bestilles av skolene og dekkes av DKS Asker`;
         return t;
     },
 
@@ -5608,7 +5608,7 @@ const TEKSTMALAR = {
         let t = `Elevene reiser kollektivt til ${v.stad}. Forslag til reiserute: Tog fra ${v.stasjon} kl. ${v.avgangstid}. ` +
                 `Beregnet ankomst på stasjonen kl. ${v.ankomsttid}.`;
         if (v.returSetning) t += ` ${v.returSetning}`;
-        t += ` RUFUS-billetter kan benyttes. Dette dekker DKS Asker`;
+        t += ` RUFUS-billetter kan benyttes. Dette bestilles av skolene og dekkes av DKS Asker`;
         return t;
     },
 
@@ -5622,18 +5622,18 @@ const TEKSTMALAR = {
         let t = `Forslag til reiserute: Elevene går ${v.gangeAvstand} til ${v.knutepunktNamn} og reiser videre med ${v.modeTekst} ${v.linje} til ${v.stad}. ` +
                 `Beregnet ankomst på ${ankomstStad} kl. ${v.ankomsttid}.`;
         if (v.returSetning) t += ` ${v.returSetning}`;
-        t += ` RUFUS-billetter kan benyttes. Dette dekker DKS Asker`;
+        t += ` RUFUS-billetter kan benyttes. Dette bestilles av skolene og dekkes av DKS Asker`;
         return t;
     },
 
     // Standardtekst for kollektivtransport NÅR "Vis forslag til reiserute"-
     // avkryssinga er fjerna (lagt til 03.09.2026) — ingen konkret linje/
-    // tidspunkt, berre den generelle informasjonen. Eksakt ordlyd frå Eirik,
-    // inkl. "Rufus" (ikkje versaler) og "men bestilles av skolene" — skil
-    // seg medvite frå dei andre malane sin avslutning.
+    // tidspunkt, berre den generelle informasjonen. Same avslutningssetning
+    // som dei andre kollektiv-malane (RETTA same dag — same melding uansett
+    // om forslag til reiserute er vist eller ikkje).
     standardKollektiv: (v) =>
         `Elevene reiser kollektivt til ${v.stad} og tilbake igjen. ` +
-        `Rufus-billetter kan benyttes, dette dekker DKS Asker, men bestilles av skolene`
+        `RUFUS-billetter kan benyttes. Dette bestilles av skolene og dekkes av DKS Asker`
 };
 
 // Portalen lagrar arena UNDER ein kunstinstitusjon — location.name kjem difor
