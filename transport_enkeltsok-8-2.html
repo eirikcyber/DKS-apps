@@ -1443,9 +1443,13 @@
       </div>
 
       <div id="turneResultatSeksjon" style="display:none;">
-        <div style="margin-bottom:10px;">
+        <div style="margin-bottom:10px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
           <button class="nav-btn secondary" onclick="merkAlleTurneEvents(true)">Merk alle</button>
           <button class="nav-btn secondary" onclick="merkAlleTurneEvents(false)">Merk ingen</button>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;color:#4a5568;">
+            <input type="checkbox" id="turneViseForslagRute" checked onchange="visTurneResultat()" style="width:auto">
+            Vis forslag til reiserute i generert tekst (elles berre standardtekst)
+          </label>
         </div>
         <div id="turneResultatListe"></div>
         <div style="margin-top:20px;padding:20px;background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.08)">
@@ -5589,8 +5593,11 @@ const TEKSTMALAR = {
         `VY Turbuss frakter elevene fra skolen og tilbake etter besøket. ` +
         `Vakttelefon Vy Buss er 91658600`,
 
+    // "Forslag til reiserute: " lagt til 03.09.2026 — presiserer at den
+    // konkrete linja/tidspunktet er eit SØKERESULTAT (kan endre seg), ikkje
+    // ei bindande bestilling slik bestillerbuss-tida er.
     buss: (v) => {
-        let t = `Elevene reiser kollektivt til ${v.stad}. Buss ${v.linje} fra ${v.haldeplass} kl. ${v.avgangstid}. ` +
+        let t = `Elevene reiser kollektivt til ${v.stad}. Forslag til reiserute: Buss ${v.linje} fra ${v.haldeplass} kl. ${v.avgangstid}. ` +
                 `Beregnet ankomst på holdeplassen kl. ${v.ankomsttid}.`;
         if (v.returSetning) t += ` ${v.returSetning}`;
         t += ` RUFUS-billetter kan benyttes. Dette dekker DKS Asker`;
@@ -5598,7 +5605,7 @@ const TEKSTMALAR = {
     },
 
     tog: (v) => {
-        let t = `Elevene reiser kollektivt til ${v.stad}. Tog fra ${v.stasjon} kl. ${v.avgangstid}. ` +
+        let t = `Elevene reiser kollektivt til ${v.stad}. Forslag til reiserute: Tog fra ${v.stasjon} kl. ${v.avgangstid}. ` +
                 `Beregnet ankomst på stasjonen kl. ${v.ankomsttid}.`;
         if (v.returSetning) t += ` ${v.returSetning}`;
         t += ` RUFUS-billetter kan benyttes. Dette dekker DKS Asker`;
@@ -5612,12 +5619,21 @@ const TEKSTMALAR = {
     // andre malane.
     knutepunkt: (v) => {
         const ankomstStad = v.modeTekst === 'tog' ? 'stasjonen' : 'holdeplassen';
-        let t = `Elevene går ${v.gangeAvstand} til ${v.knutepunktNamn} og reiser videre med ${v.modeTekst} ${v.linje} til ${v.stad}. ` +
+        let t = `Forslag til reiserute: Elevene går ${v.gangeAvstand} til ${v.knutepunktNamn} og reiser videre med ${v.modeTekst} ${v.linje} til ${v.stad}. ` +
                 `Beregnet ankomst på ${ankomstStad} kl. ${v.ankomsttid}.`;
         if (v.returSetning) t += ` ${v.returSetning}`;
         t += ` RUFUS-billetter kan benyttes. Dette dekker DKS Asker`;
         return t;
-    }
+    },
+
+    // Standardtekst for kollektivtransport NÅR "Vis forslag til reiserute"-
+    // avkryssinga er fjerna (lagt til 03.09.2026) — ingen konkret linje/
+    // tidspunkt, berre den generelle informasjonen. Eksakt ordlyd frå Eirik,
+    // inkl. "Rufus" (ikkje versaler) og "men bestilles av skolene" — skil
+    // seg medvite frå dei andre malane sin avslutning.
+    standardKollektiv: (v) =>
+        `Elevene reiser kollektivt til ${v.stad} og tilbake igjen. ` +
+        `Rufus-billetter kan benyttes, dette dekker DKS Asker, men bestilles av skolene`
 };
 
 // Portalen lagrar arena UNDER ein kunstinstitusjon — location.name kjem difor
@@ -5695,6 +5711,18 @@ function byggTransportTekst(hending, sr, valtType, valtAlt) {
 
     if (valtType === 'bestillerbuss') {
         return TEKSTMALAR.bestillerbuss();
+    }
+
+    // "Vis forslag til reiserute"-checkboksen (lagt til 03.09.2026, sjå UI i
+    // turneResultatSeksjon) — når fjerna, vis berre den generelle
+    // standardteksten for kollektivt (buss/tog/knutepunkt), utan konkret
+    // linje/tidspunkt. Elementet finst ikkje viss resultatseksjonen ikkje er
+    // rendra enno (t.d. under testing) — då gjeld standardvisinga (checked).
+    const viseForslagRuteEl = document.getElementById('turneViseForslagRute');
+    const viseForslagRute = viseForslagRuteEl ? viseForslagRuteEl.checked : true;
+
+    if ((valtType === 'buss' || valtType === 'tog' || valtType === 'knutepunkt') && !viseForslagRute) {
+        return TEKSTMALAR.standardKollektiv({ stad });
     }
 
     if (valtType === 'buss' || valtType === 'tog') {
