@@ -1426,6 +1426,10 @@
             <input type="number" id="turneMaksGange" value="2000" min="0" step="100">
           </div>
           <div class="input-group" style="max-width:200px">
+            <label>Buffer før start (min)</label>
+            <input type="number" id="turneBufferForMin" value="5" min="0" step="5">
+          </div>
+          <div class="input-group" style="max-width:200px">
             <label>Buffer etter slutt (min)</label>
             <input type="number" id="turneBufferMin" value="10" min="0" step="5">
           </div>
@@ -2603,7 +2607,7 @@ async function sokViaKnutepunkt(skuleNamn, skuleCoords, destCoords, tidspunkt, e
         mode: erTog ? 'tog' : 'buss',
         knutepunktNamn: knute.namn,
         linje: kollektivLegs.map(l => l.line && l.line.publicCode).filter(Boolean).join(' → '),
-        avgang: valtReise.startTime,
+        avgang: kollektivAvgang(valtReise, ['bus', 'coach', 'rail']),
         ankomst: valtReise.endTime,
         varigheit: Math.round(valtReise.duration / 60),
         stegMedTid: byggStegMedTid(valtReise.legs),
@@ -2848,7 +2852,7 @@ async function startSok() {
             type: 'buss',
             ikon: '🚌',
             namn: erDirekte ? 'Direktebuss' : 'Rutebuss',
-            avgang: bussReise.startTime,
+            avgang: kollektivAvgang(bussReise, ['bus', 'coach']),
             ankomst: bussReise.endTime,
             varigheit: Math.round(bussReise.duration / 60),
             aktuelt: true,
@@ -2862,13 +2866,13 @@ async function startSok() {
             bussAlt.linje = bussLegs.map(l => l.line?.publicCode).filter(Boolean).join(' → ');
             bussAlt.linjeNamn = bussLegs[0].line?.name || '';
         }
-        
+
         // Legg til ekstra avgangar (alternativ 2 og 3)
         for (let i = 1; i < Math.min(3, sorterteBussar.length); i++) {
             const ekstraBuss = sorterteBussar[i];
             const ekstraLegs = ekstraBuss.legs.filter(l => l.mode === 'bus' || l.mode === 'coach');
             bussAlt.ekstraAvgangar.push({
-                avgang: ekstraBuss.startTime,
+                avgang: kollektivAvgang(ekstraBuss, ['bus', 'coach']),
                 ankomst: ekstraBuss.endTime,
                 varigheit: Math.round(ekstraBuss.duration / 60),
                 linje: ekstraLegs.map(l => l.line?.publicCode).filter(Boolean).join(' → '),
@@ -2876,21 +2880,21 @@ async function startSok() {
                 reiseveg: byggReiseveg(ekstraBuss.legs)
             });
         }
-        
+
         skuleResultat.alternativ.push(bussAlt);
     }
-    
+
     // Tog - finn beste (prioriter direkterute)
     if (togReiser && togReiser.length > 0) {
         const togReise = finnDirektereise(togReiser, 'rail');
         const kollektivLegs = telKollektivLegs(togReise.legs);
         const erDirekte = kollektivLegs === 1;
-        
+
         const togAlt = {
             type: 'tog',
             ikon: '🚂',
             namn: erDirekte ? 'Direktetog' : 'Tog',
-            avgang: togReise.startTime,
+            avgang: kollektivAvgang(togReise, ['rail']),
             ankomst: togReise.endTime,
             varigheit: Math.round(togReise.duration / 60),
             aktuelt: true,
@@ -3033,6 +3037,19 @@ function byggReiseveg(legs) {
         if (tekst) steg.push(tekst);
     }
     return steg;
+}
+
+// Faktisk avgangstid for ei kollektivreise — leg-nivå (expectedStartTime på
+// FØRSTE etappe av dei gitte modusane), ikkje reisa sitt startTime. RETTA
+// 03.09.2026: reise.startTime er når HEILE reisa startar, altså når ein
+// forlèt UTGANGSPUNKTET (skulen) — viss reisa har ei gangeetappe FØR sjølve
+// buss/tog-etappen (t.d. gange til stasjon), synte den genererte teksten
+// difor feilaktig gangetidspunktet som om det var avgangstida til bussen/
+// toget. Fell tilbake på reise.startTime berre viss ingen leg av rett modus
+// finst (bør ikkje skje i praksis, men unngår ein hard krasj).
+function kollektivAvgang(reise, moduser) {
+    const legs = (reise.legs || []).filter(l => moduser.includes(l.mode));
+    return legs.length > 0 ? legs[0].expectedStartTime : reise.startTime;
 }
 
 // Byggjer reisesteg MED klokkeslett, brukt i turnémodus sitt rutenett
@@ -3860,7 +3877,7 @@ async function sokTransportForSkule(skuleNamn, skuleCoords, destCoords, arriveBy
             type: 'buss',
             ikon: '🚌',
             namn: erDirekte ? 'Direktebuss' : 'Rutebuss',
-            avgang: bussReise.startTime,
+            avgang: kollektivAvgang(bussReise, ['bus', 'coach']),
             ankomst: bussReise.endTime,
             varigheit: Math.round(bussReise.duration / 60),
             aktuelt: true,
@@ -3872,34 +3889,34 @@ async function sokTransportForSkule(skuleNamn, skuleCoords, destCoords, arriveBy
         if (bussLegs.length > 0) {
             bussAlt.linje = bussLegs.map(l => l.line?.publicCode).filter(Boolean).join(' → ');
         }
-        
+
         // Legg til ekstra avgangar (alternativ 2 og 3)
         for (let i = 1; i < Math.min(3, sorterteBussar.length); i++) {
             const ekstraBuss = sorterteBussar[i];
             const ekstraLegs = ekstraBuss.legs.filter(l => l.mode === 'bus' || l.mode === 'coach');
             bussAlt.ekstraAvgangar.push({
-                avgang: ekstraBuss.startTime,
+                avgang: kollektivAvgang(ekstraBuss, ['bus', 'coach']),
                 ankomst: ekstraBuss.endTime,
                 varigheit: Math.round(ekstraBuss.duration / 60),
                 linje: ekstraLegs.map(l => l.line?.publicCode).filter(Boolean).join(' → '),
                 bytter: telKollektivLegs(ekstraBuss.legs) - 1
             });
         }
-        
+
         skuleResultat.alternativ.push(bussAlt);
     }
-    
+
     // Tog
     if (togReiser && togReiser.length > 0) {
         const togReise = togReiser[0];
         const kollektivLegs = telKollektivLegs(togReise.legs);
         const erDirekte = kollektivLegs === 1;
-        
+
         const togAlt = {
             type: 'tog',
             ikon: '🚂',
             namn: erDirekte ? 'Direktetog' : 'Tog',
-            avgang: togReise.startTime,
+            avgang: kollektivAvgang(togReise, ['rail']),
             ankomst: togReise.endTime,
             varigheit: Math.round(togReise.duration / 60),
             aktuelt: true,
@@ -4046,7 +4063,7 @@ async function sokTransportForSkule(skuleNamn, skuleCoords, destCoords, arriveBy
                 type: 'buss',
                 ikon: '🚌',
                 namn: kollektivLegs === 1 ? 'Direktebuss' : 'Rutebuss',
-                avgang: beste.startTime,
+                avgang: kollektivAvgang(beste, ['bus', 'coach']),
                 ankomst: beste.endTime,
                 varigheit: Math.round(beste.duration / 60),
                 bytter: kollektivLegs - 1,
@@ -4065,7 +4082,7 @@ async function sokTransportForSkule(skuleNamn, skuleCoords, destCoords, arriveBy
                 type: 'tog',
                 ikon: '🚂',
                 namn: kollektivLegs === 1 ? 'Direktetog' : 'Tog',
-                avgang: beste.startTime,
+                avgang: kollektivAvgang(beste, ['rail']),
                 ankomst: beste.endTime,
                 varigheit: Math.round(beste.duration / 60),
                 bytter: kollektivLegs - 1,
@@ -4481,7 +4498,7 @@ async function kjorFordeling() {
                             kategori: { type: 'rutebuss', ikon: '🚌', namn: 'Rutebuss' },
                             erRutebuss: true,
                             bussLinje: linje,
-                            bussAvgang: valgtReise.startTime,
+                            bussAvgang: kollektivAvgang(valgtReise, ['bus', 'coach']),
                             bussAnkomst: valgtReise.endTime,
                             varigheit: Math.round(valgtReise.duration / 60)
                         });
@@ -4498,7 +4515,7 @@ async function kjorFordeling() {
                         kategori: { type: 'tog', ikon: '🚂', namn: 'Tog' },
                         erRutebuss: false,
                         togLinje: linje,
-                        avgang: valgtReise.startTime,
+                        avgang: kollektivAvgang(valgtReise, ['rail']),
                         ankomst: valgtReise.endTime,
                         varigheit: Math.round(valgtReise.duration / 60)
                     });
@@ -5184,6 +5201,7 @@ async function hentTurne() {
 async function sokTransportForAlleTurneHendingar() {
     const turneStatusEl = document.getElementById('turneStatus');
     const maksGange = parseInt(document.getElementById('turneMaksGange').value) || 2000;
+    const bufferForMin = parseInt(document.getElementById('turneBufferForMin').value) || 5;
     const bufferMin = parseInt(document.getElementById('turneBufferMin').value) || 10;
     const varigheitMin = parseInt(document.getElementById('turneVarigheitMin').value) || 45;
     turneResultat = [];
@@ -5263,7 +5281,11 @@ async function sokTransportForAlleTurneHendingar() {
             continue;
         }
 
-        const arriveBy = turneParseDate(hending.dateStart).toISOString();
+        // Søk etter ei kollektivreise som ankjem bufferForMin minutt FØR
+        // arrangementstart (standard 5 min), ikkje nøyaktig på starttidspunktet
+        // — same margin-tanke som bufferMin (etter slutt) for retur. Lagt til
+        // 03.09.2026.
+        const arriveBy = new Date(turneParseDate(hending.dateStart).getTime() - bufferForMin * 60000).toISOString();
 
         for (let si = 0; si < hending.schools.length; si++) {
             const skule = hending.schools[si];
@@ -5339,7 +5361,7 @@ function analysertransportTurne(skule, bussReiser, togReiser, googleGange, googl
             alternativ.push({
                 type: 'tog',
                 linje: togLegs.map(l => l.line && l.line.publicCode).filter(Boolean).join(' → '),
-                avgang: togReise.startTime,
+                avgang: kollektivAvgang(togReise, ['rail']),
                 ankomst: togReise.endTime,
                 varigheit: Math.round(togReise.duration / 60),
                 stegMedTid: byggStegMedTid(togReise.legs),
@@ -5363,7 +5385,7 @@ function analysertransportTurne(skule, bussReiser, togReiser, googleGange, googl
             const ekstraAvgangar = direkteBussar.slice(1, 5).map(b => {
                 const legs = b.legs.filter(l => l.mode === 'bus' || l.mode === 'coach');
                 return {
-                    avgang: b.startTime, ankomst: b.endTime,
+                    avgang: kollektivAvgang(b, ['bus', 'coach']), ankomst: b.endTime,
                     varigheit: Math.round(b.duration / 60),
                     linje: legs.map(l => l.line && l.line.publicCode).filter(Boolean).join(' → ')
                 };
@@ -5371,7 +5393,7 @@ function analysertransportTurne(skule, bussReiser, togReiser, googleGange, googl
             alternativ.push({
                 type: 'buss',
                 linje: bussLegs.map(l => l.line && l.line.publicCode).filter(Boolean).join(' → '),
-                avgang: bussReise.startTime,
+                avgang: kollektivAvgang(bussReise, ['bus', 'coach']),
                 ankomst: bussReise.endTime,
                 varigheit: Math.round(bussReise.duration / 60),
                 stegMedTid: byggStegMedTid(bussReise.legs),
@@ -5443,7 +5465,7 @@ function analysertransportTurneRetur(returBussReiser, returTogReiser, googleGang
             alternativ.push({
                 type: 'tog',
                 linje: togLegs.map(l => l.line && l.line.publicCode).filter(Boolean).join(' → '),
-                avgang: togReise.startTime,
+                avgang: kollektivAvgang(togReise, ['rail']),
                 ankomst: togReise.endTime,
                 varigheit: Math.round(togReise.duration / 60),
                 stegMedTid: byggStegMedTid(togReise.legs),
@@ -5466,7 +5488,7 @@ function analysertransportTurneRetur(returBussReiser, returTogReiser, googleGang
             alternativ.push({
                 type: 'buss',
                 linje: bussLegs.map(l => l.line && l.line.publicCode).filter(Boolean).join(' → '),
-                avgang: bussReise.startTime,
+                avgang: kollektivAvgang(bussReise, ['bus', 'coach']),
                 ankomst: bussReise.endTime,
                 varigheit: Math.round(bussReise.duration / 60),
                 stegMedTid: byggStegMedTid(bussReise.legs),
