@@ -5693,11 +5693,14 @@ function byggReturSetning(retur) {
 }
 
 // Byggjer den automatisk genererte transportteksten for éin skulerad, klar
-// til å limast inn i portalen. TIDSREGLAR (per oppdrag 12.08.2026):
-//  - Bestillerbuss: avgang = arrangementstart MINUS 10 min buffer (rådgjevande
-//    køyreinstruks til sjåføren), retur = arrangementsslutt PRESIS, ingen buffer.
-//  - Buss/tog: brukar faktiske Entur-avgangstider direkte, ingen ekstra buffer
-//    (Entur-søket er alt målretta mot rett ankomsttid via arriveBy).
+// til å limast inn i portalen. RETTA 03.09.2026 — kommentaren skildra
+// tidlegare den gamle flate "10 min buffer"-regelen for bestillerbuss, som
+// er fjerna (bestillerbuss-teksten har ikkje lenger klokkeslett i det
+// heile, sjå TEKSTMALAR.bestillerbuss). Faktiske avreise-/returtider for
+// bestillerbuss vert no rekna ut i beregnBestillerbussAvgang()/-Retur() og
+// vist i eigne Tur-/Retur-tidsfelt (sjå visTurneResultat()), ikkje her.
+// Buss/tog/knutepunkt brukar framleis faktiske Entur-tider direkte, ingen
+// ekstra buffer utover arriveBy-marginen frå "Buffer før start".
 function byggTransportTekst(hending, sr, valtType, valtAlt) {
     const stad = forenklaStad(hending.location);
 
