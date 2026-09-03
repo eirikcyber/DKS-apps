@@ -231,9 +231,9 @@
 
   <div class="upload-grid">
     <div class="drop-zone" id="dropBest">
-      <input type="file" id="fileBest" accept=".pdf">
+      <input type="file" id="fileBest" accept=".pdf,.xlsx,.xls,.csv">
       <div class="label">📋 Ordrebestilling</div>
-      <div class="hint">Drag & drop eller klikk</div>
+      <div class="hint">Drag & drop eller klikk (PDF, Excel eller CSV)</div>
       <div class="fname" id="nameBest"></div>
     </div>
     <div class="drop-zone" id="dropBekr">
@@ -272,6 +272,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 // ============================================================
 // STATE
@@ -368,7 +369,7 @@ function similarity(a, b) {
 // LOGGING
 // ============================================================
 const logBox = document.getElementById('logBox');
-const BUILD_VERSION = '2026-09-01 15:56 UTC';
+const BUILD_VERSION = '2026-09-03 06:42 UTC';
 
 function log(type, msg) {
   logBox.classList.add('visible');
@@ -776,18 +777,79 @@ def parse_bekreftelse(data):
                            'slutt': slutt, 'elever': elever, 'retning': retning, 'minibuss': minibuss})
     return entries
 
-# Utfør parsing - les frå base64-strengar sett av JS
+`;
+
+// Køyr berre bestilling-parsinga (PDF-veg) - brukt når fileBest er ein PDF
+const PY_RUN_BEST = PYTHON_CODE + `
 import base64
 best_data = list(base64.b64decode(best_b64))
-bekr_data = list(base64.b64decode(bekr_b64))
-
-best = parse_bestilling(best_data)
-bekr = parse_bekreftelse(bekr_data)
-print('BEKR resultat:', len(bekr), 'rader')
-
-result = json.dumps({'best': best, 'bekr': bekr})
-result
+json.dumps(parse_bestilling(best_data))
 `;
+
+// Køyr berre bekreftelse-parsinga - bekreftelsen er alltid PDF
+const PY_RUN_BEKR = PYTHON_CODE + `
+import base64
+bekr_data = list(base64.b64decode(bekr_b64))
+json.dumps(parse_bekreftelse(bekr_data))
+`;
+
+// ============================================================
+// BESTILLING FRÅ EXCEL/CSV (alternativ til PDF)
+// ============================================================
+// Les "VY Turbuss"-arket (fallback: første ark) frå dks_bussbestilling_*.xlsx
+// eller ei CSV-eksportering av same ark. Radene vert slått saman per
+// skule+dato akkurat som parse_bestilling() gjer for PDF (summer elevar
+// over fleire show same dag, behald første ikkje-tomme avgang/retur) - slik
+// at byggKombinert() kan handsame resultatet identisk uansett kjelde.
+async function parseBestillingFraExcel(file) {
+  const buf = await file.arrayBuffer();
+  const wb = XLSX.read(new Uint8Array(buf), { type: 'array' });
+  const sheetName = wb.SheetNames.find(n => n.trim().toLowerCase() === 'vy turbuss') || wb.SheetNames[0];
+  const ws = wb.Sheets[sheetName];
+  const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+  if (!rows.length) return [];
+
+  const header = rows[0].map(h => String(h).trim().toLowerCase());
+  const idx = name => header.indexOf(name.toLowerCase());
+  const iDato = idx('Dato'), iSkule = idx('Skule'), iAvg = idx('Avgangstid'),
+        iRet = idx('Returtid'), iElev = idx('Elevar'), iArena = idx('Lokasjon (arena)');
+  if (iDato === -1 || iSkule === -1) {
+    throw new Error(`Fann ikkje kolonnane "Dato"/"Skule" i arket "${sheetName}" - sjekk at fila er dks_bussbestilling-formatet`);
+  }
+
+  const merged = {};
+  for (let r = 1; r < rows.length; r++) {
+    const row = rows[r];
+    const skoleRaw = String(row[iSkule] ?? '').trim();
+    const datoRaw = String(row[iDato] ?? '').trim();
+    if (!skoleRaw || !datoRaw) continue;
+
+    // Normaliser DD.MM.YYYY -> DD.MM.YY (same format som parse_bekreftelse brukar)
+    const dato = datoRaw.slice(0, 6) + datoRaw.slice(-2);
+    const arenaFull = iArena !== -1 ? String(row[iArena] ?? '').trim() : '';
+    const arena = arenaFull.split('–')[0].trim() || arenaFull;
+    const avgang = iAvg !== -1 ? String(row[iAvg] ?? '').trim() : '';
+    const retur = iRet !== -1 ? String(row[iRet] ?? '').trim() : '';
+    const elever = iElev !== -1 ? (Number(row[iElev]) || 0) : 0;
+
+    const key = skoleRaw + '|' + dato;
+    if (!merged[key]) {
+      merged[key] = { skole: skoleRaw, dato, arena, elever: 0, avgang: '', retur: '', transport: 'Buss' };
+    }
+    const e = merged[key];
+    e.elever += elever;
+    if (!e.avgang && avgang) e.avgang = avgang;
+    if (!e.retur && retur) e.retur = retur;
+    if (!e.arena && arena) e.arena = arena;
+  }
+
+  const list = Object.values(merged);
+  // Sikkerheitsnett: ei rad utan avgangstid er ikkje ei VY Turbuss-bestilling
+  // (skal normalt ikkje skje i "VY Turbuss"-arket) - merk som RUFUS så
+  // byggKombinert() ikkje genererer eit falskt avvik for han.
+  list.forEach(e => { if (!e.avgang) e.transport = 'RUFUS'; });
+  return list;
+}
 
 // ============================================================
 // RUN ANALYSIS
@@ -798,26 +860,32 @@ document.getElementById('btnRun').addEventListener('click', async () => {
   document.getElementById('results').classList.remove('visible');
 
   try {
-    setStatus('Les PDF-ar…');
     log('info', 'Startar analyse…');
 
-    const bestBuf = await bestFile.arrayBuffer();
-    const bekrBuf = await bekrFile.arrayBuffer();
-
-    setStatus('Parser PDF-ar med pdfminer…');
-    // Konverter til base64 og send som streng
     function toBase64(buf) {
       let binary = '';
       const bytes = new Uint8Array(buf);
       for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
       return btoa(binary);
     }
-    const bestB64 = toBase64(bestBuf);
-    const bekrB64 = toBase64(bekrBuf);
-    pyodide.globals.set('best_b64', bestB64);
+
+    const bestExt = bestFile.name.split('.').pop().toLowerCase();
+    let best;
+    if (bestExt === 'pdf') {
+      setStatus('Parser bestilling (PDF) med pdfminer…');
+      const bestB64 = toBase64(await bestFile.arrayBuffer());
+      pyodide.globals.set('best_b64', bestB64);
+      best = JSON.parse(await pyodide.runPythonAsync(PY_RUN_BEST));
+    } else {
+      setStatus('Les bestilling frå ' + bestExt.toUpperCase() + '…');
+      best = await parseBestillingFraExcel(bestFile);
+      log('info', `Bestilling lest frå ${bestExt.toUpperCase()}-fil ("${bestFile.name}")`);
+    }
+
+    setStatus('Parser bekreftelse (PDF) med pdfminer…');
+    const bekrB64 = toBase64(await bekrFile.arrayBuffer());
     pyodide.globals.set('bekr_b64', bekrB64);
-    const resultStr = await pyodide.runPythonAsync(PYTHON_CODE);
-    const { best, bekr } = JSON.parse(resultStr);
+    const bekr = JSON.parse(await pyodide.runPythonAsync(PY_RUN_BEKR));
 
     log('ok', `Bestilling: ${best.length} skular`);
     log('ok', `Bekreftelse: ${bekr.length} rader`);
