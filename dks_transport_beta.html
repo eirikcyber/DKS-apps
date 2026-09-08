@@ -255,14 +255,14 @@
       <img class="dks-logo" src="https://cdn.denkulturelleskolesekken.no/asker/cd010066-dks_positiv_farge_liggende_logo_cmyk_20-2-3.png" alt="Den kulturelle skulesekken i Asker">
     </a>
     <div class="header-divider"></div>
-    <span class="header-section">Bustransport 2025/26</span>
+    <span class="header-section" id="header-season">Bustransport</span>
     <a class="header-back" href="index.html">← Tilbake</a>
   </div>
   <div class="header-hero">
     <div class="hero-tag">Den kulturelle skulesekken i Asker</div>
     <h1>Bus&shy;transport<br>for <em>Asker-skulane</em></h1>
     <p class="hero-desc">
-      Oversikt over alle DKS-arrangement med busstransport for Asker-skular, henta direkte frå DKS-portalen.
+      Oversikt over alle DKS-arrangement med registrert busstransport for Asker-skular, basert på data henta frå DKS-portalen (oppdatert automatisk fleire gonger dagleg).
     </p>
   </div>
 </header>
@@ -288,7 +288,7 @@
           <th>Produksjon</th>
           <th>Lokasjon</th>
           <th>Elevar</th>
-          <th>Kommentar</th>
+          <th>Transport</th>
         </tr>
       </thead>
       <tbody id="tbody"></tbody>
@@ -301,45 +301,25 @@
 </footer>
 
 <script>
-const API = 'https://portal.denkulturelleskolesekken.no/public/events/findBySchool?orgNumber=';
+// Same-origin pre-fetched data (oppdatert av hent_dks_data.ps1/py, sjå CLAUDE.md).
+// Dette datasettet HAR busAppointments-feltet — public/events/findBySchool (som denne
+// appen brukte tidlegare) manglar det heilt, og paginerer i tillegg ~15 arrangement
+// per side utan at appen henta fleire sider. Begge var årsaka til at appen i praksis
+// aldri synte nokon rader.
+const DATA_URL = 'dks_program_data_grunnskule.json';
 
-const SKULAR = [
-  {name: 'Arnestad skole',          org: '973601997'},
-  {name: 'Billingstad skole',        org: '974578263'},
-  {name: 'Blakstad skole',           org: '979200293'},
-  {name: 'Bondi skole',              org: '974578212'},
-  {name: 'Drengsrud skole',          org: '974578220'},
-  {name: 'Folkestad skole',          org: '975285103'},
-  {name: 'Frydenlund barneskole',    org: '973747010'},
-  {name: 'Hagaløkka skole',          org: '974578239'},
-  {name: 'Heggedal skole',           org: '974578247'},
-  {name: 'Hofstad skole',            org: '974578255'},
-  {name: 'Hvalstad skole',           org: '980785343'},
-  {name: 'Hyggen skole',             org: '973747045'},
-  {name: 'Jansløkka skole',          org: '974578271'},
-  {name: 'Mellom-Nes skole',         org: '874578282'},
-  {name: 'Midtbygda barneskole',     org: '973747002'},
-  {name: 'Nesøya skole',             org: '974578298'},
-  {name: 'Nærsnes barneskole',       org: '973747029'},
-  {name: 'Rønningen skole',          org: '974578301'},
-  {name: 'Slemmestad barneskole',    org: '973747037'},
-  {name: 'Solberg skole',            org: '874578312'},
-  {name: 'Steinerskolen i Asker',    org: '971522585'},
-  {name: 'Steinerskolen i Hurum',    org: '974185385'},
-  {name: 'Asker International School', org: '998258383'},
-  {name: 'Vollen Montessoriskole',   org: '984666675'},
-  {name: 'Sydskogen barneskole',     org: '973746987'},
-  {name: 'Sætre skole',              org: '975285111'},
-  {name: 'Tofte skole',              org: '875285092'},
-  {name: 'Torvbråten barneskole',    org: '973746995'},
-  {name: 'Vardåsen skole',           org: '977264502'},
-  {name: 'Vettre skole',             org: '974578328'},
-];
+const TRANSPORT_STIKKORD = /buss|kollektiv|rutebuss|rufus|turbuss|\btog\b/i;
+
+function getSkuleaar() {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = now.getMonth() + 1;
+  return (m >= 5) ? `${y}/${y + 1}` : `${y - 1}/${y}`;
+}
 
 function fmtDato(s) {
   if (!s) return '';
   if (typeof s === 'number') {
-    // Unix timestamp in seconds (dateStart from DKS API)
     const d = new Date(s * 1000);
     const dd = String(d.getUTCDate()).padStart(2, '0');
     const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
@@ -351,9 +331,15 @@ function fmtDato(s) {
   return `${m[3]}.${m[2]}.${m[1].slice(2)}`;
 }
 
-function sortKey(s) {
-  if (!s) return '';
-  return typeof s === 'number' ? s : String(s);
+function fmtHentTidspunkt(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return '';
+  const dd = String(d.getDate()).padStart(2, '0');
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const hh = String(d.getHours()).padStart(2, '0');
+  const mi = String(d.getMinutes()).padStart(2, '0');
+  return `${dd}.${mm}. kl. ${hh}:${mi}`;
 }
 
 function strVal(v) {
@@ -361,6 +347,12 @@ function strVal(v) {
   if (typeof v === 'string') return v;
   if (typeof v === 'object') return v.name || v.title || '';
   return String(v);
+}
+
+function stripHtml(html) {
+  if (!html) return '';
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  return (doc.body.textContent || '').replace(/\s+/g, ' ').trim();
 }
 
 function escHtml(s) {
@@ -371,79 +363,116 @@ function escHtml(s) {
     .replace(/"/g, '&quot;');
 }
 
+// Tel berre "allocated" deltakarar for éin skule på eit arrangement
+// (avlyste klassedeltakingar skal ikkje inngå i elevtalet, jf. CLAUDE.md).
+function elevtalForSkule(event, schoolId) {
+  const sid = Number(schoolId);
+  let sum = 0;
+  for (const p of (event.participants || [])) {
+    const rg = p.registrationGroup;
+    if (rg && Number(rg.schoolId) === sid && p.status === 'allocated') {
+      sum += p.numberOfStudents || 0;
+    }
+  }
+  return sum;
+}
+
+function formaterBussInfo(ba) {
+  const tid = (ba.departureTime && ba.returnTime) ? `${ba.departureTime}–${ba.returnTime}: ` : '';
+  return tid + (ba.textToSchool || '');
+}
+
+function byggRader(events) {
+  const rows = [];
+
+  for (const event of events) {
+    const busAppointments = event.busAppointments || [];
+    const prod = strVal(event.production);
+    const lok = strVal(event.location);
+
+    if (busAppointments.length) {
+      for (const ba of busAppointments) {
+        const info = formaterBussInfo(ba);
+        for (const sid of (ba.schoolIds || [])) {
+          const school = event.schools && event.schools[sid];
+          rows.push({
+            dato: event.dateStart,
+            skule: school ? school.name : `Skule ${sid}`,
+            produksjon: prod,
+            lokasjon: lok,
+            elevar: elevtalForSkule(event, sid),
+            transport: info,
+          });
+        }
+      }
+    } else {
+      const komm = stripHtml(event.commentForParticipants);
+      if (komm && TRANSPORT_STIKKORD.test(komm)) {
+        for (const sid of Object.keys(event.schools || {})) {
+          const school = event.schools[sid];
+          rows.push({
+            dato: event.dateStart,
+            skule: school.name,
+            produksjon: prod,
+            lokasjon: lok,
+            elevar: elevtalForSkule(event, sid),
+            transport: komm,
+          });
+        }
+      }
+    }
+  }
+
+  rows.sort((a, b) => (a.dato || 0) - (b.dato || 0));
+  return rows;
+}
+
 let allRows = [];
 
 async function fetchAll() {
-  const total = SKULAR.length;
-  const eventMap = {}; // id → {event, schools:[]}
+  document.getElementById('header-season').textContent = `Bustransport ${getSkuleaar()}`;
 
-  for (let i = 0; i < SKULAR.length; i++) {
-    const skule = SKULAR[i];
+  try {
+    const r = await fetch(DATA_URL);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const data = await r.json();
+    const events = Array.isArray(data) ? data : (data.events || []);
+
+    allRows = byggRader(events);
+
+    document.getElementById('spinner').style.display = 'none';
+    document.getElementById('progress-fill').style.width = '100%';
+    const alder = fmtHentTidspunkt(data.hentTidspunkt);
     document.getElementById('progress-text').textContent =
-      `Hentar ${skule.name}… (${i + 1}/${total})`;
-    document.getElementById('progress-fill').style.width =
-      ((i + 1) / total * 100) + '%';
+      `${allRows.length} rader med busstransport frå ${events.length} arrangement` +
+      (alder ? ` (data henta ${alder})` : '');
 
-    try {
-      const r = await fetch(API + skule.org);
-      const events = r.ok ? await r.json() : [];
-      for (const ev of (Array.isArray(events) ? events : [])) {
-        if (!eventMap[ev.id]) {
-          eventMap[ev.id] = {event: ev, schools: []};
-        }
-        eventMap[ev.id].schools.push(skule.name);
-      }
-    } catch (_) {}
+    document.getElementById('filter-bar').style.display = 'flex';
+    renderTable(allRows);
+  } catch (err) {
+    document.getElementById('spinner').style.display = 'none';
+    document.getElementById('progress-text').textContent =
+      'Klarte ikkje å hente data: ' + err.message;
   }
-
-  // Filter for bus events
-  const busEvents = Object.values(eventMap).filter(({event}) => {
-    const c = (event.commentForParticipants || '').toLowerCase();
-    return c.includes('buss');
-  });
-
-  // Sort by dateStart ascending (handles string ISO dates and numeric timestamps)
-  busEvents.sort((a, b) => {
-    const ka = sortKey(a.event.dateStart);
-    const kb = sortKey(b.event.dateStart);
-    return ka < kb ? -1 : ka > kb ? 1 : 0;
-  });
-
-  allRows = busEvents;
-
-  // Update status bar
-  document.getElementById('spinner').style.display = 'none';
-  document.getElementById('progress-fill').style.width = '100%';
-  document.getElementById('progress-text').textContent =
-    `${busEvents.length} arrangement med busstransport (${Object.keys(eventMap).length} totalt)`;
-
-  document.getElementById('filter-bar').style.display = 'flex';
-  renderTable(allRows);
 }
 
 function renderTable(rows) {
   const tbody = document.getElementById('tbody');
-  document.getElementById('result-count').textContent = rows.length + ' arrangement';
+  document.getElementById('result-count').textContent = rows.length + ' rader';
 
   if (!rows.length) {
     tbody.innerHTML = '<tr><td colspan="6" class="empty-msg">Ingen arrangement funne</td></tr>';
     return;
   }
 
-  tbody.innerHTML = rows.map(({event, schools}) => {
-    const dato = fmtDato(event.dateStart);
-    const skule = schools.join(', ');
-    const prod = strVal(event.production) || strVal(event.tour);
-    const lok  = strVal(event.location);
-    const elev = event.numberOfStudents != null ? event.numberOfStudents : '';
-    const komm = event.commentForParticipants || '';
+  tbody.innerHTML = rows.map(row => {
     return `<tr>
-      <td class="td-dato">${escHtml(dato)}</td>
-      <td class="td-skule">${escHtml(skule)}</td>
-      <td class="td-prod">${escHtml(prod)}</td>
-      <td class="td-lok">${escHtml(lok)}</td>
-      <td class="td-elev">${elev !== '' ? escHtml(String(elev)) : '–'}</td>
-      <td class="td-komm">${escHtml(komm)}</td>
+      <td class="td-dato">${escHtml(fmtDato(row.dato))}</td>
+      <td class="td-skule">${escHtml(row.skule)}</td>
+      <td class="td-prod">${escHtml(row.produksjon)}</td>
+      <td class="td-lok">${escHtml(row.lokasjon)}</td>
+      <td class="td-elev">${row.elevar ? escHtml(String(row.elevar)) : '–'}</td>
+      <td class="td-komm">${escHtml(row.transport)}</td>
     </tr>`;
   }).join('');
 }
@@ -451,13 +480,9 @@ function renderTable(rows) {
 document.getElementById('filter-input').addEventListener('input', function () {
   const q = this.value.toLowerCase().trim();
   if (!q) { renderTable(allRows); return; }
-  const filtered = allRows.filter(({event, schools}) => {
-    return [
-      schools.join(' '),
-      event.production || '',
-      event.location || '',
-      event.commentForParticipants || '',
-    ].join(' ').toLowerCase().includes(q);
+  const filtered = allRows.filter(row => {
+    return [row.skule, row.produksjon, row.lokasjon, row.transport]
+      .join(' ').toLowerCase().includes(q);
   });
   renderTable(filtered);
 });
