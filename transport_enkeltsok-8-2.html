@@ -5620,8 +5620,13 @@ function escHtmlAttr(s) {
 // praksis. Samla her øvst i fila slik at dei er lette å justere utan å leite
 // gjennom rendringskoden i visTurneResultat().
 const TEKSTMALAR = {
+    // Reisemålet lagt til att 23.09.2026 (var fjerna 01.09.2026) — trong det
+    // attende slik at "Overstyr adresse"-feltet i turnésøket (lagt til
+    // 23.09.2026) faktisk kjem med i teksten som vert skriven til portalen,
+    // t.d. "til Sætre bussterminal" når det er skrive inn der i staden for
+    // arenaen som er registrert i turnéen.
     bestillerbuss: (v) =>
-        `VY Turbuss frakter elevene fra skolen og tilbake etter besøket. ` +
+        `VY Turbuss frakter elevene fra skolen til ${v.stad} og tilbake etter besøket. ` +
         `Vakttelefon Vy Buss er 91658600`,
 
     // "Forslag til reiserute: " lagt til 03.09.2026 — presiserer at den
@@ -5744,7 +5749,7 @@ function byggTransportTekst(hending, sr, valtType, valtAlt) {
     }
 
     if (valtType === 'bestillerbuss') {
-        return TEKSTMALAR.bestillerbuss();
+        return TEKSTMALAR.bestillerbuss({ stad });
     }
 
     // "Vis forslag til reiserute"-checkboksen (lagt til 03.09.2026, sjå UI i
