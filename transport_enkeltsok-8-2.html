@@ -1444,8 +1444,8 @@
             <input type="text" id="turneOverstyrAdresse" placeholder="F.eks. Blakstadveien 1, 1385 Asker" style="width:100%">
           </div>
           <div class="input-group" style="max-width:200px">
-            <label>Overstyr TUR kl. <span style="font-weight:normal;color:#999;font-size:12px">— tomt = bruk arrangementstart</span></label>
-            <input type="time" id="turneOverstyrTurTid">
+            <label>Overstyr ankomst kl. <span style="font-weight:normal;color:#999;font-size:12px">— tomt = bruk arrangementstart</span></label>
+            <input type="time" id="turneOverstyrAnkomstTid">
           </div>
           <div class="input-group" style="max-width:200px">
             <label>Overstyr RETUR kl. <span style="font-weight:normal;color:#999;font-size:12px">— tomt = bruk arrangementsslutt</span></label>
@@ -5164,7 +5164,7 @@ async function hentTurne() {
         // t.d. når adressa/tida registrert i portalen er feil for samtlege
         // framsyningar. Tomt felt = bruk verdien frå turnéen som før.
         const overstyrAdresse = document.getElementById('turneOverstyrAdresse').value.trim();
-        const overstyrTurTid = document.getElementById('turneOverstyrTurTid').value;
+        const overstyrAnkomstTid = document.getElementById('turneOverstyrAnkomstTid').value;
         const overstyrReturTid = document.getElementById('turneOverstyrReturTid').value;
 
         const now = new Date();
@@ -5175,7 +5175,7 @@ async function hentTurne() {
             .map(e => {
                 // Klokkeslett-overstyring skjer FØR erFortidig/utanforEnturHorisont
                 // vert rekna ut, slik at desse reflekterer den overstyrte tida.
-                const dateStart = overstyrTurTid ? overstyrKlokkeslett(e.dateStart, overstyrTurTid) : e.dateStart;
+                const dateStart = overstyrAnkomstTid ? overstyrKlokkeslett(e.dateStart, overstyrAnkomstTid) : e.dateStart;
                 const dateEnd = overstyrReturTid ? overstyrKlokkeslett(e.dateEnd || e.dateStart, overstyrReturTid) : (e.dateEnd || null);
 
                 let dCoords = null;
@@ -6236,7 +6236,7 @@ function turneParseDate(dateStart) {
 }
 
 // Overstyrer klokkeslettet (time-of-day) på eit Unix-sekund-tidspunkt, med
-// DATOEN uendra — brukt for "Overstyr TUR/RETUR kl."-felta i turnésøket
+// DATOEN uendra — brukt for "Overstyr ankomst/RETUR kl."-felta i turnésøket
 // (lagt til 23.09.2026). Køyrer i nettlesaren sin lokale tidssone (Europe/
 // Oslo for norske brukarar), som handterer sommar-/vintertid korrekt sidan
 // Date.setHours() alltid tolkar tal i lokal tid.
