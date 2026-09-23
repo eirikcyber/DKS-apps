@@ -1092,18 +1092,30 @@
         }
         [data-tooltip] { cursor: help; }
         .turne-col-tekst { display: flex; align-items: flex-start; gap: 6px; font-size: 12px; }
-        .turne-generert-tekst {
-            flex: 1; color: #4a5568; cursor: help;
-            display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
-            overflow: hidden;
+        /* Redigerbart tekstfelt (lagt til 23.09.2026, erstattar tidlegare
+           readonly line-clamp-div) — ser umerkeleg ut til brukaren rører han
+           (gjennomsiktig kant/bakgrunn), får synleg kant/kvit bakgrunn ved
+           hover/fokus, og ei markert gul kant når teksten er manuelt endra. */
+        .turne-generert-tekst-edit {
+            flex: 1; color: #4a5568; font: inherit; font-size: 12px;
+            border: 1px solid transparent; border-radius: 4px; padding: 3px 5px;
+            resize: vertical; min-height: 48px; background: transparent;
+            font-family: inherit; line-height: 1.4;
         }
-        .turne-kopier-btn {
+        .turne-generert-tekst-edit:hover, .turne-generert-tekst-edit:focus {
+            border-color: #cbd5e0; background: white; outline: none;
+        }
+        .turne-generert-tekst-edit.turne-tekst-overstyrt {
+            background: #fffbea; border-color: #ecc94b;
+        }
+        .turne-kopier-btn, .turne-tilbakestill-btn {
             flex-shrink: 0; border: 1px solid #d1d5db; background: white; border-radius: 4px;
             padding: 4px 7px; cursor: pointer; font-size: 13px; line-height: 1;
             transition: background 0.15s, border-color 0.15s;
         }
         .turne-kopier-btn:hover { background: #f0f4ff; border-color: #667eea; }
         .turne-kopier-btn.kopiert { background: #c6f6d5; border-color: #48bb78; }
+        .turne-tilbakestill-btn:hover { background: #fff5f5; border-color: #e53e3e; }
         .turne-val-ikon-knappar { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
         .turne-val-ikon-knappar button {
             width: 30px; height: 30px; font-size: 15px;
@@ -2117,6 +2129,15 @@ let turneBussdataStatus = {}; // { eventId: 'bekrefta' | 'utilgjengeleg' | 'feil
 // `${eventId}_${skuleId}`, verdi `{tur: 'HH:MM', retur: 'HH:MM'}` (tom
 // streng = ikkje utfylt). Aldri i localStorage.
 let turneManuellTid = {};
+// Manuelt redigert "Generert tekst" (lagt til 23.09.2026) — nøkkel
+// `${eventId}_${skuleId}`, verdi = brukaren sin eigen tekst. Berre nøklar
+// som FINST i objektet reknast som overstyrt (skil frå "ikkje redigert
+// enno", sjølv om verdien er tom streng — brukaren kan bevisst tømme
+// feltet). Vinn alltid over byggTransportTekst() sitt forslag, både i
+// visinga og i genererTurnePayload(). Tilbakestillast via
+// tilbakestillTurneManuellTekst() (slettar nøkkelen, fell attende til
+// auto-generert). Aldri i localStorage.
+let turneManuellTekst = {};
 let valdeEvents = {}; // { eventId: true } — kva arrangement som er avkryssa for payload. Aldri i localStorage.
 let genererteEvents = {}; // { eventId: true } — arrangement som er tekne med i eit generert payload denne økta.
 
@@ -5141,6 +5162,7 @@ async function hentTurne() {
     turneBusAvtalar = {};
     turneBussdataStatus = {};
     turneManuellTid = {};
+    turneManuellTekst = {};
     valdeEvents = {};
     genererteEvents = {};
     // Slett gammal DRIVING-cache (fallback-fart kan ha vore feil)
@@ -5804,10 +5826,28 @@ function byggTransportTekst(hending, sr, valtType, valtAlt) {
     return '';
 }
 
-// Kopierer den genererte teksten til utklippstavla og gir kort visuell
-// tilbakemelding på knappen (✓ i 1,5s).
+// Lagrar ei manuell redigering av "Generert tekst" (lagt til 23.09.2026).
+// Ingen re-render her — ville mista fokus/markørposisjon i tekstfeltet midt
+// i skriving. Kopier-knappen les alltid direkte frå tekstfeltet (sjå
+// kopierTransportTekst()), så han treng ikkje ei fersk data-tekst-verdi.
+function settTurneManuellTekst(eventId, skuleId, verdi) {
+    turneManuellTekst[`${eventId}_${skuleId}`] = verdi;
+}
+
+// Slettar ei manuell overstyring og re-renderer, slik at feltet fell
+// attende til det automatisk genererte forslaget.
+function tilbakestillTurneManuellTekst(eventId, skuleId) {
+    delete turneManuellTekst[`${eventId}_${skuleId}`];
+    visTurneResultat();
+}
+
+// Kopierer teksten som FAKTISK står i tekstfeltet no (les direkte frå
+// søskenelement-textarea, ikkje ein snapshot) til utklippstavla, og gir
+// kort visuell tilbakemelding på knappen (✓ i 1,5s).
 function kopierTransportTekst(btn) {
-    const tekst = btn.getAttribute('data-tekst') || '';
+    const wrapper = btn.closest('.turne-col-tekst');
+    const ta = wrapper ? wrapper.querySelector('textarea') : null;
+    const tekst = ta ? ta.value : (btn.getAttribute('data-tekst') || '');
     const utfør = () => {
         const opphavleg = btn.textContent;
         btn.classList.add('kopiert');
@@ -6170,14 +6210,25 @@ function visTurneResultat() {
             }
 
             // --- Generert tekst-kolonne: automatisk generert portaltekst for
-            // det VALDE alternativet, med kopier-knapp. Regenererer kvar gong
-            // visTurneResultat() køyrer, altså òg ved overstyring av valt type
-            // (settTurneOverstyring() kallar visTurneResultat() på nytt).
-            const genertTekst = byggTransportTekst(hending, sr, valtType, valtAlt);
-            const tekstCelle = genertTekst
+            // det VALDE alternativet, no REDIGERBAR (lagt til 23.09.2026).
+            // Regenererer (auto-delen) kvar gong visTurneResultat() køyrer —
+            // men ei manuell overstyring i turneManuellTekst vinn alltid over
+            // auto-forslaget, både her og i genererTurnePayload(). Nøkkelen
+            // FINST i turneManuellTekst berre når brukaren faktisk har
+            // redigert feltet (skil frå "urørt", sjølv om verdien er tom).
+            const autoTekst = byggTransportTekst(hending, sr, valtType, valtAlt);
+            const erTekstOverstyrt = Object.prototype.hasOwnProperty.call(turneManuellTekst, overstyringKey);
+            const visTekst = erTekstOverstyrt ? turneManuellTekst[overstyringKey] : (autoTekst || '');
+            const tekstCelle = (autoTekst || erTekstOverstyrt)
                 ? `<div class="turne-col-tekst">
-                        <div class="turne-generert-tekst" data-tooltip="${escHtmlAttr(genertTekst)}">${escHtmlAttr(genertTekst)}</div>
-                        <button class="turne-kopier-btn" data-tekst="${escHtmlAttr(genertTekst)}" onclick="kopierTransportTekst(this)" title="Kopier tekst til utklippstavla">📋</button>
+                        <textarea class="turne-generert-tekst-edit${erTekstOverstyrt ? ' turne-tekst-overstyrt' : ''}"
+                                  oninput="settTurneManuellTekst(${hending.id}, ${sr.skuleId}, this.value)"
+                                  ${erTekstOverstyrt ? `data-tooltip="${escHtmlAttr('Automatisk forslag: ' + (autoTekst || '(ingen tekst)'))}"` : ''}
+                        >${escHtmlAttr(visTekst)}</textarea>
+                        <div style="display:flex;flex-direction:column;gap:4px;">
+                            <button class="turne-kopier-btn" onclick="kopierTransportTekst(this)" title="Kopier tekst til utklippstavla">📋</button>
+                            ${erTekstOverstyrt ? `<button class="turne-tilbakestill-btn" onclick="tilbakestillTurneManuellTekst(${hending.id}, ${sr.skuleId})" title="Tilbakestill til automatisk generert tekst">↺</button>` : ''}
+                        </div>
                    </div>`
                 : `<div class="turne-col-tekst"></div>`;
 
@@ -6336,8 +6387,12 @@ function genererTurnePayload() {
                         // transport) skal berre teksten skrivast, ALDRI strukturerte tider.
                         // Skrivescriptet (dks_send_transport.py) handhevar dette basert på
                         // `transport`-feltet, ikkje appen — men teksten sjølv er nøytral
-                        // informasjon uansett type.
-                        const generertTekst = byggTransportTekst(hending, sr, valtType, valtAlt) || null;
+                        // informasjon uansett type. Manuell redigering (turneManuellTekst,
+                        // lagt til 23.09.2026) VINN over det auto-genererte forslaget,
+                        // same prinsipp som turneManuellTid over.
+                        const generertTekst = Object.prototype.hasOwnProperty.call(turneManuellTekst, overstyringKey)
+                            ? (turneManuellTekst[overstyringKey] || null)
+                            : (byggTransportTekst(hending, sr, valtType, valtAlt) || null);
                         return {
                             schoolId: sr.skuleId,
                             name: sr.skule,
