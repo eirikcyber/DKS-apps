@@ -1438,6 +1438,20 @@
             <input type="number" id="turneVarigheitMin" value="45" min="0" step="5">
           </div>
         </div>
+        <div class="input-row" style="margin-top:10px">
+          <div class="input-group" style="flex:2; min-width:280px">
+            <label>Overstyr adresse <span style="font-weight:normal;color:#999;font-size:12px">— tomt = bruk adressa frå turnéen</span></label>
+            <input type="text" id="turneOverstyrAdresse" placeholder="F.eks. Blakstadveien 1, 1385 Asker" style="width:100%">
+          </div>
+          <div class="input-group" style="max-width:200px">
+            <label>Overstyr TUR kl. <span style="font-weight:normal;color:#999;font-size:12px">— tomt = bruk arrangementstart</span></label>
+            <input type="time" id="turneOverstyrTurTid">
+          </div>
+          <div class="input-group" style="max-width:200px">
+            <label>Overstyr RETUR kl. <span style="font-weight:normal;color:#999;font-size:12px">— tomt = bruk arrangementsslutt</span></label>
+            <input type="time" id="turneOverstyrReturTid">
+          </div>
+        </div>
         <button class="nav-btn primary" onclick="hentTurne()" style="margin-top:10px">Hent transport for vald produksjon</button>
         <p id="turneStatus" style="color:#666;font-size:13px;margin-top:8px"></p>
       </div>
@@ -5145,21 +5159,38 @@ async function hentTurne() {
             return;
         }
 
+        // Manuelle overstyringar (lagt til 23.09.2026, sjå UI i steg T1) —
+        // gjeld GLOBALT for heile søket (alle arrangement i produksjonen),
+        // t.d. når adressa/tida registrert i portalen er feil for samtlege
+        // framsyningar. Tomt felt = bruk verdien frå turnéen som før.
+        const overstyrAdresse = document.getElementById('turneOverstyrAdresse').value.trim();
+        const overstyrTurTid = document.getElementById('turneOverstyrTurTid').value;
+        const overstyrReturTid = document.getElementById('turneOverstyrReturTid').value;
+
         const now = new Date();
         const enturGrense = new Date(now.getTime() + ENTUR_HORISONT_DAGAR * 24 * 60 * 60 * 1000);
         turneHendingar = events
             .slice()
             .sort((a, b) => turneParseDate(a.dateStart) - turneParseDate(b.dateStart))
             .map(e => {
+                // Klokkeslett-overstyring skjer FØR erFortidig/utanforEnturHorisont
+                // vert rekna ut, slik at desse reflekterer den overstyrte tida.
+                const dateStart = overstyrTurTid ? overstyrKlokkeslett(e.dateStart, overstyrTurTid) : e.dateStart;
+                const dateEnd = overstyrReturTid ? overstyrKlokkeslett(e.dateEnd || e.dateStart, overstyrReturTid) : (e.dateEnd || null);
+
                 let dCoords = null;
-                if (e.location && e.location.address && e.location.address.coordinate) {
+                if (!overstyrAdresse && e.location && e.location.address && e.location.address.coordinate) {
                     dCoords = {
                         lat: e.location.address.coordinate.lat,
                         lon: e.location.address.coordinate.lng
                     };
                 }
+                // dCoords vert verande null når overstyrAdresse er sett — den
+                // eksisterande geocode-fallback-logikken i
+                // sokTransportForAlleTurneHendingar() geocodar då `location`
+                // (som no er sjølve overstyringsadressa) automatisk.
                 const skuler = skuleFraEvent(e);
-                const dato = turneParseDate(e.dateStart);
+                const dato = turneParseDate(dateStart);
                 // Aggreger elevtal per skule frå participants
                 const elevtalPerSkule = {};
                 for (const p of (e.participants || [])) {
@@ -5180,9 +5211,9 @@ async function hentTurne() {
                 }
                 return {
                     id: e.id,
-                    dateStart: e.dateStart,
-                    dateEnd: e.dateEnd || null,
-                    location: (e.location && e.location.name) ? e.location.name : 'Ukjend lokale',
+                    dateStart: dateStart,
+                    dateEnd: dateEnd,
+                    location: overstyrAdresse || ((e.location && e.location.name) ? e.location.name : 'Ukjend lokale'),
                     destCoords: dCoords,
                     schools: skuler,
                     elevtalPerSkule,
@@ -6202,6 +6233,19 @@ function turneFormatTid(isoStr) {
 function turneParseDate(dateStart) {
     if (typeof dateStart === 'number') return new Date(dateStart * 1000);
     return new Date(dateStart);
+}
+
+// Overstyrer klokkeslettet (time-of-day) på eit Unix-sekund-tidspunkt, med
+// DATOEN uendra — brukt for "Overstyr TUR/RETUR kl."-felta i turnésøket
+// (lagt til 23.09.2026). Køyrer i nettlesaren sin lokale tidssone (Europe/
+// Oslo for norske brukarar), som handterer sommar-/vintertid korrekt sidan
+// Date.setHours() alltid tolkar tal i lokal tid.
+function overstyrKlokkeslett(epochSekund, hhmm) {
+    if (!hhmm) return epochSekund;
+    const [t, m] = hhmm.split(':').map(Number);
+    const d = new Date(epochSekund * 1000);
+    d.setHours(t, m, 0, 0);
+    return Math.floor(d.getTime() / 1000);
 }
 
 function settTurneOverstyring(key, type) {
