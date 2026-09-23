@@ -5267,12 +5267,24 @@ async function hentTurne() {
     }
 }
 
+// Les eit talfelt frå DOM, med standardverdi berre når feltet er tomt/
+// ugyldig — IKKJE når det er eksplisitt sett til 0. RETTA 23.09.2026:
+// `parseInt(x) || standard`-mønsteret som stod her før handsama 0 som
+// "ikkje sett" (0 er falsy i JS), så t.d. "Buffer etter slutt" = 0 vart
+// stille bytta ut med standardverdien 10 — feilen synte seg som at
+// bestillerbuss-retur alltid fekk 10 min ekstra, sjølv med bufferen sett
+// til 0.
+function hentTalFelt(id, standard) {
+    const v = parseInt(document.getElementById(id).value, 10);
+    return isNaN(v) ? standard : v;
+}
+
 async function sokTransportForAlleTurneHendingar() {
     const turneStatusEl = document.getElementById('turneStatus');
-    const maksGange = parseInt(document.getElementById('turneMaksGange').value) || 2000;
-    const bufferForMin = parseInt(document.getElementById('turneBufferForMin').value) || 5;
-    const bufferMin = parseInt(document.getElementById('turneBufferMin').value) || 10;
-    const varigheitMin = parseInt(document.getElementById('turneVarigheitMin').value) || 45;
+    const maksGange = hentTalFelt('turneMaksGange', 2000);
+    const bufferForMin = hentTalFelt('turneBufferForMin', 5);
+    const bufferMin = hentTalFelt('turneBufferMin', 10);
+    const varigheitMin = hentTalFelt('turneVarigheitMin', 45);
     turneResultat = [];
     // turneBusAvtalar/turneBussdataStatus er alt sett i hentTurne() — dei kjem
     // direkte frå det nedlasta datasettet, ingen live portalkall her lenger.
@@ -6053,9 +6065,9 @@ function visTurneResultat() {
     const liste = document.getElementById('turneResultatListe');
     liste.innerHTML = '';
 
-    const varigheitMin = parseInt(document.getElementById('turneVarigheitMin').value) || 45;
-    const bufferForMin = parseInt(document.getElementById('turneBufferForMin').value) || 5;
-    const bufferMin = parseInt(document.getElementById('turneBufferMin').value) || 10;
+    const varigheitMin = hentTalFelt('turneVarigheitMin', 45);
+    const bufferForMin = hentTalFelt('turneBufferForMin', 5);
+    const bufferMin = hentTalFelt('turneBufferMin', 10);
 
     // Kolonneoverskrifter éin gong øvst — RETTA 12.08.2026. Berre vist når det
     // faktisk finst skulerader å vise (elles ei overskrift over ingenting).
@@ -6333,9 +6345,9 @@ function settTurneManuellTid(eventId, skuleId, felt, verdi) {
 }
 
 function genererTurnePayload() {
-    const varigheitMin = parseInt(document.getElementById('turneVarigheitMin').value) || 45;
-    const bufferForMin = parseInt(document.getElementById('turneBufferForMin').value) || 5;
-    const bufferMin = parseInt(document.getElementById('turneBufferMin').value) || 10;
+    const varigheitMin = hentTalFelt('turneVarigheitMin', 45);
+    const bufferForMin = hentTalFelt('turneBufferForMin', 5);
+    const bufferMin = hentTalFelt('turneBufferMin', 10);
     const payload = {
         productionId: valtProduksjon ? valtProduksjon.id : null,
         productionName: valtProduksjon ? valtProduksjon.name : null,
