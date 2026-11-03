@@ -122,9 +122,18 @@ try {
         # feil FØR $LASTEXITCODE i det heile vert sjekka. Difor: skru EAP til
         # 'Continue' berre rundt desse to kalla, les $LASTEXITCODE med det
         # same, og set EAP tilbake til 'Stop' igjen etterpå.
+        #
+        # -X theirs: datafilene vert skrivne HEILT på nytt kvar køyring, så ved
+        # konflikt på dei skal denne køyringa sin ferske versjon alltid vinne
+        # (under rebase er "theirs" commiten som vert lagd oppå = vår lokale).
+        # Utan dette konfliktar kvar køyring når Mac-en (hent_dks_data.py, kalla
+        # automatisk av dks_send_transport.py) har pusha same filer i mellomtida
+        # - stadfesta 03.11.2026: PC-en hadde 23 upusha commits sidan 04.09.
+        # Scriptet committar berre dei tre JSON-filene, så -X theirs kan ikkje
+        # overstyre andre filer.
         $prevEAP = $ErrorActionPreference
         $ErrorActionPreference = 'Continue'
-        $pullOutput = git pull --rebase origin main 2>&1
+        $pullOutput = git pull --rebase -X theirs origin main 2>&1
         $pullExit = $LASTEXITCODE
         $ErrorActionPreference = $prevEAP
 
