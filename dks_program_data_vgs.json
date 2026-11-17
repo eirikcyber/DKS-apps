@@ -1,568 +1,7 @@
 ﻿{
-    "total":  423,
-    "count":  423,
+    "total":  418,
+    "count":  418,
     "events":  [
-                   {
-                       "id":  544868,
-                       "status":  "scheduled",
-                       "dateStart":  1794822300,
-                       "dateEnd":  1794825000,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Vestby videregående skole – Auditorium 160",
-                                        "address":  {
-                                                        "formatted":  "Noreveien 2, Vestby 1540",
-                                                        "coordinate":  {
-                                                                           "lat":  59.60675377117,
-                                                                           "lng":  10.758940226753
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4764983700"
-                                    },
-                       "numberOfStudents":  107,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "3646":  {
-                                                    "name":  "Vestby videregående skole",
-                                                    "id":  3646,
-                                                    "address":  "Noreveien 2, Vestby 1540",
-                                                    "phone":  "+47 64 98 37 00",
-                                                    "contactPersons":  [
-                                                                           "Tatiana Balandina (kulturkontakt - skal ha all info), +47 90 91 17 99, tatianab@afk.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  15,
-                                                "registrationGroup":  {
-                                                                          "name":  "1BAA",
-                                                                          "schoolId":  3646
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  15,
-                                                "registrationGroup":  {
-                                                                          "name":  "1BAB",
-                                                                          "schoolId":  3646
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  15,
-                                                "registrationGroup":  {
-                                                                          "name":  "1BAC",
-                                                                          "schoolId":  3646
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  15,
-                                                "registrationGroup":  {
-                                                                          "name":  "1BAD",
-                                                                          "schoolId":  3646
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  15,
-                                                "registrationGroup":  {
-                                                                          "name":  "1BAE",
-                                                                          "schoolId":  3646
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  15,
-                                                "registrationGroup":  {
-                                                                          "name":  "1BAF",
-                                                                          "schoolId":  3646
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  17,
-                                                "registrationGroup":  {
-                                                                          "name":  "1SRB",
-                                                                          "schoolId":  3646
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  22372,
-                                          "name":  "Stakkars meg - VGS",
-                                          "subtitle":  "humoristisk kortfilm om å ha lite penger (2026: uke 46,47 og 2027: uke 21,22) ",
-                                          "groupName":  "Liv Joelle Barbosa Blad",
-                                          "descriptionShort":  "I den humoristiske kortfilmen \u0026laquo;Stakkars meg\u0026raquo; blir Nora tatt for butikktyveri. Hun og s\u0026oslash;steren stjeler luksusvarer og det utl\u0026oslash;ser en krangel med foreldrene om familiens verdier. Kunstnerfamilien har masse kulturell kapital, men lite \u0026oslash;konomisk kapital.\n\n\n\n\n\nFilmen tematiserer usynlig fattigdom og \u0026oslash;nsket om \u0026aring; passe inn. Den er basert p\u0026aring; manusforfatter og regiss\u0026oslash;r Liv Joelle Barbosa Blad sin egen oppvekst. Hun tilbyr elevene \u0026aring; reflektere rundt filmkarakterenes verdivalg og moral. Hun vil ogs\u0026aring; fortelle om hvor n\u0026aelig;r karakterene er hennes egen familie, og etikken rundt dette. Og hva som kan ligge i begrepet \u0026laquo;basert p\u0026aring; en sann historie\u0026raquo;.\n",
-                                          "yearLevelMinimum":  11,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  3,
-                                                                          "name":  "Film",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Film",
-                                                                                                        "nn":  "Film",
-                                                                                                        "en":  "Film"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "film",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/film-i-den-kulturelle-skolesekken/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/dff3e40bb053a1eaf5f99a25761d0cec.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  532238,
-                       "status":  "scheduled",
-                       "dateStart":  1794826800,
-                       "dateEnd":  1794829200,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Drømtorp videregående skole",
-                                        "address":  {
-                                                        "formatted":  "Dynamitveien 25b, SKI 1400",
-                                                        "coordinate":  {
-                                                                           "lat":  59.715733177083,
-                                                                           "lng":  10.867014455333
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4764914600"
-                                    },
-                       "numberOfStudents":  26,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "6364":  {
-                                                    "name":  "Drømtorp videregående skole",
-                                                    "id":  6364,
-                                                    "address":  "Dynamitveien 25b, SKI 1400",
-                                                    "phone":  "+47 64 91 46 00",
-                                                    "contactPersons":  [
-                                                                           "Janne  Thorsen (kulturkontakt), +47 97 69 68 58, jannet@afk.no",
-                                                                           "Siw Brekke Strøm (tilrettelagt), +47 41 04 68 12, siwst@afk.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  26,
-                                                "registrationGroup":  {
-                                                                          "name":  "Tilrettelagt vg1-3",
-                                                                          "schoolId":  6364
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  23577,
-                                          "name":  "Hysj! - tilrettelagt**",
-                                          "subtitle":  "- om kjærlighet, kropp og grensesetting",
-                                          "groupName":  "Pia Tveterås",
-                                          "descriptionShort":  "Velkommen til \u0026quot;Hysj!\u0026quot; - et direkte og \u0026aelig;rlig teater som tar opp sensitive tema knyttet til\u0026nbsp; pubertet og ung seksualitet.\u0026nbsp; Forestillingen henvender seg s\u0026aelig;rlig til ungdom med funksjonsvariasjoner.\n\nDet handler om kj\u0026aelig;rlighet, kropp, grensesetting og forholdet man har til seg selv og andre. Med et direkte og poetisk, men upretensi\u0026oslash;st formspr\u0026aring;k, er m\u0026aring;let v\u0026aring;rt \u0026aring; gj\u0026oslash;re tematikken mer tilgjengelig, relaterbar og mindre skambelagt.\n\n\u0026quot;Hysj\u0026quot; hadde premiere p\u0026aring; Nordic Black Theatre 26. november 2025, forestillingen var p\u0026aring; DKS-turne samme h\u0026oslash;st.\n\nTekst til ukeplanen\n\nTeaterforestillingen \u0026quot;Hysj!\u0026quot;, som behandler pubertet og ung seksualitet, kommer p\u0026aring; bes\u0026oslash;k. Opplevelsen leveres av Den kulturelle skolesekken Akershus\n",
-                                          "yearLevelMinimum":  8,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  2,
-                                                                          "name":  "Scenekunst",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Scenekunst",
-                                                                                                        "nn":  "Scenekunst",
-                                                                                                        "en":  "Performing arts"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "scenekunst",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/scenekunst-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/4c8121b25dfe85ea518f9a0cbe0e80ba.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  544818,
-                       "status":  "scheduled",
-                       "dateStart":  1794826800,
-                       "dateEnd":  1794832200,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Hvam videregående skole",
-                                        "address":  {
-                                                        "formatted":  "Hvamsalléen 30, HVAM 2165",
-                                                        "coordinate":  {
-                                                                           "lat":  60.104282633525,
-                                                                           "lng":  11.375441806726
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4763912100"
-                                    },
-                       "numberOfStudents":  54,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "6365":  {
-                                                    "name":  "Hvam videregående skole",
-                                                    "id":  6365,
-                                                    "address":  "Hvamsalléen 30, HVAM 2165",
-                                                    "phone":  "+47 63 91 21 00",
-                                                    "contactPersons":  [
-                                                                           "Marianne Fjellestad (skal kun ha info om tilrettelagt), +47 99 72 76 04, ingridfj@afk.no",
-                                                                           "Elisabeth Schneider Reinertsen (kulturkontakt), +47 99 40 10 32, elisabetr@afk.no",
-                                                                           "Grethe  Aas, +47 90 96 57 28, gretheaa@afk.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  25,
-                                                "registrationGroup":  {
-                                                                          "name":  "3MKA",
-                                                                          "schoolId":  6365
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  10,
-                                                "registrationGroup":  {
-                                                                          "name":  "2MKA",
-                                                                          "schoolId":  6365
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  19,
-                                                "registrationGroup":  {
-                                                                          "name":  "1MKA",
-                                                                          "schoolId":  6365
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  23392,
-                                          "name":  "Animalia - VGS",
-                                          "subtitle":  "Fra Scifi roman til kortfilm – en adaptasjon (uke 47\u002648) ",
-                                          "groupName":  "Øystein Stene og Marius Rolfsvåg",
-                                          "descriptionShort":  "Vi befinner oss i en framtid der naturen har tatt byene tilbake. Menneskene har blitt som dyr, bortsett fra noen f\u0026aring; som bor i hermetisk lukkede bydeler. N\u0026aring;r Alm blir sendt ut for \u0026aring; berge et uf\u0026oslash;dt barn, oppdager hun menneskeligheten i dyrene \u0026ndash; og dyret i seg selv.\u0026nbsp;\n\nDen handlingsdrevne kortfilmen er basert p\u0026aring; en sekvens fra boka \u0026laquo;Pustens lov\u0026raquo;. Forfatter \u0026Oslash;ystein Stene og regiss\u0026oslash;r Marius Rolfsv\u0026aring;g m\u0026oslash;ter elevene, og viser hvordan roman blir til film. F\u0026oslash;r visning inviterer de elevene til \u0026aring; danne seg et bilde av filmens univers, gjennom korte utdrag fra lydbok-versjonen.\u0026nbsp;Filmen ber\u0026oslash;rer temaer som dehumanisering, etikk og makt.\n\n\n\n\n\n\u0026nbsp;Vgs elever p\u0026aring; Arena film (nasjonal visningsarena) gav filmen h\u0026oslash;y score og sa bl.a. at den \u0026laquo;s\u0026aring; godt ut\u0026raquo;. Filmen vant ogs\u0026aring; publikumsprisen p\u0026aring; prestisjetunge Trieste Science+Fiction Festival.\n\n\nSe mer om opplegget med \u0026Oslash;ystein og Marius:\n\n\n\n\n\n\n\u0026nbsp;\n",
-                                          "yearLevelMinimum":  11,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  3,
-                                                                          "name":  "Film",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Film",
-                                                                                                        "nn":  "Film",
-                                                                                                        "en":  "Film"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "film",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/film-i-den-kulturelle-skolesekken/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/a0a10fe8725faccf6691c6b5bb4f49c7.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  544863,
-                       "status":  "scheduled",
-                       "dateStart":  1794827400,
-                       "dateEnd":  1794830100,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Vestby videregående skole",
-                                        "address":  {
-                                                        "formatted":  "Noreveien 2, Vestby 1540",
-                                                        "coordinate":  {
-                                                                           "lat":  59.60675377117,
-                                                                           "lng":  10.758940226753
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4764983700"
-                                    },
-                       "numberOfStudents":  110,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "3646":  {
-                                                    "name":  "Vestby videregående skole",
-                                                    "id":  3646,
-                                                    "address":  "Noreveien 2, Vestby 1540",
-                                                    "phone":  "+47 64 98 37 00",
-                                                    "contactPersons":  [
-                                                                           "Tatiana Balandina (kulturkontakt - skal ha all info), +47 90 91 17 99, tatianab@afk.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "1STA",
-                                                                          "schoolId":  3646
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "1STB",
-                                                                          "schoolId":  3646
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "1STC",
-                                                                          "schoolId":  3646
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  20,
-                                                "registrationGroup":  {
-                                                                          "name":  "1STF",
-                                                                          "schoolId":  3646
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  22372,
-                                          "name":  "Stakkars meg - VGS",
-                                          "subtitle":  "humoristisk kortfilm om å ha lite penger (2026: uke 46,47 og 2027: uke 21,22) ",
-                                          "groupName":  "Liv Joelle Barbosa Blad",
-                                          "descriptionShort":  "I den humoristiske kortfilmen \u0026laquo;Stakkars meg\u0026raquo; blir Nora tatt for butikktyveri. Hun og s\u0026oslash;steren stjeler luksusvarer og det utl\u0026oslash;ser en krangel med foreldrene om familiens verdier. Kunstnerfamilien har masse kulturell kapital, men lite \u0026oslash;konomisk kapital.\n\n\n\n\n\nFilmen tematiserer usynlig fattigdom og \u0026oslash;nsket om \u0026aring; passe inn. Den er basert p\u0026aring; manusforfatter og regiss\u0026oslash;r Liv Joelle Barbosa Blad sin egen oppvekst. Hun tilbyr elevene \u0026aring; reflektere rundt filmkarakterenes verdivalg og moral. Hun vil ogs\u0026aring; fortelle om hvor n\u0026aelig;r karakterene er hennes egen familie, og etikken rundt dette. Og hva som kan ligge i begrepet \u0026laquo;basert p\u0026aring; en sann historie\u0026raquo;.\n",
-                                          "yearLevelMinimum":  11,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  3,
-                                                                          "name":  "Film",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Film",
-                                                                                                        "nn":  "Film",
-                                                                                                        "en":  "Film"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "film",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/film-i-den-kulturelle-skolesekken/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/dff3e40bb053a1eaf5f99a25761d0cec.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  544869,
-                       "status":  "scheduled",
-                       "dateStart":  1794833700,
-                       "dateEnd":  1794836400,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Vestby videregående skole – Auditorium 160",
-                                        "address":  {
-                                                        "formatted":  "Noreveien 2, Vestby 1540",
-                                                        "coordinate":  {
-                                                                           "lat":  59.60675377117,
-                                                                           "lng":  10.758940226753
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4764983700"
-                                    },
-                       "numberOfStudents":  97,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "3646":  {
-                                                    "name":  "Vestby videregående skole",
-                                                    "id":  3646,
-                                                    "address":  "Noreveien 2, Vestby 1540",
-                                                    "phone":  "+47 64 98 37 00",
-                                                    "contactPersons":  [
-                                                                           "Tatiana Balandina (kulturkontakt - skal ha all info), +47 90 91 17 99, tatianab@afk.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  10,
-                                                "registrationGroup":  {
-                                                                          "name":  "1BAG",
-                                                                          "schoolId":  3646
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  15,
-                                                "registrationGroup":  {
-                                                                          "name":  "1BAH",
-                                                                          "schoolId":  3646
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  20,
-                                                "registrationGroup":  {
-                                                                          "name":  "1RMA",
-                                                                          "schoolId":  3646
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  20,
-                                                "registrationGroup":  {
-                                                                          "name":  "1RMB",
-                                                                          "schoolId":  3646
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  15,
-                                                "registrationGroup":  {
-                                                                          "name":  "1RMC",
-                                                                          "schoolId":  3646
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  17,
-                                                "registrationGroup":  {
-                                                                          "name":  "1SRA",
-                                                                          "schoolId":  3646
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  22372,
-                                          "name":  "Stakkars meg - VGS",
-                                          "subtitle":  "humoristisk kortfilm om å ha lite penger (2026: uke 46,47 og 2027: uke 21,22) ",
-                                          "groupName":  "Liv Joelle Barbosa Blad",
-                                          "descriptionShort":  "I den humoristiske kortfilmen \u0026laquo;Stakkars meg\u0026raquo; blir Nora tatt for butikktyveri. Hun og s\u0026oslash;steren stjeler luksusvarer og det utl\u0026oslash;ser en krangel med foreldrene om familiens verdier. Kunstnerfamilien har masse kulturell kapital, men lite \u0026oslash;konomisk kapital.\n\n\n\n\n\nFilmen tematiserer usynlig fattigdom og \u0026oslash;nsket om \u0026aring; passe inn. Den er basert p\u0026aring; manusforfatter og regiss\u0026oslash;r Liv Joelle Barbosa Blad sin egen oppvekst. Hun tilbyr elevene \u0026aring; reflektere rundt filmkarakterenes verdivalg og moral. Hun vil ogs\u0026aring; fortelle om hvor n\u0026aelig;r karakterene er hennes egen familie, og etikken rundt dette. Og hva som kan ligge i begrepet \u0026laquo;basert p\u0026aring; en sann historie\u0026raquo;.\n",
-                                          "yearLevelMinimum":  11,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  3,
-                                                                          "name":  "Film",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Film",
-                                                                                                        "nn":  "Film",
-                                                                                                        "en":  "Film"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "film",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/film-i-den-kulturelle-skolesekken/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/dff3e40bb053a1eaf5f99a25761d0cec.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
                    {
                        "id":  544899,
                        "status":  "scheduled",
@@ -15582,7 +15021,6 @@
                                                     "phone":  "+47 66 96 42 00",
                                                     "contactPersons":  [
                                                                            "Bjarte Bakken, +47 97 56 91 90, bjarteb@afk.no",
-                                                                           "Jon Tombre, +47 91 38 99 55, jontom@afk.no",
                                                                            "Mathias Berg Østby, +47 93 65 51 10, matiaso@afk.no",
                                                                            "Veronika Løkke, +47 93 40 68 74, veronikal@afk.no"
                                                                        ],
@@ -15687,7 +15125,6 @@
                                                     "phone":  "+47 66 96 42 00",
                                                     "contactPersons":  [
                                                                            "Bjarte Bakken, +47 97 56 91 90, bjarteb@afk.no",
-                                                                           "Jon Tombre, +47 91 38 99 55, jontom@afk.no",
                                                                            "Mathias Berg Østby, +47 93 65 51 10, matiaso@afk.no",
                                                                            "Veronika Løkke, +47 93 40 68 74, veronikal@afk.no"
                                                                        ],
@@ -19447,7 +18884,6 @@
                                                     "phone":  "+47 66 96 42 00",
                                                     "contactPersons":  [
                                                                            "Bjarte Bakken, +47 97 56 91 90, bjarteb@afk.no",
-                                                                           "Jon Tombre, +47 91 38 99 55, jontom@afk.no",
                                                                            "Mathias Berg Østby, +47 93 65 51 10, matiaso@afk.no",
                                                                            "Veronika Løkke, +47 93 40 68 74, veronikal@afk.no"
                                                                        ],
@@ -20784,7 +20220,6 @@
                                                     "phone":  "+47 66 96 42 00",
                                                     "contactPersons":  [
                                                                            "Bjarte Bakken, +47 97 56 91 90, bjarteb@afk.no",
-                                                                           "Jon Tombre, +47 91 38 99 55, jontom@afk.no",
                                                                            "Mathias Berg Østby, +47 93 65 51 10, matiaso@afk.no",
                                                                            "Veronika Løkke, +47 93 40 68 74, veronikal@afk.no"
                                                                        ],
@@ -29009,7 +28444,6 @@
                                                     "phone":  "+47 66 96 42 00",
                                                     "contactPersons":  [
                                                                            "Bjarte Bakken, +47 97 56 91 90, bjarteb@afk.no",
-                                                                           "Jon Tombre, +47 91 38 99 55, jontom@afk.no",
                                                                            "Mathias Berg Østby, +47 93 65 51 10, matiaso@afk.no",
                                                                            "Veronika Løkke, +47 93 40 68 74, veronikal@afk.no"
                                                                        ],
@@ -29130,7 +28564,6 @@
                                                     "phone":  "+47 66 96 42 00",
                                                     "contactPersons":  [
                                                                            "Bjarte Bakken, +47 97 56 91 90, bjarteb@afk.no",
-                                                                           "Jon Tombre, +47 91 38 99 55, jontom@afk.no",
                                                                            "Mathias Berg Østby, +47 93 65 51 10, matiaso@afk.no",
                                                                            "Veronika Løkke, +47 93 40 68 74, veronikal@afk.no"
                                                                        ],
@@ -37017,7 +36450,6 @@
                                                     "phone":  "+47 66 96 42 00",
                                                     "contactPersons":  [
                                                                            "Bjarte Bakken, +47 97 56 91 90, bjarteb@afk.no",
-                                                                           "Jon Tombre, +47 91 38 99 55, jontom@afk.no",
                                                                            "Mathias Berg Østby, +47 93 65 51 10, matiaso@afk.no",
                                                                            "Veronika Løkke, +47 93 40 68 74, veronikal@afk.no"
                                                                        ],
@@ -44371,7 +43803,6 @@
                                                     "phone":  "+47 66 96 42 00",
                                                     "contactPersons":  [
                                                                            "Bjarte Bakken, +47 97 56 91 90, bjarteb@afk.no",
-                                                                           "Jon Tombre, +47 91 38 99 55, jontom@afk.no",
                                                                            "Mathias Berg Østby, +47 93 65 51 10, matiaso@afk.no",
                                                                            "Veronika Løkke, +47 93 40 68 74, veronikal@afk.no"
                                                                        ],
@@ -44594,7 +44025,6 @@
                                                     "phone":  "+47 66 96 42 00",
                                                     "contactPersons":  [
                                                                            "Bjarte Bakken, +47 97 56 91 90, bjarteb@afk.no",
-                                                                           "Jon Tombre, +47 91 38 99 55, jontom@afk.no",
                                                                            "Mathias Berg Østby, +47 93 65 51 10, matiaso@afk.no",
                                                                            "Veronika Løkke, +47 93 40 68 74, veronikal@afk.no"
                                                                        ],
@@ -45604,7 +45034,6 @@
                                                     "phone":  "+47 66 96 42 00",
                                                     "contactPersons":  [
                                                                            "Bjarte Bakken, +47 97 56 91 90, bjarteb@afk.no",
-                                                                           "Jon Tombre, +47 91 38 99 55, jontom@afk.no",
                                                                            "Mathias Berg Østby, +47 93 65 51 10, matiaso@afk.no",
                                                                            "Veronika Løkke, +47 93 40 68 74, veronikal@afk.no"
                                                                        ],
@@ -46193,5 +45622,5 @@
                ],
     "hasMore":  false,
     "loaded":  2000,
-    "hentTidspunkt":  "2026-11-16T07:17:17Z"
+    "hentTidspunkt":  "2026-11-17T06:27:15Z"
 }

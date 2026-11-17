@@ -1,6 +1,6 @@
 ﻿{
-    "total":  486,
-    "count":  486,
+    "total":  488,
+    "count":  488,
     "events":  [
                    {
                        "id":  559373,
@@ -408,6 +408,180 @@
                                                 "registrationGroup":  {
                                                                           "name":  "3C",
                                                                           "schoolId":  3393
+                                                                      }
+                                            }
+                                        ],
+                       "production":  {
+                                          "id":  21284,
+                                          "name":  "Arkitektens alfabet (3. trinn)",
+                                          "subtitle":  "",
+                                          "groupName":  "",
+                                          "descriptionShort":  "Lek med former \u0026ndash; bli arkitekt!\n\nHvordan lager man egentlig et hus? Og hvor mange forskjellige former kan du finne i en bygning?\n\nDere f\u0026aring;r m\u0026oslash;te en ekte arkitekt og ser p\u0026aring; bilder av spennende hus og steder. Sammen leter vi etter sirkler, trekanter, firkanter og andre former i vegger, tak og s\u0026oslash;yler.\n\nS\u0026aring; er det deres tur til \u0026aring; v\u0026aelig;re arkitekter!\n\nP\u0026aring; gulvet legger vi ut store kart med steder dere kan bygge p\u0026aring;. Her kan dere leke med former, sette dem sammen p\u0026aring; nye m\u0026aring;ter og lage deres egne hus.\n\nDere kan bygge alene eller sammen med andre. Til slutt f\u0026aring;r dere vise fram det dere har laget og fortelle om ideene deres.\n\nHer finnes det mange m\u0026aring;ter \u0026aring; bygge p\u0026aring; \u0026ndash; hva har du lyst til \u0026aring; lage?\n",
+                                          "yearLevelMinimum":  3,
+                                          "yearLevelMaximum":  3,
+                                          "culturalExpressions":  [
+                                                                      {
+                                                                          "id":  6,
+                                                                          "name":  "Visuell kunst",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Visuell kunst",
+                                                                                                        "nn":  "Visuell kunst",
+                                                                                                        "en":  "Visual arts"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "visuell-kunst",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/visuell-kunst-i-dks/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      }
+                                                                  ],
+                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/fe36c5b4284cc1a30808f2505621cebe.jpg",
+                                          "branchOffice":  "Asker kommune",
+                                          "academicYears":  [
+                                                                {
+                                                                    "id":  10,
+                                                                    "name":  "2026/2027"
+                                                                }
+                                                            ],
+                                          "isRegistrationOffer":  false,
+                                          "events":  [
+
+                                                     ]
+                                      },
+                       "schoolEventParticipantStatus":  null
+                   },
+                   {
+                       "id":  482018,
+                       "status":  "scheduled",
+                       "dateStart":  1795165200,
+                       "dateEnd":  1795167900,
+                       "commentForParticipants":  "",
+                       "location":  {
+                                        "name":  "Hvalstad skole – Klasserom",
+                                        "address":  {
+                                                        "formatted":  "Hvalstadveien 25, Asker 1395",
+                                                        "coordinate":  {
+                                                                           "lat":  59.8601069,
+                                                                           "lng":  10.4644782
+                                                                       }
+                                                    },
+                                        "phoneNumber":  "+4766715450"
+                                    },
+                       "numberOfStudents":  21,
+                       "numberOfTeachers":  0,
+                       "schools":  {
+                                       "3389":  {
+                                                    "name":  "Hvalstad skole",
+                                                    "id":  3389,
+                                                    "address":  "Hvalstadveien 25, Asker 1395",
+                                                    "phone":  "+47 66 71 54 50",
+                                                    "contactPersons":  [
+                                                                           "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
+                                                                           "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Asker kommune",
+                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
+                                                }
+                                   },
+                       "branchOfficeName":  "Asker kommune",
+                       "busAppointments":  [
+
+                                           ],
+                       "participants":  [
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  21,
+                                                "registrationGroup":  {
+                                                                          "name":  "3A",
+                                                                          "schoolId":  3389
+                                                                      }
+                                            }
+                                        ],
+                       "production":  {
+                                          "id":  21284,
+                                          "name":  "Arkitektens alfabet (3. trinn)",
+                                          "subtitle":  "",
+                                          "groupName":  "",
+                                          "descriptionShort":  "Lek med former \u0026ndash; bli arkitekt!\n\nHvordan lager man egentlig et hus? Og hvor mange forskjellige former kan du finne i en bygning?\n\nDere f\u0026aring;r m\u0026oslash;te en ekte arkitekt og ser p\u0026aring; bilder av spennende hus og steder. Sammen leter vi etter sirkler, trekanter, firkanter og andre former i vegger, tak og s\u0026oslash;yler.\n\nS\u0026aring; er det deres tur til \u0026aring; v\u0026aelig;re arkitekter!\n\nP\u0026aring; gulvet legger vi ut store kart med steder dere kan bygge p\u0026aring;. Her kan dere leke med former, sette dem sammen p\u0026aring; nye m\u0026aring;ter og lage deres egne hus.\n\nDere kan bygge alene eller sammen med andre. Til slutt f\u0026aring;r dere vise fram det dere har laget og fortelle om ideene deres.\n\nHer finnes det mange m\u0026aring;ter \u0026aring; bygge p\u0026aring; \u0026ndash; hva har du lyst til \u0026aring; lage?\n",
+                                          "yearLevelMinimum":  3,
+                                          "yearLevelMaximum":  3,
+                                          "culturalExpressions":  [
+                                                                      {
+                                                                          "id":  6,
+                                                                          "name":  "Visuell kunst",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Visuell kunst",
+                                                                                                        "nn":  "Visuell kunst",
+                                                                                                        "en":  "Visual arts"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "visuell-kunst",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/visuell-kunst-i-dks/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      }
+                                                                  ],
+                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/fe36c5b4284cc1a30808f2505621cebe.jpg",
+                                          "branchOffice":  "Asker kommune",
+                                          "academicYears":  [
+                                                                {
+                                                                    "id":  10,
+                                                                    "name":  "2026/2027"
+                                                                }
+                                                            ],
+                                          "isRegistrationOffer":  false,
+                                          "events":  [
+
+                                                     ]
+                                      },
+                       "schoolEventParticipantStatus":  null
+                   },
+                   {
+                       "id":  482020,
+                       "status":  "scheduled",
+                       "dateStart":  1795170600,
+                       "dateEnd":  1795173300,
+                       "commentForParticipants":  "",
+                       "location":  {
+                                        "name":  "Hvalstad skole – Klasserom",
+                                        "address":  {
+                                                        "formatted":  "Hvalstadveien 25, Asker 1395",
+                                                        "coordinate":  {
+                                                                           "lat":  59.8601069,
+                                                                           "lng":  10.4644782
+                                                                       }
+                                                    },
+                                        "phoneNumber":  "+4766715450"
+                                    },
+                       "numberOfStudents":  19,
+                       "numberOfTeachers":  0,
+                       "schools":  {
+                                       "3389":  {
+                                                    "name":  "Hvalstad skole",
+                                                    "id":  3389,
+                                                    "address":  "Hvalstadveien 25, Asker 1395",
+                                                    "phone":  "+47 66 71 54 50",
+                                                    "contactPersons":  [
+                                                                           "Trine Norman Hegg(kun tilrettelagt), +47 93 86 68 66, trine.norman.hegg@asker.kommune.no",
+                                                                           "Anne Lene Tveten Ekkje, +47 91 15 24 67, anne.lene.tveten.ekkje@asker.kommune.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Asker kommune",
+                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
+                                                }
+                                   },
+                       "branchOfficeName":  "Asker kommune",
+                       "busAppointments":  [
+
+                                           ],
+                       "participants":  [
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  19,
+                                                "registrationGroup":  {
+                                                                          "name":  "3C",
+                                                                          "schoolId":  3389
                                                                       }
                                             }
                                         ],
@@ -52316,5 +52490,5 @@
                ],
     "hasMore":  false,
     "loaded":  2000,
-    "hentTidspunkt":  "2026-11-16T07:17:13Z"
+    "hentTidspunkt":  "2026-11-17T06:27:11Z"
 }
