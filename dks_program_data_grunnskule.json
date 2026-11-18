@@ -1,195 +1,7 @@
 ﻿{
-    "total":  488,
-    "count":  488,
+    "total":  485,
+    "count":  485,
     "events":  [
-                   {
-                       "id":  559373,
-                       "status":  "scheduled",
-                       "dateStart":  1794906900,
-                       "dateEnd":  1794909600,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Spikkestad ungdomsskole – Aula",
-                                        "address":  {
-                                                        "formatted":  "Ovnerudveien 1, Spikkestad 3430",
-                                                        "coordinate":  {
-                                                                           "lat":  59.739542555276,
-                                                                           "lng":  10.349502428157
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4731296300"
-                                    },
-                       "numberOfStudents":  49,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "4166":  {
-                                                    "name":  "Spikkestad ungdomsskole",
-                                                    "id":  4166,
-                                                    "address":  "Ovnerudveien 1, Spikkestad 3430",
-                                                    "phone":  "+47 31 29 63 00",
-                                                    "contactPersons":  [
-                                                                           "Anne Cathrine Frogner, +47 91 11 51 43, anne.cathrine.frogner@asker.kommune.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                }
-                                   },
-                       "branchOfficeName":  "Asker kommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  25,
-                                                "registrationGroup":  {
-                                                                          "name":  "8C",
-                                                                          "schoolId":  4166
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  24,
-                                                "registrationGroup":  {
-                                                                          "name":  "8F",
-                                                                          "schoolId":  4166
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  24899,
-                                          "name":  "Bare vent (8. trinn)",
-                                          "subtitle":  "Forfattermøte med Neda Alaei",
-                                          "groupName":  "Neda Alaei",
-                                          "descriptionShort":  "Forfatter Neda Alaei skriver om ungdom som ofte blir oversett \u0026ndash; de som m\u0026aring; v\u0026aelig;re sterke n\u0026aring;r alt rundt dem faller sammen. I dette personlige og \u0026aelig;rlige m\u0026oslash;tet med elevene forteller hun hvorfor hun skriver for ungdom, og hvorfor hun velger temaer som barnevern, omsorgssvikt og psykisk uhelse.\n\nN\u0026aring; er Neda Alaei ute med helt fersk ungdomsroman, om den selvsikre, ambisi\u0026oslash;se midpuntket p\u0026aring; en hver fest -\u0026nbsp;Mitra.\u0026nbsp;Hun har\u0026nbsp;verdens beste venninner, og tvinner guttene rundt lillefingeren. Men ogs\u0026aring; Mitra skjuler problemene sine bak den sterke fasaden: Foreldrene skal nemlig skille seg, lillebroren sliter, og ingen ser at Mitra bare tenker p\u0026aring; mat og trening. Dessuten er hennes sosiale plass i venninnegjengen sterkt truet, n\u0026aring; som den ene gutten hun virkelig vil ha, har f\u0026aring;tt seg kj\u0026aelig;reste.\u0026nbsp;\n\nMed bakgrunn som barnevernspedagog og milj\u0026oslash;terapeut har Neda m\u0026oslash;tt mange ungdommer i s\u0026aring;rbare livssituasjoner. Erfaringene tar hun med seg inn i b\u0026oslash;kene sine \u0026ndash;\u0026nbsp;Dette er ikke oss,\u0026nbsp;\u0026Aring; fange luft\u0026nbsp;og\u0026nbsp;P\u0026aring; en betingelse\u0026nbsp;\u0026ndash; som har vunnet flere priser, blant annet Uprisen.\n\nBare vent\u0026nbsp;er Neda Alaeis fjerde ungdomsbok, og binder hele forfatterskapet sammen, med Mitra som bikarakter i de tre forrige b\u0026oslash;kene, som endelig f\u0026aring;r v\u0026aelig;re hovedpersonen.\u0026nbsp;\n\nGjennom h\u0026oslash;ytlesning og samtale skaper Neda et trygt rom for elevene til \u0026aring; stille sp\u0026oslash;rsm\u0026aring;l, reflektere \u0026ndash; og kanskje kjenne seg igjen. Dette er en formidling som treffer, utfordrer og \u0026aring;pner for viktige samtaler ungdom sjelden f\u0026aring;r mulighet til \u0026aring; ha i skoletida.\n",
-                                          "yearLevelMinimum":  8,
-                                          "yearLevelMaximum":  8,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  4,
-                                                                          "name":  "Litteratur",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Litteratur",
-                                                                                                        "nn":  "Litteratur",
-                                                                                                        "en":  "Literature"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "litteratur",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/b8bc90c2abda2f652d8cfb22880293e7.jpg",
-                                          "branchOffice":  "Asker kommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  559439,
-                       "status":  "scheduled",
-                       "dateStart":  1794916200,
-                       "dateEnd":  1794918900,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Tofte ungdomsskole – Gymsal",
-                                        "address":  {
-                                                        "formatted":  "Skoledalen 89, Tofte 3482",
-                                                        "coordinate":  {
-                                                                           "lat":  59.549030202222,
-                                                                           "lng":  10.564132990986
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4732278030"
-                                    },
-                       "numberOfStudents":  49,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "4093":  {
-                                                    "name":  "Tofte ungdomsskole",
-                                                    "id":  4093,
-                                                    "address":  "Skoledalen 89, Tofte 3482",
-                                                    "phone":  "+47 32 27 80 30",
-                                                    "contactPersons":  [
-                                                                           "Jolanta Veitaite-Rønning, +47 93 97 00 58, jveitait@askerskolen.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                }
-                                   },
-                       "branchOfficeName":  "Asker kommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  24,
-                                                "registrationGroup":  {
-                                                                          "name":  "8A",
-                                                                          "schoolId":  4093
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  25,
-                                                "registrationGroup":  {
-                                                                          "name":  "8B",
-                                                                          "schoolId":  4093
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  24899,
-                                          "name":  "Bare vent (8. trinn)",
-                                          "subtitle":  "Forfattermøte med Neda Alaei",
-                                          "groupName":  "Neda Alaei",
-                                          "descriptionShort":  "Forfatter Neda Alaei skriver om ungdom som ofte blir oversett \u0026ndash; de som m\u0026aring; v\u0026aelig;re sterke n\u0026aring;r alt rundt dem faller sammen. I dette personlige og \u0026aelig;rlige m\u0026oslash;tet med elevene forteller hun hvorfor hun skriver for ungdom, og hvorfor hun velger temaer som barnevern, omsorgssvikt og psykisk uhelse.\n\nN\u0026aring; er Neda Alaei ute med helt fersk ungdomsroman, om den selvsikre, ambisi\u0026oslash;se midpuntket p\u0026aring; en hver fest -\u0026nbsp;Mitra.\u0026nbsp;Hun har\u0026nbsp;verdens beste venninner, og tvinner guttene rundt lillefingeren. Men ogs\u0026aring; Mitra skjuler problemene sine bak den sterke fasaden: Foreldrene skal nemlig skille seg, lillebroren sliter, og ingen ser at Mitra bare tenker p\u0026aring; mat og trening. Dessuten er hennes sosiale plass i venninnegjengen sterkt truet, n\u0026aring; som den ene gutten hun virkelig vil ha, har f\u0026aring;tt seg kj\u0026aelig;reste.\u0026nbsp;\n\nMed bakgrunn som barnevernspedagog og milj\u0026oslash;terapeut har Neda m\u0026oslash;tt mange ungdommer i s\u0026aring;rbare livssituasjoner. Erfaringene tar hun med seg inn i b\u0026oslash;kene sine \u0026ndash;\u0026nbsp;Dette er ikke oss,\u0026nbsp;\u0026Aring; fange luft\u0026nbsp;og\u0026nbsp;P\u0026aring; en betingelse\u0026nbsp;\u0026ndash; som har vunnet flere priser, blant annet Uprisen.\n\nBare vent\u0026nbsp;er Neda Alaeis fjerde ungdomsbok, og binder hele forfatterskapet sammen, med Mitra som bikarakter i de tre forrige b\u0026oslash;kene, som endelig f\u0026aring;r v\u0026aelig;re hovedpersonen.\u0026nbsp;\n\nGjennom h\u0026oslash;ytlesning og samtale skaper Neda et trygt rom for elevene til \u0026aring; stille sp\u0026oslash;rsm\u0026aring;l, reflektere \u0026ndash; og kanskje kjenne seg igjen. Dette er en formidling som treffer, utfordrer og \u0026aring;pner for viktige samtaler ungdom sjelden f\u0026aring;r mulighet til \u0026aring; ha i skoletida.\n",
-                                          "yearLevelMinimum":  8,
-                                          "yearLevelMaximum":  8,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  4,
-                                                                          "name":  "Litteratur",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Litteratur",
-                                                                                                        "nn":  "Litteratur",
-                                                                                                        "en":  "Literature"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "litteratur",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/b8bc90c2abda2f652d8cfb22880293e7.jpg",
-                                          "branchOffice":  "Asker kommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
                    {
                        "id":  482027,
                        "status":  "scheduled",
@@ -2074,8 +1886,8 @@
                    {
                        "id":  560225,
                        "status":  "scheduled",
-                       "dateStart":  1795521600,
-                       "dateEnd":  1795524300,
+                       "dateStart":  1795520700,
+                       "dateEnd":  1795523400,
                        "commentForParticipants":  "",
                        "location":  {
                                         "name":  "Mellom-Nes skole – Klasserom",
@@ -2276,7 +2088,7 @@
                                                     },
                                         "phoneNumber":  "+4766715420"
                                     },
-                       "numberOfStudents":  25,
+                       "numberOfStudents":  48,
                        "numberOfTeachers":  0,
                        "schools":  {
                                        "3387":  {
@@ -2297,6 +2109,14 @@
 
                                            ],
                        "participants":  [
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  23,
+                                                "registrationGroup":  {
+                                                                          "name":  "5A",
+                                                                          "schoolId":  3387
+                                                                      }
+                                            },
                                             {
                                                 "status":  "allocated",
                                                 "numberOfStudents":  25,
@@ -3541,108 +3361,6 @@
                        "schoolEventParticipantStatus":  null
                    },
                    {
-                       "id":  560173,
-                       "status":  "scheduled",
-                       "dateStart":  1795695300,
-                       "dateEnd":  1795698000,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Hofstad skole – Klasserom",
-                                        "address":  {
-                                                        "formatted":  "Hofstadgata 14, Asker 1384",
-                                                        "coordinate":  {
-                                                                           "lat":  59.84770530623,
-                                                                           "lng":  10.472101349504
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4766715420"
-                                    },
-                       "numberOfStudents":  23,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "3387":  {
-                                                    "name":  "Hofstad skole",
-                                                    "id":  3387,
-                                                    "address":  "Hofstadgata 14, Asker 1384",
-                                                    "phone":  "+47 66 71 54 20",
-                                                    "contactPersons":  [
-                                                                           "Anne Synnøve Von Hirsch, +47 97 11 34 73, anne.synnove.von.hirsch@asker.kommune.no",
-                                                                           "Ingeborg Wiencke, +47 90 98 13 94, iwiencke@asker.kommune.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                }
-                                   },
-                       "branchOfficeName":  "Asker kommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  23,
-                                                "registrationGroup":  {
-                                                                          "name":  "5A",
-                                                                          "schoolId":  3387
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  25021,
-                                          "name":  "Konspirasjon eller fakta? (5. trinn)",
-                                          "subtitle":  ".",
-                                          "groupName":  ".",
-                                          "descriptionShort":  "Hvorfor tror noen at hemmelige grupper styrer verden? Og hvordan kan vi vite om noe vi leser eller ser p\u0026aring; nettet faktisk er sant?\n\nForfatter Pia Str\u0026oslash;mstad tar dere med inn i en verden full av mystiske p\u0026aring;stander, skjulte sannheter og ganske spr\u0026oslash; konspirasjonsteorier.\n\nMed humor, fakta og spennende eksempler unders\u0026oslash;ker dere hvorfor mennesker kan begynne \u0026aring; tro p\u0026aring; ting som ikke stemmer. Dere f\u0026aring;r ogs\u0026aring; l\u0026aelig;re hvordan man kan stille gode sp\u0026oslash;rsm\u0026aring;l, sjekke kilder og finne ut om informasjon er til \u0026aring; stole p\u0026aring;.\n\nEt morsomt og l\u0026aelig;rerikt forfatterm\u0026oslash;te om \u0026aring; v\u0026aelig;re nysgjerrig, tenke selv \u0026ndash; og ikke tro p\u0026aring; alt man h\u0026oslash;rer.\n",
-                                          "yearLevelMinimum":  5,
-                                          "yearLevelMaximum":  7,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  4,
-                                                                          "name":  "Litteratur",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Litteratur",
-                                                                                                        "nn":  "Litteratur",
-                                                                                                        "en":  "Literature"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "litteratur",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      },
-                                                                      {
-                                                                          "id":  5,
-                                                                          "name":  "Kulturarv",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Kulturarv",
-                                                                                                        "nn":  "Kulturarv",
-                                                                                                        "en":  "Cultural heritage"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "kulturarv",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/kulturarv-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
-                                          "branchOffice":  "Asker kommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
                        "id":  482054,
                        "status":  "scheduled",
                        "dateStart":  1795764600,
@@ -4512,6 +4230,107 @@
                        "schoolEventParticipantStatus":  null
                    },
                    {
+                       "id":  560177,
+                       "status":  "scheduled",
+                       "dateStart":  1796025300,
+                       "dateEnd":  1796028000,
+                       "commentForParticipants":  "",
+                       "location":  {
+                                        "name":  "Stiftelsen Asker International School",
+                                        "address":  {
+                                                        "formatted":  "Gamle borgenvei 3, Asker 1383",
+                                                        "coordinate":  {
+                                                                           "lat":  59.8297074,
+                                                                           "lng":  10.4171605
+                                                                       }
+                                                    },
+                                        "phoneNumber":  "+4790720670"
+                                    },
+                       "numberOfStudents":  21,
+                       "numberOfTeachers":  0,
+                       "schools":  {
+                                       "3642":  {
+                                                    "name":  "Stiftelsen Asker International School",
+                                                    "id":  3642,
+                                                    "address":  "Gamle borgenvei 3, Asker 1383",
+                                                    "phone":  "+47 90 72 06 70",
+                                                    "contactPersons":  [
+                                                                           "James Murphy, +47 94 83 92 91, james@askeris.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Asker kommune",
+                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
+                                                }
+                                   },
+                       "branchOfficeName":  "Asker kommune",
+                       "busAppointments":  [
+
+                                           ],
+                       "participants":  [
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  21,
+                                                "registrationGroup":  {
+                                                                          "name":  "5a",
+                                                                          "schoolId":  3642
+                                                                      }
+                                            }
+                                        ],
+                       "production":  {
+                                          "id":  25021,
+                                          "name":  "Konspirasjon eller fakta? (5. trinn)",
+                                          "subtitle":  ".",
+                                          "groupName":  ".",
+                                          "descriptionShort":  "Hvorfor tror noen at hemmelige grupper styrer verden? Og hvordan kan vi vite om noe vi leser eller ser p\u0026aring; nettet faktisk er sant?\n\nForfatter Pia Str\u0026oslash;mstad tar dere med inn i en verden full av mystiske p\u0026aring;stander, skjulte sannheter og ganske spr\u0026oslash; konspirasjonsteorier.\n\nMed humor, fakta og spennende eksempler unders\u0026oslash;ker dere hvorfor mennesker kan begynne \u0026aring; tro p\u0026aring; ting som ikke stemmer. Dere f\u0026aring;r ogs\u0026aring; l\u0026aelig;re hvordan man kan stille gode sp\u0026oslash;rsm\u0026aring;l, sjekke kilder og finne ut om informasjon er til \u0026aring; stole p\u0026aring;.\n\nEt morsomt og l\u0026aelig;rerikt forfatterm\u0026oslash;te om \u0026aring; v\u0026aelig;re nysgjerrig, tenke selv \u0026ndash; og ikke tro p\u0026aring; alt man h\u0026oslash;rer.\n",
+                                          "yearLevelMinimum":  5,
+                                          "yearLevelMaximum":  7,
+                                          "culturalExpressions":  [
+                                                                      {
+                                                                          "id":  4,
+                                                                          "name":  "Litteratur",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Litteratur",
+                                                                                                        "nn":  "Litteratur",
+                                                                                                        "en":  "Literature"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "litteratur",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      },
+                                                                      {
+                                                                          "id":  5,
+                                                                          "name":  "Kulturarv",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Kulturarv",
+                                                                                                        "nn":  "Kulturarv",
+                                                                                                        "en":  "Cultural heritage"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "kulturarv",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/kulturarv-i-dks/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      }
+                                                                  ],
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "branchOffice":  "Asker kommune",
+                                          "academicYears":  [
+                                                                {
+                                                                    "id":  10,
+                                                                    "name":  "2026/2027"
+                                                                }
+                                                            ],
+                                          "isRegistrationOffer":  false,
+                                          "events":  [
+
+                                                     ]
+                                      },
+                       "schoolEventParticipantStatus":  null
+                   },
+                   {
                        "id":  552697,
                        "status":  "scheduled",
                        "dateStart":  1796025600,
@@ -4665,107 +4484,6 @@
                        "schoolEventParticipantStatus":  null
                    },
                    {
-                       "id":  560177,
-                       "status":  "scheduled",
-                       "dateStart":  1796025600,
-                       "dateEnd":  1796028300,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Stiftelsen Asker International School",
-                                        "address":  {
-                                                        "formatted":  "Gamle borgenvei 3, Asker 1383",
-                                                        "coordinate":  {
-                                                                           "lat":  59.8297074,
-                                                                           "lng":  10.4171605
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4790720670"
-                                    },
-                       "numberOfStudents":  21,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "3642":  {
-                                                    "name":  "Stiftelsen Asker International School",
-                                                    "id":  3642,
-                                                    "address":  "Gamle borgenvei 3, Asker 1383",
-                                                    "phone":  "+47 90 72 06 70",
-                                                    "contactPersons":  [
-                                                                           "James Murphy, +47 94 83 92 91, james@askeris.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                }
-                                   },
-                       "branchOfficeName":  "Asker kommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  21,
-                                                "registrationGroup":  {
-                                                                          "name":  "5a",
-                                                                          "schoolId":  3642
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  25021,
-                                          "name":  "Konspirasjon eller fakta? (5. trinn)",
-                                          "subtitle":  ".",
-                                          "groupName":  ".",
-                                          "descriptionShort":  "Hvorfor tror noen at hemmelige grupper styrer verden? Og hvordan kan vi vite om noe vi leser eller ser p\u0026aring; nettet faktisk er sant?\n\nForfatter Pia Str\u0026oslash;mstad tar dere med inn i en verden full av mystiske p\u0026aring;stander, skjulte sannheter og ganske spr\u0026oslash; konspirasjonsteorier.\n\nMed humor, fakta og spennende eksempler unders\u0026oslash;ker dere hvorfor mennesker kan begynne \u0026aring; tro p\u0026aring; ting som ikke stemmer. Dere f\u0026aring;r ogs\u0026aring; l\u0026aelig;re hvordan man kan stille gode sp\u0026oslash;rsm\u0026aring;l, sjekke kilder og finne ut om informasjon er til \u0026aring; stole p\u0026aring;.\n\nEt morsomt og l\u0026aelig;rerikt forfatterm\u0026oslash;te om \u0026aring; v\u0026aelig;re nysgjerrig, tenke selv \u0026ndash; og ikke tro p\u0026aring; alt man h\u0026oslash;rer.\n",
-                                          "yearLevelMinimum":  5,
-                                          "yearLevelMaximum":  7,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  4,
-                                                                          "name":  "Litteratur",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Litteratur",
-                                                                                                        "nn":  "Litteratur",
-                                                                                                        "en":  "Literature"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "litteratur",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      },
-                                                                      {
-                                                                          "id":  5,
-                                                                          "name":  "Kulturarv",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Kulturarv",
-                                                                                                        "nn":  "Kulturarv",
-                                                                                                        "en":  "Cultural heritage"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "kulturarv",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/kulturarv-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
-                                          "branchOffice":  "Asker kommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
                        "id":  523050,
                        "status":  "scheduled",
                        "dateStart":  1796027400,
@@ -4891,6 +4609,107 @@
                                                                       }
                                                                   ],
                                           "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "branchOffice":  "Asker kommune",
+                                          "academicYears":  [
+                                                                {
+                                                                    "id":  10,
+                                                                    "name":  "2026/2027"
+                                                                }
+                                                            ],
+                                          "isRegistrationOffer":  false,
+                                          "events":  [
+
+                                                     ]
+                                      },
+                       "schoolEventParticipantStatus":  null
+                   },
+                   {
+                       "id":  560178,
+                       "status":  "scheduled",
+                       "dateStart":  1796029200,
+                       "dateEnd":  1796031900,
+                       "commentForParticipants":  "",
+                       "location":  {
+                                        "name":  "Stiftelsen Asker International School",
+                                        "address":  {
+                                                        "formatted":  "Gamle borgenvei 3, Asker 1383",
+                                                        "coordinate":  {
+                                                                           "lat":  59.8297074,
+                                                                           "lng":  10.4171605
+                                                                       }
+                                                    },
+                                        "phoneNumber":  "+4790720670"
+                                    },
+                       "numberOfStudents":  21,
+                       "numberOfTeachers":  0,
+                       "schools":  {
+                                       "3642":  {
+                                                    "name":  "Stiftelsen Asker International School",
+                                                    "id":  3642,
+                                                    "address":  "Gamle borgenvei 3, Asker 1383",
+                                                    "phone":  "+47 90 72 06 70",
+                                                    "contactPersons":  [
+                                                                           "James Murphy, +47 94 83 92 91, james@askeris.no"
+                                                                       ],
+                                                    "branchOfficeName":  "Asker kommune",
+                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
+                                                }
+                                   },
+                       "branchOfficeName":  "Asker kommune",
+                       "busAppointments":  [
+
+                                           ],
+                       "participants":  [
+                                            {
+                                                "status":  "allocated",
+                                                "numberOfStudents":  21,
+                                                "registrationGroup":  {
+                                                                          "name":  "5b",
+                                                                          "schoolId":  3642
+                                                                      }
+                                            }
+                                        ],
+                       "production":  {
+                                          "id":  25021,
+                                          "name":  "Konspirasjon eller fakta? (5. trinn)",
+                                          "subtitle":  ".",
+                                          "groupName":  ".",
+                                          "descriptionShort":  "Hvorfor tror noen at hemmelige grupper styrer verden? Og hvordan kan vi vite om noe vi leser eller ser p\u0026aring; nettet faktisk er sant?\n\nForfatter Pia Str\u0026oslash;mstad tar dere med inn i en verden full av mystiske p\u0026aring;stander, skjulte sannheter og ganske spr\u0026oslash; konspirasjonsteorier.\n\nMed humor, fakta og spennende eksempler unders\u0026oslash;ker dere hvorfor mennesker kan begynne \u0026aring; tro p\u0026aring; ting som ikke stemmer. Dere f\u0026aring;r ogs\u0026aring; l\u0026aelig;re hvordan man kan stille gode sp\u0026oslash;rsm\u0026aring;l, sjekke kilder og finne ut om informasjon er til \u0026aring; stole p\u0026aring;.\n\nEt morsomt og l\u0026aelig;rerikt forfatterm\u0026oslash;te om \u0026aring; v\u0026aelig;re nysgjerrig, tenke selv \u0026ndash; og ikke tro p\u0026aring; alt man h\u0026oslash;rer.\n",
+                                          "yearLevelMinimum":  5,
+                                          "yearLevelMaximum":  7,
+                                          "culturalExpressions":  [
+                                                                      {
+                                                                          "id":  4,
+                                                                          "name":  "Litteratur",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Litteratur",
+                                                                                                        "nn":  "Litteratur",
+                                                                                                        "en":  "Literature"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "litteratur",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      },
+                                                                      {
+                                                                          "id":  5,
+                                                                          "name":  "Kulturarv",
+                                                                          "nameInternationalized":  {
+                                                                                                        "nb":  "Kulturarv",
+                                                                                                        "nn":  "Kulturarv",
+                                                                                                        "en":  "Cultural heritage"
+                                                                                                    },
+                                                                          "parent":  null,
+                                                                          "parentCulturalExpressionId":  null,
+                                                                          "icon":  "kulturarv",
+                                                                          "deleted":  false,
+                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/kulturarv-i-dks/",
+                                                                          "culturalExpressionCategory":  null
+                                                                      }
+                                                                  ],
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -5051,10 +4870,10 @@
                        "schoolEventParticipantStatus":  null
                    },
                    {
-                       "id":  560178,
+                       "id":  560179,
                        "status":  "scheduled",
-                       "dateStart":  1796032200,
-                       "dateEnd":  1796034900,
+                       "dateStart":  1796031900,
+                       "dateEnd":  1796034600,
                        "commentForParticipants":  "",
                        "location":  {
                                         "name":  "Stiftelsen Asker International School",
@@ -5091,7 +4910,7 @@
                                                 "status":  "allocated",
                                                 "numberOfStudents":  21,
                                                 "registrationGroup":  {
-                                                                          "name":  "5b",
+                                                                          "name":  "5c",
                                                                           "schoolId":  3642
                                                                       }
                                             }
@@ -5431,107 +5250,6 @@
                                                                       }
                                                                   ],
                                           "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/f4a6021af4f8092f1f7d6fd983428163.jpg",
-                                          "branchOffice":  "Asker kommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  560179,
-                       "status":  "scheduled",
-                       "dateStart":  1796041200,
-                       "dateEnd":  1796043900,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Stiftelsen Asker International School",
-                                        "address":  {
-                                                        "formatted":  "Gamle borgenvei 3, Asker 1383",
-                                                        "coordinate":  {
-                                                                           "lat":  59.8297074,
-                                                                           "lng":  10.4171605
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4790720670"
-                                    },
-                       "numberOfStudents":  21,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "3642":  {
-                                                    "name":  "Stiftelsen Asker International School",
-                                                    "id":  3642,
-                                                    "address":  "Gamle borgenvei 3, Asker 1383",
-                                                    "phone":  "+47 90 72 06 70",
-                                                    "contactPersons":  [
-                                                                           "James Murphy, +47 94 83 92 91, james@askeris.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                }
-                                   },
-                       "branchOfficeName":  "Asker kommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  21,
-                                                "registrationGroup":  {
-                                                                          "name":  "5c",
-                                                                          "schoolId":  3642
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  25021,
-                                          "name":  "Konspirasjon eller fakta? (5. trinn)",
-                                          "subtitle":  ".",
-                                          "groupName":  ".",
-                                          "descriptionShort":  "Hvorfor tror noen at hemmelige grupper styrer verden? Og hvordan kan vi vite om noe vi leser eller ser p\u0026aring; nettet faktisk er sant?\n\nForfatter Pia Str\u0026oslash;mstad tar dere med inn i en verden full av mystiske p\u0026aring;stander, skjulte sannheter og ganske spr\u0026oslash; konspirasjonsteorier.\n\nMed humor, fakta og spennende eksempler unders\u0026oslash;ker dere hvorfor mennesker kan begynne \u0026aring; tro p\u0026aring; ting som ikke stemmer. Dere f\u0026aring;r ogs\u0026aring; l\u0026aelig;re hvordan man kan stille gode sp\u0026oslash;rsm\u0026aring;l, sjekke kilder og finne ut om informasjon er til \u0026aring; stole p\u0026aring;.\n\nEt morsomt og l\u0026aelig;rerikt forfatterm\u0026oslash;te om \u0026aring; v\u0026aelig;re nysgjerrig, tenke selv \u0026ndash; og ikke tro p\u0026aring; alt man h\u0026oslash;rer.\n",
-                                          "yearLevelMinimum":  5,
-                                          "yearLevelMaximum":  7,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  4,
-                                                                          "name":  "Litteratur",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Litteratur",
-                                                                                                        "nn":  "Litteratur",
-                                                                                                        "en":  "Literature"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "litteratur",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      },
-                                                                      {
-                                                                          "id":  5,
-                                                                          "name":  "Kulturarv",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Kulturarv",
-                                                                                                        "nn":  "Kulturarv",
-                                                                                                        "en":  "Cultural heritage"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "kulturarv",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/kulturarv-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -10589,8 +10307,8 @@
                    {
                        "id":  523040,
                        "status":  "scheduled",
-                       "dateStart":  1796899500,
-                       "dateEnd":  1796901600,
+                       "dateStart":  1796893800,
+                       "dateEnd":  1796895900,
                        "commentForParticipants":  "",
                        "location":  {
                                         "name":  "Blakstad skole – Gymsal",
@@ -52490,5 +52208,5 @@
                ],
     "hasMore":  false,
     "loaded":  2000,
-    "hentTidspunkt":  "2026-11-17T06:27:11Z"
+    "hentTidspunkt":  "2026-11-18T06:27:10Z"
 }
