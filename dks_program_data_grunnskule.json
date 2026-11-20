@@ -1,268 +1,7 @@
 ﻿{
-    "total":  485,
-    "count":  485,
+    "total":  482,
+    "count":  482,
     "events":  [
-                   {
-                       "id":  482027,
-                       "status":  "scheduled",
-                       "dateStart":  1795077000,
-                       "dateEnd":  1795079700,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Nesøya skole – Klasserom",
-                                        "address":  {
-                                                        "formatted":  "Tverråsen 4, Nesøya 1397",
-                                                        "coordinate":  {
-                                                                           "lat":  59.869016716784,
-                                                                           "lng":  10.517632633382
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4745732653"
-                                    },
-                       "numberOfStudents":  16,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "3393":  {
-                                                    "name":  "Nesøya skole",
-                                                    "id":  3393,
-                                                    "address":  "Tverråsen 4, Nesøya 1397",
-                                                    "phone":  "+47 45 73 26 53",
-                                                    "contactPersons":  [
-                                                                           "Kari Singsaas, +47 45 73 26 53, kari.singsaas@asker.kommune.no",
-                                                                           "Bjørn Erik Rannestad, +47 99 03 04 31, bjorn.erik.rannestad@asker.kommune.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                }
-                                   },
-                       "branchOfficeName":  "Asker kommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  16,
-                                                "registrationGroup":  {
-                                                                          "name":  "3A",
-                                                                          "schoolId":  3393
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  21284,
-                                          "name":  "Arkitektens alfabet (3. trinn)",
-                                          "subtitle":  "",
-                                          "groupName":  "",
-                                          "descriptionShort":  "Lek med former \u0026ndash; bli arkitekt!\n\nHvordan lager man egentlig et hus? Og hvor mange forskjellige former kan du finne i en bygning?\n\nDere f\u0026aring;r m\u0026oslash;te en ekte arkitekt og ser p\u0026aring; bilder av spennende hus og steder. Sammen leter vi etter sirkler, trekanter, firkanter og andre former i vegger, tak og s\u0026oslash;yler.\n\nS\u0026aring; er det deres tur til \u0026aring; v\u0026aelig;re arkitekter!\n\nP\u0026aring; gulvet legger vi ut store kart med steder dere kan bygge p\u0026aring;. Her kan dere leke med former, sette dem sammen p\u0026aring; nye m\u0026aring;ter og lage deres egne hus.\n\nDere kan bygge alene eller sammen med andre. Til slutt f\u0026aring;r dere vise fram det dere har laget og fortelle om ideene deres.\n\nHer finnes det mange m\u0026aring;ter \u0026aring; bygge p\u0026aring; \u0026ndash; hva har du lyst til \u0026aring; lage?\n",
-                                          "yearLevelMinimum":  3,
-                                          "yearLevelMaximum":  3,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  6,
-                                                                          "name":  "Visuell kunst",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Visuell kunst",
-                                                                                                        "nn":  "Visuell kunst",
-                                                                                                        "en":  "Visual arts"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "visuell-kunst",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/visuell-kunst-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/fe36c5b4284cc1a30808f2505621cebe.jpg",
-                                          "branchOffice":  "Asker kommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  482028,
-                       "status":  "scheduled",
-                       "dateStart":  1795084200,
-                       "dateEnd":  1795086900,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Nesøya skole – Klasserom",
-                                        "address":  {
-                                                        "formatted":  "Tverråsen 4, Nesøya 1397",
-                                                        "coordinate":  {
-                                                                           "lat":  59.869016716784,
-                                                                           "lng":  10.517632633382
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4745732653"
-                                    },
-                       "numberOfStudents":  17,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "3393":  {
-                                                    "name":  "Nesøya skole",
-                                                    "id":  3393,
-                                                    "address":  "Tverråsen 4, Nesøya 1397",
-                                                    "phone":  "+47 45 73 26 53",
-                                                    "contactPersons":  [
-                                                                           "Kari Singsaas, +47 45 73 26 53, kari.singsaas@asker.kommune.no",
-                                                                           "Bjørn Erik Rannestad, +47 99 03 04 31, bjorn.erik.rannestad@asker.kommune.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                }
-                                   },
-                       "branchOfficeName":  "Asker kommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  17,
-                                                "registrationGroup":  {
-                                                                          "name":  "3B",
-                                                                          "schoolId":  3393
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  21284,
-                                          "name":  "Arkitektens alfabet (3. trinn)",
-                                          "subtitle":  "",
-                                          "groupName":  "",
-                                          "descriptionShort":  "Lek med former \u0026ndash; bli arkitekt!\n\nHvordan lager man egentlig et hus? Og hvor mange forskjellige former kan du finne i en bygning?\n\nDere f\u0026aring;r m\u0026oslash;te en ekte arkitekt og ser p\u0026aring; bilder av spennende hus og steder. Sammen leter vi etter sirkler, trekanter, firkanter og andre former i vegger, tak og s\u0026oslash;yler.\n\nS\u0026aring; er det deres tur til \u0026aring; v\u0026aelig;re arkitekter!\n\nP\u0026aring; gulvet legger vi ut store kart med steder dere kan bygge p\u0026aring;. Her kan dere leke med former, sette dem sammen p\u0026aring; nye m\u0026aring;ter og lage deres egne hus.\n\nDere kan bygge alene eller sammen med andre. Til slutt f\u0026aring;r dere vise fram det dere har laget og fortelle om ideene deres.\n\nHer finnes det mange m\u0026aring;ter \u0026aring; bygge p\u0026aring; \u0026ndash; hva har du lyst til \u0026aring; lage?\n",
-                                          "yearLevelMinimum":  3,
-                                          "yearLevelMaximum":  3,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  6,
-                                                                          "name":  "Visuell kunst",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Visuell kunst",
-                                                                                                        "nn":  "Visuell kunst",
-                                                                                                        "en":  "Visual arts"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "visuell-kunst",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/visuell-kunst-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/fe36c5b4284cc1a30808f2505621cebe.jpg",
-                                          "branchOffice":  "Asker kommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  482029,
-                       "status":  "canceled_by_administrator",
-                       "dateStart":  1795088700,
-                       "dateEnd":  1795091400,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Nesøya skole – Klasserom",
-                                        "address":  {
-                                                        "formatted":  "Tverråsen 4, Nesøya 1397",
-                                                        "coordinate":  {
-                                                                           "lat":  59.869016716784,
-                                                                           "lng":  10.517632633382
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4745732653"
-                                    },
-                       "numberOfStudents":  0,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "3393":  {
-                                                    "name":  "Nesøya skole",
-                                                    "id":  3393,
-                                                    "address":  "Tverråsen 4, Nesøya 1397",
-                                                    "phone":  "+47 45 73 26 53",
-                                                    "contactPersons":  [
-                                                                           "Kari Singsaas, +47 45 73 26 53, kari.singsaas@asker.kommune.no",
-                                                                           "Bjørn Erik Rannestad, +47 99 03 04 31, bjorn.erik.rannestad@asker.kommune.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Asker kommune",
-                                                    "parentBranchOfficeName":  "Akershus fylkeskommune"
-                                                }
-                                   },
-                       "branchOfficeName":  "Asker kommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "canceled_by_administrator",
-                                                "numberOfStudents":  15,
-                                                "registrationGroup":  {
-                                                                          "name":  "3C",
-                                                                          "schoolId":  3393
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  21284,
-                                          "name":  "Arkitektens alfabet (3. trinn)",
-                                          "subtitle":  "",
-                                          "groupName":  "",
-                                          "descriptionShort":  "Lek med former \u0026ndash; bli arkitekt!\n\nHvordan lager man egentlig et hus? Og hvor mange forskjellige former kan du finne i en bygning?\n\nDere f\u0026aring;r m\u0026oslash;te en ekte arkitekt og ser p\u0026aring; bilder av spennende hus og steder. Sammen leter vi etter sirkler, trekanter, firkanter og andre former i vegger, tak og s\u0026oslash;yler.\n\nS\u0026aring; er det deres tur til \u0026aring; v\u0026aelig;re arkitekter!\n\nP\u0026aring; gulvet legger vi ut store kart med steder dere kan bygge p\u0026aring;. Her kan dere leke med former, sette dem sammen p\u0026aring; nye m\u0026aring;ter og lage deres egne hus.\n\nDere kan bygge alene eller sammen med andre. Til slutt f\u0026aring;r dere vise fram det dere har laget og fortelle om ideene deres.\n\nHer finnes det mange m\u0026aring;ter \u0026aring; bygge p\u0026aring; \u0026ndash; hva har du lyst til \u0026aring; lage?\n",
-                                          "yearLevelMinimum":  3,
-                                          "yearLevelMaximum":  3,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  6,
-                                                                          "name":  "Visuell kunst",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Visuell kunst",
-                                                                                                        "nn":  "Visuell kunst",
-                                                                                                        "en":  "Visual arts"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "visuell-kunst",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/visuell-kunst-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/fe36c5b4284cc1a30808f2505621cebe.jpg",
-                                          "branchOffice":  "Asker kommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
                    {
                        "id":  482018,
                        "status":  "scheduled",
@@ -523,7 +262,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -763,7 +502,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -864,7 +603,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -1112,7 +851,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -1213,7 +952,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -1400,7 +1139,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -1540,7 +1279,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -1767,7 +1506,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -1868,7 +1607,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -1969,7 +1708,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -2166,7 +1905,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -2267,7 +2006,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -2454,7 +2193,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -2681,7 +2420,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -2782,7 +2521,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -3017,7 +2756,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -3158,7 +2897,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -3259,7 +2998,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -3536,7 +3275,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -3727,7 +3466,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -3883,7 +3622,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -4023,7 +3762,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -4128,7 +3867,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -4315,7 +4054,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -4608,7 +4347,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -4709,7 +4448,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -4955,7 +4694,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -5096,7 +4835,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -5389,7 +5128,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -5678,7 +5417,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -5818,7 +5557,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -6256,7 +5995,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -6396,7 +6135,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -6686,7 +6425,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -7079,7 +6818,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -7717,7 +7456,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -8101,7 +7840,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -8477,7 +8216,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -8704,7 +8443,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -9027,7 +8766,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -9342,7 +9081,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -9577,7 +9316,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -9835,7 +9574,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -10093,7 +9832,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -10421,7 +10160,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -10655,7 +10394,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -10797,7 +10536,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -11033,7 +10772,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -14130,7 +13869,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -14327,7 +14066,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -14516,7 +14255,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -14602,7 +14341,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -14782,7 +14521,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -14963,7 +14702,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -15050,7 +14789,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -15232,7 +14971,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -15319,7 +15058,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -15524,7 +15263,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -15713,7 +15452,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -15901,7 +15640,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -15987,7 +15726,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -16168,7 +15907,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -16254,7 +15993,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -16434,7 +16173,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -16614,7 +16353,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -16700,7 +16439,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -16880,7 +16619,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -17068,7 +16807,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -17256,7 +16995,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -17342,7 +17081,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -17522,7 +17261,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -17702,7 +17441,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -17790,7 +17529,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -17878,7 +17617,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -17966,7 +17705,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -18054,7 +17793,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -18141,7 +17880,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -26951,7 +26690,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -27053,7 +26792,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -27387,7 +27126,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -27489,7 +27228,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -27680,7 +27419,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -27782,7 +27521,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -27979,7 +27718,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -28214,7 +27953,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -28638,7 +28377,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -28724,7 +28463,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -29057,7 +28796,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -29158,7 +28897,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -29408,7 +29147,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -29494,7 +29233,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -29996,7 +29735,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -30097,7 +29836,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -30277,7 +30016,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -30378,7 +30117,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -30479,7 +30218,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -30565,7 +30304,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -30973,7 +30712,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -31317,7 +31056,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -31552,7 +31291,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -31740,7 +31479,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -31841,7 +31580,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -31927,7 +31666,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -32115,7 +31854,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -32201,7 +31940,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -32398,7 +32137,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -32672,7 +32411,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -32947,7 +32686,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -33049,7 +32788,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -33338,7 +33077,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -33525,7 +33264,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -33712,7 +33451,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -34011,7 +33750,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -34301,7 +34040,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -34402,7 +34141,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -34785,7 +34524,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -34973,7 +34712,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -35074,7 +34813,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -35261,7 +35000,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -35362,7 +35101,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -35722,7 +35461,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -36309,7 +36048,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -36497,7 +36236,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -36688,7 +36427,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -37353,7 +37092,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -37898,7 +37637,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -38390,7 +38129,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -38665,7 +38404,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -38939,7 +38678,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -39485,7 +39224,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -39586,7 +39325,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -39876,7 +39615,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -40216,7 +39955,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -40615,7 +40354,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=021375e9ed8ba34898c29b043cb2b493\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5933976%3Fsubpath%3D1224ea7a-fef8-49ed-b521-9d32b026e57b.jpg\u0026filetoken=1797811200.5cfbe0aa0d4669a8563f9cae278c2e1a2c6384f87ea136496448399108def3c1\u0026productionId=25021\u0026attachmentId=192195\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -40739,7 +40478,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -41059,7 +40798,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -41207,7 +40946,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -41449,7 +41188,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -41712,7 +41451,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -41955,7 +41694,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -42189,7 +41928,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -42424,7 +42163,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -42754,7 +42493,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -43006,7 +42745,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -43216,7 +42955,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -43427,7 +43166,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -43567,7 +43306,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -43801,7 +43540,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -44035,7 +43774,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -44277,7 +44016,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -44519,7 +44258,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -44761,7 +44500,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -44988,7 +44727,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -45214,7 +44953,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -47051,7 +46790,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -47371,7 +47110,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -48006,7 +47745,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=7b41bc359c94a0d35be745bdfb0c525f\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F5953358%3Fsubpath%3Dabb81f02-dad5-4cb9-bcf0-e4ec86d1ff68.jpg\u0026filetoken=1797811200.3b82e897491a254ea38f70b970ed6a1a9c77d36f109f98702aea9c7f5dbc6fbb\u0026productionId=24038\u0026attachmentId=187650\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -51758,7 +51497,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -51845,7 +51584,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -51932,7 +51671,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -52018,7 +51757,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -52104,7 +51843,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -52190,7 +51929,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=4772af9ffb7738db0ae51bf481a58ec1\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F6355929%3Fsubpath%3D34a756db-105f-4483-8b2f-b25072c62499.png\u0026filetoken=1797811200.cd43564e1e7a9c0afdac597bbf8379852d0bc31531ee6c41ef9392f04ef60d01\u0026productionId=25158\u0026attachmentId=192973\u0026preview",
                                           "branchOffice":  "Asker kommune",
                                           "academicYears":  [
                                                                 {
@@ -52208,5 +51947,5 @@
                ],
     "hasMore":  false,
     "loaded":  2000,
-    "hentTidspunkt":  "2026-11-19T06:26:58Z"
+    "hentTidspunkt":  "2026-11-20T06:27:05Z"
 }
