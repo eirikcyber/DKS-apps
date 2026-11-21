@@ -1,964 +1,7 @@
 ﻿{
-    "total":  394,
-    "count":  394,
+    "total":  385,
+    "count":  385,
     "events":  [
-                   {
-                       "id":  544825,
-                       "status":  "scheduled",
-                       "dateStart":  1795162800,
-                       "dateEnd":  1795168200,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Bleiker videregående skole – Auditorium 150",
-                                        "address":  {
-                                                        "formatted":  "Brages Vei 1, ASKER 1387",
-                                                        "coordinate":  {
-                                                                           "lat":  59.826875846332,
-                                                                           "lng":  10.445602278052
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4797637197"
-                                    },
-                       "numberOfStudents":  70,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "6354":  {
-                                                    "name":  "Bleiker videregående skole",
-                                                    "id":  6354,
-                                                    "address":  "Brages Vei 1, ASKER 1387",
-                                                    "phone":  "+47 97 63 71 97",
-                                                    "contactPersons":  [
-                                                                           "Bård William Jensen (tilrettelagt), +47 97 76 51 24, bardj@afk.no",
-                                                                           "Tone Luise Brinchmann (tilrettelagt), +47 48 06 71 73, tonebri@afk.no",
-                                                                           "Merete Holtet Litsheim (kulturkontakt ordinær), +47 97 03 43 53, meretel@afk.no",
-                                                                           "Cathrine Kittilsen Zandjani, +47 90 61 01 40, cathrinez@afk.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  14,
-                                                "registrationGroup":  {
-                                                                          "name":  "1IMA",
-                                                                          "schoolId":  6354
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  13,
-                                                "registrationGroup":  {
-                                                                          "name":  "1IMB",
-                                                                          "schoolId":  6354
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  13,
-                                                "registrationGroup":  {
-                                                                          "name":  "1IMC",
-                                                                          "schoolId":  6354
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "1MKA",
-                                                                          "schoolId":  6354
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  23392,
-                                          "name":  "Animalia - VGS",
-                                          "subtitle":  "Fra Scifi roman til kortfilm – en adaptasjon (uke 47\u002648) ",
-                                          "groupName":  "Øystein Stene og Marius Rolfsvåg",
-                                          "descriptionShort":  "Vi befinner oss i en framtid der naturen har tatt byene tilbake. Menneskene har blitt som dyr, bortsett fra noen f\u0026aring; som bor i hermetisk lukkede bydeler. N\u0026aring;r Alm blir sendt ut for \u0026aring; berge et uf\u0026oslash;dt barn, oppdager hun menneskeligheten i dyrene \u0026ndash; og dyret i seg selv.\u0026nbsp;\n\nDen handlingsdrevne kortfilmen er basert p\u0026aring; en sekvens fra boka \u0026laquo;Pustens lov\u0026raquo;. Forfatter \u0026Oslash;ystein Stene og regiss\u0026oslash;r Marius Rolfsv\u0026aring;g m\u0026oslash;ter elevene, og viser hvordan roman blir til film. F\u0026oslash;r visning inviterer de elevene til \u0026aring; danne seg et bilde av filmens univers, gjennom korte utdrag fra lydbok-versjonen.\u0026nbsp;Filmen ber\u0026oslash;rer temaer som dehumanisering, etikk og makt.\n\n\n\n\n\n\u0026nbsp;Vgs elever p\u0026aring; Arena film (nasjonal visningsarena) gav filmen h\u0026oslash;y score og sa bl.a. at den \u0026laquo;s\u0026aring; godt ut\u0026raquo;. Filmen vant ogs\u0026aring; publikumsprisen p\u0026aring; prestisjetunge Trieste Science+Fiction Festival.\n\n\nSe mer om opplegget med \u0026Oslash;ystein og Marius:\n\n\n\n\n\n\n\u0026nbsp;\n",
-                                          "yearLevelMinimum":  11,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  3,
-                                                                          "name":  "Film",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Film",
-                                                                                                        "nn":  "Film",
-                                                                                                        "en":  "Film"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "film",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/film-i-den-kulturelle-skolesekken/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/a0a10fe8725faccf6691c6b5bb4f49c7.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  542091,
-                       "status":  "scheduled",
-                       "dateStart":  1795164900,
-                       "dateEnd":  1795167000,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Dønski videregående skole – Auditoriet (150)",
-                                        "address":  {
-                                                        "formatted":  "Rudsveien 73, GJETTUM 1346",
-                                                        "coordinate":  {
-                                                                           "lat":  59.906778791816,
-                                                                           "lng":  10.506617294798
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4767808470"
-                                    },
-                       "numberOfStudents":  81,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "6367":  {
-                                                    "name":  "Dønski videregående skole",
-                                                    "id":  6367,
-                                                    "address":  "Rudsveien 73, GJETTUM 1346",
-                                                    "phone":  "+47 67 80 60 00",
-                                                    "contactPersons":  [
-                                                                           "Jonas Tufte  Østvold (Ordinær og tilrettelagt), +47 45 69 37 68, jonasostv@afk.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  27,
-                                                "registrationGroup":  {
-                                                                          "name":  "1STA",
-                                                                          "schoolId":  6367
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  27,
-                                                "registrationGroup":  {
-                                                                          "name":  "1STB",
-                                                                          "schoolId":  6367
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  27,
-                                                "registrationGroup":  {
-                                                                          "name":  "1STC",
-                                                                          "schoolId":  6367
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  22689,
-                                          "name":  "Verden er ikke så verst! - VGS",
-                                          "subtitle":  "To jordomseilere kommer til skolen og avlegger rapport ",
-                                          "groupName":  "Amanda Sailing",
-                                          "descriptionShort":  "Linn Charlotte og Paul seiler p\u0026aring; alle verdens hav. De har tatt noen valg i livet og blitt eventyrere.\u0026nbsp; I et inspirerende, morsomt og til dels dramatisk foredrag skildrer de\u0026nbsp; opplevelser fra over 50 land p\u0026aring; 12 \u0026aring;r med jordomseiling.\u0026nbsp;\u0026nbsp;\n\nMediene viser et negativ bilde av verden vi lever i;\u0026nbsp; Klimavandel, ekstremv\u0026aelig;r, fare for krig i Europa, fors\u0026oslash;pling av havet og tap av biologisk mangfold gj\u0026oslash;r det vanskelig \u0026aring; se optimistisk p\u0026aring; framtiden. Charlotte og Paul har m\u0026oslash;tt mennesker over alt som kjenner p\u0026aring; det samme alvoret. N\u0026aring; er det elevenes tur til \u0026aring; f\u0026aring; m\u0026oslash;te dem ogs\u0026aring; - for n\u0026aelig;rt innp\u0026aring; ser det lysere ut.\n\nVideohilsen\n\nVi anbefaler \u0026aring; se filmen f\u0026oslash;r dere f\u0026aring;r bes\u0026oslash;k av Den kulturelle skolesekken. I filmen beskriver Charlotte og Paul noe av det de skal snakke om n\u0026aring;r de m\u0026oslash;ter elevene:\n\n\n\n\n\n\u0026nbsp;\n",
-                                          "yearLevelMinimum":  8,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  5,
-                                                                          "name":  "Kulturarv",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Kulturarv",
-                                                                                                        "nn":  "Kulturarv",
-                                                                                                        "en":  "Cultural heritage"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "kulturarv",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/kulturarv-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/0c3c8a2ac27aab60205a1d1966a446c3.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  541873,
-                       "status":  "scheduled",
-                       "dateStart":  1795165200,
-                       "dateEnd":  1795168800,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Asker videregående skole",
-                                        "address":  {
-                                                        "formatted":  "Fredtunveien 81, ASKER 1386",
-                                                        "coordinate":  {
-                                                                           "lat":  59.831590236966,
-                                                                           "lng":  10.437457284882
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4766907240"
-                                    },
-                       "numberOfStudents":  30,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "6378":  {
-                                                    "name":  "Asker videregående skole",
-                                                    "id":  6378,
-                                                    "address":  "Fredtunveien 81, ASKER 1386",
-                                                    "phone":  "+47 66 90 72 40",
-                                                    "contactPersons":  [
-                                                                           "Mona Steffens (tilrettelagt), +47 41 22 09 67, monast@afk.no",
-                                                                           "Joanna Kud, +47 40 83 00 60, joannaku@afk.no",
-                                                                           "Anders Grønning (hovedkulturkontakt - ordinær), +47 94 18 38 66, andersgr@afk.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "3STB",
-                                                                          "schoolId":  6378
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  22248,
-                                          "name":  "Justismordets DNA - VGS",
-                                          "subtitle":  "Forfattermøte",
-                                          "groupName":  "Bjørn Olav Jahr ",
-                                          "descriptionShort":  "Tilgjengelig for bestilling h\u0026oslash;st 2026 og v\u0026aring;r 2027.\n\nB\u0026oslash;ker kan endre samfunnet!\u0026nbsp;\n\nGjennom\u0026nbsp;mange \u0026aring;rs\u0026nbsp;arbeid med b\u0026oslash;ker, TV‑produksjoner og podkaster\u0026nbsp;bidro\u0026nbsp;forfatter og journalist Bj\u0026oslash;rn Olav Jahr til at Birgitte Tengs\u0026#39; fetter ble renvasket for drapet p\u0026aring; sin kusine.\u0026nbsp;I tillegg\u0026nbsp;medvirket han\u0026nbsp;til\u0026nbsp;at Viggo Kristiansen slapp ut av fengsel etter 20 \u0026aring;rs urettmessig soning for drapene i Baneheia.\u0026nbsp;\u0026nbsp;\u0026nbsp;\n\u0026nbsp;\u0026nbsp;\u0026nbsp;\nJahr tar elevene med p\u0026aring; alle faser av et justismord.\u0026nbsp;Han\u0026nbsp;viser\u0026nbsp;hvordan\u0026nbsp;fordypning\u0026nbsp;i et\u0026nbsp;materiale\u0026nbsp;kan\u0026nbsp;utfordre og endre sannheter.\u0026nbsp;Ikke minst viser han\u0026nbsp;at kritisk\u0026nbsp;tenking\u0026nbsp;og evnen til \u0026aring; erkjenne feil\u0026nbsp;er\u0026nbsp;medisinen for \u0026aring; motvirke\u0026nbsp;noe av\u0026nbsp;det verste som kan ramme et menneske\u0026nbsp;- \u0026aring; bli\u0026nbsp;uskyldig\u0026nbsp;d\u0026oslash;mt.\u0026nbsp;\u0026nbsp;\n",
-                                          "yearLevelMinimum":  11,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  4,
-                                                                          "name":  "Litteratur",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Litteratur",
-                                                                                                        "nn":  "Litteratur",
-                                                                                                        "en":  "Literature"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "litteratur",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/a815becf68ad2bb0270db3d51d586cd9.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  544878,
-                       "status":  "scheduled",
-                       "dateStart":  1795165200,
-                       "dateEnd":  1795167900,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Lillestrøm videregående skole – Auditoriet 120 seter",
-                                        "address":  {
-                                                        "formatted":  "Henrik Wergelands Gate 1, LILLESTRØM 2003",
-                                                        "coordinate":  {
-                                                                           "lat":  59.96040706344,
-                                                                           "lng":  11.047193686356
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4763890600"
-                                    },
-                       "numberOfStudents":  92,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "6352":  {
-                                                    "name":  "Lillestrøm videregående skole",
-                                                    "id":  6352,
-                                                    "address":  "Henrik Wergelands Gate 1, LILLESTRØM 2003",
-                                                    "phone":  "+47 63 89 06 00",
-                                                    "contactPersons":  [
-                                                                           "Alice Stoveland, +47 98 47 88 15, alicest@afk.no",
-                                                                           "Cecilie Lütken Hernes, +47 92 44 78 41, cecilieher@afk.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  27,
-                                                "registrationGroup":  {
-                                                                          "name":  "3MDA",
-                                                                          "schoolId":  6352
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  26,
-                                                "registrationGroup":  {
-                                                                          "name":  "1STF",
-                                                                          "schoolId":  6352
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "1STG",
-                                                                          "schoolId":  6352
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  9,
-                                                "registrationGroup":  {
-                                                                          "name":  "1STI",
-                                                                          "schoolId":  6352
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  22372,
-                                          "name":  "Stakkars meg - VGS",
-                                          "subtitle":  "humoristisk kortfilm om å ha lite penger (2026: uke 46,47 og 2027: uke 21,22) ",
-                                          "groupName":  "Liv Joelle Barbosa Blad",
-                                          "descriptionShort":  "I den humoristiske kortfilmen \u0026laquo;Stakkars meg\u0026raquo; blir Nora tatt for butikktyveri. Hun og s\u0026oslash;steren stjeler luksusvarer og det utl\u0026oslash;ser en krangel med foreldrene om familiens verdier. Kunstnerfamilien har masse kulturell kapital, men lite \u0026oslash;konomisk kapital.\n\n\n\n\n\nFilmen tematiserer usynlig fattigdom og \u0026oslash;nsket om \u0026aring; passe inn. Den er basert p\u0026aring; manusforfatter og regiss\u0026oslash;r Liv Joelle Barbosa Blad sin egen oppvekst. Hun tilbyr elevene \u0026aring; reflektere rundt filmkarakterenes verdivalg og moral. Hun vil ogs\u0026aring; fortelle om hvor n\u0026aelig;r karakterene er hennes egen familie, og etikken rundt dette. Og hva som kan ligge i begrepet \u0026laquo;basert p\u0026aring; en sann historie\u0026raquo;.\n",
-                                          "yearLevelMinimum":  11,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  3,
-                                                                          "name":  "Film",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Film",
-                                                                                                        "nn":  "Film",
-                                                                                                        "en":  "Film"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "film",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/film-i-den-kulturelle-skolesekken/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/dff3e40bb053a1eaf5f99a25761d0cec.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  542090,
-                       "status":  "scheduled",
-                       "dateStart":  1795168200,
-                       "dateEnd":  1795170300,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Dønski videregående skole – Auditoriet (150)",
-                                        "address":  {
-                                                        "formatted":  "Rudsveien 73, GJETTUM 1346",
-                                                        "coordinate":  {
-                                                                           "lat":  59.906778791816,
-                                                                           "lng":  10.506617294798
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4767808470"
-                                    },
-                       "numberOfStudents":  105,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "6367":  {
-                                                    "name":  "Dønski videregående skole",
-                                                    "id":  6367,
-                                                    "address":  "Rudsveien 73, GJETTUM 1346",
-                                                    "phone":  "+47 67 80 60 00",
-                                                    "contactPersons":  [
-                                                                           "Jonas Tufte  Østvold (Ordinær og tilrettelagt), +47 45 69 37 68, jonasostv@afk.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  15,
-                                                "registrationGroup":  {
-                                                                          "name":  "1IDA",
-                                                                          "schoolId":  6367
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "1IDB",
-                                                                          "schoolId":  6367
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "1IDC",
-                                                                          "schoolId":  6367
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "1IDD",
-                                                                          "schoolId":  6367
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  22689,
-                                          "name":  "Verden er ikke så verst! - VGS",
-                                          "subtitle":  "To jordomseilere kommer til skolen og avlegger rapport ",
-                                          "groupName":  "Amanda Sailing",
-                                          "descriptionShort":  "Linn Charlotte og Paul seiler p\u0026aring; alle verdens hav. De har tatt noen valg i livet og blitt eventyrere.\u0026nbsp; I et inspirerende, morsomt og til dels dramatisk foredrag skildrer de\u0026nbsp; opplevelser fra over 50 land p\u0026aring; 12 \u0026aring;r med jordomseiling.\u0026nbsp;\u0026nbsp;\n\nMediene viser et negativ bilde av verden vi lever i;\u0026nbsp; Klimavandel, ekstremv\u0026aelig;r, fare for krig i Europa, fors\u0026oslash;pling av havet og tap av biologisk mangfold gj\u0026oslash;r det vanskelig \u0026aring; se optimistisk p\u0026aring; framtiden. Charlotte og Paul har m\u0026oslash;tt mennesker over alt som kjenner p\u0026aring; det samme alvoret. N\u0026aring; er det elevenes tur til \u0026aring; f\u0026aring; m\u0026oslash;te dem ogs\u0026aring; - for n\u0026aelig;rt innp\u0026aring; ser det lysere ut.\n\nVideohilsen\n\nVi anbefaler \u0026aring; se filmen f\u0026oslash;r dere f\u0026aring;r bes\u0026oslash;k av Den kulturelle skolesekken. I filmen beskriver Charlotte og Paul noe av det de skal snakke om n\u0026aring;r de m\u0026oslash;ter elevene:\n\n\n\n\n\n\u0026nbsp;\n",
-                                          "yearLevelMinimum":  8,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  5,
-                                                                          "name":  "Kulturarv",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Kulturarv",
-                                                                                                        "nn":  "Kulturarv",
-                                                                                                        "en":  "Cultural heritage"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "kulturarv",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/kulturarv-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/0c3c8a2ac27aab60205a1d1966a446c3.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  532233,
-                       "status":  "scheduled",
-                       "dateStart":  1795172400,
-                       "dateEnd":  1795174800,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Eidsvoll videregående skole – Auditorium Aud 1 (126 seter)\t",
-                                        "address":  {
-                                                        "formatted":  "Jon Sørensens Veg 8, EIDSVOLL 2080",
-                                                        "coordinate":  {
-                                                                           "lat":  60.337113033711,
-                                                                           "lng":  11.263109941659
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4763923000"
-                                    },
-                       "numberOfStudents":  12,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "6372":  {
-                                                    "name":  "Eidsvoll videregående skole",
-                                                    "id":  6372,
-                                                    "address":  "Jon Sørensens Veg 8, EIDSVOLL 2080",
-                                                    "phone":  "+47 63 92 30 00",
-                                                    "contactPersons":  [
-                                                                           "Elisabeth Sannerhaugen (tilrettelagt), +47 91 59 68 98, elisabetsa@afk.no",
-                                                                           "Gro Ankersten (tilrettelagt), +47 41 27 94 52, groan@viken.no",
-                                                                           "Hanne Østby, +47 92 86 95 38, hanneo@afk.no",
-                                                                           "Ingrid Mømb, +47 92 06 25 33, ingridmo@afk.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  3,
-                                                "registrationGroup":  {
-                                                                          "name":  "T3",
-                                                                          "schoolId":  6372
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  5,
-                                                "registrationGroup":  {
-                                                                          "name":  "T4",
-                                                                          "schoolId":  6372
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  4,
-                                                "registrationGroup":  {
-                                                                          "name":  "T5",
-                                                                          "schoolId":  6372
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  23577,
-                                          "name":  "Hysj! - tilrettelagt**",
-                                          "subtitle":  "- om kjærlighet, kropp og grensesetting",
-                                          "groupName":  "Pia Tveterås",
-                                          "descriptionShort":  "Velkommen til \u0026quot;Hysj!\u0026quot; - et direkte og \u0026aelig;rlig teater som tar opp sensitive tema knyttet til\u0026nbsp; pubertet og ung seksualitet.\u0026nbsp; Forestillingen henvender seg s\u0026aelig;rlig til ungdom med funksjonsvariasjoner.\n\nDet handler om kj\u0026aelig;rlighet, kropp, grensesetting og forholdet man har til seg selv og andre. Med et direkte og poetisk, men upretensi\u0026oslash;st formspr\u0026aring;k, er m\u0026aring;let v\u0026aring;rt \u0026aring; gj\u0026oslash;re tematikken mer tilgjengelig, relaterbar og mindre skambelagt.\n\n\u0026quot;Hysj\u0026quot; hadde premiere p\u0026aring; Nordic Black Theatre 26. november 2025, forestillingen var p\u0026aring; DKS-turne samme h\u0026oslash;st.\n\nTekst til ukeplanen\n\nTeaterforestillingen \u0026quot;Hysj!\u0026quot;, som behandler pubertet og ung seksualitet, kommer p\u0026aring; bes\u0026oslash;k. Opplevelsen leveres av Den kulturelle skolesekken Akershus\n",
-                                          "yearLevelMinimum":  8,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  2,
-                                                                          "name":  "Scenekunst",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Scenekunst",
-                                                                                                        "nn":  "Scenekunst",
-                                                                                                        "en":  "Performing arts"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "scenekunst",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/scenekunst-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/4c8121b25dfe85ea518f9a0cbe0e80ba.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  544826,
-                       "status":  "scheduled",
-                       "dateStart":  1795173000,
-                       "dateEnd":  1795178400,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Bleiker videregående skole – Auditorium 150",
-                                        "address":  {
-                                                        "formatted":  "Brages Vei 1, ASKER 1387",
-                                                        "coordinate":  {
-                                                                           "lat":  59.826875846332,
-                                                                           "lng":  10.445602278052
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4797637197"
-                                    },
-                       "numberOfStudents":  75,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "6354":  {
-                                                    "name":  "Bleiker videregående skole",
-                                                    "id":  6354,
-                                                    "address":  "Brages Vei 1, ASKER 1387",
-                                                    "phone":  "+47 97 63 71 97",
-                                                    "contactPersons":  [
-                                                                           "Bård William Jensen (tilrettelagt), +47 97 76 51 24, bardj@afk.no",
-                                                                           "Tone Luise Brinchmann (tilrettelagt), +47 48 06 71 73, tonebri@afk.no",
-                                                                           "Merete Holtet Litsheim (kulturkontakt ordinær), +47 97 03 43 53, meretel@afk.no",
-                                                                           "Cathrine Kittilsen Zandjani, +47 90 61 01 40, cathrinez@afk.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "3MKA",
-                                                                          "schoolId":  6354
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "2MKA",
-                                                                          "schoolId":  6354
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  15,
-                                                "registrationGroup":  {
-                                                                          "name":  "2MPA",
-                                                                          "schoolId":  6354
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  23392,
-                                          "name":  "Animalia - VGS",
-                                          "subtitle":  "Fra Scifi roman til kortfilm – en adaptasjon (uke 47\u002648) ",
-                                          "groupName":  "Øystein Stene og Marius Rolfsvåg",
-                                          "descriptionShort":  "Vi befinner oss i en framtid der naturen har tatt byene tilbake. Menneskene har blitt som dyr, bortsett fra noen f\u0026aring; som bor i hermetisk lukkede bydeler. N\u0026aring;r Alm blir sendt ut for \u0026aring; berge et uf\u0026oslash;dt barn, oppdager hun menneskeligheten i dyrene \u0026ndash; og dyret i seg selv.\u0026nbsp;\n\nDen handlingsdrevne kortfilmen er basert p\u0026aring; en sekvens fra boka \u0026laquo;Pustens lov\u0026raquo;. Forfatter \u0026Oslash;ystein Stene og regiss\u0026oslash;r Marius Rolfsv\u0026aring;g m\u0026oslash;ter elevene, og viser hvordan roman blir til film. F\u0026oslash;r visning inviterer de elevene til \u0026aring; danne seg et bilde av filmens univers, gjennom korte utdrag fra lydbok-versjonen.\u0026nbsp;Filmen ber\u0026oslash;rer temaer som dehumanisering, etikk og makt.\n\n\n\n\n\n\u0026nbsp;Vgs elever p\u0026aring; Arena film (nasjonal visningsarena) gav filmen h\u0026oslash;y score og sa bl.a. at den \u0026laquo;s\u0026aring; godt ut\u0026raquo;. Filmen vant ogs\u0026aring; publikumsprisen p\u0026aring; prestisjetunge Trieste Science+Fiction Festival.\n\n\nSe mer om opplegget med \u0026Oslash;ystein og Marius:\n\n\n\n\n\n\n\u0026nbsp;\n",
-                                          "yearLevelMinimum":  11,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  3,
-                                                                          "name":  "Film",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Film",
-                                                                                                        "nn":  "Film",
-                                                                                                        "en":  "Film"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "film",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/film-i-den-kulturelle-skolesekken/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/a0a10fe8725faccf6691c6b5bb4f49c7.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  544879,
-                       "status":  "scheduled",
-                       "dateStart":  1795173600,
-                       "dateEnd":  1795176300,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Lillestrøm videregående skole – Auditoriet 120 seter",
-                                        "address":  {
-                                                        "formatted":  "Henrik Wergelands Gate 1, LILLESTRØM 2003",
-                                                        "coordinate":  {
-                                                                           "lat":  59.96040706344,
-                                                                           "lng":  11.047193686356
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4763890600"
-                                    },
-                       "numberOfStudents":  88,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "6352":  {
-                                                    "name":  "Lillestrøm videregående skole",
-                                                    "id":  6352,
-                                                    "address":  "Henrik Wergelands Gate 1, LILLESTRØM 2003",
-                                                    "phone":  "+47 63 89 06 00",
-                                                    "contactPersons":  [
-                                                                           "Alice Stoveland, +47 98 47 88 15, alicest@afk.no",
-                                                                           "Cecilie Lütken Hernes, +47 92 44 78 41, cecilieher@afk.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  15,
-                                                "registrationGroup":  {
-                                                                          "name":  "3MDB",
-                                                                          "schoolId":  6352
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  14,
-                                                "registrationGroup":  {
-                                                                          "name":  "3MDC",
-                                                                          "schoolId":  6352
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  9,
-                                                "registrationGroup":  {
-                                                                          "name":  "2STI",
-                                                                          "schoolId":  6352
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  5,
-                                                "registrationGroup":  {
-                                                                          "name":  "3STI",
-                                                                          "schoolId":  6352
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  15,
-                                                "registrationGroup":  {
-                                                                          "name":  "KOMBA",
-                                                                          "schoolId":  6352
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  15,
-                                                "registrationGroup":  {
-                                                                          "name":  "KOMBB",
-                                                                          "schoolId":  6352
-                                                                      }
-                                            },
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  15,
-                                                "registrationGroup":  {
-                                                                          "name":  "KOMBC",
-                                                                          "schoolId":  6352
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  22372,
-                                          "name":  "Stakkars meg - VGS",
-                                          "subtitle":  "humoristisk kortfilm om å ha lite penger (2026: uke 46,47 og 2027: uke 21,22) ",
-                                          "groupName":  "Liv Joelle Barbosa Blad",
-                                          "descriptionShort":  "I den humoristiske kortfilmen \u0026laquo;Stakkars meg\u0026raquo; blir Nora tatt for butikktyveri. Hun og s\u0026oslash;steren stjeler luksusvarer og det utl\u0026oslash;ser en krangel med foreldrene om familiens verdier. Kunstnerfamilien har masse kulturell kapital, men lite \u0026oslash;konomisk kapital.\n\n\n\n\n\nFilmen tematiserer usynlig fattigdom og \u0026oslash;nsket om \u0026aring; passe inn. Den er basert p\u0026aring; manusforfatter og regiss\u0026oslash;r Liv Joelle Barbosa Blad sin egen oppvekst. Hun tilbyr elevene \u0026aring; reflektere rundt filmkarakterenes verdivalg og moral. Hun vil ogs\u0026aring; fortelle om hvor n\u0026aelig;r karakterene er hennes egen familie, og etikken rundt dette. Og hva som kan ligge i begrepet \u0026laquo;basert p\u0026aring; en sann historie\u0026raquo;.\n",
-                                          "yearLevelMinimum":  11,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  3,
-                                                                          "name":  "Film",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Film",
-                                                                                                        "nn":  "Film",
-                                                                                                        "en":  "Film"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "film",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/film-i-den-kulturelle-skolesekken/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/dff3e40bb053a1eaf5f99a25761d0cec.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
-                   {
-                       "id":  541883,
-                       "status":  "scheduled",
-                       "dateStart":  1795179600,
-                       "dateEnd":  1795183200,
-                       "commentForParticipants":  "",
-                       "location":  {
-                                        "name":  "Asker videregående skole",
-                                        "address":  {
-                                                        "formatted":  "Fredtunveien 81, ASKER 1386",
-                                                        "coordinate":  {
-                                                                           "lat":  59.831590236966,
-                                                                           "lng":  10.437457284882
-                                                                       }
-                                                    },
-                                        "phoneNumber":  "+4766907240"
-                                    },
-                       "numberOfStudents":  30,
-                       "numberOfTeachers":  0,
-                       "schools":  {
-                                       "6378":  {
-                                                    "name":  "Asker videregående skole",
-                                                    "id":  6378,
-                                                    "address":  "Fredtunveien 81, ASKER 1386",
-                                                    "phone":  "+47 66 90 72 40",
-                                                    "contactPersons":  [
-                                                                           "Mona Steffens (tilrettelagt), +47 41 22 09 67, monast@afk.no",
-                                                                           "Joanna Kud, +47 40 83 00 60, joannaku@afk.no",
-                                                                           "Anders Grønning (hovedkulturkontakt - ordinær), +47 94 18 38 66, andersgr@afk.no"
-                                                                       ],
-                                                    "branchOfficeName":  "Akershus fylkeskommune",
-                                                    "parentBranchOfficeName":  null
-                                                }
-                                   },
-                       "branchOfficeName":  "Akershus fylkeskommune",
-                       "busAppointments":  [
-
-                                           ],
-                       "participants":  [
-                                            {
-                                                "status":  "allocated",
-                                                "numberOfStudents":  30,
-                                                "registrationGroup":  {
-                                                                          "name":  "3STD",
-                                                                          "schoolId":  6378
-                                                                      }
-                                            }
-                                        ],
-                       "production":  {
-                                          "id":  22248,
-                                          "name":  "Justismordets DNA - VGS",
-                                          "subtitle":  "Forfattermøte",
-                                          "groupName":  "Bjørn Olav Jahr ",
-                                          "descriptionShort":  "Tilgjengelig for bestilling h\u0026oslash;st 2026 og v\u0026aring;r 2027.\n\nB\u0026oslash;ker kan endre samfunnet!\u0026nbsp;\n\nGjennom\u0026nbsp;mange \u0026aring;rs\u0026nbsp;arbeid med b\u0026oslash;ker, TV‑produksjoner og podkaster\u0026nbsp;bidro\u0026nbsp;forfatter og journalist Bj\u0026oslash;rn Olav Jahr til at Birgitte Tengs\u0026#39; fetter ble renvasket for drapet p\u0026aring; sin kusine.\u0026nbsp;I tillegg\u0026nbsp;medvirket han\u0026nbsp;til\u0026nbsp;at Viggo Kristiansen slapp ut av fengsel etter 20 \u0026aring;rs urettmessig soning for drapene i Baneheia.\u0026nbsp;\u0026nbsp;\u0026nbsp;\n\u0026nbsp;\u0026nbsp;\u0026nbsp;\nJahr tar elevene med p\u0026aring; alle faser av et justismord.\u0026nbsp;Han\u0026nbsp;viser\u0026nbsp;hvordan\u0026nbsp;fordypning\u0026nbsp;i et\u0026nbsp;materiale\u0026nbsp;kan\u0026nbsp;utfordre og endre sannheter.\u0026nbsp;Ikke minst viser han\u0026nbsp;at kritisk\u0026nbsp;tenking\u0026nbsp;og evnen til \u0026aring; erkjenne feil\u0026nbsp;er\u0026nbsp;medisinen for \u0026aring; motvirke\u0026nbsp;noe av\u0026nbsp;det verste som kan ramme et menneske\u0026nbsp;- \u0026aring; bli\u0026nbsp;uskyldig\u0026nbsp;d\u0026oslash;mt.\u0026nbsp;\u0026nbsp;\n",
-                                          "yearLevelMinimum":  11,
-                                          "yearLevelMaximum":  13,
-                                          "culturalExpressions":  [
-                                                                      {
-                                                                          "id":  4,
-                                                                          "name":  "Litteratur",
-                                                                          "nameInternationalized":  {
-                                                                                                        "nb":  "Litteratur",
-                                                                                                        "nn":  "Litteratur",
-                                                                                                        "en":  "Literature"
-                                                                                                    },
-                                                                          "parent":  null,
-                                                                          "parentCulturalExpressionId":  null,
-                                                                          "icon":  "litteratur",
-                                                                          "deleted":  false,
-                                                                          "urlToInfoPage":  "https://www.denkulturelleskolesekken.no/forside/om-dks/litteratur-i-dks/",
-                                                                          "culturalExpressionCategory":  null
-                                                                      }
-                                                                  ],
-                                          "thumbnail":  "https://storage.googleapis.com/kulturtanken-public/thumbnails/a815becf68ad2bb0270db3d51d586cd9.jpg",
-                                          "branchOffice":  "Akershus fylkeskommune",
-                                          "academicYears":  [
-                                                                {
-                                                                    "id":  10,
-                                                                    "name":  "2026/2027"
-                                                                }
-                                                            ],
-                                          "isRegistrationOffer":  false,
-                                          "events":  [
-
-                                                     ]
-                                      },
-                       "schoolEventParticipantStatus":  null
-                   },
                    {
                        "id":  541850,
                        "status":  "scheduled",
@@ -9036,7 +8079,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -9319,7 +8362,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -9437,7 +8480,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -9865,7 +8908,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -10086,7 +9129,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -10387,7 +9430,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -10482,7 +9525,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -10814,7 +9857,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -11028,7 +10071,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -11331,7 +10374,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -11535,7 +10578,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -11747,7 +10790,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -11959,7 +11002,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -12063,7 +11106,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -12159,7 +11202,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -12414,7 +11457,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -12630,7 +11673,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -12814,7 +11857,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -12911,7 +11954,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -13201,7 +12244,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -13621,7 +12664,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -13717,7 +12760,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -13957,7 +13000,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -14668,7 +13711,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -14900,7 +13943,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -15600,7 +14643,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -15822,7 +14865,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797811200.d01bd72c720b43788fd1fb611362a31c2ba4001085bb002e91a40008abc2bed1\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8603381%3Fsubpath%3Dd674968-4627-4b64-8737-eac97618a98a.jpg\u0026filetoken=1797897600.af76544064bb03c7a8cb5af0842488135fb0a2e8d597b7507b25d7a43985b60b\u0026productionId=24144\u0026attachmentId=188343\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -22842,7 +21885,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797811200.e665f4d6ec5d325d4965db01b765ee99be9351f68953d8eb9d520efb9daccc57\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797897600.d704d967f9d7b5b794fa0426db40f2f7843da9200c6e1074fb9e94475ddbc861\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -23026,7 +22069,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797811200.e665f4d6ec5d325d4965db01b765ee99be9351f68953d8eb9d520efb9daccc57\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797897600.d704d967f9d7b5b794fa0426db40f2f7843da9200c6e1074fb9e94475ddbc861\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -23743,7 +22786,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797811200.e665f4d6ec5d325d4965db01b765ee99be9351f68953d8eb9d520efb9daccc57\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797897600.d704d967f9d7b5b794fa0426db40f2f7843da9200c6e1074fb9e94475ddbc861\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -24588,7 +23631,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797811200.e665f4d6ec5d325d4965db01b765ee99be9351f68953d8eb9d520efb9daccc57\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797897600.d704d967f9d7b5b794fa0426db40f2f7843da9200c6e1074fb9e94475ddbc861\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -25382,7 +24425,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797811200.e665f4d6ec5d325d4965db01b765ee99be9351f68953d8eb9d520efb9daccc57\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797897600.d704d967f9d7b5b794fa0426db40f2f7843da9200c6e1074fb9e94475ddbc861\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -26062,7 +25105,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797811200.e665f4d6ec5d325d4965db01b765ee99be9351f68953d8eb9d520efb9daccc57\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797897600.d704d967f9d7b5b794fa0426db40f2f7843da9200c6e1074fb9e94475ddbc861\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -27660,7 +26703,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797811200.e665f4d6ec5d325d4965db01b765ee99be9351f68953d8eb9d520efb9daccc57\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797897600.d704d967f9d7b5b794fa0426db40f2f7843da9200c6e1074fb9e94475ddbc861\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -29292,7 +28335,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797811200.e665f4d6ec5d325d4965db01b765ee99be9351f68953d8eb9d520efb9daccc57\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797897600.d704d967f9d7b5b794fa0426db40f2f7843da9200c6e1074fb9e94475ddbc861\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -30975,7 +30018,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797811200.e665f4d6ec5d325d4965db01b765ee99be9351f68953d8eb9d520efb9daccc57\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797897600.d704d967f9d7b5b794fa0426db40f2f7843da9200c6e1074fb9e94475ddbc861\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -32242,7 +31285,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797811200.e665f4d6ec5d325d4965db01b765ee99be9351f68953d8eb9d520efb9daccc57\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797897600.d704d967f9d7b5b794fa0426db40f2f7843da9200c6e1074fb9e94475ddbc861\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -32732,7 +31775,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797811200.e665f4d6ec5d325d4965db01b765ee99be9351f68953d8eb9d520efb9daccc57\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797897600.d704d967f9d7b5b794fa0426db40f2f7843da9200c6e1074fb9e94475ddbc861\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -33292,7 +32335,7 @@
                                                                           "culturalExpressionCategory":  null
                                                                       }
                                                                   ],
-                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797811200.e665f4d6ec5d325d4965db01b765ee99be9351f68953d8eb9d520efb9daccc57\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
+                                          "thumbnail":  "/files/download?file=imageshop%3A%2F%2F8981589%3Fsubpath%3D489c6e1-32b6-42df-bad8-ed863c7bee38.jpg\u0026filetoken=1797897600.d704d967f9d7b5b794fa0426db40f2f7843da9200c6e1074fb9e94475ddbc861\u0026productionId=23579\u0026attachmentId=192353\u0026preview",
                                           "branchOffice":  "Akershus fylkeskommune",
                                           "academicYears":  [
                                                                 {
@@ -42602,5 +41645,5 @@
                ],
     "hasMore":  false,
     "loaded":  2000,
-    "hentTidspunkt":  "2026-11-20T06:27:10Z"
+    "hentTidspunkt":  "2026-11-21T06:27:23Z"
 }
